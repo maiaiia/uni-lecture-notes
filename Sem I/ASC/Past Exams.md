@@ -1,5 +1,6 @@
 # Past Exams
-## FREQUENT MISTAKES
+[[ASC]]
+## Reminders
 
 >[!warning] After multiplications, the values of AF, SF, ZF, PF are undefined
 

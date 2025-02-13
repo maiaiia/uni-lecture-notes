@@ -1,4 +1,4 @@
-[ASC]
+[[ASC]]
 ## Def
 Assembly language constructs that may appear in the composition of a source line or in the internal format of an instruction. They change the standard behaviour of those instructions or signal the switch of the default representation .
 ## Types of prefixes

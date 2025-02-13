@@ -31,17 +31,5 @@ H4: Picky is a hummingbird
 C1: There is a bird which lives on honey 
 C2: All hummingbirds are small 
 
-**Check whether the following deductions hold or not**
+**Check whether or not the following deductions hold**
 H1, H2, H3, H4 $\vdash$ C1 and H1, H2, H3 $\vdash$ C2
-
-H1: $(\forall x)(hb(x) \rightarrow rc(x))$ 
-H2: $\neg$ 
-
-
-H1 $\vdash_{univInst}$ hb(P)$\rightarrow$ rc(P) (f_5
-
-![[WhatsApp Image 2024-10-31 at 14.45.42.jpeg]]
-![[WhatsApp Image 2024-10-31 at 14.45.43.jpeg]]
-![[WhatsApp Image 2024-10-31 at 14.45.43 (1).jpeg]]
-
-![[WhatsApp Image 2024-10-31 at 14.52.53.jpeg]]
