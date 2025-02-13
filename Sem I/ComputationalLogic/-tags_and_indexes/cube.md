@@ -1,0 +1,1 @@
+A **cube** is a *conjunction* ($\land$) of a finite number of [[literal|literals]] 

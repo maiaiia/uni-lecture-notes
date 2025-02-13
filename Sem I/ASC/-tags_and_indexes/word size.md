@@ -1,0 +1,1 @@
+in the assembly documentation, the word size refers to the **number of bits processed by a computer's CPU in one go**

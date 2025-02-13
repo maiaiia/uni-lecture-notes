@@ -1,0 +1,1 @@
+a **literal** is a propositional variable or its negation

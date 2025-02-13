@@ -1,0 +1,1 @@
+a **clause** is a *disjunction* ($\lor$) of a finite number of [[literal|literals]]
