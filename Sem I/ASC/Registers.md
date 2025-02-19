@@ -10,7 +10,7 @@ ___
 # Def
 **Registers** are *storage capacities* (ro. unitati de stocare), very small in terms of size
 	- 8, 16, 32, or 64 bits
-	- very fast at access speed
+	- very fast access speed
 	- used for temporary storing the operands with which a processor currently works
 
 - 16 bit programming: no restrictions
