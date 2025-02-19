@@ -20,7 +20,7 @@ Notes:
 ^982a8b
 
 ![[FlagsExample]] 
-- if the previous addition has the **transportation digit** set to 1, the **carry flag** is set to 1
+- if the previous addition has the **transport digit** set to 1, the **carry flag** is set to 1
 ### - The Parity Flag (**PF**)
 - counts the number of set bits of the least significant byte of the operand
 - if the number of bits set in the least significant byte is even, the flag is set to 1
