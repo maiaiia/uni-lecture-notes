@@ -23,7 +23,7 @@ ___
 	1. *reflexive* if:      $\forall x \in A, x\text{ r } x$
 	2. *transitive* if:     $\forall x, y, z \in A$, $x \text{ r } y$ and $y \text{ r } z \Rightarrow x \text{ r } z$
 	3. *symmetric* if:   $\forall x, y \in A$, $x \text{ r } y \Rightarrow y \text{ r } x$
-- if r has all the aforementioned properties, it is called an **equivalence relation**
+- if r has all the aforementioned properties, it is called an **equivalence relation** ^74d7ea
 ## Quotient Set 
 - for an equivalence relation r in A, the relation class $r<x>$ is called the *equivalence class* of x with respect to r, while x is called the *representative* of $r<x>$
 - the set $A/r = \{r<x>|x\in A\}$ is called the *quotient set* of A by r
