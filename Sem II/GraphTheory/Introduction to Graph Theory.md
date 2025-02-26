@@ -17,7 +17,10 @@ There are 4 types of graphs:
 ### Car navigation 
 unidirectional / bidirectional streets, turn restrictions
 ![[carnavigation]]
+strategy for handling turn restrictions:
+1. Split certain nodes into multiple nodes to illustrate the restrictions
 ### Subways
+the cost of each edge is 1, the cost of changing lines is 3
 ![[subway]]
 ### Plane to New York
 
@@ -28,7 +31,7 @@ unidirectional / bidirectional streets, turn restrictions
 | MUC            | 7:00           | JFK          | 14:00        | $600 |
 | MUC            | 14:00          | JFK          | 21:00        | $900 |
 
-### Wolf, goat, cabbage 
+### Wolf, goat, cabbage ![[Introduction to Graph Theory 2025-02-25 19.46.13.excalidraw]]
 You can't leave wolf + goat or goat + cabbage together. You can only transport one at a time 
 Each node represents the state of the islands 
 ![[wolf_goat_cabbage]]
