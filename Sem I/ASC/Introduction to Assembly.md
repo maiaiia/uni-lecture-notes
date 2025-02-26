@@ -22,4 +22,4 @@ segment code use 32 class = code
 ; variables can't be declared in the segment code
 ```
 ## [[Variables]]
-## [[ Sem I/ASC/Instructions|Instructions]]
+## [[src/Sem I/ASC/Instructions|Instructions]]

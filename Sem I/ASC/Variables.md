@@ -9,7 +9,7 @@ ___
 	- Word (16 bits)
 	- DoubleWord (32 bits)
 	- QuadWord (64 bits)
-## [[Sem I/ASC/Registers|Registers (Predefined Variables)]]
+## [[Registers|Registers (Predefined Variables)]]
 - EAX, EBX, ECX, EDX - 32 bits = 4B, the **E**xtended registers
 	- AX, BX, CX, DX - 16 bits (original size of registers)
 	- AH (**H**igh), AL(**L**ow), BH, BL, ..., DL - 8 bits

@@ -2,7 +2,7 @@
 ---
 Class: [[ FP]]
 Type: Lecture + Seminar
-Tags: # 
+Tags: #algorithmcomplexity 
 Date: October 10th 2024
 Teacher: [[Arthur Molnar]], [[Vasilica Moldovan]]
 ___

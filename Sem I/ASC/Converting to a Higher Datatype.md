@@ -8,7 +8,7 @@ Teacher: [[Nicolae Bodea]]
 ___
 Notes:
 
-## Method 1: [[Sem I/ASC/Instructions#^6132cc|Promotion Operators]]
+## Method 1: [[src/Sem I/ASC/Instructions#^6132cc|Promotion Operators]]
 
 ## Method 2: *DX:AX --> EAX*
 ```nasm

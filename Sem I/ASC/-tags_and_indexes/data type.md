@@ -1,2 +1,2 @@
 ## Def
-structure + associated operations
+structure / possible values + associated operations
