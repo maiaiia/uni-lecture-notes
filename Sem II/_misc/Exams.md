@@ -7,10 +7,10 @@ ___
  - [ ] Week 7 
 	- [ ] Geometry partial I (during the seminar)
 	- [ ] OS practical 20%
-	- [ ] DS lab exam
 - [ ] Week 10 
 	- [ ] OS lab 5%
 - [ ] Week 13 
 	- [ ] Geometry partial II
+	- [ ] DS lab 15%
 - [ ] Week 14 
 	- [ ] OS practical  30%
