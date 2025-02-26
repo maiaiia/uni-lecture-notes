@@ -14,3 +14,4 @@ For swift navigation between files and seamless rendering of the attachments (es
 - hide orphan files (Open graph view -> Settings -> Filters -> Orphans)
 - hide attachments (these are already stored in their corresponding \_attachments files (hidden), but just in case) (Open graph view ->  Settings -> Filters -> Attachments)
 - show existing files only (Open graph view -> Settings -> Filters -> Existing files only)
+- create groups for each semester / subject / whichever criteria makes sense
