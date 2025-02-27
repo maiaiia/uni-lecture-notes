@@ -1,2 +1,2 @@
-1. [[Command Line Intro]]
-2. 
+- [[Command Line Intro]]
+- 

@@ -1,3 +1,3 @@
-1. [[Abstract Data Types]]
-2. [[Data Structures]]
-3. [[Computational Complexity II]]
+-  [[Abstract Data Types]]
+- [[Data Structures]]
+- [[Computational Complexity II]]

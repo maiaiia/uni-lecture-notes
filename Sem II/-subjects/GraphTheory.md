@@ -1,2 +1,2 @@
-1. [[Introduction to Graph Theory]]
-2. 
+- [[Introduction to Graph Theory]]
+- 

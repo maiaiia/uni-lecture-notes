@@ -1,3 +1,3 @@
-1. [[Introduction to Dynamical Systems]]
-2. [[Initial Values]]
-3. 
+- [[Introduction to Dynamical Systems]]
+- [[Initial Values]]
+- 

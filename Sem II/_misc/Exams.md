@@ -4,13 +4,17 @@ ___
 	- [ ] OS test 5%
 - [ ] Week 6 
 	- [ ] DS seminar exam
+	- [ ] OOP lab 15%
  - [ ] Week 7 
 	- [ ] Geometry partial I (during the seminar)
 	- [ ] OS practical 20%
 - [ ] Week 10 
 	- [ ] OS test 5%
+	- [ ] OOP lab 15%
 - [ ] Week 13 
 	- [ ] Geometry partial II
 	- [ ] DS lab 15%
+	- [ ] OOP lab 20%
 - [ ] Week 14 
 	- [ ] OS practical  30%
+

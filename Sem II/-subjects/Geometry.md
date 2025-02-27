@@ -1,2 +1,2 @@
-1. [[Affine Space]]
-2. 
+- [[Affine Space]]
+- 
