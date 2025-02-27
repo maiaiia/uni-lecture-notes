@@ -3,7 +3,6 @@ ___
 Class: [[ Algebra]]
 Type: 
 Tags: # 
-Teacher: [[]]
 ___
 
 >[!tip] throughout this note, *K* will always denote a **field**

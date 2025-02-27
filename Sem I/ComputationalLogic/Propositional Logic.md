@@ -1,9 +1,11 @@
 # Propositional Logic
+---
 Class: [[ComputationalLogic]]
 Type: Lecture + Seminar
 Tags: # 
 Date: October 17th 2024
-Teacher: [[Mihaela Lupea]]
+
+---
 
 Notes:
 ## [[Connectives]]

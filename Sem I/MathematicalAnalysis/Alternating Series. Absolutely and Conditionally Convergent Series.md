@@ -3,7 +3,6 @@ ___
 Class: [[ MathematicalAnalysis]]
 Type: Lecture
 Tags: #
-Teacher: [[]]
 ___
 
 Notes:

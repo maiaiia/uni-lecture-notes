@@ -4,7 +4,6 @@ Class: [[GraphTheory]]
 Type: Seminar&Lecture
 Tags: # 
 Date: February 25th, 2025
-Teacher: [[Radu Lupsa]]
 ___
 
 ## Def 

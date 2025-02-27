@@ -3,7 +3,6 @@ ___
 Class: [[ MathematicalAnalysis]]
 Type: 
 Tags: # 
-Teacher: [[]]
 ___
 
 ## Upper & Lower Bounds 

@@ -4,7 +4,6 @@ Class: [[ Algebra]]
 Type: Lecture
 Tags: # 
 Date: November 21st 2024
-Teacher: [[Septimiu Crivei]]
 ___
 
 ## Matrix of a List of Vectors

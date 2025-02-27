@@ -4,7 +4,6 @@ Class: [[ Algebra]]
 Type: 
 Tags: # 
 Date: November 12th 2024
-Teacher: [[]]
 ___
 
 ## Prerequisites

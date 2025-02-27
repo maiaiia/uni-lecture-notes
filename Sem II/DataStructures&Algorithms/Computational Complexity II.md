@@ -4,7 +4,6 @@ Class: [[DataStructures&Algorithms]]
 Type: Lecture 
 Tags: #algorithmcomplexity
 Date: February 26th, 2025
-Teacher: [[Onet-Marian Zsuzsanna]]
 ___
 ## Prerequisites 
 See: [[Computational Complexity]] (big $O$ / $\Omega$ / $\Theta$ notation, best case, worst case, average case)

@@ -1,10 +1,9 @@
- # Deduction Rules 
+# Deduction Rules 
 ___
 Class: [[ComputationalLogic]]
 Type: 
 Tags: # 
 Date: October 24th 2024
-Teacher: [[]]
 ___
 
 Notes:

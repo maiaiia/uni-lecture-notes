@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: 
 Tags: # 
 Date: January 16th 2025
-Teacher: [[Alexandru Vancea]]
 ___
 
 >[!important]- general formula: \[prefixes] + opcode + \[ModeR/M] + \[SIB] + \[displacement] + \[immediate]

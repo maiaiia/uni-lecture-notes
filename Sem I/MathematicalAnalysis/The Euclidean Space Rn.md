@@ -4,7 +4,6 @@ Class: [[ MathematicalAnalysis]]
 Type: Lecture
 Tags: # 
 Date: November 22nd 2024
-Teacher: [[]]
 ___
 ## Definitions
 ### Scalar Product 

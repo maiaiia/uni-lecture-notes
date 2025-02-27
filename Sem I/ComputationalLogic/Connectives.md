@@ -1,8 +1,8 @@
 # Connectives
+---
 Class: [[ComputationalLogic]]
 Tags: # 
 Date: October 17th 2024
-Teacher: [[Mihaela Lupea]]
 
 ---
 ## Truth Tables of all of the Connectives

@@ -4,7 +4,6 @@ Class: [[Geometry]]
 Type: Lecture
 Tags: # 
 Date: February 25th, 2025
-Teacher: [[Simion Iulian]]
 ___
 ## Definitions 
 - Two ordered pairs of points $(A,B)$ and $(C,D)$ are *equidistant* $\iff$ $[AB]$ and $[CD]$ are *congruent*

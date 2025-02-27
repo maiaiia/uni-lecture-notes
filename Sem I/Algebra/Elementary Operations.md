@@ -4,7 +4,6 @@ Class: [[ Algebra]]
 Type: Lecture 
 Tags: # 
 Date: November 14th 2024
-Teacher: [[]]
 ___
 
 ## Def - Elementary operations

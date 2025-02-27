@@ -5,7 +5,6 @@ Type:
 Tags: # 
 Prerequisites: [[Flags#^982a8b|carry flag]], [[Registers]], [[src/Sem I/ASC/Instructions]], [[src/Sem I/ASC/Instructions#^6132cc|Promotion Operators]]
 Date: October 14th 2024
-Teacher: [[]]
 ___
 Notes:
 

@@ -4,7 +4,6 @@ Class: [[DataStructures&Algorithms]]
 Type: Lecture
 Tags: # 
 Date: February 26th, 2025
-Teacher: [[Onet-Marian Zsuzsanna]]
 ___
 
 ## Def 

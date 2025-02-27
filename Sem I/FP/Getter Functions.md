@@ -3,7 +3,6 @@ Class: [[ FP]]
 Type: Seminar 
 Tags: # 
 Date: October 8th 2024
-Teacher: [[Vasilica Moldovan]]
 
 Notes:
 ## Def 

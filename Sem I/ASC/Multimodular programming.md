@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: 
 Tags: # 
 Date: December 11th 2024
-Teacher: [[Alexandru Vancea]]
 ___
 
 ASM

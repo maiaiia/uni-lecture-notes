@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lab + Seminar
 Tags: # 
 Date: October 28th 2024
-Teacher: [[Flavius Ilinoiu]], [[Nicolae Bodea]]
 ___
 ## Jumps
 

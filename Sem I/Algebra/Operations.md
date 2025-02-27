@@ -3,7 +3,6 @@ ___
 Class: [[ Algebra]]
 Type: 
 Tags: # 
-Teacher: [[]]
 ___
 
 ## Def 

@@ -4,7 +4,6 @@ Class: [[ Algebra]]
 Type: 
 Tags: # 
 Date: November 11th 2024
-Teacher: [[]]
 ___
 ## Linear independence 
 Let $v_1,...,v_n \in V, V$ vector space. Then, the set is:

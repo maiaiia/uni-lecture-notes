@@ -1,10 +1,9 @@
 # Registers
 ---
 Class: [[ ASC]]
-Type: Lectures
+Type: Lecture
 Tags: # 
 Date: October 10th 2024
-Teacher: [[Alexandru Vancea]]
 ___
 ![[Registers 2024-12-03 20.56.22.excalidraw]]
 # Def

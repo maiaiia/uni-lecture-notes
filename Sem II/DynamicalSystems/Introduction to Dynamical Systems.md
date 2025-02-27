@@ -4,7 +4,6 @@ Class: [[DynamicalSystems]]
 Type: Lecture
 Tags: # 
 Date: February 24th, 2025
-Teacher: [[Buica Adriana]]
 ___
 ## Notions
 **time** $x \in \mathbb{R}^n$ the state of the system, as a function of *time* 

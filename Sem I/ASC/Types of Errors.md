@@ -3,7 +3,6 @@ ___
 Class: [[ ASC]]
 Type: 
 Tags: # 
-Teacher: [[]]
 ___
 
 ## Syntax / assembly error

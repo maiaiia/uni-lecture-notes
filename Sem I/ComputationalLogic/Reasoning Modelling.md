@@ -4,7 +4,6 @@ Class: [[ComputationalLogic]]
 Type: 
 Tags: # 
 Date: October 24th 2024
-Teacher: [[Mihaela Lupea]]
 ___
 
 Notes: 

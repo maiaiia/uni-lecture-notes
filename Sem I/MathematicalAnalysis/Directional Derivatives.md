@@ -4,7 +4,6 @@ Class: [[ MathematicalAnalysis]]
 Type: 
 Tags: # 
 Date: January 2nd 2025
-Teacher: [[]]
 ___
 ## Definitions 
 ### Directional derivatives

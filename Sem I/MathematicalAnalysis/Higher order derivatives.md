@@ -4,7 +4,6 @@ Class: [[ MathematicalAnalysis]]
 Type: 
 Tags: # 
 Date: January 3rd 2025
-Teacher: [[]]
 ___
 
 ## Definitions 

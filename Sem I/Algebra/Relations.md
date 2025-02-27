@@ -1,9 +1,8 @@
- # Relations
+# Relations
 ___
 Class: [[ Algebra]]
 Type: 
 Tags: # 
-Teacher: [[]]
 ___
 
 ## Def

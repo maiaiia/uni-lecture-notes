@@ -4,7 +4,6 @@ Class: [[ FP]]
 Type: Lecture
 Tags: #datatype 
 Date: November 21st 2024
-Teacher: [[Arthur Molnar]]
 ___
 
 ## Basic Structure of a Class 

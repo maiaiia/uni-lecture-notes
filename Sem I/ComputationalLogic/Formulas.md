@@ -4,7 +4,6 @@ Class: [[ ComputationalLogic]]
 Type: 
 Tags: # 
 Date: October 28th 2024
-Teacher: [[]]
 ___
 ## Definition
 A *well formed propositional formula* $U(p_1,...,p_n) \in F_p$ is a combination of propositional variables and [[Connectives|connectives]]

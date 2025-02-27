@@ -3,7 +3,6 @@ ___
 Class: [[ ASC]]
 Type: Seminar
 Tags: # 
-Teachers: [[Nicolae Bodea]], [[Flavius Ilinoiu]]
 ___
 Notes: 
 ## Data segment

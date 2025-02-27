@@ -4,7 +4,6 @@ Class: [[ ComputationalLogic]]
 Type: 
 Tags: # 
 Date: January 7th 2025
-Teacher: [[]]
 ___
 ## Soundness and Completeness Theorem
 **Soundness**: If the empty clause is derived from the set $S$ of propositional clauses using the resolution algorithm, then $S$ is an inconsistent set 

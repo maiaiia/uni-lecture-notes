@@ -4,7 +4,6 @@ Class: [[ ComputationalLogic]]
 Type: Lecture
 Tags: # 
 Date: October 31st 2024
-Teacher: [[Mihaela Lupea]]
 ___
 1. All CS students are smart
 2. there is someone who studies at BBU and is smart 

@@ -4,7 +4,6 @@ Class: [[ ComputationalLogic]]
 Type: 
 Tags: # 
 Date: January 16th 2025
-Teacher: [[]]
 ___
 
 ## Gray codes 

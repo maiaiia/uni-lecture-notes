@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lecture
 Tags: # 
 Date: November 7th 2024
-Teacher: [[Alexandru Vancea]]
 ___
 
 ## Valid Operations

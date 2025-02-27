@@ -4,7 +4,6 @@ Class: [[OS]]
 Type: Lab
 Tags: # 
 Date: February 26th, 2025
-Teacher: [[Calin Alina]]
 ___
 
 | - pipe - sends the result of the previous command to the next one 

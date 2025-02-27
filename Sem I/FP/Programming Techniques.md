@@ -4,7 +4,6 @@ Class: [[ FP]]
 Type: 
 Tags: # 
 Date: October 22nd 2024
-Teacher: [[Arthur Molnar]]
 ___
 ## Divide and Conquer
 ### Steps

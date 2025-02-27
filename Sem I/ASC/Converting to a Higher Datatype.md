@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Seminar
 Tags: #stack
 Date: October 16th 2024
-Teacher: [[Nicolae Bodea]]
 ___
 Notes:
 

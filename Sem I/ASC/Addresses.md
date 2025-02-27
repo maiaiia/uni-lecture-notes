@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lecture
 Tags: # 
 Date: October 31st 2024
-Teacher: [[Alexandru Vancea]]
 ___
 
 ## Definitions

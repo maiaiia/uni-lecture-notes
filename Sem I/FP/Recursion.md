@@ -3,7 +3,6 @@ Class: [[ FP]]
 Type: Lecture
 Tags: #Recursion 
 Date: October 10th 2024
-Teacher: [[Arthur Molnar]]
 ___
 
 ## Main Idea 

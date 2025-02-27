@@ -4,7 +4,6 @@ Class: [[ MathematicalAnalysis]]
 Type: Lecture
 Tags: # 
 Date: December 30th 2024
-Teacher: [[]]
 ___
 
 ## Definitions 

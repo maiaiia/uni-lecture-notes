@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: 
 Tags: # 
 Date: November 21st 2024
-Teacher: [[]]
 ___
 
 Notes:

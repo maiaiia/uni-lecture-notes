@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lecture
 Tags: # 
 Date: January 9th 2025
-Teacher: [[Alexandru Vancea]]
 ___
 ## Prerequisites
 - [[System Calls#^42475b|CDECL and STDCALL Conventions]]

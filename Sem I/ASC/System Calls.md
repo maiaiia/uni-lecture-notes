@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lecture & Seminar
 Tags: # 
 Date: November 27th 2024
-Teacher: [[Alexandru Vancea]] [[Nicolae Bodea]]
 ___
 
 [[Implementing Sub-Routine Calls]] 

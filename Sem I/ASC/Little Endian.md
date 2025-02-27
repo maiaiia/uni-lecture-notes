@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: Lab
 Tags: # 
 Date: October 14th 2024
-Teacher: [[]]
 ___
 Notes: 
 - Little Endian Representation: every Byte gets reversed (but the bits within the byte stay the same)

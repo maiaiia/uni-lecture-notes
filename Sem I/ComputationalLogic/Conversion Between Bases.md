@@ -2,7 +2,6 @@
 ___
 Class: [[ComputationalLogic]]
 Type: Lecture Notes
-Teacher: [[Mihaela Lupea]]
 ___
 
 > [!info] Throughout the entirety of this note, I'll refer to b as the source base and h as the destination base

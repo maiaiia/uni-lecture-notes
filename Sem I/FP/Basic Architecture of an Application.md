@@ -4,7 +4,6 @@ Class: [[ FP]]
 Type: 
 Tags: # 
 Date: November 19th 2024
-Teacher: [[]]
 ___
 ![[apparch]]
 ## Layers 

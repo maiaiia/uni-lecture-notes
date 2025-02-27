@@ -4,7 +4,6 @@ Class: [[ ASC]]
 Type: 
 Tags: # 
 Date: November 14th 2024
-Teacher: [[]]
 ___
 
 ![[Assembly Time 2024-12-09 17.35.03.excalidraw]]

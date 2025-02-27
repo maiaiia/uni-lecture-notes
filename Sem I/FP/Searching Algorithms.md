@@ -4,7 +4,6 @@ Class: [[ FP]]
 Type: Lecture
 Tags: #Searching #DEI 
 Date: October 17th 2024
-Teacher: [[Arthur Molnar]], [[Vasilica Moldovan]]
 ___ 
 ## Sequential Search (Unordered List)
 - going through each element one by one 

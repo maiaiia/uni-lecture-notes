@@ -4,7 +4,6 @@ Class: [[ FP]]
 Type: 
 Tags: #Sorting #DEI 
 Date: October 22nd 2024
-Teacher: [[]]
 ___
 ## Merge Sort 
 
