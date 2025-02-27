@@ -1,14 +1,14 @@
 # Introduction to Graph Theory
 ___
 Class: [[GraphTheory]]
-Type: Seminar
+Type: Seminar&Lecture
 Tags: # 
 Date: February 25th, 2025
 Teacher: [[Radu Lupsa]]
 ___
 
 ## Def 
-A graph is defined as the union between a *finite* set of **vertices** ($X$) and **edges** ($E$) between said vertices
+A graph $G = (X,E)$ is defined as the union between a *finite* set of **vertices** ($X$) and **edges** ($E$) between said vertices
 There are 4 types of graphs:
 - directed - edges are ordered pairs: $E \subseteq X \cdot X$
 - undirected - edges are unordered pairs: $E \subseteq \{(x,y)|x,y \in X, x \neq y\}$
