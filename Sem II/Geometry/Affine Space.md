@@ -26,3 +26,12 @@ ___
 		5. $|AB\rangle = |CD\rangle$ and $|AB| = |CD|$
 - The equivalence class of the equipollence relation are called *vectors*. The vector containing the ordered pair $(A,B)$ is denoted by $\overrightarrow{AB}$ 
 - The set of vectors with addition is an abelian group 
+
+## Affine Space
+$\mathbb{A} = (P,V,t)$, where 
+- $P$ - set of points 
+- $V$ - vector space 
+- $t : \mathbb{V} \times \mathbb{P} \rightarrow \mathbb{P}$ 
+
+(AS1) $\forall A,B \in \mathbb{P} \exists ! v : B = t(v,A)$
+(AS2) $\forall A \in \mathbb{P} \forall v,w  \in \mathbb{V}: t(v,t(w,A)) = t(v + w, A)$
