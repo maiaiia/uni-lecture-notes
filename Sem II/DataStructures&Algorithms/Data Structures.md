@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Tags: # 
+Tags: #DataStructures 
 Date: February 26th, 2025
 ___
 
@@ -12,6 +12,7 @@ There are 2 data structure types
 - **Static** - fixed size
 - **Dynamic** - size can grow and shrink 
 There are several possible data structures that can be used for the implementation of every container [[Abstract Data Types|ADT]]
+A *struct* / *record* is a static data structure
 ### Examples 
 - arrays 
 - BSTs 
