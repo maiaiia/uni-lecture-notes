@@ -8,3 +8,4 @@ ___
 
 **ssh-keygen -R 172.30.240.9** in case the following command doesn't work by itself
 **ssh \[user]@\[host] -p \[port]** 
+
