@@ -1,0 +1,22 @@
+# Intro to Shell Programming
+___
+Class: [[OS]]
+Type: Lecture
+Tags: # 
+Date: March 6th, 2025
+___
+## Prerequisites
+A commonly used trick in shell programming is taking advantage of 'lazy evaluation' (if the truth value of an expression is obvious before it's evaluated in its entirety, the evaluation will stop)
+- Example: `test -f file.txt || echo not there` (if the file 'file.txt' exists, echo not there will not be evaluated, so not there will not be printed to the console)
+
+Variables can also be used
+- assign them as such: A=6
+- access them as such: $A (or ${A})
+
+The result of a command can be stored in a variable using back quotes: N = \`who | wc -l\`
+A command can be stored in a variable using double quotes: N = "who | wc -l"
+
+## Shell Scripts 
+A shell script is a file containing commands.
+Any file can be run, but it must have execution permissions 
+Every shell script must start with a specification of the interpretor: '#!/bin/bash'
