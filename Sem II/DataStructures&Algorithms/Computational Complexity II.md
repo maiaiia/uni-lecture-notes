@@ -31,3 +31,7 @@ AC: $\cfrac{1}{n+1}\cdot 1 + \cfrac{1}{n+1} \cdot 2 + ... + \cfrac{1}{n+1} \cdot
 **Total complexity**: $O(n)$ (we use the $O$ notation when the best case complexity differs from the worst and average case complexities. If they are the same, $\Theta$ is used)
 
 >[!tip] For the total complexity we take the worst case. If the best case has a lower value, the $O$ notation is used. Otherwise, we use the $\Theta$ notation
+
+## Amortised complexity analysis
+Compute the average cost of 'n' operations 
+Is especially useful when the worst case rarely occurs (e.g. appending an element to a dynamic array)
