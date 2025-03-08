@@ -62,3 +62,81 @@ $\mathcal{I} = \{it \text{ } | \text{ } it$ is an iterator over a bag $b\}$
 	- Use a list of elements
 	- iterator: currentElement - position of the current element in the list 
 2. Element + Frequency Representation
+	- Use 2 lists (a list of elements and a list of frequencies)
+	- iterator: currentElement - position in list of elements; currentFrequency - number of values in currentElement's position that have already been iterated through
+## Implementation 
+- First Representation
+Assume `Bag`, `BagIterator` classes
+```python
+def CreateIntBag():
+	b = Bag()
+	return b
+
+def CreateStringBag():
+	b = Bag()
+	return b 
+
+def printBag():
+	it = b.iterator()
+	while it.valid():
+		e = it.getCurrent()
+		print(e)
+		it.next()
+
+def main():
+	b1 = createIntBag()
+	printBag(b1)
+
+```
+
+Second Representation 
+```python 
+class BagFr:
+	def __init__(self):
+		self.__values = []
+		self.__frequencies = []
+		
+	def add(self, value):
+		for i in range(0, len(self.__values)):
+			if self.__values[i] == value:
+				self.__frequencies[i] += 1
+				return
+		self.__values.append(value)
+		self.__frequencies.append(1)
+		
+	def remove(self, value):
+		for i in range(0, len(self.__values)):
+			if self.__values[i] == value:
+				self.__frequencies[i] -= 1;
+				if self.__frequencies[i] == 0:
+					current_length = len(self.__values)
+					self.__values[i] = self.__values[current_length - 1]
+					self.__frequencies = self.__frequencies[current_length - 1]
+					self.__values.pop_back()
+					self.__frequencies.pop_back()
+				return 
+		raise ValueError("Value not in the bag.")
+		
+	def search(self, value):
+		if value in self.__values:
+			return True 
+		return False 
+		
+	def size(self):
+		return sum(self.__frequencies)
+		
+	def nrOccurrences(self, value):
+		for i in range(0, len(self.__values)):
+			if self.__values[i] == value:
+				return self.__frequencies[i]
+		return 0 
+	
+	def iterator(self):
+		return BagFrIterator(self)
+
+class BagFrIterator:
+	def __init__(self, bag):
+		self.__bag = bag 
+	#TODO the rest of the implementation
+
+```
