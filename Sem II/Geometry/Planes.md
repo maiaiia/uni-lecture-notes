@@ -1,7 +1,7 @@
 # Planes
 ___
 Class: [[Geometry]]
-Type: 
+Type: Lecture
 Tags: # 
 Date: March 11th, 2025
 ___

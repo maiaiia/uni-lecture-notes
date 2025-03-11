@@ -1,7 +1,7 @@
 # Lines in $\mathbb{A}^2$
 ___
 Class: [[Geometry]]
-Type: 
+Type: Lecture
 Tags: # 
 Date: March 11th, 2025
 ___
