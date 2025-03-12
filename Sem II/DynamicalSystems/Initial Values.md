@@ -11,3 +11,5 @@ The sequence $(x_k)_{k\leq 0}$ having the recurrence $x_{k+2} = x_{k+1}+x_k$ has
 Formulation of the IVP for differentiable equations
 $x' + ax = 0 \rightarrow x(0) = n$  
 $x''+a_1x'+a_2x=0 \rightarrow x(0)=n_1, x'(0) = n_2$ 
+
+IVP $= \begin{cases}eq_1 = \text{ first order } x(t)...x'(t) \\ \text{initial condition } x(0)=1\end{cases}$

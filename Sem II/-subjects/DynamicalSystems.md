@@ -2,6 +2,8 @@ Lectures
 - [[Introduction to Dynamical Systems]]
 - [[Initial Values]]
 - [[Linear Homogeneous Differential Equations (LHDE)]]
-
+- [[Linear differential equations of order n]]
+- [[LHDEs with CC]]
 Labs
 - [[Introduction to Maple8]]
+- [[Solving LHDEs in Maple]]
