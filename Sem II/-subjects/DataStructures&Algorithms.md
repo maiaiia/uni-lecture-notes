@@ -1,3 +1,7 @@
 -  [[Abstract Data Types]]
 - [[Data Structures]]
 - [[Computational Complexity II]]
+- [[ADT Dynamic Array]]
+- [[ADT Bag]]
+- [[ADT Iterator]]
+- [[Sets]]
