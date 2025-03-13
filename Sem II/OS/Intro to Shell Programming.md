@@ -20,3 +20,7 @@ A command can be stored in a variable using double quotes: N = "who | wc -l"
 A shell script is a file containing commands.
 Any file can be run, but it must have execution permissions 
 Every shell script must start with a specification of the interpretor: '#!/bin/bash'
+
+>[!important] when using '\[]' as an alias for `test`, remember to *add spaces* before and after the brackets
+
+adding '$' after a command means that command will be run in the background
