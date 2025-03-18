@@ -119,4 +119,38 @@ We write $(c_1,c_2)\in \mathbb{R}^2 \setminus \{(0,0)\}$ in polar coordinates: $
 The general solution $x=A_0\cos\varphi_0\cos(\omega_0t)+A_0\sin\varphi_0\sin(\omega_0t) = A_0cos(\omega_0t-\varphi_0)$. Thus, the amplitude of the oscillation is $A_0$ (because $cos(\omega_0t-\varphi_0) \in [-1,1]$), where $A_0=\sqrt{c_1^2+c_2^2}$
 Each motion is oscillatory with constant amplitude.
 ![[undamped_motion_no_external_force]]
-  2) $$
+  2) $x''+\cfrac{\nu}{m}x'+\cfrac{k}{m}x=0$, $k,m,\nu>0$
+We will prove that for any solution, $\lim_{t\rightarrow \infty}x(t)=0$. 
+$r^2+\cfrac{\nu}{m}2+\cfrac{k}{m}=0$, $\Delta = \cfrac{\nu^2}{m^2}-\cfrac{4k}{m}=\cfrac{\nu^2-4km}{m^2}$
+Case 2.1: $\nu < \sqrt{4km}$ - <u>Under</u>dampened motion.
+$x = e^{\alpha t}(c_1cos{\beta t} + c_2\sin (\beta t) = A_0e^{\alpha t}\cos(\beta t - \varphi_0), A_0 > 0, \varphi_0 \in [0,2\pi)$.
+Thus, the amplitude here depends on time
+sign $\alpha = ?$ $\alpha = ?$
+$r_1+r_2=2\alpha=-\cfrac{\nu}{m}\Rightarrow \alpha = -\cfrac{\nu}{2m}<0 \Rightarrow lim_{t \rightarrow \infty}e^{\alpha t}=0 \Rightarrow \lim_{t\Rightarrow \infty}x(t)=0.$
+![[underdamped]]
+Case 2.2: $\nu > \sqrt{4km}$ - <u>Over</u>dampened motion.
+$\Delta > 0$, $r_1,r_2\in \mathbb{R}, r_1\neq r_2$
+$x=c_1e^{r_1t}+c_2e^{r_2t}$. From Viete, we can deduce that $r_1,r_2<0$, so $lim_{t\rightarrow\infty}x(t)=0$
+![[overdamped]]
+The object goes rapidly to the equilibrium position
+
+3) $x''+\omega_0^2x=A \cos (\omega t)$, where $\omega_0=\sqrt{\cfrac{k}{m}}$ - 2nd order Ln-HDE with CC 
+Step 1: We write the LHDE associated: $x''+\omega_0^2x=0$. Its general solution is, as per 1), $x_k=c_1\cos(\omega_0 t)+c_2\sin(\omega_0 t), c_1, c_2 \in \mathbb{R}$
+Step 2: We find a particular solution $x_p$ such that $x_p''+\omega_0^2x_p=A \cos (\omega t)$
+Remark: $\omega_0$ is said to be the internal angular frequency of the oscillator, while $\omega$ is said to be the external angular frequency.
+Case 3.1: $\omega \neq \omega_0$ $\rightarrow$ $x_p = a \cos (\omega t)+b\sin(\omega t)$
+$x_p' = -a\omega \sin(\omega t) + b \omega \cos (\omega t)$; $x_p'' = -a\omega^2 \cos(\omega t) - b \omega^2 \sin (\omega t)$
+$\Rightarrow$ $-a \omega^2\cos(\omega t)-b\omega^2\sin(\omega t)+a\omega_0^2\cos(\omega t)+b\omega_0^2\sin(\omega t)=A\cos(\omega t), \forall t \in \mathbb{R}$
+$\Rightarrow (-a\omega^2+a\omega_0^2-A)\cos(\omega t)+(-b\omega^2+b\omega_0^2)\sin(\omega t) = 0, \forall t \in \mathbb{R}$
+The equation above is a linear combination of $\cos(\omega t)$ and $\sin(\omega t)$, which are linearly independent (Proof - take $t = 0$ and $t = \cfrac{\pi}{2\omega}$). Thus, $-a\omega^2+a\omega_0^2-A=0$ and $-b\omega^2+b\omega_0^2=0$ 
+Since $\omega \neq \omega_0 \Rightarrow \begin{cases} a = \cfrac{A}{\omega_0^2-\omega^2} \\ b = 0 \end{cases} \Rightarrow x_p = \cfrac{A}{\omega_0^2-\omega^2} \cos (\omega t)$.
+Thus, the general solution is $x = c_1\cos(\omega_0 t)+c_2\sin(\omega_0 t)+\cfrac{A}{\omega_0^2-\omega^2}\cos(\omega t), c_1,c_2 \in \mathbb{R}$
+Any solution is bounded and oscillatory. It is periodic $\iff \cfrac{\omega}{\omega_0}\in  \mathbb{Q}$
+
+Case 3.2: $\omega = \omega_0$ $\rightarrow$ $x_p = t(a\cos(\omega t)+b\sin(\omega t)), a,b\in\mathbb{R}$
+$x_p'=a\cos(\omega t)+b\sin(\omega t)+t(-a\omega\sin(\omega t)+b\omega \cos(\omega t))$
+$x_p''+\omega_0^2x_p=A\cos(\omega t)$
+$\Rightarrow -2a \omega \sin (\omega t)+2b\omega cos(\omega t)+t(-a\omega^2cos(\omega t)-b\omega^2\sin(\omega t))+t(a\omega^2cos(\omega t)+b\omega^2\sin(\omega t))=A \cos(\omega t)$
+since $\cos (\omega t), \sin (\omega t)$ are linearly independent, we get that $\begin{cases} -2a\omega = 0 \\ 2b\omega = A \end{cases} \Rightarrow \begin{cases}a = 0 \\ b = \cfrac{A}{2\omega}\end{cases} \Rightarrow x_p=\cfrac{A}{2\omega}t\sin(\omega t)$
+The general solution is: $x = c_1 cos(\omega t)+c_2\sin(\omega t)+\cfrac{A}{2\omega}t\sin(\omega t), t \in \mathbb{R}$
+Conclusion: oscillations with unbounded amplitude occur when the external and the internal angular frequencies are equal (*resonance*)
