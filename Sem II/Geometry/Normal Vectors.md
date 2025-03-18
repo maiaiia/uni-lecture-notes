@@ -15,4 +15,5 @@ Let $\mathcal{H}: a_1x_1+...+a_nx_n=b$ be a [[Affine subspaces of An#^f0b0a5|hyp
 ## Distance from a point to a hyperplane 
 Let $\mathcal{K}$ be an *orthonormal* frame. Consider the point $P(p_1,...,p_n)$ and a hyperplane $\mathcal{H}:a_1x_1+...+a_nx_n=b$. Then $$d(P,\mathcal{H})=\cfrac{|a_1p_1+...+a_np_n-b|}{\sqrt{a_1^2+...+a_n^2}}$$
 Proof:
-Let $Q$ be an arbitrary point on the hyperplane and $n = \begin{bmatrix}a_1\\\vdots \\ a_n\end{bmatrix}$. Then $d(P,\mathcal{H})=|Pr_n^\perp(\overrightarrow{QP})|=|\cfrac{\langle n, \overrightarrow{QP} \rangle}{\langle n, n \rangle}n| = |\cfrac{n = \begin{bmatrix}a_1\\\vdots \\ a_n\end{bmatrix}}{\langle n, n \rangle}|$
+Let $Q$ be an arbitrary point on the hyperplane and $n = \begin{bmatrix}a_1\\\vdots \\ a_n\end{bmatrix}$. Then $d(P,\mathcal{H})=|Pr_n^\perp(\overrightarrow{QP})|=\big{|}\cfrac{\langle n, \overrightarrow{QP} \rangle}{\langle n, n \rangle}n\big{|} = \Big{|}\cfrac{\begin{bmatrix}a_1\\\vdots \\ a_n\end{bmatrix}\cdot \begin{bmatrix}p_1-q_1\\\vdots \\ p_n-q_n\end{bmatrix}}{\sqrt{a_1^2+...+a_n^2}}\Big{|}= \cfrac{|a_1(p_1-q_1)+...+a_n(p_n-q_n)|}{\sqrt{a_1^2+...+a_n^2}}$
+
