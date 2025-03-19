@@ -200,3 +200,116 @@ Lab 1
 
   120  history
 ```
+
+Lab 4
+```
+    1  ls
+
+    2  cat /etc/passwd | grep -E -i "\<[a-z]{10, }\>"
+
+    3  cat /etc/passwd
+
+    4  cat /etc/passwd | sed -E "y/oaesb/04358/"
+
+    5  cat /etc/passwd | sed -E "s/[aeiou]{3}/(&)/g"
+
+    6  cat /etc/passwd | sed -E "s/[aeiouAEIOU]{3}/(&)/g"
+
+    7  cat /etc/passwd | sed -E "s/[aeiouAEIOU]{3,}/(&)/g"
+
+    8  cat /etc/passwd | sed -E "s/([aeiouAEIOU]{3,})/(\1)/g"
+
+    9  cat /etc/passwd | sed -E "s/([aeiouAEIOU])([aeiouAEIOU])([aeiouAEIOU])/(\3\2\1)/g"
+
+   10  man sed
+
+   11  cat /etc/passwd
+
+   12  cat /etc/passwd | grep -E "211"
+
+   13  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}'
+
+   14  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{$3}'
+
+   15  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3}'
+
+   16  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3 $4}'
+
+   17  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3}" | awk '$NF ~ /A$/ {print $0}'
+
+   18  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3}" | awk ' $NF ~ /A$/ {print $0}'
+
+   19  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3}" | awk ' $NF ~ /A$/ {print $0}'
+
+   20  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3 $4}'
+
+   21  cat /etc/passwd | grep -E "211" | awk -F: '{print $5}' | awk -F- '{print $3}" | awk ' $NF ~ /A$/ {print $1}'
+
+   22  last
+
+   23  last | awk ' $NF /[0-9]{2}\)$/ {print $1, $NF}'
+
+   24  exec bash
+
+   25  last | awk ' $NF /[0-9]{2}\)$/ {print $1, $NF}'
+
+   26  last | awk ' $NF ~ /[0-9]{2}\)$/ {print $1, $NF}'
+
+   27  cat /etc/passwd
+
+   28  ps
+
+   29  man ps
+
+   30  ps =e
+
+   31  ps -e
+
+   32  ps -ef
+
+   33  man ps
+
+   34  ps -eF
+
+   35  ps -ef
+
+   36  ps -ef | grep root
+
+   37  ps -ef | awk '{print $1}'
+
+   38  ps -ef | sort |  awk '{print $1}' 
+
+   39  ps -ef | sort | uniq |  awk '{print $1}' 
+
+   40  ps -ef | sort |  awk '{print $1}' | uniq
+
+   41  ps -ef |  awk '{print $1}' | sort | uniw
+
+   42  ps -ef |  awk '{print $1}' | sort | uniq
+
+   43  ps -ef |  awk '{print $1}' | sort | uniq -c
+
+   44  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -n
+
+   45  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -n -r
+
+   46  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -r
+
+   47  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -n -r
+
+   48  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -nr
+
+   49  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -nr | head -5
+
+   50  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -nr | tail -5
+
+   51  ps -ef |  awk '{print $1}' | sort | uniq -c | sort -nr | head -5
+
+   52  ps -ef
+
+   53  ps -ef |  awk '{print $1}' | grep -E "yz906"
+
+   54  ps -ef |  awk '{print $1}' | grep -E "yz906" | uniq -c
+
+   55  history
+```
