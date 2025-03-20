@@ -1,7 +1,7 @@
 # File Permissions
 ___
 Class: [[OS]]
-Type: 
+Type: Lecture
 Tags: # 
 Date: March 6th, 2025
 ___

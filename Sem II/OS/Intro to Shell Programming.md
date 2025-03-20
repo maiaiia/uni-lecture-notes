@@ -21,7 +21,9 @@ A shell script is a file containing commands.
 Any file can be run, but it must have execution permissions 
 Every shell script must start with a specification of the interpreter: `#!/bin/bash`
 
->[!important] when using '\[]' as an alias for `test`, remember to *add spaces* before and after the brackets
+>[!warning] when using '\[]' as an alias for `test`, remember to *add spaces* before and after the brackets
+
+>[!warning] when using `while true`, remember to add `sleep 1` at the end of the loop
 
 adding '$' after a command means that command will be run in the background
 
