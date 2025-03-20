@@ -1,2 +1,9 @@
 - [[Command Line Intro]]
-- 
+- [[REGEX]]
+- [[Grep. Sed. Awk]]
+- [[Standard Input-Output-Errror]]
+- [[Strings. Byte arrays]]
+- [[Intro to Shell Programming]]
+- [[File Permissions]]
+- [[Processes]]
+- [[Unix Processes]]
