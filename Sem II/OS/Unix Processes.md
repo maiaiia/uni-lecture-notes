@@ -76,7 +76,56 @@ while(1){
 
 >[!tip] Notice that if a child process crashes, the parent process is fine (whereas we will later see that if a thread crashes, the whole system does)
 
-## Zombies??
+## Zombies???
 When a child process ends, if the parent process is still alive, the OS does not allow the child process to die (in order to preserve its exit status). These kinds of "dead" processes are called **zombies**. A zombie is alive until wait is called upon it. (exit status requested of the zombie)
 If the parent of a zombie process dies before calling wait upon it, the new parent of the zombie becomes process 1. This happens in order to allow the zombie to be destroyed (because process 1 does execute a wait (i think??))
 So, to recap, the zombie exists in between the time it ended up until when somebody (either its "natural" parent or process 1 - adoptive parent, in a way :) ) asks for its exit status 
+
+*example*
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+
+int main(){
+	if (fork()==0){
+		sleep(10);
+		exit(0);
+	}
+	sleep(15);
+	wait(NULL);
+	sleep(5);
+	return 0;
+}
+```
+
+## Extra - Signals
+How would the concurrent server be improved so as to kill its zombie processes?
+Using signals!!!
+Whenever the OS gets a signal for a specific process, it pauses (interrupts) whatever the process was doing and executes the command associated with the signal for that specific process
+
+- signal() does not signal something, but rather changes what is executed when a signal happens (overwrites it)
+- there is a signal that cannot be overwritten (sigkill)
+
+>[!tip] 
+>when a child dies, a signal SIGCHILD is sent to the parent 
+
+Solution:
+```c
+void f(int sgn){
+	wait(NULL);
+}
+//...
+signal(SIGCHLD, f); 
+while(1){
+	get_req();
+	if (fork()==0){
+		perform_search();
+		display_results();
+		exit(0); //stop child process!
+	}
+}
+
+```
+done! no more zombies :D 
