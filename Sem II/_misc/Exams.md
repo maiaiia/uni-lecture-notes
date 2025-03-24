@@ -1,9 +1,8 @@
 # Exams
 ___
-- [ ] Week 3 
-	- [ ] OS test 5%
+- [x] Week 3 
+	- [x] OS test 5%
 - [ ] Week 6 
-	- [ ] DS seminar exam
 	- [ ] OOP lab 15%
  - [ ] Week 7 
 	- [ ] Geometry partial I (during the seminar)
