@@ -51,7 +51,8 @@ Thus, $T$ is an isomorphism of linear space $\Rightarrow$ $dim(Ker(\mathcal{L}))
 (ii) the general solution of $X'=A(t)X+F(t)$ is $X = U(t)C + U(t)\int_{t_0}^t U(s)^{-1}F(s)ds$, $C \in \mathbb{R}^n$
 
 *Proof*:
-(i) Assume by contradiction that $\exists t_0 \in I$ s.t. $\det U(t_0)=0$. Then, $\exists k_1, ,.$
+(i) Assume by contradiction that $\exists t_0 \in I$ s.t. $\det U(t_0)=0$. Then, $\exists k_1, ..., k_n \in \mathbb{R}$ not all $0$ s.t. $k_1X_1(t_0)+..+k_nX_n(t_0)=0$. Let $\varphi(t)=k_1X_1(t)+..+k_nX_n(t)=0$ and $T$ be a linear isomorphism between $Ker \mathcal{L}$ and $\mathbb{R}^n$, $T(\varphi)=\varphi(t_0)$
+$T(\varphi)=\varphi(t_0)=k_1X_1(t_0)+..+k_nX_n(t_0)=0$. From here we can have a contradiction (the solutions $X_1,...,X_n$ are linearly independent)
 
 (ii) $X' = A(t|)X+F(t)$ Ln-HDS
 $X = X_h + X_p$, $X'=A(t)X$, $X_h = U(t)C, C\in\mathbb{R}^n$
