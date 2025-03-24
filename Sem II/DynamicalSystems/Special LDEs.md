@@ -35,6 +35,7 @@ ___
 | $\cosh (t)$ | $\infty$ $\searrow$  | 1   | $\nearrow$ $\infty$ |
 | $\sinh(t)$  | $-\infty$ $\nearrow$ | 0   | $\nearrow$$\infty$  |
 ![[Linear Differential Equations and some of their special solutions 2025-03-24 12.28.59.excalidraw]]
+![[Linear Differential Equations and some of their special solutions 2025-03-24 12.44.18.excalidraw]]
 #### Proofs
 - $\cosh (it) = \cfrac{e^{it}+e^{-it}}{2}=\cfrac{\cos t + i \sin t + \cos (-t)+ i \sin (-t)}{2} = \cos t$ 
 
@@ -45,7 +46,8 @@ ___
 - $\text{erf}'(t)=\cfrac{2}{\sqrt{\pi}}e^{-{t^2}}$ 
 - $\lim_{t\rightarrow \infty}\text{erf}(t)=1$
 - $\int_0^{\infty} e^{-s^2}ds=\cfrac{\sqrt{\pi}}{2}$, $\int_{-\infty}^{\infty}e^{-s^2}ds=\sqrt{\pi}$ 
-![[Linear Differential Equations and some of their special solutions 2025-03-24 12.37.55.excalidraw]]
+![[GaussError.excalidraw]]
 
 ## Bessel functions
-Bessel functions are solutions of the bessel DE
+Bessel functions are solutions of the Bessel DE. These are Second order LHDEs with non-constant coefficients. They are non-elementary functions
+![[Bessel.excalidraw]]
