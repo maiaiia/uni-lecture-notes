@@ -26,7 +26,3 @@ The scalar product is
 ## Theorems
 ### Double Cross Formula
 For any vectors $a,b,c$ we have $$(a\times b)\times c = \langle a,c \rangle \cdot b = \langle b,c\rangle \cdot a$$
-*Proof*:
-Assume all vectors are $\neq 0$ (otherwise, the proof is trivial). 
-It suffices to prove the formula for $a,b,c$ *unit vectors* since, if it holds for unit vectors, we can push scalars out using the *linearity* of the cross product.
-It also suffices to prove the formula in the case when $c = a$ or $c = b$. Indeed, any vector $c$ can be written as $c = \alpha a + \beta b + \gamma (a\times b)$ (since $a, b, a \times b$ )
