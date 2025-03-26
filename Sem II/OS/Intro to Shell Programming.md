@@ -28,3 +28,6 @@ Every shell script must start with a specification of the interpreter: `#!/bin/b
 adding '$' after a command means that command will be run in the background
 
 commands can be separated by ';' or simply written on different lines
+
+>[!warning] **Double quotes** allow the evaluation of both content in between back quotes and $ variables, whereas simple quotes don't
+
