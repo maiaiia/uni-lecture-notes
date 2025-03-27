@@ -1,4 +1,4 @@
-# Sending Data Between Processes
+# Inter Process Communication
 ___
 Class: [[OS]]
 Type: Lecture
@@ -27,8 +27,7 @@ int main() {
 
 ```
 
-This will output the value $6$. That is because the child process is, in fact, a *copy* of the parent process, having its own $a$ array, which is different than that of the parent. Thus, for the parent process, the addition $a[2]+a[3]$ is not performed.
-
+This will output the value 6 That is because the child process is, in fact, a *copy* of the parent process, having its own $a$ array, which is different than that of the parent. Thus, for the parent process, the addition $a[2]+a[3]$ is not performed.
 
 ## Inter Process Communication Mechanisms
 - pipe
@@ -143,3 +142,5 @@ int main(){
 }
 
 ```
+
+

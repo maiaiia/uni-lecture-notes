@@ -34,9 +34,19 @@ awk - has its own programming language and is weird?
 ```regex
 cat last.fake | awk '{print $7,$1}' | sed -E s/":[0-9][0-9]"// | sort -n -r | head -n 6 | awk '{print $2}' | sort | uniq
 ```
-
-```
 3.
 ```regex
 cat passwd.fake | grep -E "^m" --colour | awk -F: '{print $1, $5}' | sed -E "s/([0-9]){4}/ &/" | awk '$2 % 7==0'  | awk '{print $3,$4}'
+```
+4.
+```regex
+cat ps.fake | grep root | awk '{print $6}' | sort | uniq
+```
+5.
+```regex
+cat passwd.fake | awk -F: '{print $1,$5}' | grep -E "88 " | awk '{print $2,$3}'
+```
+6.
+```regex
+cat passwd.fake | awk -F: '{print $1 ":" $5}' | grep --color -E "^([a-z]+023[0-9])" | awk -F: '{print $2}'
 ```
