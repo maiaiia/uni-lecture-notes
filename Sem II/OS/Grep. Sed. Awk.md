@@ -10,7 +10,6 @@ grep - filtering
 sed - filtering & transformations 
 awk - has its own programming language and is weird?
 
-
 ## Grep
 
 ## Sed 
@@ -29,3 +28,15 @@ awk - has its own programming language and is weird?
 >[!question]- Display the lines in /etc/passwd that belong to users having names of 11 characters or longer
 >`grep -E -i "^([a-z0-9]+:){4}[a-z]{11,}"  passwd.fake`
 
+
+1.
+2.
+```regex
+cat last.fake | awk '{print $7,$1}' | sed -E s/":[0-9][0-9]"// | sort -n -r | head -n 6 | awk '{print $2}' | sort | uniq
+```
+
+```
+3.
+```regex
+cat passwd.fake | grep -E "^m" --colour | awk -F: '{print $1, $5}' | sed -E "s/([0-9]){4}/ &/" | awk '$2 % 7==0'  | awk '{print $3,$4}'
+```
