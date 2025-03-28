@@ -35,12 +35,43 @@ commands can be separated by ';' or simply written on different lines
 ### Boian
 >[!Question]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
 >```bash
->
+>#!/bin/bash
+>for line in `cat who.fake | awk '{print $1}'`; do
+    echo $line `cat ps.fake | awk '{print $1}' | grep "$line" -c`
+>done
 >```
 
 >[!Question]- 2. Find recursively in a directory all ".c" files having more than 500 lines. Stop after finding 2 such files.
+>My first attempt (didn't know find existed :))
 >```bash
+>#!/bin/bash
 >
+>if [ $# != 1 ]; then
+>       echo The number of arguments must be 1.
+>       exit 1 
+>fi 
+>if ! [ -d $1 ]; then
+        echo $1 is not a directory.
+        exit 1 
+fi
+>
+>path="$1"/*
+>for item in $path; do
+        if [ -f "$item" ] && [[ "$item" == *.c ]]; then
+>              #echo "$item is a C file"
+>             line_count=`wc -l "$item" | awk '{print $1}'`
+>             #echo The number of lines is $line_count
+                if [[ $line_count -gt 500 ]]; then
+                        echo "$item" 
+                fi
+        elif [ -d "$item" ]; then
+                $0 $item 
+        fi      
+done
+>```
+> This stops after finding 2
+> ```bash
+> 
 >```
 
 >[!Question]- 3. Find recursively in a directory, all the files with the extension ".log" and sort their lines (replace the original file with the sorted content).
