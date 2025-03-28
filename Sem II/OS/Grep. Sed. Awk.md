@@ -65,14 +65,36 @@ awk - has its own programming language and is weird?
 
 #### Lab 4.
 >[!Question]- 1. Use file /etc/passwd and print out how many groups contain students named Andreea with an even student ID number (numar matricol).
+>```regex
+>cat passwd.fake | grep -E -i " dan" --color | awk -F: '{if ($3 % 2 == 0) print $0}'
+>```
 
 >[!Question]- 2. Print the 3rd column for lines that do not start with a digit.
-
+>```regex
+>cat random_text.txt| grep -E "^[0-9]" -v | awk '{print $3}'
+>```
 
 >[!Question]- 3. Create a file with the content of manual for the command man. Use grep/sed/awk to select the lines that start with "MAN" or with spaces followed by "MAN" and replace all occurrences of "MAN" with "\*star\*". Print the first and second column of these lines,separated by dash "-", but only the lines that do not contain "WILL" or "Will" or "will" in the first two columns.
+>```regex
+>man man > manual.txt
+>cat manual.txt| grep -E "^( )*MAN" | sed -E "s/MAN/\*star\*/g" | awk '{print $1,$2}' | grep -E -v -i "will"
+>```
 
 
 >[!Question]- 4. Write a shell command that prints out a statistic of the number of processes per user, using commands ps, awk/cut, sort and uniq.
+>```bash
+>#!/bin/bash
+>
+>if [ $# != 1 ] ; then
+>
+    echo "Number of processes must be 1"
+    exit 1
+>
+>fi
+>
+cat $1 | awk '{print $1}' | tail -n+2 | sort | uniq -c | sort -n -r
+>```
+>(a file with the processes will be passed as an argument. in order to see the processes on the current server, replace cat with ps and discard the if statement)
 
 
 >[!Question]- 5. Display only the last name of each user in /etc/passwd, considering the last name to be the first word in the 5th field, and accepting it only if it starts with a capital letter

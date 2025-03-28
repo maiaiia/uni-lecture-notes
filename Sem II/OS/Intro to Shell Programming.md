@@ -31,3 +31,5 @@ commands can be separated by ';' or simply written on different lines
 
 >[!warning] **Double quotes** allow the evaluation of both content in between back quotes and $ variables, whereas simple quotes don't
 
+## Practice problems
+### Boian
