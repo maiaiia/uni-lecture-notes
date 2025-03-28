@@ -47,15 +47,24 @@ awk - has its own programming language and is weird?
 >(the first 3 matches are kinda redundant now but oh well)
 
 >[!Question]- 3. Convert the content of /etc/passwd using a sort of  Leet/Calculator spelling (eg Bogdan -> B09d4n)
+>```regex
+>cat pass | sed "y/elaoszbgELAOSZBG/3140528931405289/"
+>```
 
 >[!Question]- 4. Convert the content of /etc/passwd surrounding with parentheses and sequence of 3 or more vowels
+>```regex
+>sed -E "s/([aeiou]){3,}/(&)/gi" pass
+>```
 
 >[!Question]- 5. Display the full names (but only the full names) of the students belonging to group 211
+>```
+>grep -E " - 211 - " pass --color | sed -E "s/(.)+- //" | awk -F: '{print $1}' | sort | uniq
+>```
 
 >[!Question]- 6. Count the numbers of male and female users in /etc/passwd, accepting as true the following incorrect assumptions: All users have their last name as the first name in the user-info filed (5th field) All women have one of their first or middle names ending in the letter “a”
 
 #### Lab 4.
->[!Question]- 1. Use file /etc/passwd and print out how many groups contain students named Dan with an even student ID number (numar matricol).
+>[!Question]- 1. Use file /etc/passwd and print out how many groups contain students named Andreea with an even student ID number (numar matricol).
 
 >[!Question]- 2. Print the 3rd column for lines that do not start with a digit.
 
