@@ -42,7 +42,7 @@ commands can be separated by ';' or simply written on different lines
 >```
 
 >[!Question]- 2. Find recursively in a directory all ".c" files having more than 500 lines. Stop after finding 2 such files.
->My first attempt (didn't know find existed :))
+>My first attempt (didn't know find existed :)) - couldn't stop after finding 2 files
 >```bash
 >#!/bin/bash
 >
@@ -69,14 +69,54 @@ fi
         fi      
 done
 >```
-> This stops after finding 2
+> This stops after finding 2 .c files that fit the criteria
 > ```bash
-> 
+>#!/bin/bash
+>if [ $# != 1 ]; then
+>        echo The number of arguments must be 1.
+>        exit 1 
+>fi 
+>
+>if ! [ -d $1 ]; then
+>        echo $1 is not a directory.
+>        exit 1 
+>fi
+>
+>files_found=0
+>
+>files=`find "$1" -type f -name "*.c"`
+>for file in $files; do
+>       if [[ `wc -l "$file" | awk '{print $1}'` -gt 500 ]]; then
+>               echo "$file"
+>               ((files_found++))
+>               if [[ $files_found -eq 2 ]]; then
+>                       exit 0
+>               fi
+>       fi
+>done
 >```
 
 >[!Question]- 3. Find recursively in a directory, all the files with the extension ".log" and sort their lines (replace the original file with the sorted content).
 >```bash
+>#!/bin/bash
 >
+>if ! [ $# == 1 ]; then
+>       echo Number of arguments must be 1.
+>       exit 1
+>fi
+>
+>if ! [ -d $1 ]; then 
+>       echo "$1" is not a directory.
+>       exit 1
+>fi
+>
+>logfiles=`find "$1"/*  -type f -name "*.log"`
+>for file in $logfiles; do
+>       touch copyfile
+>       cat $file | sort > copyfile
+>       mv copyfile "$file"
+>       
+>done
 >```
 
 >[!Question]- 4. Find recursively in a given directory all the symbolic links, and report those that point to files/directories that no longer exist. Use operator -L to test if a path is a symbolic link, and operator -e to test if it exists (will return false if the target to which the link points does not exist)

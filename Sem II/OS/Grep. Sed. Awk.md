@@ -28,7 +28,7 @@ awk - has its own programming language and is weird?
 #### Lab 3
 >[!question]- 1. Display the lines in /etc/passwd that belong to users having three parent initials in their name, even if the initials do not have a dot after them.
 >```regex
->cat pass | grep -E " [A-Z].? [A-Z].? [A-Z].? " --color
+>cat pass | grep -E " [A-Z].? [A-Z].? [A-Z].? " 
 >```
 
 >[!question]- 2. Display the lines in /etc/passwd that belong to users having names of 11 characters or longer
@@ -38,11 +38,11 @@ awk - has its own programming language and is weird?
 >```
 >Any name:
 >```regex
->cat pass | grep -E '([A-Z]){12,}:|([A-Z]){12,}-|- ([A-Z]){12,} ' --color
+>cat pass | grep -E '([A-Z]){12,}:|([A-Z]){12,}-|- ([A-Z]){12,} ' 
 >```
 > The solutions above are kinda bad cause they don't take into account special characters, so it's better to also use the username
 > ```regex
-> cat pass | grep -E '([A-Z]){12,}:|([A-Z]){12,}-|- ([A-Z]){12,} |:([a-z]){12,}.|.([a-z]){12,} ' --color
+> cat pass | grep -E '([A-Z]){12,}:|([A-Z]){12,}-|- ([A-Z]){12,} |:([a-z]){12,}.|.([a-z]){12,} ' 
 >```
 >(the first 3 matches are kinda redundant now but oh well)
 
@@ -58,7 +58,7 @@ awk - has its own programming language and is weird?
 
 >[!Question]- 5. Display the full names (but only the full names) of the students belonging to group 211
 >```
->grep -E " - 211 - " pass --color | sed -E "s/(.)+- //" | awk -F: '{print $1}' | sort | uniq
+>grep -E " - 211 - " pass  | sed -E "s/(.)+- //" | awk -F: '{print $1}' | sort | uniq
 >```
 
 >[!Question]- 6. Count the numbers of male and female users in /etc/passwd, accepting as true the following incorrect assumptions: All users have their last name as the first name in the user-info filed (5th field) All women have one of their first or middle names ending in the letter “a”
@@ -66,7 +66,7 @@ awk - has its own programming language and is weird?
 #### Lab 4.
 >[!Question]- 1. Use file /etc/passwd and print out how many groups contain students named Andreea with an even student ID number (numar matricol).
 >```regex
->cat passwd.fake | grep -E -i " dan" --color | awk -F: '{if ($3 % 2 == 0) print $0}'
+>cat passwd.fake | grep -E -i " dan" | awk -F: '{if ($3 % 2 == 0) print $0}'
 >```
 
 >[!Question]- 2. Print the 3rd column for lines that do not start with a digit.
