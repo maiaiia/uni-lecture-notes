@@ -17,6 +17,7 @@ awk - has its own programming language and is weird?
 - use '\\n' to refer to the nth group matched
 - use 'g' as a parameter after the last separator to replace all occurrences instead of just the first
 - use an 'i' as a parameter in the last field to make the matching string insensitive
+- use the pipe character if you need to match multiple characters
 
 ## Awk
 -  use '$' to reference fields
@@ -49,4 +50,24 @@ cat passwd.fake | awk -F: '{print $1,$5}' | grep -E "88 " | awk '{print $2,$3}'
 6.
 ```regex
 cat passwd.fake | awk -F: '{print $1 ":" $5}' | grep --color -E "^([a-z]+023[0-9])" | awk -F: '{print $2}'
+```
+7.
+```regex
+cat last.fake | grep "pts/9" | grep "^t" | awk '{print $1}'
+```
+8.
+```regex
+cat ps.fake | awk '{print $1}' | grep --color -E "^r" | sort | uniq | sed -E "s/a|e|i|o|u/&&/gi"
+```
+9.
+```regex
+cat ps.fake | sed -E "s/[a-z]| |[0-9]//gi"
+```
+10.
+```regex
+cat ps.fake | sed -E "s/[^r]//gi"
+```
+11.
+```regex
+cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, sum/total}'
 ```
