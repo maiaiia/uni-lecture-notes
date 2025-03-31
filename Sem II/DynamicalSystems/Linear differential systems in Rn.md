@@ -2,7 +2,7 @@
 ___
 Class: [[DynamicalSystems]]
 Type: 
-Tags: # 
+Tags: #Systems 
 Date: March 24th, 2025
 ___
 
