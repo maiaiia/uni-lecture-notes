@@ -26,7 +26,7 @@ Let $t_0 \in I$ and $\eta \in \mathbb{R}^n$. Then the IVP $\begin{cases} x'-A(t)
 
 First, we associate a map $\mathcal{L}(X)(t) = X'(t)-A(t)X(t)$, $\mathcal{L}:C^1(I, \mathbb{R}^n)\rightarrow C(I,\mathbb{R}^n)$
 We can notice that $\mathcal{L}$ is a linear map, i.e. $\mathcal{L}(k_1X+k_2Y)=k_1\mathcal{L}(X)+k_2\mathcal{L}(Y), \forall X,Y \in C^1$
->[!Important] Property
+>[!property] 
 >$X'=A(t)X \Leftrightarrow \mathcal{L}(X)=0 \Leftrightarrow X \in Ker\mathcal{L}$
 >$X'=A(t)X+F(t)\Leftrightarrow \mathcal{L}(X)=F \Leftrightarrow X \in Ker\mathcal{L}+\{x_p\}$, where $\mathcal{L}(x_p) = F$
 

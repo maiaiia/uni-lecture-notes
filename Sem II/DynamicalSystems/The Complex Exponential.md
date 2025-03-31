@@ -28,7 +28,7 @@ Conclusion: $\sum_{k=0}^\infty \cfrac{1}{k!}z^k$ is absolutely convergent.
 
 Recall in Lecture3 we justified Euler's formula $$e^{x+iy}=e^x\cos y+ie^x \sin y; x,y \in \mathbb{R}$$
 Let $f:\mathbb{R}\rightarrow \mathbb{C}$ and $r=\alpha + ibeta \in \mathbb{C}$ with $\alpha, \beta \in \mathbb{R}, \beta > 0, f(t)=e^{rt}, \forall t \in \mathbb{R}$.
->[!Proposition]
+>[!proposition]
 >Let $f:\mathbb{R}\rightarrow \mathbb{C}$ and $r=\alpha + i\beta \in \mathbb{C}$ with $\alpha, \beta \in \mathbb{R}, \beta > 0, f(t)=e^{rt}, \forall t \in \mathbb{R}$.
 >Then $f'(t)=re^{rt}, \forall t \in \mathbb{R}$
 
