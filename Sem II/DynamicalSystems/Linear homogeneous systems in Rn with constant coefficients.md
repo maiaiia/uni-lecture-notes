@@ -17,7 +17,7 @@ For $n = 2$: in the seminar we learn, for coupled systems, the reduction method
 **Recall from the previous lecture**:
 We know from the existence and uniqueness theorem: $\forall \eta \in \mathbb{R}^n$, the IVP $\begin{cases} X' = AX \\ X(0) = \eta \end{cases}$ has a unique solution. 
 
-**The fundamental theorem for LH systems**: System $(1)$ has $n$ linearly independent solutions $x_1,...,x_n$ and its general solution can be written as $x = c_1x_1+...+c_nx_n$, where $c_1,...,c_n \in \mathbb{R}$
+**The fundamental theorem for LH systems**: System $(1)$ has $n$ [[Linear independence. Bases|linearly independent]] solutions $x_1,...,x_n$ and its general solution can be written as $x = c_1x_1+...+c_nx_n$, where $c_1,...,c_n \in \mathbb{R}$
 Moreover, if we denote $U(t) = (x_1(t)...x_n(t))$, the gen. sol. can be written as $$X = U(t)C$$, where $C \in \mathbb{R}^n$
 
 ### Today
@@ -27,7 +27,7 @@ Moreover, if we denote $U(t) = (x_1(t)...x_n(t))$, the gen. sol. can be written 
 - we find the general solution of $(1)$ when $A$ is diagonizable
 
 ## Lecture
-**Recall**: By definition, $\lambda \in \mathbb{C}$ is an *eigenvalue* of $A$ when $$\exists u \in \mathbb{C}^n, u \neq 0, \text{ s.t. } Au = \lambda u$$ $u$ is called an *eigenvector* corresponding to $A$.
+**Recall**: By definition, $\lambda \in \mathbb{C}$ is an *[[eigenvalue]]* of $A$ when $$\exists u \in \mathbb{C}^n, u \neq 0, \text{ s.t. } Au = \lambda u$$ $u$ is called an *eigenvector* corresponding to $A$.
 >[!property] 
 >$\lambda \in \mathbb{C}$ is an eigenvalue of $A \iff \det(A - \lambda I_n) = 0$
 

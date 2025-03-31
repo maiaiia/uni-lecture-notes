@@ -31,7 +31,7 @@ We can notice that $\mathcal{L}$ is a linear map, i.e. $\mathcal{L}(k_1X+k_2Y)=k
 >$X'=A(t)X+F(t)\Leftrightarrow \mathcal{L}(X)=F \Leftrightarrow X \in Ker\mathcal{L}+\{x_p\}$, where $\mathcal{L}(x_p) = F$
 
 ## The fundamental theorem for LHSs in $\mathbb{R}^n$
-The set of all solutions of $X'=A(t)X$ is a linear space of dimension $n$. Thus. $\exists X_1,...,X_n$ linearly independent solutions and the general solution is $$X=c_1X_1+...+c_nX_n$$where $c_1,...,c_n \in \mathbb{R}$
+The set of all solutions of $X'=A(t)X$ is a linear space of dimension $n$. Thus. $\exists X_1,...,X_n$ [[Linear independence. Bases|linearly independent]] solutions and the general solution is $$X=c_1X_1+...+c_nX_n$$where $c_1,...,c_n \in \mathbb{R}$
 **Proof**
 We have to prove that $dim(Ker(\mathcal{L}))=null\mathcal{L}=n$. This can be done by finding an isomorphism from $Ker\mathcal{L}$ to $\mathbb{R}$, using the existence and uniqueness theorem 
 

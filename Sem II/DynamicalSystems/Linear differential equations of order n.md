@@ -12,7 +12,7 @@ We also consider the Ln-HDE $(2)$ $\mathcal{L}(x)=f$ with $f \in C(I)$ given.
 ## The fundamental theorems 
 ### for LHDEs
 The set of solutions of equation $(1)$ is a *linear space of dimension **n*** 
-Thus, $\exists$ $x_1,...,x_n$ linearly independent solutions of equation $(1)$ and the general solution is: $$c_1x_1+c_2x_2+...+c_nx_n$$, where $c_1,...c_n \in \mathbb{R}$.
+Thus, $\exists$ $x_1,...,x_n$ [[Linear independence. Bases|linearly independent]] solutions of equation $(1)$ and the general solution is: $$c_1x_1+c_2x_2+...+c_nx_n$$, where $c_1,...c_n \in \mathbb{R}$.
 In particular:
 - for $n = 1$: $x'+a(t)x = 0$ if $x_1 \neq 0$, then $x=cx, c\in\mathbb{R}$
 - for $n=2$: $x''+a_1(t)x'+a_2(t)=0$. If $x_1,x_2$ are linearly independent solutions,  then $x=c_1x_1+c_2x_2,c_1,c_2\in\mathbb{R}$

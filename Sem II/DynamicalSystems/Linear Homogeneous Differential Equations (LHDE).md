@@ -74,7 +74,7 @@ Let $T : Ker \mathcal{L} \rightarrow \mathbb{R}^n$ and $x \in Ker \mathcal{L} \m
 So, $T : Ker\mathcal{L} \rightarrow \mathbb{R}^n$ is an isomorphism and since $dim(\mathbb{R}^n) = n$, we can deduce that $dim(Ker\mathcal{L}) = n$. 
 
 #### Important consequence
-If $x_1, ..., x_n$ are linearly independent solutions of the LHDE $(1)$, then its general solution is $$x = c_1x_1+...+c_nx_n$$
+If $x_1, ..., x_n$ are [[Linear independence. Bases]] solutions of the LHDE $(1)$, then its general solution is $$x = c_1x_1+...+c_nx_n$$
 ## LHDEs with constant coefficients
 $$(4): x^{(n)} + a_1x^{(n-1)}+...+a_nx = 0, \text{ where } a_1,...,a_n \in \mathbb{R}$$
 *Idea*: Look for solutions of the form $e^{rt}, r \in \mathbb{R}$
