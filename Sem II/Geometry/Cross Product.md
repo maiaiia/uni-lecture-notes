@@ -18,7 +18,7 @@ Let $a,b \in \mathbb{V}^3$ be two vectors. The *cross product* of $a$ and $b$, d
 >$$a \times b = |a| \cdot J^{-1}(Pr^{\perp a}(b))$$
 
 $$(a_1i+a_2j+a_3k)\times(b_1i+b_2j+b_3k)=\begin{vmatrix} i && j && k \\ a_1 && a_2 && a_3 \\ b_1 && b_2 && b_3 \end{vmatrix}$$
-
+![[Cross Product 2025-04-01 10.40.50.excalidraw]]
 ## Properties
 The scalar product is 
 - **linear**: 

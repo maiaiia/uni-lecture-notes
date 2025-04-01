@@ -8,7 +8,7 @@ ___
 ## Oriented area
 Suppose the vertices $A(x_A, y_A), B(x_B, y_B), C(x_C,y_C), D(x_D, y_D)$ are given with respect to an orthonormal frame. Then, $$\text{Area}(ABCD) = |\begin{vmatrix} x_A && y_A && 1 \\ x_B && y_B && 1 \\ x_D && y_D && 1 \end{vmatrix}| = |\begin{vmatrix} v_x && v_y \\ w_x && w_y \end{vmatrix}|$$, where $\overrightarrow{AB}=(v_x,v_y)$ and $\overrightarrow{AD}=(w_x,w_y)$
 
->[!Proposition]
+>[!proposition]
 >Let $v = \overrightarrow{AB}$ and $w = \overrightarrow{AC}$. Then,
 >$$\sin \angle_{or}(v,w)=\cfrac{[v,w]}{[v][w]}=\cfrac{\text{Area}_{or}(ABC)}{|AB|\cdot|AC|}$$
 >Where $[v,w]$ is the box product $\begin{vmatrix} v_x && v_y \\ w_x && w_y \end{vmatrix} = \det{M_{\mathcal{B}\mathcal{B}'}}$
