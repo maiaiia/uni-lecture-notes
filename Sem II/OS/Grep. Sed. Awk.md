@@ -18,6 +18,7 @@ awk - has its own programming language and is weird?
 - use 'g' as a parameter after the last separator to replace all occurrences instead of just the first
 - use an 'i' as a parameter in the last field to make the matching string insensitive
 - use the pipe character if you need to match multiple characters
+- use `sed -n "kp"` to print the kth line in a file
 
 ## Awk
 -  use '$' to reference fields
@@ -174,3 +175,30 @@ cat ps.fake | sed -E "s/[^r]//gi"
 >```regex
 cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, sum/total}'
 >```
+
+### Practice problems - Bota
+
+>[!Question]- Find the number of unique accounts that connected to the server on 08.03.2022
+>```regex
+>```
+>
+
+>[!Question]- Get the number of files in a given directory
+>```regex
+>```
+>
+
+>[!Question]- Get the number of subdirectories in a given directory
+>```regex
+>```
+>
+
+>[!Question]- Get the number of exe files in a directory
+>```regex
+>```
+>
+
+>[!Question]- Calculate the average of the PIDs of the processes currently running in the system.
+>```regex
+>```
+>
