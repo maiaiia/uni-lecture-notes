@@ -16,6 +16,12 @@ Variables can also be used
 The result of a command can be stored in a variable using back quotes: N = \`who | wc -l\`
 A command can be stored in a variable using double quotes: N = "who | wc -l"
 
+for test in the form of `[[]]`, =~ means 'is in the form of the regex'
+example for checking if the first argument is a word:
+`if [[ "$1" =~ ^[a-z]+$ ]]`
+
+' - does not allow substitutions
+" - does
 ## Shell Scripts 
 A shell script is a file containing commands.
 Any file can be run, but it must have execution permissions 
@@ -191,3 +197,4 @@ if ! [ -f $FILE ]; then
 
 
 
+## 211
