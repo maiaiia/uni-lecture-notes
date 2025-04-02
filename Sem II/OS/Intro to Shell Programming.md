@@ -171,6 +171,27 @@ done
 >
 >>[!solution]-
 >>```bash
+>>#!/bin/bash
+>>
+>>if ! [ $# -eq 1 ]; then
+>>      echo Number of arguments must be 1 
+>>      exit 1 
+>>fi 
+>>
+>>if ! [ $1 -eq $1 ] 2>/dev/null; then
+>>      echo $1 is not a number
+>>      exit 1
+>>fi
+>>
+>>I=1
+>>while [ $I -le $1 ]; do
+>>      touch file_$I.txt
+>>      > file_$I.txt
+>>      for J in $(seq ${I} $((I+4)) ); do
+>>              sed -n "${J}p" passwd.fake >> file_$I.txt  
+>>    done
+>>      ((I++))
+>>done
 >>```
 >
 
@@ -179,6 +200,33 @@ done
 >>(comenzi: find, file, grep, wc, head, tail)
 >
 >>[!solution]-
+>>```bash
+>>#!/bin/bash
+>>
+>>if ! [ $# -eq 1 ]; then
+>>      echo Argument count must be 1
+>>      exit 1 
+>>fi 
+>>
+>>if ! [ -d $1 ]; then
+>>      echo $1 is not a directory 
+>>      exit 1 
+>>fi
+>>
+>>for FILE in $(find ./$1); do
+>>      if echo $FILE | grep -q -E ".txt$" ; then
+>>              WORDCOUNT=$(wc -l < $FILE)
+>>              if [[ $WORDCOUNT -lt 5 ]]; then
+>>                      echo $FILE is a short file
+>>                      cat $FILE
+>>              else
+>>                      echo $FILE is a long file
+>>                      head -3 $FILE
+>>                      tail -3 $FILE
+>>              fi
+>>      fi
+>>done
+>>```
 >
 
 >[!Question]- 3. Să se scrie un script bash care calculează numărul mediu de linii ale fișierelor de tip text dintr-un director dat ca argument.
