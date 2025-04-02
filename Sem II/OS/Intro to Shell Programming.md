@@ -36,7 +36,18 @@ adding '$' after a command means that command will be run in the background
 commands can be separated by ';' or simply written on different lines
 
 >[!warning] **Double quotes** allow the evaluation of both content in between back quotes and $ variables, whereas simple quotes don't
+### Quotes are Confusing
 
+| Feature                  | `"` Double Quotes | `'` Simple Quotes | Backticks |
+| ------------------------ | ----------------- | ----------------- | --------- |
+| **Variable Expansion**   | Yes               | No                | No        |
+| **Command Substitution** | `$(...)` works    | No                | Yes       |
+| **Escape Sequences**     | Yes               | No                | No        |
+>[!tip]
+>Backticks are outdated. `$(...)` is preferred. 
+
+### Misc
+- $(command) - this captures the output of `command`
 ## Practice problems
 ### Boian
 >[!Question]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
@@ -204,7 +215,7 @@ done
 >>#!/bin/bash
 >>
 >>if ! [ $# -eq 1 ]; then
->>      echo Argument count must be 1
+>>      echo Number of arguments must be 1
 >>      exit 1 
 >>fi 
 >>
@@ -236,6 +247,30 @@ done
 >
 >>[!solution]-
 >>```bash
+>>#!/bin/bash
+>>
+>>if ! [ $# -eq 1 ]; then
+>>      echo "Numarul argumentelor trebuie sa fie 1"
+>>      exit 1 
+>>fi 
+>>
+>>if ! [ -d $1 ]; then
+>>      echo $1 nu este un director
+>>      exit 1 
+>>fi 
+>>
+>>NRLINII=0
+>>NRFISIERE=0
+>>
+>>for FILE in $(find ./$1); do
+>>      if echo $FILE | grep -q -E ".txt$"; then
+>>              ((NRFISIERE++))
+>>              CURENT=$(wc -l<$FILE)
+>>              ((NRLINII+=CURENT))
+>>      fi
+>>done
+>>
+>>echo $NRFISIERE $NRLINII $((NRLINII/NRFISIERE))
 >>```
 >
 
@@ -246,6 +281,27 @@ done
 >
 >>[!solution]-
 >>```bash
+>>#!/bin/bash
+>>
+>>if ! [ $# -eq 1 ]; then
+>>      echo "Number of arguments must be 1"
+>>      exit 1 
+>>fi 
+>>
+>>if ! [ -d $1 ]; then
+>>      echo $1 is not a directory
+>>      exit 1 
+>>fi 
+>>
+>>
+>>for FILE in $(find ./$1); do
+>>      if [ -f $FILE ]; then
+>>              FILENAME=$(echo $FILE | sed -E "s/(^.+\/)//")   
+>>              if echo $FILENAME | grep -E -q "[0-9]{5,}"; then
+>>                      echo $FILENAME
+>>              fi 
+>>      fi
+>>done
 >>```
 >
 
