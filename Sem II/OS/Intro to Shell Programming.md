@@ -154,3 +154,40 @@ done
 >
 >```
 
+### Misc
+>[!Question]- Replace all dialogue lines with the quotation representation
+>Read line by line
+>```bash
+#!/bin/bash
+>
+>read -p "Fisier: " FILE
+>
+if ! [ -f $FILE ]; then
+>	echo $FILE is not a file
+>	exit 1
+>fi
+>
+>
+>while read LINE; do
+>	echo $LINE | sed -E 's/^(-)(.+)$/\"\2\"/'
+>done <"$FILE"
+>exit 0
+>```
+> simple sed solution
+> ```bash
+>  #!/bin/bash
+>  #replace all dialogue lines with quotes
+>  
+>  for FILE in $*; do
+>       if [ -w $FILE ]; then
+>           sed -E 's/^(-)(.+)$/\"\2\"/' $FILE >> aux.txt
+>           #echo $FILE is a file
+>           mv aux.txt $FILE
+>      else
+>          echo $FILE is not a writeable file
+>      fi  
+>  done
+>```
+
+
+
