@@ -44,10 +44,11 @@ commands can be separated by ';' or simply written on different lines
 | **Command Substitution** | `$(...)` works    | No                | Yes       |
 | **Escape Sequences**     | Yes               | No                | No        |
 >[!tip]
->Backticks are outdated. `$(...)` is preferred. 
+>Backticks are outdated. When working with BASH, `$(...)` is preferred. However, `$(...)` does not work with all shells
 
 ### Misc
 - $(command) - this captures the output of `command`
+- for iterating through files: `for f in `find` ` (or `for f in $(find)`)
 ## Practice problems
 ### Boian
 >[!Question]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
@@ -161,10 +162,96 @@ done
 >
 >```
 
->[!Question]- 9. Write a script that finds in a given directory hierarchy, all duplicate files and displays their paths. Hint: use checksums to detect whether two files are identical.
->```bash
->
+>[!Question]- 9. Write a script that finds in a given directory hierarchy, all duplicate files (content wise) and displays their paths 
+>>[!hint]-
+>>use checksums to detect whether two files are identical
+>First solution, more inefficient - implementation is vulnerable (if filenames contain spaces)
+>```tabs
+>tab: Naive solution
+>>[!solution]- 
+>>```bash
+>>#!/bin/bash
+>>
+>>
+>>D=$1
+>>
+>>for F in `find $D -type f`; do
+>>      for G in `find $D -type f`; do
+>>              if [ "F" != "G" ]; then
+>>                      if cmp -s $F $G; then
+>>                              echo $F $G 
+>>                      fi
+>>              fi
+>>      done
+>>done
+>>```
+>tab: Slightly better, not vulnerable to spaces
+>>[!solution]-
+>>```bash
+>>find $D -type f | while read F; do
+>>      find $D -type f | while read G; do
+>>              if test "$F" != "$G"; then
+>>                      if cmp -s "$F" "$G"; then
+>>                              echo "$F" "$G"
+>>                      fi
+>>              fi
+>>      done
+>>done
+>>
+>>```
+>tab: t3
+>Avoiding reading while piping may be a good idea
+>>[!solution]-
+>>```bash
+>>#!/bin/bash
+>>
+>>D=$1
+>>N=0
+>>
+>>find $D -type f > files.txt
+>>
+>>while read F; do
+>>      while read G; do
+>>              if test "$F" != "$G" && cmp -s "$F" "$G"; then
+>>                      N=`expr $N + 1`
+>>                      echo "$F" "$G"
+>>              fi
+>>              if [ $N -eq 2 ]; then
+>>                      break
+>>              fi
+>>      done < files.txt
+>>done < files.txt
+>>rm files.txt
+>>```
+>tab: t4
+>Solution using checksums (so, hashing)
+>>[!Solution]-
+>>```bash
+>>#!/bin/bash
+>>
+>>D=$1
+>>N=0
+>>
+>>find $D -type f > files.txt
+>>
+>>while read F; do
+>>      shasum $F
+>>done < files.txt > checksums.txt
+>>
+>>while read C1 F1; do
+>>      while read C2 F2; do 
+>>              if [ "$C1" = "$C2" ]; then
+>>                      echo "$F1" "$F2"
+>>              fi
+>>      done < checksums.txt
+>>done < checksums.txt
+>>
+>>rm files.txt
+>>```
 >```
+
+>[!Warning]
+>When doing a while read in a pipe, a new shell is created, so changing certain values won't work
 
 >[!Question]- 10. Display the session count and full names of all the users who logged into the system this month, sorting the output by the session count in descending order. Use the -s and/or -t options of command last to get this month's sessions, and the command date to generate the required timestamp in the expected format.
 >```bash
