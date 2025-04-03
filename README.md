@@ -5,6 +5,7 @@ For swift navigation between files and seamless rendering of the attachments (es
 ## Recommended Settings 
 ### Essential
 - Install and enable Excalidraw plugin (Settings -> Community plugins -> Browse)
+- Install and enable Tabs plugin (obsidian://show-plugin?id=tabs)
 ### Personal preferences 
 #### General
 - Theme: Tokyo Night (Settings -> Appearance -> Themes)
