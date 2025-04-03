@@ -47,6 +47,8 @@ commands can be separated by ';' or simply written on different lines
 >Backticks are outdated. When working with BASH, `$(...)` is preferred. However, `$(...)` does not work with all shells
 
 ### Misc
+>[!tip]
+>add a -x after `#!/bin/bash` to (debug?). a step by step explanation of what's going on in the code
 - $(command) - this captures the output of `command`
 - for iterating through files: `for f in `find` ` (or `for f in $(find)`)
 ## Practice problems
@@ -167,50 +169,49 @@ done
 >>use checksums to detect whether two files are identical
 >First solution, more inefficient - implementation is vulnerable (if filenames contain spaces)
 >```tabs
+>tab: Spoilers ahead!
 >tab: Naive solution
->>[!solution]- 
->>```bash
->>#!/bin/bash
->>
->>
->>D=$1
->>
->>for F in `find $D -type f`; do
->>      for G in `find $D -type f`; do
->>              if [ "F" != "G" ]; then
->>                      if cmp -s $F $G; then
->>                              echo $F $G 
->>                      fi
->>              fi
->>      done
->>done
->>```
->tab: Slightly better, not vulnerable to spaces
->>[!solution]-
->>```bash
->>find $D -type f | while read F; do
->>      find $D -type f | while read G; do
->>              if test "$F" != "$G"; then
->>                      if cmp -s "$F" "$G"; then
->>                              echo "$F" "$G"
->>                      fi
->>              fi
->>      done
->>done
->>
->>```
->tab: t3
->Avoiding reading while piping may be a good idea
->>[!solution]-
->>```bash
->>#!/bin/bash
->>
->>D=$1
->>N=0
->>
->>find $D -type f > files.txt
->>
->>while read F; do
+>```bash
+>#!/bin/bash
+>
+>
+>D=$1
+>
+>for F in `find $D -type f`; do
+>      for G in `find $D -type f`; do
+>              if [ "F" != "G" ]; then
+>                      if cmp -s $F $G; then
+>                              echo $F $G 
+>                      fi
+>              fi
+>      done
+>done
+>```
+>tab: Slightly better
+>Not vulnerable to white spaces in the filename
+>```bash
+>find $D -type f | while read F; do
+>      find $D -type f | while read G; do
+>              if test "$F" != "$G"; then
+>                      if cmp -s "$F" "$G"; then
+>                              echo "$F" "$G"
+>                      fi
+>              fi
+>      done
+>done
+>
+>```
+>tab: No reading while piping
+>
+>```bash
+>#!/bin/bash
+>
+>D=$1
+>N=0
+>
+>find $D -type f > files.txt
+>
+>while read F; do
 >>      while read G; do
 >>              if test "$F" != "$G" && cmp -s "$F" "$G"; then
 >>                      N=`expr $N + 1`
@@ -223,9 +224,7 @@ done
 >>done < files.txt
 >>rm files.txt
 >>```
->tab: t4
->Solution using checksums (so, hashing)
->>[!Solution]-
+>tab: Hashing
 >>```bash
 >>#!/bin/bash
 >>
@@ -257,7 +256,6 @@ done
 >```bash
 >
 >```
-
 ### Bota
 
 >[!Question]- 1. Să se scrie un script bash care primeşte ca argument un număr natural N şi generează N fişiere de tip text, astfel:
