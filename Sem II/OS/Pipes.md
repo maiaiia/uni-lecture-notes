@@ -5,7 +5,7 @@ Type: Lecture
 Tags: # 
 Date: March 27th, 2025
 ___
-
+## Introduction
 Pipes get created in the kernel. It contains 2 descriptors for reading and writing. When creating a child process, it will also have a copy of the pipe, with the same contents.
 
 >[!Important] Always close an unused end of the pipe ASAP
@@ -48,7 +48,7 @@ Writing to a full pipe - write waits
 
 As an example, write when the pipe is full waits for some space or until there is no process that can read from the pipe.
 
-## Example - Eeny Meeny Miny Moe
+### Example - Eeny Meeny Miny Moe
 
 ![[Inter Process Communication 2025-03-27 09.16.33.excalidraw]]
 
@@ -134,4 +134,59 @@ int main() {
 
 This is the equivalent of using stdio and executing the program with `./beer | less`
 
+## Idk what title to use yet. Pipes in Bash?
+Q: How do pipes work when used in the bash terminal? (as in, how do the commands "know" where to read stuff from)
+A: Using the file descriptor table! `dup`, `dup2` - duplicate an existing file descriptor
+### Example - simulate a command in C
+Command: `ps -ef | grep -E "^root\>" | awk '{print $2}' | tail -n 5`
+![[Pipes 2025-04-03 09.21.14.excalidraw]]
 
+ 
+```c
+//There's a mistake somewhere in here but the point of the program still stands
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+
+int main(){
+    int p2g[2], g2a[2], a2t[2];
+    pipe(p2g); pipe(g2a); pipe(a2t);
+
+    if(fork()==0) { //ps
+        close(p2g[0]); close(g2a[0]); close(g2a[1]); close(a2t[0]); close(a2t[1]);
+        dup2(p2g[1],1);
+        execlp("ps","ps","-ef",NULL);
+        exit(1);
+    }
+   
+    if(fork()==0) { //grep
+        close(p2g[1]); close(g2a[0]); close(a2t[0]); close(a2t[1]);
+        dup2(p2g[0],0);
+        dup2(g2a[1],1);
+        execlp("grep","grep","-E","^root\\>",NULL);
+        exit(1);
+    }
+
+
+    if(fork()==0) { //awk
+        close(p2g[0]);close(p2g[1]); close(g2a[1]); close(a2t[0]);
+        dup2(g2a[0],0);
+        dup2(a2t[1],1);
+        execlp("awk","awk","{print $2}",NULL);
+        exit(1);
+    }
+   
+    if(fork()==0){
+        close(p2g[0]); close(p2g[1]); close(g2a[1]); close(a2t[1]); close(g2a[0]);
+        dup2(a2t[0],0);
+        execlp("tail","tail","-n","5",NULL);
+        exit(1);
+    }
+    close(p2g[0]); close(p2g[1]); close(g2a[0]); close(g2a[1]); close(a2t[0]); close(a2t[1]);
+    wait(0);  wait(0); wait(0); wait(0);
+
+    return 0;
+}
+
+```

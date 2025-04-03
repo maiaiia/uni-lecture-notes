@@ -17,12 +17,10 @@ In order to run a program using FIFOs, you need to
 
 ```tabs
 tab: File 1
->```c
+```c
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-//FILE 1
 
 int main() {
     int a2b, b2a, n;
@@ -47,14 +45,11 @@ int main() {
     close(a2b); close(b2a);
 
 }
->```
 tab: File 2
 ```c
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-//FILE 2
 
 int main() {
     int a2b, b2a, n;
