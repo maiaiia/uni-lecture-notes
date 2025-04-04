@@ -7,7 +7,7 @@ Date: February 25th, 2025
 ___
 ## Definitions 
 - Two ordered pairs of points $(A,B)$ and $(C,D)$ are *equidistant* $\iff$ $[AB]$ and $[CD]$ are *congruent*
-	- The equidistance relation is an [[Relations#^74d7ea|equivalence relation]]
+	- The equidistance relation is an [[src/Sem I/Algebra/Relations#^74d7ea|equivalence relation]]
 		Proof: 
 		1. reflexivity: $[AB] \equiv [AB]$
 			-  Axiom III.1 $\rightarrow$ construct $[A'B']$ s.t. $[AB]\equiv [A'B']$
