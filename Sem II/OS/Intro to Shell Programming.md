@@ -167,51 +167,53 @@ done
 >[!Question]- 9. Write a script that finds in a given directory hierarchy, all duplicate files (content wise) and displays their paths 
 >>[!hint]-
 >>use checksums to detect whether two files are identical
->First solution, more inefficient - implementation is vulnerable (if filenames contain spaces)
 >```tabs
 >tab: Spoilers ahead!
 >tab: Naive solution
->```bash
->#!/bin/bash
->
->
->D=$1
->
->for F in `find $D -type f`; do
->      for G in `find $D -type f`; do
->              if [ "F" != "G" ]; then
->                      if cmp -s $F $G; then
->                              echo $F $G 
->                      fi
->              fi
->      done
->done
->```
+>more inefficient - implementation is vulnerable (if filenames contain spaces)
+>>[!Code]
+>>```bash
+>>#!/bin/bash>
+>>
+>>D=$1
+>>
+>>for F in `find $D -type f`; do
+>>     for G in `find $D -type f`; do
+>>              if [ "F" != "G" ]; then
+>>                      if cmp -s $F $G; then
+>>                              echo $F $G 
+>>                      fi
+>>              fi
+>>      done
+>>done
+>>```
 >tab: Slightly better
 >Not vulnerable to white spaces in the filename
->```bash
->find $D -type f | while read F; do
->      find $D -type f | while read G; do
->              if test "$F" != "$G"; then
->                      if cmp -s "$F" "$G"; then
->                              echo "$F" "$G"
->                      fi
->              fi
->      done
->done
->
->```
+>>[!Code]
+>>```bash
+>>#!/bin/bash>
+>>find $D -type f | while read F; do
+>>      find $D -type f | while read G; do
+>>              if test "$F" != "$G"; then
+>>                      if cmp -s "$F" "$G"; then
+>>                              echo "$F" "$G"
+>>                      fi
+>>              fi
+>>      done
+>>done
+>>
+>>```
 >tab: No reading while piping
->
->```bash
->#!/bin/bash
->
->D=$1
->N=0
->
->find $D -type f > files.txt
->
->while read F; do
+>>[!Code]
+>>```bash
+>>#!/bin/bash
+>>
+>>D=$1
+>>N=0
+>>
+>>find $D -type f > files.txt
+>>
+>>while read F; do
 >>      while read G; do
 >>              if test "$F" != "$G" && cmp -s "$F" "$G"; then
 >>                      N=`expr $N + 1`
@@ -225,6 +227,7 @@ done
 >>rm files.txt
 >>```
 >tab: Hashing
+>>[!Code]
 >>```bash
 >>#!/bin/bash
 >>
