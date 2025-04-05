@@ -113,7 +113,7 @@ Complexity: $\Theta(1)$
 tab: searchNode(smm,k,kNode,prevNode)
 Complexity: $O(\text{number of unique keys})$
 >[!Code]
->```
+>```pcode
 >subalgorithm searchNode(smm,k,kNode,prevNode)
 >	aux <- smm.head
 >	prev <- NIL
@@ -139,7 +139,7 @@ if !found -> insert a new node - we need the previous node
 
 Complexity: $O(\text{nr. of pairs})$
 >[!Code]
->```
+>```pcode
 >subalgorithm add(smm,k,v)
 >	searchnode(smm,k,kNode,prevNode)
 >	if kNode = NIL then
