@@ -462,6 +462,155 @@ done
 >>```
 >
 
+### Calin
+
+>[!Question]- Write a shell script that reads numbers until 0 and computes the sum, average of the numbers and counts how many are multiples of 5.
+>
+>>[!code]
+>>```bash
+>> #!/bin/bash
+>> 
+>> SUM=0
+>> M5=0
+>> 
+>> while read NUMBER; do
+>> 	if [ $NUMBER -eq $NUMBER ] 2>/dev/null; then
+>> 		if ((NUMBER==0)); then
+>> 			break
+>> 		fi
+>> 		if ((NUMBER%5==0)) ; then
+>> 			((M5++))
+>> 		fi
+>> 		SUM=`expr $SUM + $NUMBER`
+>> 	else
+>> 		echo $NUMBER is not a number
+>> 	fi
+>> 
+>> done
+>> 
+>>echo The sum of all the numbers is $SUM. The number of multiples of 5 is $M5 
+>>```
+>
+
+>[!Question]- Write a script that reads filenames and check for each file how many words each one contains on the first line and the size of the file.
+>
+>>[!code]
+>>```bash
+>>#!/bin/bash
+>>
+>>while read FILENAME; do
+>>      if ! [ -f $FILENAME ]; then
+>>              if [ $FILENAME -eq $FILENAME ] 2>/dev/null && (($FILENAME==0)); then
+>>                      break
+>>              fi
+>>              echo $FILENAME is not a file
+>>              continue 
+>>      fi
+>>      WORDS=$(cat $FILENAME | head -n 1 | wc -w)
+>>      BYTES=$(cat $FILENAME | wc -c)
+>>      echo $FILENAME has $WORDS words on the first line and a size of $BYTES bytes
+>>
+>>done
+>>```
+>
+
+>[!Question]- Same as above but input by command line arguments(ex. ./script.sh file1.txt notanexistingfile file4.sh )
+>
+>>[!code]
+>>```bash
+>>#!/bin/bash
+>>
+>>for FILENAME in $*; do
+>>      if ! [ -f $FILENAME ]; then
+>>              if [ $FILENAME -eq $FILENAME ] 2>/dev/null && (($FILENAME==0)); then
+>>                      break
+>>              fi
+>>              echo $FILENAME is not a file
+>>              continue 
+>>      fi
+>>      WORDS=$(cat $FILENAME | head -n 1 | wc -w)
+>>      BYTES=$(cat $FILENAME | wc -c)
+>>      echo $FILENAME has $WORDS words on the first line and a size of $BYTES bytes
+>>
+>>done
+>>```
+>
+
+>[!Question]- Sort files given as command line arguments in ascending order according to file size.
+>
+>>[!code]
+>>```bash
+>>#!/bin/bash
+>>
+>>touch auxiliary.txt
+>>
+>>for FILENAME in $*; do
+>>      if ! [ -f $FILENAME ]; then
+>>              echo $FILENAME is not a file
+>>              continue 
+>>      fi
+>>      
+>>      echo $(wc -c $FILENAME) >> auxiliary.txt
+>>
+>>done
+>>sort -n auxiliary.txt
+>>rm auxiliary.txt
+>>```
+>
+
+>[!Question]- Write a script that monitors the state of a directory and prints a notification when something changed
+>
+>>[!code]
+>>```bash
+>>```
+>
+
+>[!Question]- 9. Create a bash script that displays every second the process count per user sorted descending by process count for all users specified as command line arguments. If no arguments are given, the script will display the process count per user for all users. Validate usernames provided.
+>
+>>[!code]
+>>```bash
+>>```
+>
+
+>[!Question]- 10. Write a shell script that receives any number of words as command line arguments, and continuously reads from the keyboard one file name at a time. The program ends when all words received as parameters have been found at least once across the given files.
+>
+>>[!code]
+>>```bash
+>>```
+>
+
+>[!Question]- 11. Write a shell script that, for all the users in /etc/passwd, creates a file with the same name as the username and writes in it all the ip addresses from which that user has logged in. (hint: use the last command to find the ip addresses).
+>
+>>[!code]
+>>```bash
+>>```
+>
+
+>[!Question]- Write a shell script that received triplets of command line arguments consisting a filename, a word and a number (validate input data). For each such triplet, print all the lines in the filename that contain the word exactly k times.
+>
+>>[!code]
+>>```bash
+>>```
+>
+
+>[!Question]- Write a shell script that for each command line parameter will do:
+>
+ >- if it’s a file, print the name, number of characters and lines in the file
+>
+>- if it’s a directory, print the name and how many files it contains (including subdirectories files)
+>
+>>[!code]-
+>>```bash
+>>```
+>
+
+>[!Question]- 15. Write a script that finds recursively in the current folder and displays all the regular files that have write permissions for everybody (owner, group, other). Then the script removes the write permissions from everybody.
+>
+>>[!code]
+>>```bash
+>>```
+>
+
 ### Misc
 >[!Question]- Replace all dialogue lines with the quotation representation
 >Read line by line
