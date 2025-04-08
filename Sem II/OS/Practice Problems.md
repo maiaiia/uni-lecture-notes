@@ -337,6 +337,7 @@ done
 >tab: Spoilers ahead!
 >tab: Naive solution
 >more inefficient - implementation is vulnerable (if filenames contain spaces)
+>
 >>[!Code]
 >>```bash
 >>#!/bin/bash>
@@ -355,6 +356,7 @@ done
 >>```
 >tab: Slightly better
 >Not vulnerable to white spaces in the filename
+>
 >>[!Code]
 >>```bash
 >>#!/bin/bash>
@@ -370,6 +372,7 @@ done
 >>
 >>```
 >tab: No reading while piping
+>
 >>[!Code]
 >>```bash
 >>#!/bin/bash
@@ -393,6 +396,7 @@ done
 >>rm files.txt
 >>```
 >tab: Hashing
+>
 >>[!Code]
 >>```bash
 >>#!/bin/bash
@@ -715,10 +719,35 @@ done
 >>rm aparitii.txt
 >>```
 
->[!todo]- 10. Să se scrie un script bash care va afişa toate numele de fişiere dintr-un director dat ca argument şi din subdirectoarele sale, care au numele mai scurte de 8 caractere. Pentru acestea, dacă sunt fişiere text, li se vor afişa primele 10 linii.
+>[!done]- 10. Să se scrie un script bash care va afişa toate numele de fişiere dintr-un director dat ca argument şi din subdirectoarele sale, care au numele mai lungi de 8 caractere. Pentru acestea, dacă sunt fişiere text, li se vor afişa primele 10 linii.
 >
 >>[!solution]-
 >>```bash
+>>#!/bin/bash
+>>
+>>if ! [ $# -eq 1 ]; then 
+>>      echo The number of arguments must be 1.
+>>      exit 1 
+>>fi
+>>
+>>if ! [ -d $1 ]; then 
+>>      echo $1 is not a directory.
+>>      exit 1 
+>>fi 
+>>
+>>D=$1
+>>
+>>FILES=`find $D -type f`
+>>
+>>for FILENAME in $FILES; do
+>>      NOPATH=`echo $FILENAME |sed -E 's/(.+\/)//g'`   
+>>      if echo $NOPATH | grep -E -q '.{9,}'; then
+>>              echo $FILENAME 
+>>              if echo $FILENAME | grep -q -E '(.)+\.txt\>' ; then
+>>                      cat $FILENAME | head -n 10
+>>              fi
+>>      fi
+>>done
 >>```
 >
 
