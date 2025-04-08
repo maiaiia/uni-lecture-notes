@@ -656,25 +656,64 @@ done
 >>```
 >
 
->[!todo]- 8. Să se scrie un script bash care are ca argumente triplete formate dintr-un nume de fisier, un cuvant si un numar k. Pentru fiecare astfel de triplet, se vor afişa toate liniile fişierului care contin cuvăntul respectiv exact de k ori.
->
->>[!hint]-
->>(comenzi: shift, wc, sed, grep)
->
->>[!solution]-
->>```bash
->>```
->
-
->[!todo]- 9. Să se scrie un script bash care afişează, pentru fiecare fişier dat ca argument, linia care apare de cele mai multe ori. Afişarea se va face în ordinea descrescătoare a numărului de apariţii.
+>[!done]- 9. Să se scrie un script bash care afişează, pentru fiecare fişier dat ca argument, linia care apare de cele mai multe ori. Afişarea se va face în ordinea descrescătoare a numărului de apariţii.
 >
 >>[!hint]-
 >>(comenzi: sort, uniq, head)
 >
+> Afisare pentru fiecare linie in parte
 >>[!solution]-
 >>```bash
+>>#!/bin/bash
+>>
+>>if [ $# -eq 0 ]; then
+>>      echo The number of arguments must be at least 1
+>>      exit 1
+>>fi
+>>
+>>for FILENAME in $*; do
+>>      if ! [ -f $FILENAME ]; then
+>>              echo $FILENAME is not a file
+>>              exit 1 
+>>      fi
+>>done
+>>
+>>for FILENAME in $*; do
+>>      echo $FILENAME
+>>      cat $FILENAME | sort | uniq -c | sort -n -r | head -n 1 | sed -E 's/^[ 0-9]+//'
+>>
+>>done
 >>```
 >
+>Afisare in ordine descrescatoare dupa numarul de aparitii totale
+>>[!Solution]-
+>>```bash
+>>#!/bin/bash
+>>
+>>if [ $# -eq 0 ]; then
+>>      echo The number of arguments must be at least 1
+>>      exit 1
+>>fi
+>>
+>>for FILENAME in $*; do
+>>      if ! [ -f $FILENAME ]; then
+>>              echo $FILENAME is not a file
+>>              exit 1 
+>>      fi
+>>done
+>>
+>>touch aparitii.txt
+>>
+>>for FILENAME in $*; do
+>>      cat $FILENAME | sort | uniq -c | sort -n -r | head -n 1 >> aparitii.txt
+>>      
+>>
+>>done
+>>
+>>sort -n -r aparitii.txt | sed -E 's/^[ 0-9]+//'
+>>
+>>rm aparitii.txt
+>>```
 
 >[!todo]- 10. Să se scrie un script bash care va afişa toate numele de fişiere dintr-un director dat ca argument şi din subdirectoarele sale, care au numele mai scurte de 8 caractere. Pentru acestea, dacă sunt fişiere text, li se vor afişa primele 10 linii.
 >
