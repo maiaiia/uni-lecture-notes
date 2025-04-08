@@ -189,7 +189,7 @@ cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, s
 ^03fc49
 
 ### Boian
->[!Question]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
+>[!Question]- (done)1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
 >```bash
 >#!/bin/bash
 >for line in `cat who.fake | awk '{print $1}'`; do
@@ -197,7 +197,7 @@ cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, s
 >done
 >```
 
->[!Question]- 2. Find recursively in a directory all ".c" files having more than 500 lines. Stop after finding 2 such files.
+>[!Question]- (done)2. Find recursively in a directory all ".c" files having more than 500 lines. Stop after finding 2 such files.
 >My first attempt (didn't know find existed :)) - couldn't stop after finding 2 files
 >```bash
 >#!/bin/bash
@@ -252,7 +252,7 @@ done
 >done
 >```
 
->[!Question]- 3. Find recursively in a directory, all the files with the extension ".log" and sort their lines (replace the original file with the sorted content).
+>[!Question]- (done)3. Find recursively in a directory, all the files with the extension ".log" and sort their lines (replace the original file with the sorted content).
 >```bash
 >#!/bin/bash
 >
@@ -285,10 +285,14 @@ done
 >
 >```
 
->[!Question]- 6. Find recursively in a directory, all the files that have write permissions for everyone. Display their names, and the permissions before and after removing the write permission for everybody. You will need to use chmod's symbolic permissions mode, instead of the octal mode we have used in class. The the chmod manual for details.
->```bash
+>[!Question]- 6. Find recursively in a directory, all the files that have write permissions for everyone. Display their names, and the permissions before and after removing the write permission for everybody. 
+>>[!Hint]-
+>>You will need to use chmod's symbolic permissions mode, instead of the octal mode we have used in class. The the chmod manual for details.
 >
->```
+>>[!Code]
+>>```bash
+>>
+>>```
 
 >[!Question]- 7. Consider a file containing a username on each line. Generate a comma-separated string with email addresses of the users that exist. The email address will be obtained by appending "@scs.ubbcluj.ro" at the end of each username. Make sure the generated string does NOT end in a comma.
 >```bash
@@ -300,7 +304,7 @@ done
 >
 >```
 
->[!Question]- 9. Write a script that finds in a given directory hierarchy, all duplicate files (content wise) and displays their paths 
+>[!Question]- (done)9. Write a script that finds in a given directory hierarchy, all duplicate files (content wise) and displays their paths 
 >>[!hint]-
 >>use checksums to detect whether two files are identical
 >```tabs
@@ -600,7 +604,7 @@ done
 
 ### Calin
 
->[!Question]- Write a shell script that reads numbers until 0 and computes the sum, average of the numbers and counts how many are multiples of 5.
+>[!Question]- (done)Write a shell script that reads numbers until 0 and computes the sum, average of the numbers and counts how many are multiples of 5.
 >
 >>[!code]
 >>```bash
@@ -628,7 +632,7 @@ done
 >>```
 >
 
->[!Question]- Write a script that reads filenames and check for each file how many words each one contains on the first line and the size of the file.
+>[!Question]- (done)Write a script that reads filenames and check for each file how many words each one contains on the first line and the size of the file.
 >
 >>[!code]
 >>```bash
@@ -650,7 +654,7 @@ done
 >>```
 >
 
->[!Question]- Same as above but input by command line arguments(ex. ./script.sh file1.txt notanexistingfile file4.sh )
+>[!Question]- (done)Same as above but input by command line arguments(ex. ./script.sh file1.txt notanexistingfile file4.sh )
 >
 >>[!code]
 >>```bash
@@ -672,7 +676,7 @@ done
 >>```
 >
 
->[!Question]- Sort files given as command line arguments in ascending order according to file size.
+>[!Question]- (done)Sort files given as command line arguments in ascending order according to file size.
 >
 >>[!code]
 >>```bash
@@ -708,7 +712,7 @@ done
 >>```
 >
 
->[!Question]- 10. Write a shell script that receives any number of words as command line arguments, and continuously reads from the keyboard one file name at a time. The program ends when all words received as parameters have been found at least once across the given files.
+>[!Question]- (done) 10. Write a shell script that receives any number of words as command line arguments, and continuously reads from the keyboard one file name at a time. The program ends when all words received as parameters have been found at least once across the given files.
 >
 >>[!code]
 >>```bash
@@ -779,7 +783,7 @@ done
 >>```
 >
 
->[!Question]- Write a shell script that for each command line parameter will:
+>[!Question]- (done)Write a shell script that for each command line parameter will:
 >
 > - if it’s a file, print the name, number of characters and lines in the file
 >
@@ -787,6 +791,22 @@ done
 >
 >>[!code]-
 >>```bash
+>>#!/bin/bash
+>>
+>>for ITEM in $*; do
+>>      if [ -f $ITEM ]; then
+>>              CHARACTERS=`wc -c < $ITEM`
+>>              LINES=`wc -l < $ITEM`
+>>              echo file $ITEM contains $CHARACTERS characters and $LINES lines 
+>>      elif [ -d $ITEM ]; then
+>>              find $ITEM -type f > subfiles.txt
+>>              COUNT=`wc -l<subfiles.txt`
+>>              rm subfiles.txt
+>>              echo directory $ITEM contains $COUNT files
+>>      else
+>>              echo $ITEM is neither a file, nor a directory
+>>      fi
+>>done
 >>```
 >
 
