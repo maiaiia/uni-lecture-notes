@@ -1008,12 +1008,13 @@ done
 ### Misc
 >[!done]- Replace all dialogue lines with the quotation representation
 >Read line by line
+>
 >```bash
-#!/bin/bash
+>#!/bin/bash
 >
 >read -p "Fisier: " FILE
 >
-if ! [ -f $FILE ]; then
+>if ! [ -f $FILE ]; then
 >	echo $FILE is not a file
 >	exit 1
 >fi
@@ -1024,6 +1025,7 @@ if ! [ -f $FILE ]; then
 >done <"$FILE"
 >exit 0
 >```
+>
 > simple sed solution
 > ```bash
 >  #!/bin/bash
