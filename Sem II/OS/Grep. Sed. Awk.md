@@ -15,8 +15,8 @@ awk - has its own programming language and is weird?
 ## Sed 
 - use '&' to refer to the whole match
 - use '\\n' to refer to the nth group matched
-- use 'g' as a parameter after the last separator to replace all occurrences instead of just the first
-- use an 'i' as a parameter in the last field to make the matching string insensitive
+- use 'g' as a parameter after the last separator to replace all occurrences instead of just the first one
+- use an 'i' as a parameter in the last field to make the string matching insensitive
 - use the pipe character if you need to match multiple characters
 - use `sed -n "kp"` to print the kth line in a file
 
