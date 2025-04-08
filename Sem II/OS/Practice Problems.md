@@ -5,7 +5,6 @@ ___
 ## [[Grep. Sed. Awk]]
 
 ^4f4c2e
-
 ### Calin
 #### Lab 3
 >[!done]- 1. Display the lines in /etc/passwd that belong to users having three parent initials in their name, even if the initials do not have a dot after them.
@@ -38,32 +37,31 @@ ___
 >sed -E "s/([aeiou]){3,}/(&)/gi" pass
 >```
 
->[!Question]- 5. Display the full names (but only the full names) of the students belonging to group 211
+>[!done]- 5. Display the full names (but only the full names) of the students belonging to group 211
 >```
 >grep -E " - 211 - " pass  | sed -E "s/(.)+- //" | awk -F: '{print $1}' | sort | uniq
 >```
 
->[!Question]- 6. Count the numbers of male and female users in /etc/passwd, accepting as true the following incorrect assumptions: All users have their last name as the first name in the user-info filed (5th field) All women have one of their first or middle names ending in the letter “a”
+>[!todo]- 6. Count the numbers of male and female users in /etc/passwd, accepting as true the following incorrect assumptions: All users have their last name as the first name in the user-info filed (5th field) All women have one of their first or middle names ending in the letter “a”
 
 #### Lab 4.
->[!Question]- 1. Use file /etc/passwd and print out how many groups contain students named Andreea with an even student ID number (numar matricol).
+>[!done]- 1. Use file /etc/passwd and print out how many groups contain students named Andreea with an even student ID number (numar matricol).
 >```regex
 >cat passwd.fake | grep -E -i " dan" | awk -F: '{if ($3 % 2 == 0) print $0}'
 >```
 
->[!Question]- 2. Print the 3rd column for lines that do not start with a digit.
+>[!done]- 2. Print the 3rd column for lines that do not start with a digit.
 >```regex
 >cat random_text.txt| grep -E "^[0-9]" -v | awk '{print $3}'
 >```
 
->[!Question]- 3. Create a file with the content of manual for the command man. Use grep/sed/awk to select the lines that start with "MAN" or with spaces followed by "MAN" and replace all occurrences of "MAN" with "\*star\*". Print the first and second column of these lines,separated by dash "-", but only the lines that do not contain "WILL" or "Will" or "will" in the first two columns.
+>[!done]- 3. Create a file with the content of manual for the command man. Use grep/sed/awk to select the lines that start with "MAN" or with spaces followed by "MAN" and replace all occurrences of "MAN" with "\*star\*". Print the first and second column of these lines,separated by dash "-", but only the lines that do not contain "WILL" or "Will" or "will" in the first two columns.
 >```regex
 >man man > manual.txt
 >cat manual.txt| grep -E "^( )*MAN" | sed -E "s/MAN/\*star\*/g" | awk '{print $1,$2}' | grep -E -v -i "will"
 >```
 
-
->[!Question]- 4. Write a shell command that prints out a statistic of the number of processes per user, using commands ps, awk/cut, sort and uniq.
+>[!done]- 4. Write a shell command that prints out a statistic of the number of processes per user, using commands ps, awk/cut, sort and uniq.
 >```bash
 >#!/bin/bash
 >
@@ -78,108 +76,106 @@ cat $1 | awk '{print $1}' | tail -n+2 | sort | uniq -c | sort -n -r
 >```
 >(a file with the processes will be passed as an argument. in order to see the processes on the current server, replace cat with ps and discard the if statement)
 
+>[!todo]- 5. Display only the last name of each user in /etc/passwd, considering the last name to be the first word in the 5th field, and accepting it only if it starts with a capital letter
 
->[!Question]- 5. Display only the last name of each user in /etc/passwd, considering the last name to be the first word in the 5th field, and accepting it only if it starts with a capital letter
-
-
->[!Question]- 6. Extent the solution above to only show the top 10 most frequent last names, ordered descending by their popularity
+>[!todo]- 6. Extent the solution above to only show the top 10 most frequent last names, ordered descending by their popularity
 
 
->[!Question]- 7. Display all the directories under /etc that contain files with the extension .sh. Each directory should be displayed only once. Hide the permission denied errors given by find.
+>[!todo]- 7. Display all the directories under /etc that contain files with the extension .sh. Each directory should be displayed only once. Hide the permission denied errors given by find.
 
 
->[!Question]- 8. Display in the pager, the number of processes of each username, sorting their usernames descending by their process count.
+>[!todo]- 8. Display in the pager, the number of processes of each username, sorting their usernames descending by their process count.
 
 
->[!Question]- 9. Display the processes that involve editing a C file
+>[!todo]- 9. Display the processes that involve editing a C file
 
 
->[!Question]- 10. Display in the pager, the usernames with the most logins in the system.
+>[!todo]- 10. Display in the pager, the usernames with the most logins in the system.
 
 
->[!Question]- 11. Display in the pager the top of usernames by their time spent logged on in the system.
+>[!todo]- 11. Display in the pager the top of usernames by their time spent logged on in the system.
 
 
 
 ### Boian
->[!Question]-  Find all the usernames that logged in from "economica" on a Sunday 
+>[!done]-  Find all the usernames that logged in from "economica" on a Sunday 
 >```regex
 cat last.fake | grep economica | grep Sun | awk '{print $1}' | sort | uniq
 >```
 
->[!Question]- Find all the users that logged into the system after 11PM
+>[!done]- Find all the users that logged into the system after 11PM
 >```regex
 cat last.fake | awk '{print $7,$1}' | sed -E s/":[0-9][0-9]"// | sort -n -r | head -n 6 | awk '{print $2}' | sort | uniq
 >```
 
->[!Question]- Display the full names of the users having a username that starts with "m" and with a user ID divisible by 7.
+>[!done]- Display the full names of the users having a username that starts with "m" and with a user ID divisible by 7.
 >```regex
 cat passwd.fake | grep -E "^m" --colour | awk -F: '{print $1, $5}' | sed -E "s/([0-9]){4}/ &/" | awk '$2 % 7==0'  | awk '{print $3,$4}'
 >```
 
->[!Question]- Display all the distinct TTYs used by user root.
+>[!done]- Display all the distinct TTYs used by user root.
 >```regex
 cat ps.fake | grep root | awk '{print $6}' | sort | uniq
 >```
 
->[!Question]- Find the full names of all the users whose username ends in 88
+>[!done]- Find the full names of all the users whose username ends in 88
 >```regex
 cat passwd.fake | awk -F: '{print $1,$5}' | grep -E "88 " | awk '{print $2,$3}'
 >```
 
->[!Question]- Find all users whose user ID has three digits and starts with 23
+>[!done]- Find all users whose user ID has three digits and starts with 23
 >```regex
 cat passwd.fake | awk -F: '{print $1 ":" $5}' | grep --color -E "^([a-z]+023[0-9])" | awk -F: '{print $2}'
 >```
 
->[!Question]- Find all usersnames starting with "t" that logged on "pts/9"
+>[!done]- Find all usersnames starting with "t" that logged on "pts/9"
 >```regex
 cat last.fake | grep "pts/9" | grep "^t" | awk '{print $1}'
 >```
 
->[!Question]- Find all the distinct usernames starting with "r" that are currently running programs, and display them duplicating every vowel
+>[!done]- Find all the distinct usernames starting with "r" that are currently running programs, and display them duplicating every vowel
 >```regex
 cat ps.fake | awk '{print $1}' | grep --color -E "^r" | sort | uniq | sed -E "s/a|e|i|o|u/&&/gi"
 >```
 
->[!Question]- Display all the distinct lines left in /etc/passwd after deleting all letter and digits and spaces.
+>[!done]- Display all the distinct lines left in /etc/passwd after deleting all letter and digits and spaces.
 >```regex
 cat ps.fake | sed -E "s/[a-z]| |[0-9]//gi"
 >```
 
->[!Question]- Display all the distinct lines left in /etc/passwd after deleting all characters except "r".
+>[!done]- Display all the distinct lines left in /etc/passwd after deleting all characters except "r".
 >```regex
 cat ps.fake | sed -E "s/[^r]//gi"
 >```
 
->[!Question]- Calculate the average of the PIDs of the processes currently running in the system.
+>[!done]- Calculate the average of the PIDs of the processes currently running in the system.
 >```regex
 cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, sum/total}'
 >```
 
 ### Bota
 
->[!Question]- Find the number of unique accounts that connected to the server on 08.03.2022
+>[!todo]- Find the number of unique accounts that connected to the server on 08.03.2022
 >```regex
 >```
 >
 
->[!Question]- Get the number of files in a given directory
+>[!todo]- Get the number of files in a given directory
 >```regex
 >```
 >
 
->[!Question]- Get the number of subdirectories in a given directory
+>[!todo]- Get the number of subdirectories in a given directory
 >```regex
 >```
 >
 
->[!Question]- Get the number of exe files in a directory
+>[!todo]- Get the number of exe files in a directory
 >```regex
 >```
 >
 
->[!Question]- Calculate the average of the PIDs of the processes currently running in the system.
+>[!todo]- Compute the average of the PIDs of the processes currently running in the system.
 >```regex
 >```
 >
@@ -187,7 +183,6 @@ cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, s
 ## [[Intro to Shell Programming|Shell Programming - Esh]]
 
 ^03fc49
-
 ### Boian
 >[!done]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
 >```bash
@@ -872,10 +867,46 @@ done
 >>```
 >
 
->[!todo]- Write a shell script that received triplets of command line arguments consisting of a filename, a word and a number (validate input data). For each such triplet, print all the lines in the filename that contain the word exactly k times.
+>[!done]- Write a shell script that received triplets of command line arguments consisting of a filename, a word and a number (validate input data). For each such triplet, print all the lines in the filename that contain the word exactly k times.
 >
 >>[!code]
 >>```bash
+>>#!/bin/bash
+>>
+>>if [ $# -eq 0 ]; then 
+>>      echo enter at least one triplet
+>>      exit 1 
+>>fi
+>>
+>>if (( $# % 3 != 0 )) ; then
+>>      echo The number of arguments must be a multiple of 3
+>>      exit 1
+>>fi
+>>
+>>while ! [ $# -eq 0 ]; do
+>>      FILENAME=$1
+>>      WORD=$2
+>>      NUMBER=$3
+>>      shift 3
+>>
+>>      if ! [ $NUMBER -eq $NUMBER ] 2>/dev/null; then
+>>              echo $NUMBER is not a number
+>>              exit 1
+>>      fi
+>>      if ! [ -f $FILENAME ]; then
+>>              echo $FILENAME is not a file 
+>>              exit 1 
+>>      fi
+>>      echo Matches for $FILENAME : 
+>>      while read LINE; do
+>>              COUNT=`echo $LINE | grep -o $WORD | wc -l`
+>>              if [ $COUNT -eq $NUMBER ]; then
+>>                      echo $LINE
+>>              fi
+>>      done < $FILENAME
+>>      
+>>
+>>done 
 >>```
 >
 
@@ -907,7 +938,7 @@ done
 >
 
 ### Misc
->[!Question]- Replace all dialogue lines with the quotation representation
+>[!done]- Replace all dialogue lines with the quotation representation
 >Read line by line
 >```bash
 #!/bin/bash
