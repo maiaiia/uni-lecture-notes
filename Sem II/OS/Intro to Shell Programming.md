@@ -48,7 +48,7 @@ commands can be separated by ';' or simply written on different lines
 
 ### Misc
 >[!tip]
->add a -x after `#!/bin/bash` to (debug?). a step by step explanation of what's going on in the code
+>add a -x after `#!/bin/bash` for a step by step explanation of what's going on in the code
 - $(command) - this captures the output of `command`
 - for iterating through files: `for f in `find` ` (or `for f in $(find)`)
 ## [[Practice Problems#^03fc49|Practice problems]]
