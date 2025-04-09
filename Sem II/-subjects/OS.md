@@ -1,10 +1,17 @@
-- [[Command Line Intro]]
-- [[REGEX]]
-- [[Grep. Sed. Awk]]
+Lecture
 - [[Standard Input-Output-Errror]]
-- [[Strings. Byte arrays]]
 - [[Intro to Shell Programming]]
 - [[File Permissions]]
 - [[Processes]]
 - [[Unix Processes]]
 - [[The Exec Command]]
+- [[Inter Process Communication]]
+- [[Pipes]]
+- [[FIFO]]
+Lab/Seminar
+- [[Command Line Intro]]
+- [[REGEX]]
+- [[Grep. Sed. Awk]]
+
+Misc
+- [[Practice Problems]]
