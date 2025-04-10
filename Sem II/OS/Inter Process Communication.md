@@ -32,8 +32,8 @@ This will output the value 6 That is because the child process is, in fact, a *c
 ## Inter Process Communication Mechanisms
 - [[Pipes]]
 - [[FIFO]]
-- (shared memory) SHM
-- (message MSG
+- [[Shared Memory|(shared memory) SHM]]
+- (message queues) MSMQ
 - SEM
 
 

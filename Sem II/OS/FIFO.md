@@ -7,6 +7,7 @@ Date: April 3rd, 2025
 ___
 
 A FIFO is a special file (a named pipe). It must be created before being used with `mkfifo` and removed manually afterwards with `rm`
+FIFOs are persistent
 
 In order to run a program using FIFOs, you need to 
 1. Create the FIFOs
