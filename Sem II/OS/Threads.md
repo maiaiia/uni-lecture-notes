@@ -13,7 +13,7 @@ One of the downsides of threads is that they duplicate memory
 This is an overview of how the memory allocated for a program looks
 ![[Memory_of_a_program]]
 When forking a process, the *impure* part of memory is copied. 
-Threads, on the other hand, share the same memory. The only thing created is a new stack
+Threads, on the other hand, share the same memory. The only thing created is a new stack for each thread
 
 Threads don't have PIDs, but they do have descriptors
 We must wait for thread termination (this is called *joining*)

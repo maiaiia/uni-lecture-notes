@@ -1,17 +1,17 @@
 Lecture
 - [[Standard Input-Output-Errror]]
-- [[Intro to Shell Programming]]
 - [[File Permissions]]
-- [[Processes]]
 - [[Unix Processes]]
 - [[The Exec Command]]
 - [[Inter Process Communication]]
-- [[Pipes]]
-- [[FIFO]]
+	- [[Pipes]]
+	- [[FIFO]]
+	- [[Shared Memory]]
+- [[Threads]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]
 - [[Grep. Sed. Awk]]
-
+- [[Intro to Shell Programming]]
 Misc
 - [[Practice Problems]]

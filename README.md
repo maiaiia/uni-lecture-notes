@@ -1,6 +1,7 @@
 # uni-lecture-notes
 An Obsidian vault containing all the lecture notes I've taken during my bachelor's degree in CS at BBU Cluj, along with additional materials for the finals.
 ## How to use this repo
+(note: starting with the 2nd semester, the )
 For swift navigation between files and seamless rendering of the attachments (especially those created with Excalidraw), I highly recommend using Obsidian. Simply move the contents of this repo into a local directory, open it as an Obsidian vault, then follow the steps below:
 ## Recommended Settings 
 ### Essential
