@@ -35,7 +35,7 @@ def divide_conquer(data):
 - space complexity: O()
 ### Classic Algorithms
 - [[Searching Algorithms#^a7604b|Binary Search]]
-- [[Sorting Algorithms#^4943b6|Merge Sort]]
+- [[src/Sem I/FP/Sorting Algorithms#^4943b6|Merge Sort]]
 ## Backtracking 
 
 ## Greedy 

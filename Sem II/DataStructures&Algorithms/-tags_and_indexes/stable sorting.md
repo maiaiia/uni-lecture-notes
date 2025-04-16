@@ -1,0 +1,1 @@
+If an algorithm guarantees that the order within sequences of equal values is unchanged, it is called a *stable* sorting algorithm
