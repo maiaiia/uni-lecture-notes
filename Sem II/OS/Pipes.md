@@ -1,7 +1,7 @@
 # Pipes
 ___
 Class: [[OS]]
-Type: Lecture
+Type: Lecture + Seminar
 Tags: # 
 Date: March 27th, 2025
 ___
@@ -39,7 +39,7 @@ int main() {
 ```
 
 When closing an end of a pipe within a process, it only closes that end for the current process.
-A pipe disappears automatically (destroyed by the OS) only after all its ends are closed.
+A pipe disappears automatically (it's destroyed by the OS) only after all its ends are closed.
 ![[Inter Process Communication 2025-03-27 09.01.30.excalidraw]]
 
 
@@ -134,7 +134,7 @@ int main() {
 
 This is the equivalent of using stdio and executing the program with `./beer | less`
 
-## Idk what title to use yet. Pipes in Bash?
+## Dup(2)
 Q: How do pipes work when used in the bash terminal? (as in, how do the commands "know" where to read stuff from)
 A: Using the file descriptor table! `dup`, `dup2` - duplicate an existing file descriptor
 ### Example - simulate a command in C
@@ -189,4 +189,33 @@ int main(){
     return 0;
 }
 
+```
+## Pipes Seminar
+
+```c
+int c2p[2], p2c[2]; // 0-read, 1-write
+pipe(c2p); pipe(p2c);
+int pid = fork();
+if (pid == 0){
+	//child process 
+	close(c2p[0]); //no reading in the child 
+	close(p2c[1]);
+	int n = 10;
+	char s[30];
+	scanf("%s",s);
+	int l=strlen(s);
+	write (c2p[1],&l,sizeof(int)); //send the size of the string
+	write(c2p[1],&s,sizeof(char)*(strlen(s)+1)); //send the string
+	close(c2p[1]);
+	read(p2c[0],&n,sizeof(int));
+	close(p2c[0]);
+	exit(0);
+}
+close(c2p[1]); close(p2c[0]);
+int l;
+read(c2p[0], &l, sizeof(int)); //blocking call 
+read(c2p[0], &s, sizeof(char)*(l+1));
+close(c2p[0]);
+wait(0);
+return 0;
 ```

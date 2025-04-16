@@ -1,13 +1,16 @@
 # FIFO
 ___
 Class: [[OS]]
-Type: Lecture
+Type: Lecture + Seminar
 Tags: # 
 Date: April 3rd, 2025
 ___
 
-A FIFO is a special file (a named pipe). It must be created before being used with `mkfifo` and removed manually afterwards with `rm`
+## Intro
+A FIFO is a named pipe. It works in the same manner, but it can be used by unrelated processes as well.
+Pipes are created before being used with `mkfifo` and removed manually afterwards with `rm`
 FIFOs are persistent
+use `unlink` to destroy the FIFO within the program 
 
 In order to run a program using FIFOs, you need to 
 1. Create the FIFOs
@@ -105,4 +108,10 @@ B 4 -> 3
 B 2 -> 1
 ```
 
+## Deadlocks 
+Deadlocks are conditions blocking the execution of a program 
 
+Example - open
+For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but with the opposite operation. 
+![[FIFO 2025-04-16 11.03.32.excalidraw]]
+In order to avoid this, make sure to open FIFOs in the same order in both processes
