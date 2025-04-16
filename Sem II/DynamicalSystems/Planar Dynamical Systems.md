@@ -10,7 +10,7 @@ ___
 >[!definition]
 >A solution of $(1)$ is a $C^1$ function $\varphi : I \rightarrow \mathbb{R}^2$, where $I \subset \mathbb{R}$ is an open interval, and $\varphi(t)=f(\varphi(t)), \forall t \in I$
 
-Examples
+**Examples**
 1. Let $\varphi(t)=(\cos t, \sin t), \forall t \in \mathbb{R}$. Represent the image of $\varphi : \mathbb{R} \rightarrow \mathbb{R}^2$.
 The image has the parametric equation: $\begin{cases}x=\cos t \\ y = \sin t\end{cases} \Leftrightarrow \text{ complex notation } z = \cos t + i \sin t, t \in \mathbb{R}$. We eliminate the parameter $t$
 $x^2+y^2=1 \Leftrightarrow |z|=1 \Leftrightarrow \rho = 1$
@@ -58,10 +58,37 @@ $H: \mathbb{R} \times (0,\infty) \rightarrow \mathbb{R}$ continuous
 $H(\varphi(t,\eta_1,\eta_2)=H(\eta_1,\eta_2),\forall t \in \mathbb{R}$ $\Rightarrow H$ is a first integral in $\mathbb{R}\times (0,\infty)$
 
 Note that $O(0,0)$ is the only equilibrium point.
-The level curves of $H$: $\cfrac{x^2}{$
+The level curves of $H$: $\cfrac{x^2}{y}=c\Leftrightarrow x^2=cy, c>0$ %%drawn in blue%%
 ![[pp2]]
 
+Nota that $H_2:\mathbb{R}\times(-\infty,0)\rightarrow\mathbb{R}.H_2(x,y)=\cfrac{x^2}{y}$ is a f.i. to $\begin{cases}x^2=cy, c < 0\\ y=-x^2\end{cases}$
+
+$\eta_2,\eta_1>0 \begin{cases}x=\eta_1e^{-t} > 0\\ y=0 \end{cases} t\in\mathbb{R}$
+$\eta_2=0,\eta_1<0 \begin{cases}x=\eta_1e^{-t} < 0\\ y=0 \end{cases} t\in\mathbb{R}$
+
+
+ >[!proposition]
+ >Let $\eta^*\in\mathbb{R}^2$ be an equilibrium point of $\dot x = f(x)$
+ >1. If $\eta^*$ is a global attractor / repeller, then the system has no global first integral
+ >2. If $\eta^*$ is an attractor / repeller, then the system has no first integral in any neighbourhood of $\eta^*$
+
+**Proof**
+1. Assume $\eta^*$ is a global attractor $\Rightarrow \lim_{t\rightarrow \infty}\varphi(t,\eta)=\eta^*,\forall \eta \in \mathbb{R}^2$
+Assume, by contradiction, that $\exists H : \mathbb{R}^2 \rightarrow \mathbb{R}$ a first integral $\Rightarrow H(\varphi(t,\eta))=H(\eta),\forall t\in[0,\infty),\forall\eta\in\mathbb{R}^2$ $\Rightarrow \lim_{t\rightarrow \infty}H(\varphi(t,\eta))=H(\eta),\forall\eta\in\mathbb{R}^2$ $\Rightarrow H(\lim_{t\rightarrow\infty}\varphi(t,\eta))=H(\eta),\forall\eta\in\mathbb{R}^2 \Rightarrow H(\eta^*)=H(\eta),\forall \eta \in \mathbb{R}^2$ $\Rightarrow H$ is a constant. This contradicts the definition of first integrals.
+The case $\eta^*$ is a repeller is analogous (simply replace the limit to $-\infty$)
+
+>[!theorem] Theorem (how to check that $H$ is a f.i without the flow)
+> Let $\Omega \subset \mathbb{R}^2$ be open and $H : \Omega \rightarrow \mathbb{R}$ be a $C^1$ function which is not locally constant. We have that $H$ is a f.i. in $\Omega$ of the planar system $\begin{cases}\dot x = f_1(x,y) \\ \dot y = f_2(x,y) \end{cases} \iff$ $$\cfrac{\partial H}{\partial x}(x,y)f_1(x,y)+\cfrac{\partial H}{\partial y}(x,y)f_2(x,y)=0$$ $\forall (x,y)\in\Omega$
+
+**Proof**
+$H$ is a f.i. in $\Omega$ $\iff H(\varphi(t,\eta))=H(\eta),\forall \eta\in\Omega,\forall t$ s.t. $\varphi(t,\eta)\in\Omega$ $\iff H(\varphi_1(t,\eta),\varphi_2(t,\eta))=H(\eta),\forall \eta\in\Omega,\forall t$  s.t. $\varphi(t,\eta)\in \Omega$ $\iff \cfrac{\partial H}{\partial x}(\varphi(t,\eta))\cdot\dot\varphi_1(t,\eta)+\cfrac{\partial H}{\partial y}\varphi(t,\eta))\cdot\dot\varphi_2(t,\eta) = 0, \forall \eta \in \Omega, \forall t$ s.t. $\varphi(t,\eta)\in \Omega$
+But $\begin{cases}\cdot\dot\varphi_1(t,\eta)=f_1(\varphi(t,\eta)) \\ \cdot\dot\varphi_2(t,\eta)=f_2(\varphi(t,\eta))\end{cases}$ $\Rightarrow$ the equation above is equivalent to $\cfrac{\partial H}{\partial x}(\varphi(t,\eta))\cdot f_1(\varphi(t,\eta))+\cfrac{\partial H}{\partial y}(\varphi(t,\eta))\cdot f_2(\varphi(t,\eta))=0,$ $\forall \eta \in \Omega, \forall t$ s.t. $\varphi(t,\eta)\in\Omega$ $\iff \cfrac{\partial H}{\partial x}\cdot f_1+\cfrac{\partial H}{\partial y}\cdot f_2=0$ in $\Omega$
+
+**Different approach for the previous system**
+$\begin{cases} \dot x = -y \\ \dot y = x \end{cases}$. Check that $H : \mathbb{R}^2\rightarrow \mathbb{R},H(x,y)=x^2+y^2$ is a global f.i. 
+$H$ is a $C^1$ function that is not locally constant. We need to check that $-y\cfrac{\partial H}{\partial x}+x\cfrac{\partial H}{\partial y}=0$ in $\mathbb{R}^2$ $\iff -y \cdot 2x + x \cdot 2y = 0$, TRUE.
+
+Or, faster: $\begin{cases} \dot x = -y / \cdot 2x \\ \dot y = x \cdot 2y \end{cases}$ $\Rightarrow^{"+"} 2x\dot x + 2y \dot y = 0 \Rightarrow \cfrac{d}{dt}(x^2+y^2)=0\Rightarrow x^2+y^2=c$
 
 
 
- 
