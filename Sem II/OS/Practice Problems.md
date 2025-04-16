@@ -3,7 +3,6 @@ ___
 Class: [[OS]]
 ___
 ## [[Grep. Sed. Awk]]
-
 ^4f4c2e
 ### Calin
 #### Lab 3
@@ -181,7 +180,6 @@ cat ps.fake | awk '{print $2}'| awk '{sum+=$1; total += 1}END{print sum,total, s
 >
 
 ## [[Intro to Shell Programming|Shell Programming - Esh]]
-
 ^03fc49
 ### Boian
 >[!done]- 1. Display a report showing the full name of all the users currently connected, and the number of processes belonging to each of them.
@@ -1041,4 +1039,63 @@ done
 >      fi  
 >  done
 >```
+
+## Processes
+### Calin
+>[!done]- Write a program that receives as cmd line arguments numbers. For each argument it creates a new process that will check and print if the number is prime or not 
+>You will need:
+>- A program that checks if a number is prime
+>- Main C program -> fork (process) for each argument and call check using exec
+>
+>>[!code]- prime.c
+>>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>
+>>int prime(int number){
+>>      if (number <= 1)
+>>              return 0;
+>>      if (number == 2 || number == 3)
+>>              return 1;
+>>      if (number % 2 == 0 || number % 3 == 0)
+>>              return 0;
+>>      for (int i = 5; i * i <= number; i += 6)
+>>              if (number % i == 0 || number % (i + 2) == 0)
+>>                      return 0;
+>>
+>>      return 1;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>      if (argc < 1)
+>>              return 1;
+>>      int number = atoi(argv[1]);
+>>      if (prime(number))
+>>              printf("%d is a prime number\n", number);
+>>      else
+>>              printf("%d is not a prime number\n", number);
+>>      return 0;
+>>}
+>>```
+>
+>>[!code]- test_primes.c
+>>```c
+>>#include <stdio.h>
+>>#include <unistd.h>
+>>#include <sys/wait.h>
+>>#include <stdlib.h>
+>>
+>>int main(int argc, char* argv[]){
+>>      for (int i = 1; i <= argc; i++){
+>>              if (fork() == 0){
+>>                      execl("./prime","./prime",argv[i],NULL);
+>>                      printf("Error\n");
+>>                      exit(1);
+>>              }       
+>>      }
+>>      for (int i = 1; i <= argc; i++)
+>>              wait(0);
+>>      return 0;
+>>}
+>>```
 
