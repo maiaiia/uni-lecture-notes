@@ -8,6 +8,9 @@ Lecture
 	- [[FIFO]]
 	- [[Shared Memory]]
 - [[Threads]]
+- [[Mutex]]
+- [[Semaphores]]
+- [[Barriers]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]
