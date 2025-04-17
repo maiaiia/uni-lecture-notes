@@ -25,10 +25,36 @@ tab: subalg merge
 >```
 >subalg merge(l1,l2,lret)
 >	^Node c1=l1.head, c2=l2.head
->	while (c1 != NIL or c2 != NIL)
->		if (c2 = NIL or c1)
+>	if (c1 = NIL and c2 = NIL)
+>		return
+>	if (c2 = NIL or [c1].info < c2->info)
+>		lret.head <- c1
+>		c1 <- [c1].next
+>	else
+>		lret.head <- c2
+>		c2 <- c2.next
+>	^Node c <- lret.head
+>	while (c1 != NIL and c2 != NIL)
+>		if (c1->info < c2 -> info)
+>			[c].next <- c1
+>			c1 <- [c1].next
+>			c <- [c].next
+>		else
+>			[c].next <- c2
+>			c2 <- [c2].next
+>			c <- [c].next
+>		end if 
 >	end while
+>	if (c1 = NIL and c2 != NIL)
+>		[c].next = c2
+>	end if 
+>	if (c2 = NIL and c1 != NIL)
+>		[c].next = c1
+>	end if
+>	l1.head = NIL
+>	l2.head = NIL
 >```
 ```
 
 
+### Complexity
