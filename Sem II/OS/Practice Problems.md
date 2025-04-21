@@ -833,7 +833,7 @@ done
 >>```
 >
 
->[!done]- (done)Sort files given as command line arguments in ascending order according to file size.
+>[!done]- Sort files given as command line arguments in ascending order according to file size.
 >
 >>[!code]
 >>```bash
