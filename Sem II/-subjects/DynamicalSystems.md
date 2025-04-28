@@ -8,6 +8,8 @@ Lectures
 - [[Special LDEs]]
 - [[Linear differential systems in Rn]]
 - [[Linear homogeneous systems in Rn with constant coefficients]]
+- [[Planar Dynamical Systems]]
+- [[Dynamical Systems Associated to Autonomous Differential Equations]]
 Labs
 - [[Introduction to Maple8]]
 - [[Solving LHDEs in Maple]]
