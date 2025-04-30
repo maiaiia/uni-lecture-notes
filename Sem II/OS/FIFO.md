@@ -7,7 +7,7 @@ Date: April 3rd, 2025
 ___
 
 ## Intro
-A FIFO is a named pipe. It works in the same manner, but it can be used by unrelated processes as well.
+A FIFO is a named pipe. It works in the same manner, but it can be used by unrelated processes as well. 
 Pipes are created before being used with `mkfifo` and removed manually afterwards with `rm`
 FIFOs are persistent
 use `unlink` to destroy the FIFO within the program 
@@ -115,3 +115,7 @@ Example - open
 For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but with the opposite operation. 
 ![[FIFO 2025-04-16 11.03.32.excalidraw]]
 In order to avoid this, make sure to open FIFOs in the same order in both processes
+
+>[!Warning]
+>on mac you can't make fifos so try smth like mkfifo /tmp/(filename)
+
