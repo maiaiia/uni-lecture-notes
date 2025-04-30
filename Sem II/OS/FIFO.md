@@ -119,3 +119,88 @@ In order to avoid this, make sure to open FIFOs in the same order in both proces
 >[!Warning]
 >on mac you can't make fifos so try smth like mkfifo /tmp/(filename)
 
+### LAB
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+
+int main()
+{
+    int pa, pb, fa2b, n, fb2a;
+    
+
+    //declarations, read n...
+    printf("Enter a positive integer: ");
+    scanf("%d", &n);
+    n %= 70;
+    if (n < 11)
+        n += 11;
+
+    if ((pa = fork()) == 0) // process A
+    {     
+        /*
+        scanf("Enter a positive integer: ", &n);
+        n %= 70;
+         if (n < 11)
+             n += 11;
+        */
+
+        fa2b = open("fifoa2byz2140", O_WRONLY); //open fifos
+        fb2a = open("fifob2ayz2140", O_RDONLY);
+        write(fa2b, &n, sizeof (int)); //start the game: process A performs the first writing operation
+        while (n > 9) {
+            //read n from B...
+            read(fb2a, &n, sizeof(int));
+            //computations, n--;
+            if (n > 9)
+                break;
+            n--;
+            //write new n to B...
+            printf("A: n=%d\n", n);
+            write(fa2b, &n, sizeof(int));
+        }
+        close(fa2b); close(fb2a); exit(0); //close fifos and exit
+    }
+    if (pa == -1){
+        printf("Failed to open pipe\n");
+        exit(0);
+    }
+
+
+    if ((pb = fork()) == 0) // process B
+    {
+        //openfifoa2byz2140 fifos ...
+        fa2b = open("fifoa2byz2140", O_RDONLY);
+        fb2a = open("fifob2ayz2140", O_WRONLY);
+        while (n > 9) {
+            read(fa2b, &n, sizeof(int);
+            if (n < 10)
+                break;
+            n -= 4;
+            printf("B: n=%d\n", n);
+            write(fb2a, &n, sizeof(int));
+            //read n from A...
+            //n-=4;
+            //write new n to A...
+        }
+        // close fifos and exit...
+        close(fb2a); close(fa2b); exit(0);
+
+    }
+    if (pb == -1){
+        printf("Failed to open pipe\n");
+        exit(0);
+    }
+
+
+    //wait for processes and return 0...
+    wait(NULL);
+    wait(NULL);
+    return 0;
+
+}
+
+```
