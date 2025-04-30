@@ -63,7 +63,7 @@ $\tilde H(\varphi(t,\eta))=H(P^{-1}\varphi(t,\eta))=H(e^{t\begin{pmatrix} 0 && -
 
 >[!Theorem] Theorem 3 - Stability of the eq. $(0,0)$ of $\dot X = AX$
 >1. if $Re(\lambda_1) < 0$ and $Re(\lambda_2) < 0$, then $(0,0)$ is an *attractor*
->2. if $Re(\lambda_1) > 0$ and $Re(\lambda_2) > 0$, then $(0,0)$ is a *repeller
+>2. if $Re(\lambda_1) > 0$ and $Re(\lambda_2) > 0$, then $(0,0)$ is a *repeller*
 >3. if $\dot X = AX$ is a center then $(0,0)$ is stable
 >4. if $\dot X = AX$ is a saddle then $(0,0)$ is not stable
 
@@ -97,7 +97,7 @@ $(1) \dot X = f(X), f : \mathbb{R}^2 \rightarrow \mathbb{R}^2$ a $C^1$ function
 Let $\eta^*$ be an equilibrium of $(1)$ ($f(\eta^*)=0$)
 $(3) \dot X = Jf(\eta^*)X$
 We denote the components of $f=\begin{pmatrix}f_1 \\ f_2\end{pmatrix}$. Then, $Jf=\begin{pmatrix}\cfrac{\partial f_1}{\partial x} && \cfrac{\partial f_1}{\partial y} \\ \cfrac{\partial f_2}{\partial x} && \cfrac{\partial f_2}{\partial y} \end{pmatrix}$
-This is said to be the *linearisation of $(1)$ around $\eta^*$*
+$(3)$ is said to be the *linearisation of $(1)$ around $\eta^*$*
 So, instead of the nonlinear system, we consider a linear system centred around $\eta^*$.
 
 >[!definition]
