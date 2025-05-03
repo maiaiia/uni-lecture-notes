@@ -1100,180 +1100,247 @@ done
 >>```
 
 ### Horea
->[!todo]- 1. Write a C program that creates n child processes. Each child process will print its PID and its parent PID. The parent process will print its PID and the PID of each of the child processes.
->>[!code]
+>[!done]- 1. Write a C program that creates n child processes. Each child process will print its PID and its parent PID. The parent process will print its PID and the PID of each of the child processes.
+>>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>int main(int argc, char** argv)
+>>{
+>>	if (argc != 2){
+>>		perror("Please enter exactly one argument");
+>>		exit(1);
+>>	}
+>>
+>>	int n = atoi(argv[1]);
+>>
+>>	int pid = getpid();
+>>	for (int i = 0; i < n; i++) {
+>>		int cpid = fork();
+>>		if (cpid == -1){
+>>			perror("Error on fork");
+>>			exit(1);
+>>		}
+>>		if (cpid == 0){
+>>			printf("Child Iteration %d - PID - %d - PPID: %d\n", i, getpid(), getppid());
+>>			exit(0);
+>>		} 
+>>		else {
+>>			printf("Parent Iteration %d - PID %d - Child PID %d\n",i, pid, cpid);
+>>		}
+>>	}
+>>	for (int i = 0; i < n; i++)
+>>		wait(NULL);
+>>
+>>	return 0;
+>>}
 >>```
 >
 
->[!todo]- 2. Write a C program that creates a linear hierarchy of n processes (a parent process creates a child process, which in turn creates a child process, and so on).
+>[!done]- 2. Write a C program that creates a linear hierarchy of n processes (a parent process creates a child process, which in turn creates a child process, and so on).
 >
 >>[!code]
->>```bash
+>>```c
+>>#include <stdio.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>
+>>int main(int argc, char** argv){
+>>	if (argc != 2){
+>>		perror("Please enter exactly one argument");
+>>		exit(1);
+>>	}
+>>
+>>	int n = atoi(argv[1]);
+>>
+>>	for (int i = 0; i < n; i++) {
+>>		int cpid = fork();
+>>		if (cpid == -1){
+>>			perror("Error on fork");
+>>			exit(1);
+>>		}
+>>		if (cpid == 0){
+>>			printf("Iteration %d: PID - %d, PPID - %d\n", i, getpid(), getppid());
+>>		}
+>>		else {
+>>			wait(NULL);
+>>			exit(0);
+>>		}
+>>
+>>	}
+>>	
+>>
+>>	return 0;
+>>}
 >>```
 
 >[!todo]- 3. Write a C program that creates a child process. Both the parent and the child processes will run until they receive a SIGUSR1 signal. Implement signal handling such that if the parent receives the SIGUSR1 signal first, it sends it to the child process as well. If the child process receives a SIGUSR1 signal without the parent receiving the same signal, it will terminate and then the parent should correctly call wait for the child process.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 4. Write a C program that runs a bash command (potentially with arguments) received as a command line argument and times its execution.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 >
 
 >[!todo]- 5. Write a C program that implements the boltz game. Exactly N processes (numbered 1 to N, where N is given) take turns incrementing a number, starting from 1, and sending it to the next process. Process 1 starts the game by incrementing the number and sends it to process 2, which increments and sends it to process 3 and so on. Process N will send the number back to process 1, ant the cycle starts again. Each process must print the number it sends, unless the number contains the digit 7 or is divisible by 7, in which case it must print "boltz". Implement so that each process has a 1 in 3 chance to fail printing "boltz" when it should, in which case the game stops.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 6. Create a C program that generates N random integers (N given at the command line). It then creates a child, sends the numbers via pipe. The child calculates the average and sends the result back.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 7. Write a C program that creates two child processes. The two child processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 7a. Write two C programs that communicate via fifo. The two processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent. One of the two processes must be responsible for creating and deleting the fifos.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 8. Write 2 C programs, A and B. A receives however many command line arguments and sends them to process B. Process B converts all lowercase letters from the received arguments to uppercase arguments and sends the results back to A. A reads the results, concatenates them and prints.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 9. Write two C programs that communicate via fifo. Program A is responsible for creating/deleting the fifo. Program A reads commands from the standard input, executes them and sends the output to program B. Program B keeps reading from the fifo and displays whatever it receives at the standard output. This continues until program A receives the "stop" command.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 10. Create two processes A and B. A generates a random number n between 50 and 200. If it is even, it sends it to B, if it is odd it sends n+1 to B. B receives the number and divides it by 2 and sends it back to A. The process repeats until n is smaller than 5. The processes will print the value of n at each step
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 11. Create two processes A and B. A creates a shared memory segment. A then keeps reading strings from the standard input and places whatever it reads in the shared memory segment (replacing previous data). Process B, on each run, reads the data from the shared memory segment and counts the number of vowels. Process A, upon receiving a SIGINT, deletes the shared memory segment.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 12a. Write a C program that reads a matrix of integers from a file. It then creates as many threads as there are rows in the matrix, each thread calculates the sum of the numbers on a row. The main process waits for the threads to finish, then prints the sums.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 12b. Same as 12a, but calculate the sum of all the elements of the matrix using as many threads as there are rows, each thread adds to the total the numbers on a row. Use the test matrix to check if the program is calculating the total sum correctly. The expected result is 1000000. Try with and without mutex
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 13. Using PIPE channels create and implement the following scenario:  
 Process A reads N integer numbers from the keyboard and sends them another process named B. Process B will add a random number, between 2 and 5, to each received number from process A and will send them to another process named C. The process C will add all the received numbers and will send the result back to process A. All processes will print a debug message before sending and after receiving a number.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 14. Write a C program (we'll refer to it as A) that creates a child process B. Process B generates one random number N between 100 and 1000. Process A keeps generating and sending random numbers between 50 and 1050 to B until the absolute difference between the number generated by A and the number generated by B is less than 50. B prints the generated numbers and all the received numbers. A will print at the end the number of numbers generated until the stop condition was met.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 15. Write a program that receives strings of characters as command line arguments. For each string the program creates a thread which calculates the number of digits, the number of leters and the number of special characters (anything other than a letter or digit). The main program waits for the threads to terminate and prints the total results (total number of digits, letters and special characters across all the received command line arguments) and terminates. Use efficient synchronization. Do not use global variables
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]-  16. Write a C program that receives integers as command line argument. The program will keep a frequency vector for all digits. The program will create a thread for each argument that counts the number of occurences of each digit and adds the result to the frequency vector. Use efficient synchronization.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 17. Write a C program that reads a number N and creates 2 threads. One of the threads will generate an even number and will append it to an array that is passed as a parameter to the thread. The other thread will do the same, but using odd numbers. Implement a synchronization between the two threads so that they alternate in appending numbers to the array, until they reach the maximum length N.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 18. Create a C program that converts all lowecase letters from the command line arguments to uppercase letters and prints the result. Use a thread for each given argument.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 19. Create a C program that takes one integer N as a command line argument, and then reads N integers from the keyboard and stores them in an array. It then calculates the sum of all the read integers using threads that obey the hierarchy presented in the image below. For any given N, the array has to be padded with extra integers with value 0 to ensure that it always contains a number of elements equal to a power of 2 (let this number be M). The required number of threads will be M - 1, let each thread have and ID from 1 to M - 1. As per the image, threads with ID >= M / 2 will calculate the sum of 2 numbers on consecutive positions in the array. Threads with an ID < M / 2 must wait for 2 threads to finish and then they will add the results produced by those two threads.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 20. Write a C program that takes as command line arguments 2 numbers: N and M. The program will simulate a thread race that have to pass through M checkpoints. Through each checkpoint the threads must pass one at a time (no 2 threads can be inside the same checkpoint). Each thread that enters a checkpoint will wait between 100 and 200 milliseconds (usleep(100000) makes a thread or process wait for 100 milliseconds) and will print a message indicating the thread number and the checkpoint number, then it will exit the checkpoint. Ensure that no thread will try to pass through a checkpoint until all threads have been created.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 21. Write a C program that creates 2^N threads that race to the finish (N is a command line argument). The threads must pass through N checkpoint. The checkpoint with number X will allow half as many threads to pass simultaneously than checkpoint number X - 1 (N >= X >=1). Checkpoint 0 (the first one) will allow 2^(N-1) to pass simultaneously through it.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 22. Write a C program that creates 10 child processes and synchronizes their execution. Each process will sleep for 1 second and then exit. Time the execution of the processes. (If all goes well, the total time should be a little over 10 seconds).
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 23. Write a C program that receives any number of strings as command line arguments. The program creates two child processes, which inherit the parent's command line arguments (ie. no need to send the arguments via pipe/fifo to the children for this problem). Each child process creates a thread for each of the command line arguments. Each thread created by the first child will extract the vowels from its argument and will append them to a string shared among the threads. Each thread created by the second child process will extract the digits from its argument and will add them to a sum shared among the threads. Both child processes wait for their respective threads to finish and send the result to the parent via pipe. The parent displays the results.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 24. Write a C program that creates N threads and one child process (N given as a command line argument). Each thread will receive a unique id from the parent. Each thread will generate two random numbers between 1 and 100 and will print them together with its own id. The threads will send their generated numbers to the child process via pipe or FIFO. The child process will calculate the average of each pair of numbers received from a thread and will print it alongside the thread id. Use efficient synchronization.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 25. Write a C program named A that creates 3 child processes named B, C and D. A generates a random number between 10 and 20 and sends it to process D. Processes B and C keep generating numbers between 1 and 200 and send them to process D which calculates their difference. The processes stop when the absolute difference between the numbers generated by B and C is less or equal to the number generated by process A.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 26. Write a C program that receives a command line argument representing a filename. The main process creates a child process. The child will read the content of the specified file, and will convert all lowercase letters preceded by the "." character to uppercase. If there are any amount of whitespaces (space, tab, newline, etc.) between the "." character and the next lowercase letter, the letter will be converted to uppercase. However, if there is any non-whitespace character between the "." character and a lowercase letter, that letter will not be changed. The child process sends to the parent the modified text. The parent process prints everything it receives from the child process.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 27. Write a C program that takes two numbers, N and M, as arguments from the command line. The program creates N "generator" threads that generate random lowercase letters and append them to a string with 128 positions. The program will create an additional "printer" thread that that waits until all the positions of the string are filled, at which point it prints the string and clears it. The N "generator" threads must generate a total of M such strings and the "printer" thread prints each one as soon as it gets to length 128.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 28. Write a C program that reads a number n from standard input and generates an array s of n random integers between 0 and 1000. After the array is created, the main process creates n + 1 threads. Each of the first n threads repeats the following steps until the array is sorted in ascending order:  
@@ -1283,7 +1350,7 @@ Process A reads N integer numbers from the keyboard and sends them another proce
 The n+1th thread waits until the array is sorted, after which it prints it to the console. Use appropriate synchronization mechanisms.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 29. Write a C program that reads a number n from standard input and creates n threads, numbered from 0 to n - 1. Each thread places a random number between 10 and 20 on the position indicated by its id in an array of integers. After all threads have placed their number in the array, each thread repeats the following:  
@@ -1294,7 +1361,7 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >After all threads terminate, the main process prints the array of integers. Use appropriate synchronization mechanisms.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 30. Relay: Create a C program that reads a number n from the standard input and created 4 * n threads. The threads will be split into teams of 4. In each team the threads will be numbered from 0 and will run according to the relay rules:  
@@ -1305,18 +1372,18 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >The team from which thread 3 terminates first is considered the winning team. Use appropriate synchronization mechanisms.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 31. Write a C program that receives a number N as a command-line argument. The program creates N threads that will generate random numbers between 0 and 111111 (inclusive) until one thread generates a number divisible by 1001. The threads will display the generated numbers, but the final number that is displayed must be the one that is divisible by 1001. No thread will start generating random numbers until all threads have been created. Do not use global variables.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
 >[!todo]- 32. Write a C program that creates N threads (N given as a command line argument). The main process opens a file F, provided as a command line argument (the file's contents are words of a maximum of 20 characters each separated by spaces). Each thread will take turns reading between 1 and 3 words from the file and concatenating them to a thread-local buffer until all the content of the file is read. Once the whole file is completely read, the threads return their local buffer and the main process will print the result from each thread. After it does one reading pass, ensure that each thread waits for the other threads to complete their reading attempt before starting a new reading pass.
 >
 >>[!code]
->>```bash
+>>```c
 >>```
 
