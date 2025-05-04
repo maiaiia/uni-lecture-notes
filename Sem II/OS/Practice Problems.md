@@ -1816,10 +1816,71 @@ Solve the problem using fifos.
 >>```c
 >>```
 
->[!todo]- 10. Create two processes A and B. A generates a random number n between 50 and 200. If it is even, it sends it to B, if it is odd it sends n+1 to B. B receives the number and divides it by 2 and sends it back to A. The process repeats until n is smaller than 5. The processes will print the value of n at each step
+>[!done]- 10. Create two processes A and B. A generates a random number n between 50 and 200. If it is even, it sends it to B, if it is odd it sends n+1 to B. B receives the number and divides it by 2 and sends it back to A. The process repeats until n is smaller than 5. The processes will print the value of n at each step
 >
->>[!code]
+>
+>>[!code]- a.c
 >>```c
+>>#include <stdio.h>
+>>#include <time.h>
+>>#include <sys/stat.h>
+>>#include <sys/types.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <fcntl.h>
+>>
+>>int main(){
+>>      mkfifo("a2b", 0600);
+>>      mkfifo("b2a", 0600);
+>>
+>>      int a2b = open("a2b", O_WRONLY);
+>>      int b2a = open("b2a", O_RDONLY);
+>>
+>>      srandom(time(0));
+>>      int n = random() % 201;
+>>      if (n < 50)
+>>              n += 50;
+>>      while (n > 5){
+>>              if (n % 2)
+>>                      n++;
+>>              write(a2b, &n, sizeof(int));
+>>              printf("A writes %d\n", n);
+>>              read(b2a, &n, sizeof(int));
+>>              printf("A reads %d\n", n);
+>>      }
+>>      close(a2b); close(b2a);
+>>      unlink("a2b");
+>>      unlink("b2a");
+>>      return 0;
+>>
+>>}
+>>```
+>
+>>[!code]- b.c
+>>```c
+>>#include <stdio.h>
+>>#include <time.h>
+>>#include <fcntl.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>int main(){
+>>      int a2b = open("a2b", O_RDONLY);
+>>      int b2a = open("b2a", O_WRONLY);
+>>
+>>      srandom(time(0));
+>>      int n = 201;
+>>      while (n > 5){
+>>              read(a2b, &n, sizeof(int));
+>>              printf("B reads %d\n", n);
+>>              n /= 2;
+>>              write(b2a, &n, sizeof(int));
+>>              printf("B writes %d\n", n);
+>>      }
+>>      close(a2b); close(b2a);
+>>      return 0;
+>>
+>>}
 >>```
 
 >[!todo]- 11. Create two processes A and B. A creates a shared memory segment. A then keeps reading strings from the standard input and places whatever it reads in the shared memory segment (replacing previous data). Process B, on each run, reads the data from the shared memory segment and counts the number of vowels. Process A, upon receiving a SIGINT, deletes the shared memory segment.
