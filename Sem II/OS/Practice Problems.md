@@ -1252,16 +1252,106 @@ done
 >```c
 >```
 
->[!todo]- 10. Write a program that creates three child processes that loop forever printing their ID in the form “PID is running”. The parent process suspends the execution of each child and then prints the PID of each child  created, prompting the user to choose which one should continue next. Parent process reads the PID from stdin and then resumes the execution of the child having PID for the next three seconds, after which it suspends it again and prompts the user to choose a new PID that will run for the next 3 seconds etc in a continuous loop. When the user sends Ctrl+C signal, the program will prompt the user to choose which of the three child processes should be terminated and will read the PID of the child that will be terminated with a message. When there are no child processes running, the parent process will also terminate with a message.
+>[!done]- (not really done though) 10. Write a program that creates three child processes that loop forever printing their ID in the form “PID is running”. The parent process suspends the execution of each child and then prints the PID of each child  created, prompting the user to choose which one should continue next. Parent process reads the PID from stdin and then resumes the execution of the child having PID for the next three seconds, after which it suspends it again and prompts the user to choose a new PID that will run for the next 3 seconds etc in a continuous loop. When the user sends Ctrl+C signal, the program will prompt the user to choose which of the three child processes should be terminated and will read the PID of the child that will be terminated with a message. When there are no child processes running, the parent process will also terminate with a message.
 >
->```c
->```
-
->[!todo]- 11. Wrie a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prome it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes they sum.
->
->```c
->```
-
+> Pretty bad solution but it's all i managed to come up with
+>>[!code]-
+>>```c
+>>#include <stdio.h>
+>>#include <unistd.h>
+>>#include <sys/wait.h>
+>>#include <signal.h>
+>>#include <stdlib.h>
+>>
+>>int cpid[3], child_running = 0;
+>>
+>>void parent_handler(int sig){
+>>	(void)sig;
+>>	printf("Choose process to terminate: %d, %d, %d\n", cpid[0], cpid[1], cpid[2]);
+>>	int id; scanf("%d", &id);
+>>	if (id == -1)
+>>		return;
+>>	for (int i = 0; i < 3; i++){
+>>		if (cpid[i] == id){
+>>			kill(cpid[i], SIGINT);
+>>			wait(0);
+>>			cpid[i] = -1;
+>>			printf("Successfully terminated process %d.\n", id);
+>>		}
+>>	}
+>>
+>>	int active = 0;
+>>    for (int i = 0; i < 3; i++)
+>>        if (cpid[i] != -1)
+>>            active = 1;
+>>	if (!active){
+>>		printf("No more active child processes. Terminating current process...");
+>>		exit(0);
+>>	}
+>>
+>>}
+>>void child_handler_1(int sig){
+>>	(void)sig;
+>>	child_running = 0;
+>>}
+>>
+>>void child_handler_2(int sig){
+>>	(void)sig;
+>>	child_running = 1;
+>>}
+>>
+>>void child_loop(){
+>>	signal(SIGUSR1, child_handler_1);
+>>    signal(SIGUSR2, child_handler_2);
+>>    while (1){
+>>		if (child_running){
+>>			printf("%d is running\n", getpid());
+>>			usleep(100000); //too many print statements otherwise	
+>>		}
+>>	}
+>>
+>>}
+>>
+>>void parent_loop(){
+>>	signal(SIGINT, parent_handler);
+>>    for (int i = 0; i < 3; i++)
+>>        kill(cpid[i], SIGUSR1);
+>>    while (1){
+>>        printf("Choose process to execute: %d, %d, %d\n", cpid[0], cpid[1], cpid[2]);
+>>        int id; scanf("%d", &id);
+>>        for (int i = 0; i < 3; i++)
+>>            if (cpid[i] == id && id != -1){
+>>                kill(cpid[i], SIGUSR2);
+>>                sleep(3);
+>>                kill(cpid[i], SIGUSR1);
+>>                break;
+>>            }
+>>    }
+>>
+>>}
+>>
+>>
+>>int main(){
+>>	for (int i = 0; i < 3; i++){
+>>		cpid[i] = fork();
+>>		if (cpid[i] == -1){
+>>			perror("Error on fork");
+>>			for (int j = 0; j < i; j++){
+>>				kill(cpid[j], SIGINT);
+>>				wait(0);
+>>			}
+>>			exit(1);
+>>		}
+>>		if (cpid[i] == 0){
+>>			child_loop();
+>>			exit(0); //this should not be executed like ever but
+>>		}
+>>	}
+>>	usleep(100000); //attempt to avoid race conditions causing the child loops to not execute properly i guess
+>>	parent_loop();
+>>	return 0;
+>>}
+>>```
 
 ### Horea
 >[!done]- 1. Write a C program that creates n child processes. Each child process will print its PID and its parent PID. The parent process will print its PID and the PID of each of the child processes.
@@ -1394,11 +1484,65 @@ Solve the problem using fifos.
 >```c
 >```
 
-### Horea 
->[!todo]- 6. Create a C program that generates N random integers (N given at the command line). It then creates a child, sends the numbers via pipe. The child calculates the average and sends the result back.
+>[!todo]- 11. Write a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prome it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes their sum.
 >
->>[!code]
+>```c
+>```
+
+### Horea 
+>[!done]- 6. Create a C program that generates N random integers (N given at the command line). It then creates a child, sends the numbers via pipe. The child calculates the average and sends the result back.
+>
+>>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <time.h>
+>>
+>>int main(int argc, char** argv){
+>>      if (argc != 2){
+>>              perror("Please enter exactly one argument");
+>>              exit(1);
+>>      }
+>>
+>>      int n = atoi(argv[1]);
+>>      int p2c[2]; pipe(p2c);
+>>      int c2p[2]; pipe(c2p);
+>>      int id = fork();
+>>      if (id == -1){
+>>              perror("Error on fork\n");
+>>              exit(1);
+>>      }
+>>      if (id == 0){
+>>              close(p2c[1]); close(c2p[0]);
+>>              int sum = 0;
+>>              for (int i = 0; i < n; i++){
+>>                      int val;
+>>                      read(p2c[0], &val, sizeof(int));
+>>                      sum += val;
+>>              }
+>>              close(p2c[0]);
+>>              sum /= n; //don't feel like bothering w floats
+>>              write(c2p[1], &sum, sizeof(int));
+>>              close(c2p[1]);
+>>              exit(0);
+>>      }
+>>      close(p2c[0]); close(c2p[1]);
+>>      srandom(time(0));
+>>      for (int i = 0; i < n; i++){
+>>              int num = random() % 100;
+>>              printf("Iteration %d: Randomly generated value: %d\n", i, num);
+>>              write(p2c[1], &num, sizeof(int));
+>>      }
+>>      close(p2c[1]);
+>>      int avg;
+>>      read(c2p[0], &avg, sizeof(int));
+>>      printf("The average of the randomly generated values is: %d\n", avg);
+>>      wait(NULL);
+>>
+>>      return 0;
+>>}
 >>```
 
 >[!todo]- 7. Write a C program that creates two child processes. The two child processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent.
