@@ -1099,6 +1099,107 @@ done
 >>}
 >>```
 
+>[!done]- 5. compares 2 or more numbers as arguments and returns 0 if all are equal, 1 otherwise. This program is called by a C program which reads several numbers and prints if they are equal or not (the main program calls the comparing program for pairs of numbers and checks if the exit status of the child processes is 1 for all cases).
+>
+>>[!code]- compare.c
+>>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>int main(int argc, char** argv){
+>>      if (argc != 3){
+>>              perror("Please enter exactly 2 arguments");
+>>              exit(1);
+>>      }
+>>
+>>      int n1 = atoi(argv[1]);
+>>      int n2 = atoi(argv[2]);
+>>
+>>      if (n1 == n2)
+>>              exit(0);
+>>
+>>      exit(1);
+>>}
+>>```
+>
+>>[!code]- main.c
+>>```c
+>>#include <stdio.h>
+>>#include <unistd.h>
+>>#include <sys/wait.h>
+>>#include <stdlib.h>
+>>
+>>int main(int argc, char** argv){
+>>      if (argc < 3){
+>>              perror("Please enter at least 2 arguments");
+>>              exit(1);
+>>      }
+>>
+>>      //int n1 = atoi(argv[1]);
+>>      for (int i = 2; i < argc; i++){
+>>              //int n2 = atoi(argv[i]);
+>>              int cpid = fork();
+>>              if (cpid == -1){
+>>                      perror("Error on fork");
+>>                      exit(1);
+>>              }
+>>              if (cpid == 0){
+>>                      execl("./proc_c_5_compare", "./proc_c_5_compare", argv[1], arg[i], NULL);
+>>                      printf("Error");
+>>                      exit(1);
+>>              }
+>>      }
+>>      int status, eq = 1;
+>>      for (int i = 2; i < argc; i++){
+>>              wait(&status);
+>>              if (WEXITSTATUS(status) != 0)
+>>                      eq = 0;
+>>      }
+>>      if (!eq)
+>>              printf("Not equal\n");
+>>      else
+>>              printf("Equal\n");
+>>
+>>      return 0;
+>>}
+>>```
+>
+
+>[!todo]- 6. receives as arguments a filename and a string and writes in the file the reversed string. This program is called by a C program which reads several strings and concatenates them in reverse in the file (using the first program).
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 7. receives as arguments 2 numbers and a filename and prints in the file the lowest common multiple of the two numbers. This program is called by a C program which reads a string of natural  
+numbers and prints the lowest common multiple of all. Use the exit status.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 8. receives as arguments 3 filenames, the first two contain a sorted array of numbers, and prints in the third the sorted merge of the two arrays. This program is called by a C program which reads an array of integer numbers, sorts them and writes the sorted array. You may use merge sort (split the array in files with one number each, then merge all files into one).
+>
+>```c
+>```
+
+>[!todo]- 9. receives as arguments two file names and adds the contents of the first at the end of the second. This program is called by a C program which receives as arguments filenames and concatenates the first n-1 files into the nth file.
+>
+>```c
+>```
+
+>[!todo]- 10. Write a program that creates three child processes that loop forever printing their ID in the form “PID is running”. The parent process suspends the execution of each child and then prints the PID of each child  created, prompting the user to choose which one should continue next. Parent process reads the PID from stdin and then resumes the execution of the child having PID for the next three seconds, after which it suspends it again and prompts the user to choose a new PID that will run for the next 3 seconds etc in a continuous loop. When the user sends Ctrl+C signal, the program will prompt the user to choose which of the three child processes should be terminated and will read the PID of the child that will be terminated with a message. When there are no child processes running, the parent process will also terminate with a message.
+>
+>```c
+>```
+
+>[!todo]- 11. Wrie a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prome it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes they sum.
+>
+>```c
+>```
+
+
 ### Horea
 >[!done]- 1. Write a C program that creates n child processes. Each child process will print its PID and its parent PID. The parent process will print its PID and the PID of each of the child processes.
 >>[!code]-
@@ -1198,6 +1299,39 @@ done
 >>```c
 >>```
 
+## Pipe. FIFO
+### Calin 
+>[!todo]- 4. Write a program that creates a child process. The two communicate through a pipe. The parent reads a string with >25 characters and sends it to the child, which removes 1 vowel and sends it to the parent, which removes the first and the last character and sends it to the child back which removes again a vowel and sends it back .... and so on untill the string contains 3 or less characters.
+>
+>```c
+>```
+
+>[!todo]- 5. Write two independent programs A and B that communicate using fifos. Program A reads words from keyboard and send them to process B, receiving back the word in uppercase letters and a number representing the number of letters of the word. Program B received from A a word, computes the corresponsing word with uppercase letters and number of letters and sends these to to program A. This continues in a loop, untill program A sends word "000" and receives back the same word and number 0 and terminates. So doesa program B, when received "000", sends to A "000" and number 0 and terminates.
+>
+>```c
+>```
+
+>[!todo]- 6. Six children are in a circle, playing the alphabet game.  
+One of them starts with A, the next continues with B and so on, until they reach Z.  
+A dice determines the player that starts the game.  
+Write a program with 6 processes to model this game: each process receives a letter, prints out their ID and the next letter in the alphabet and sends it to the next process.  
+The transmission of data is unidirectional throughout the game.  
+Use a random function to determine the player that starts the game (players are named: 1, 2, 3, 4, 5, 6).  
+Print out the number of the player that finishes the alphabet.  
+Solve the problem using pipes.
+>
+>```c
+>```
+
+>[!todo]- 7. Model problem 6 such that one of the 6 children randomly skips an alphabet letter.  
+When this mistake happens, the direction of the game is changed.  
+You will need an additional set of pipes, in order to have one for each direction of the game (clockwise/counterclockwise).  
+Solve the problem using fifos.
+>
+>```c
+>```
+
+### Horea 
 >[!todo]- 6. Create a C program that generates N random integers (N given at the command line). It then creates a child, sends the numbers via pipe. The child calculates the average and sends the result back.
 >
 >>[!code]
@@ -1240,6 +1374,9 @@ done
 >>```c
 >>```
 
+## Threads 
+### Calin
+### Horea
 >[!todo]- 12a. Write a C program that reads a matrix of integers from a file. It then creates as many threads as there are rows in the matrix, each thread calculates the sum of the numbers on a row. The main process waits for the threads to finish, then prints the sums.
 >
 >>[!code]
