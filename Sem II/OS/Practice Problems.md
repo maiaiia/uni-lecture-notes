@@ -1166,14 +1166,77 @@ done
 >>```
 >
 
->[!todo]- 6. receives as arguments a filename and a string and writes in the file the reversed string. This program is called by a C program which reads several strings and concatenates them in reverse in the file (using the first program).
+>[!done]- 6. receives as arguments a filename and a string and writes in the file the reversed string. This program is called by a C program which reads several strings and concatenates them in reverse in the file (using the first program).
+> I assumed the order of the strings didn't need to be reversed as well
 >
->>[!code]
+>>[!code]- reverse.c
 >>```c
+>>#include <stdio.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <string.h>
+>>
+>>int main(int argc, char** argv){
+>>      if (argc != 3){
+>>              perror("Please enter exactly 2 arguments.");
+>>              exit(1);
+>>      }
+>>
+>>      int l = strlen(argv[2]);
+>>      for (int i = 0; i < l / 2; i++){
+>>              char aux = argv[2][i];
+>>              argv[2][i] = argv[2][l-i-1];
+>>              argv[2][l-i-1] = aux;
+>>      }
+>>      
+>>      FILE* desc = fopen(argv[1], "a");
+>>      fprintf(desc, "%s\n", argv[2]);
+>>      fclose(desc);
+>>
+>>
+>>      return 0;
+>>}
 >>```
+>>[!code]- main.c
+>>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>#include <sys/wait.h>
+>>
+>>
+>>int main(int argc, char** argv){
+>>      if (argc < 3){
+>>              perror("Please enter at least 2 arguments.");
+>>              exit(1);
+>>      }
+>>      
+>>      FILE* desc = fopen(argv[1], "w");
+>>      fclose(desc);
+>>
+>>
+>>      for (int i = 2; i < argc; i++){
+>>              int cpid = fork();
+>>              if (cpid == -1){
+>>                      perror("Error on fork");
+>>                      exit(1);
+>>              }
+>>              if (cpid == 0){
+>>                      execl("./cpp6_rev", "./cpp6_rev", argv[1], argv[i], NULL);
+>>                      perror("Error on exec");
+>>                      exit(1);
+>>              } else {
+>>                      wait(NULL); //in order to avoid concurrency problems
+>>              }
+>>
+>>      }
+>>
+>>      return 0;
+>>}
+>>```
+>
 
->[!todo]- 7. receives as arguments 2 numbers and a filename and prints in the file the lowest common multiple of the two numbers. This program is called by a C program which reads a string of natural  
-numbers and prints the lowest common multiple of all. Use the exit status.
+>[!todo]- 7. receives as arguments 2 numbers and a filename and prints in the file the lowest common multiple of the two numbers. This program is called by a C program which reads a string of natural numbers and prints the lowest common multiple of all. Use the exit status.
 >
 >>[!code]
 >>```c
