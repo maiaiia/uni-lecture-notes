@@ -1545,17 +1545,194 @@ Solve the problem using fifos.
 >>}
 >>```
 
->[!todo]- 7. Write a C program that creates two child processes. The two child processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent.
+>[!done]- 7. Write a C program that creates two child processes. The two child processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent.
 >
->>[!code]
+>Sol 1 (misread the problem statement)
+>>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <time.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>int main(){
+>>      int p2c[2], c2p[2];
+>>    pipe(p2c); pipe(c2p);
+>>   
+>>    //srandom(time(0));
+>>      int id = fork();
+>>      if (id == -1){
+>>              perror("Error on fork.");
+>>              exit(1);
+>>      }
+>>
+>>
+>>      if (id == 0){
+>>              srandom(time(0) ^ getpid());
+>>              close(p2c[1]); close(c2p[0]);
+>>              int num = -1;
+>>              while (num != 10){
+>>                      read(p2c[0], &num, sizeof(int));
+>>                      printf("Child receives %d.\n", num);
+>>                      if (num == 10)
+>>                              break;
+>>                      num = random() % 10 + 1;
+>>                      printf("Child sends %d.\n", num);
+>>                      write(c2p[1], &num, sizeof(int));
+>>              }
+>>              close(p2c[0]); close(c2p[1]);
+>>              exit(0);
+>>      }
+>>      close(p2c[0]); close(c2p[1]);
+>>      srandom(time(0));
+>>      //parent starts the game
+>>      int num = random() % 10 + 1;
+>>      write(p2c[1], &num, sizeof(int));
+>>      printf("Parent sends %d.\n", num);
+>>      while (num != 10){
+>>              read(c2p[0], &num, sizeof(int));
+>>              printf("Parent receives %d.\n", num);
+>>              if (num == 10)
+>>                      break;
+>>              num = random() % 10 + 1;
+>>              printf("Parent sends %d.\n", num);
+>>              write(p2c[1], &num, sizeof(int));
+>>      }
+>>      close(p2c[1]); close(c2p[0]);
+>>      wait(NULL);
+>>
+>>      return 0;
+>>}
 >>```
+>
+>Actual solution
+>>[!code]-
+>>```c
+>>#include <stdio.h>
+>>#include <time.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>void play(int rd_desc, int wr_desc){
+>>      int nr = -1;
+>>      int id = getpid() - getppid();
+>>      while (nr != 10){
+>>              read(rd_desc, &nr, sizeof(int));
+>>              printf("Child %d reads %d.\n", id, nr);
+>>              if (nr == 10)
+>>                      return;
+>>              nr = random() % 10 + 1;
+>>              printf("Child %d writes %d.\n", id, nr);
+>>              write(wr_desc, &nr, sizeof(int));
+>>      }
+>>}
+>>
+>>int main(){
+>>      int a2b[2], b2a[2];
+>>    pipe(a2b); pipe(b2a);
+>>   
+>>      int pid_a = fork();
+>>      if (pid_a == -1){
+>>              perror("Error on fork.");
+>>              exit(1);
+>>      } 
+>>      if (pid_a == 0) {
+>>              close(a2b[0]); close(b2a[1]);
+>>              srandom(getpid());              
+>>              //first child starts the game
+>>              int nr = random() % 10 + 1;
+>>              printf("Starting the game...\nChild 1 sends %d.\n", nr);
+>>              write(a2b[1], &nr, sizeof(int));
+>>              if (nr != 10)
+>>                      play(b2a[0], a2b[1]);
+>>              close(b2a[0]); close(a2b[1]);
+>>              exit(0);
+>>      }
+>>      int pid_b = fork();
+>>      if (pid_b == -1){
+>>              perror("Error on fork.");
+>>              exit(1);
+>>      }
+>>      if (pid_b == 0){
+>>              close(a2b[1]); close(b2a[0]);
+>>              srandom(getpid());
+>>              play(a2b[0], b2a[1]);
+>>              close(a2b[0]); close(b2a[1]);
+>>              exit(0);
+>>      }
+>>      
+>>
+>>      close(a2b[0]); close(a2b[1]); close(b2a[0]); close(b2a[1]);
+>>      wait(NULL); wait(NULL);
+>>      return 0;
+>>}
+>>```
+>
 
->[!todo]- 7a. Write two C programs that communicate via fifo. The two processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent. One of the two processes must be responsible for creating and deleting the fifos.
+>[!done]- 7a. Write two C programs that communicate via fifo. The two processes will alternate sending random integers between 1 and 10 (inclusively) to one another until one of them sends the number 10. Print messages as the numbers are sent. One of the two processes must be responsible for creating and deleting the fifos.
 >
->>[!code]
+>>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <time.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <fcntl.h>
+>>
+>>void play(int rd_desc, int wr_desc){
+>>     int nr = -1;
+>>     int id = getpid() - getppid();
+>>     while (nr != 10){
+>>             read(rd_desc, &nr, sizeof(int));
+>>             printf("Child %d reads %d.\n", id, nr);
+>>             if (nr == 10)
+>>                     return;
+>>             nr = random() % 10 + 1;
+>>             printf("Child %d writes %d.\n", id, nr);
+>>             write(wr_desc, &nr, sizeof(int));
+>>     }
+>>}
+>>
+>>int main(){
+>>     int pid_a = fork();
+>>     if (pid_a == -1){
+>>             perror("Error on fork.");
+>>             exit(1);
+>>     } 
+>>     if (pid_a == 0) {
+>>             srandom(getpid());
+>>                       int a2b = open("f2s", O_WRONLY);
+>>                       int b2a = open("s2f", O_RDONLY);
+>>             //first child starts the game
+>>             int nr = random() % 10 + 1;
+>>             printf("Starting the game...\nChild 1 sends %d.\n", nr);
+>>             write(a2b, &nr, sizeof(int));
+>>             if (nr != 10)
+>>                     play(b2a, a2b);
+>>             exit(0);
+>>     }
+>>     int pid_b = fork();
+>>     if (pid_b == -1){
+>>             perror("Error on fork.");
+>>             exit(1);
+>>     }
+>>     if (pid_b == 0){
+>>             srandom(getpid());
+>>                       int a2b = open("f2s", O_RDONLY);
+>>                       int b2a = open("s2f", O_WRONLY);
+>>             play(a2b, b2a);
+>>             exit(0);
+>>     }
+>>     
+>>
+>>     wait(NULL); wait(NULL);
+>>     return 0;
+>>}
 >>```
+>
 
 >[!todo]- 8. Write 2 C programs, A and B. A receives however many command line arguments and sends them to process B. Process B converts all lowercase letters from the received arguments to uppercase arguments and sends the results back to A. A reads the results, concatenates them and prints.
 >
