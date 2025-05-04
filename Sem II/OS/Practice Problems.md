@@ -1734,10 +1734,80 @@ Solve the problem using fifos.
 >>```
 >
 
->[!todo]- 8. Write 2 C programs, A and B. A receives however many command line arguments and sends them to process B. Process B converts all lowercase letters from the received arguments to uppercase arguments and sends the results back to A. A reads the results, concatenates them and prints.
+>[!done]- 8. Write 2 C programs, A and B. A receives however many command line arguments and sends them to process B. Process B converts all lowercase letters from the received arguments to uppercase arguments and sends the results back to A. A reads the results, concatenates them and prints.
 >
->>[!code]
+>>[!code]- a.c
 >>```c
+>>#include <stdio.h>
+>>#include <fcntl.h>
+>>#include <unistd.h>
+>>#include <string.h>
+>>#include <stdlib.h>
+>>int main(int argc, char** argv){
+>>	int a2b = open("a2b", O_WRONLY);
+>>	int b2a = open("b2a", O_RDONLY);
+>>
+>>	int n = argc - 1;
+>>	int total_length = 0;
+>>	write(a2b, &n, sizeof(int));
+>>	for (int i = 1; i < argc; i++){
+>>		int l = strlen(argv[i]);
+>>		total_length += l + 1;
+>>		char * w = malloc((l+1)*sizeof(char));
+>>		strcpy(w, argv[i]);
+>>		//printf("%s\n", w);
+>>		write(a2b, &l, sizeof(int));
+>>		write(a2b, w, l * sizeof(char)); 
+>>		free(w);
+>>	}
+>>	close(a2b);
+>>
+>>	char * result = malloc((total_length + 1) * sizeof(char));
+>>	
+>>	int current_length = 0;
+>>	for (int i = 1; i < argc; i++){
+>>		const int l = strlen(argv[i]);
+>>		char * w = malloc((l+2) * sizeof(char));
+>>		read(b2a, w, l * sizeof(char));
+>>		w[l]=' '; w[l + 1] = '\0';
+>>		//printf("%s\n", w);
+>>		strcpy(result + current_length, w);
+>>		free(w);
+>>		current_length += l + 1;
+>>	}
+>>	close(b2a);
+>>	printf("%s\n", result);
+>>
+>>	free(result);
+>>}
+>>```
+>
+>>[!code]- b.c
+>>```c
+>>#include <fcntl.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>int main(){
+>>	int a2b = open("a2b", O_RDONLY);
+>>	int b2a = open("b2a", O_WRONLY);
+>>
+>>	int n;
+>>	read(a2b, &n, sizeof(int));
+>>	for (int i = 0; i < n; i++){
+>>		int l;
+>>		read(a2b, &l, sizeof(int));
+>>		char * w = malloc(sizeof(char) * (l+1));
+>>		read(a2b, w, sizeof(char) * l);
+>>		for (int j = 0; j < l; j++)
+>>			if ('a' <= w[j] && w[j] <= 'z')
+>>				w[j] += 'A' - 'a';
+>>		write(b2a, w, sizeof(char) * l);
+>>		free(w);	
+>>	}
+>>	close(a2b); close(b2a);
+>>
+>>	return 0;
+>>}
 >>```
 
 >[!todo]- 9. Write two C programs that communicate via fifo. Program A is responsible for creating/deleting the fifo. Program A reads commands from the standard input, executes them and sends the output to program B. Program B keeps reading from the fifo and displays whatever it receives at the standard output. This continues until program A receives the "stop" command.

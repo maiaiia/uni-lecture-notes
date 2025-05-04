@@ -8,9 +8,13 @@ ___
 
 ## Intro
 A FIFO is a named pipe. It works in the same manner, but it can be used by unrelated processes as well. 
-Pipes are created before being used with `mkfifo` and removed manually afterwards with `rm`
-FIFOs are persistent
-use `unlink` to destroy the FIFO within the program 
+FIFOs are persistent. They are created either
+- before being used with `mkfifo`  or
+- in the source code (usually `mkfifo(fifo_name, 0600)`)
+FIFOs are removed either
+- manually afterwards using `rm` or 
+- with `unlink` in the source code
+
 
 In order to run a program using FIFOs, you need to 
 1. Create the FIFOs
