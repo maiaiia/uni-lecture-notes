@@ -59,6 +59,33 @@ c) Reading the phase portrait, decide the stability of $(0,0)$
 
 <u>Sol</u>:
 a) Let $f_1(x,y) = -y - x(x^2+y^2)$ and $f_2(x,y) = x - y(x^2+y^2)$. Note that $f : \mathbb{R}^2 \rightarrow \mathbb{R}^2, f = \begin{pmatrix} f_1 \\ f_2 \end{pmatrix}$ is a $C^1$ function.
-$$
+$f(0,0) = \begin{pmatrix} f_1(0,0) \\ f_2(0,0) \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \Rightarrow (0,0)$ is an equil. point.
+$Jf(x,y) = \begin{pmatrix} \cfrac{\partial f_1}{\partial x} && \cfrac{\partial f_1}{\partial y} \\ \cfrac{\partial f_2}{\partial x} && \cfrac{\partial f_2}{\partial y} \end{pmatrix} = \begin{pmatrix} -3x^2-y^2 && -1-2xy \\ 1-2xy && -x^2-3y^2\end{pmatrix}$  
+
+$A = Jf(0,0) = \begin{pmatrix} 0 && -1 \\ 1 && 0 \end{pmatrix}$ with the eigenvalues $\lambda_{1,2}=\pm i$ $\Rightarrow Re(\lambda_1) = Re(\lambda_2)=0 \Rightarrow$ the equilibrium point $(0,0)$ is not hyperbolic.
+
+b) $\begin{cases} x = \rho \cos \theta \\ y = \rho \sin \theta \end {cases}$ $\Leftrightarrow \begin{cases} \rho^2= x^2+y^2 \\ \tan \theta = \cfrac{y}{x} \end {cases}$ $\Leftrightarrow \begin{cases} \rho \dot \rho = x \dot x + y \dot y \\ \cfrac{\theta}{\cos^2\theta} = \cfrac{\dot y x - y \dot x}{x^2} \end{cases}$ $\Leftrightarrow \begin{cases} \rho \dot \rho = -xy - x^2(x^2+y^2)+xy-y^2(x^2+y^2) \\ \cfrac{\theta}{\cos^2\theta} = \cfrac{x^2 - xy(x^2+y^2)+y^2+xy(x^2+y^2)}{x^2} \end{cases}$ $\Leftrightarrow \begin{cases} \rho \dot \rho = -\rho^4 \\ \cfrac{\theta}{\cos^2\theta} = \cfrac{\rho^2}{\rho^2\cos^2\theta} \end{cases}$ $\Leftrightarrow \begin{cases} \dot \rho  = -\rho^3 \\ \dot \theta = 1 \end{cases}$
+
+$\dot \theta > 0 \Rightarrow$ the polar angle increases linearly in time 
+$\dot \rho = \ \rho^3 < 0 \Rightarrow$ the polar radius decreases
+![[The Direction Field 2025-05-05 13.15.52.excalidraw]]
+$(0,0)$ equilibrium point.
+
+$\begin{cases}\dot \rho = - \rho^3 \\ \rho(0)=\rho_0 > 0\end{cases} \Rightarrow \lim_{t \rightarrow \infty} \rho(t)=0 \Rightarrow (0,0)$ is an attractor
 
 
+<u>Exercise</u>
+$\begin{cases}\dot x = x - y - x(x^2+y^2) \\ \dot y = x + y - y(x^2+y^2)\end{cases}$
+a) Check that $\varphi(t,1,0)=(\cos t, \sin t), \forall t \in \mathbb{R}$
+b) Using polar coordinates, represent the phase portrait
+
+<u>Sol</u>
+a) Recall that $\varphi(t,1,0)$ denotes the solution of the system that verifies the initial condition $x(0)=1, y(0)=0$
+We have to check that $\begin{cases} x = \cos t \\ y = \sin t \end{cases}$ verifies the system and $\begin{cases} x(0) = 1 \\ y(0) = 0 \end{cases}$ (true)
+
+b) $\begin{cases} x = \rho \cos \theta \\ y = \rho \sin \theta \end {cases}$ $\Leftrightarrow \begin{cases} \rho^2= x^2+y^2 \\ \tan \theta = \cfrac{y}{x} \end {cases}$ $\Leftrightarrow \begin{cases} \rho \dot \rho = x \dot x + y \dot y \\ \cfrac{\theta}{\cos^2\theta} = \cfrac{\dot y x - y \dot x}{x^2} \end{cases}$ $\Leftrightarrow \dots \Leftrightarrow \begin{cases} \dot \rho = \rho(1-\rho^2) \\ \dot \theta = 1 \end{cases}$
+
+Thus, the angle increases ($\dot \theta > 0$)
+![[The Direction Field 2025-05-05 13.26.44.excalidraw]]
+$\lim_{t \rightarrow \infty} \varphi(t)=1$ 
+![[The Direction Field 2025-05-05 13.29.27.excalidraw]]
