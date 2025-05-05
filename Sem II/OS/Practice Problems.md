@@ -1479,15 +1479,110 @@ done
 
 ## Pipe. FIFO
 ### Calin 
->[!todo]- 4. Write a program that creates a child process. The two communicate through a pipe. The parent reads a string with >25 characters and sends it to the child, which removes 1 vowel and sends it to the parent, which removes the first and the last character and sends it to the child back which removes again a vowel and sends it back .... and so on untill the string contains 3 or less characters.
+>[!done]- 4. Write a program that creates a child process. The two communicate through a pipe. The parent reads a string with >25 characters and sends it to the child, which removes 1 vowel and sends it to the parent, which removes the first and the last character and sends it to the child back which removes again a vowel and sends it back .... and so on untill the string contains 3 or less characters.
 >
->```c
->```
+>>[!code]
+>>```c
+>>#include <stdio.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <string.h>
+>>
+>>const int STOP_READ = -100;
+>>
+>>void read_string(int l, int fd, char* buf){
+>>	int bytes_read = 0;
+>>	while (bytes_read != l){
+>>		int k = read(fd, buf + bytes_read, sizeof(char));
+>>		if (k)
+>>			bytes_read += k;
+>>	}
+>>
+>>}
+>>
+>>int main(){
+>>	int p2c[2], c2p[2];
+>>	pipe(p2c); pipe(c2p);
+>>	int id = fork();
+>>	if (id == -1){
+>>		perror("Error on fork.");
+>>		exit(1);
+>>	}
+>>	if (id == 0){
+>>		close(p2c[1]); close(c2p[0]);
+>>		while (1){
+>>			int l;
+>>			char * w;
+>>			read(p2c[0], &l, sizeof(int));
+>>			if (l == STOP_READ)
+>>				break;
+>>			w = malloc(sizeof(char) * (l+2));
+>>			read_string(l+1, p2c[0], w);
+>>			//printf("Child  reads: %s\n", w);
+>>			
+>>			//remove vowel
+>>			for (int i = 0; i < l; i++)
+>>				if (strchr("aeiouAEIOU", w[i])!=NULL){
+>>					char* aux = malloc(sizeof(char) * (l + 2));
+>>					strcpy(aux, w+i+1);
+>>					strcpy(w+i, aux);
+>>					free(aux);
+>>					l = strlen(w);
+>>					break;
+>>				}
+>>
+>>			printf("Child  sends: %s\n", w);
+>>			write(c2p[1], &l, sizeof(int));
+>>			write(c2p[1], w, (l + 1) * sizeof(char));
+>>			free(w);
+>>		}
+>>		close(p2c[0]); close(c2p[1]);
+>>		exit(0);
+>>	}
+>>	close(p2c[0]); close(c2p[1]);
+>>	int l; char * w = malloc(100 * sizeof(char));
+>>	printf("Enter a long string with no spaces\n");
+>>	scanf("%s", w); 
+>>	l = strlen(w);
+>>	w[l] = '\0'; //redundant but idc
+>>	while (l > 3){
+>>		printf("Parent sends: %s\n", w);
+>>		write(p2c[1], &l, sizeof(int));
+>>		write(p2c[1], w, (l + 1) * sizeof(char));
+>>
+>>		read(c2p[0], &l, sizeof(int));
+>>		read_string(l + 1, c2p[0], w);
+>>		w[l]='\0';
+>>		//printf("Parent reads: %s\n", w);
+>>		if (l <= 3)
+>>			break;
+>>		//remove first and last letter
+>>		w[l-1]='\0';
+>>		char* aux = malloc((l+2) * sizeof(char));
+>>		strcpy(aux, w + 1);
+>>		strcpy(w, aux);
+>>		free(aux);
+>>		l = strlen(w);
+>>	}
+>>	close(c2p[0]);
+>>	if (l <= 3)
+>>		write(p2c[1], &STOP_READ, sizeof(int));
+>>	close(p2c[1]);
+>>	printf("Game stops with the final string: %s", w);
+>>	
+>>	free(w);
+>>	wait(NULL);
+>>	return 0;
+>>}
+>>```
 
 >[!todo]- 5. Write two independent programs A and B that communicate using fifos. Program A reads words from keyboard and send them to process B, receiving back the word in uppercase letters and a number representing the number of letters of the word. Program B received from A a word, computes the corresponsing word with uppercase letters and number of letters and sends these to to program A. This continues in a loop, untill program A sends word "000" and receives back the same word and number 0 and terminates. So doesa program B, when received "000", sends to A "000" and number 0 and terminates.
 >
->```c
->```
+>>[!code]
+>>```c
+>>```
+>
 
 >[!todo]- 6. Six children are in a circle, playing the alphabet game.  
 One of them starts with A, the next continues with B and so on, until they reach Z.  
@@ -1498,21 +1593,27 @@ Use a random function to determine the player that starts the game (players are 
 Print out the number of the player that finishes the alphabet.  
 Solve the problem using pipes.
 >
->```c
->```
+>>[!code]-
+>>```c
+>>```
+>
 
 >[!todo]- 7. Model problem 6 such that one of the 6 children randomly skips an alphabet letter.  
 When this mistake happens, the direction of the game is changed.  
 You will need an additional set of pipes, in order to have one for each direction of the game (clockwise/counterclockwise).  
 Solve the problem using fifos.
 >
->```c
->```
+>>[!code]-
+>>```c
+>>```
+>
 
 >[!todo]- 11. Write a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prome it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes their sum.
 >
->```c
->```
+>>[!code]-
+>>```c
+>>```
+>
 
 ### Horea 
 >[!done]- 6. Create a C program that generates N random integers (N given at the command line). It then creates a child, sends the numbers via pipe. The child calculates the average and sends the result back.
