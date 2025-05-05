@@ -10,6 +10,7 @@ Lectures
 - [[Linear homogeneous systems in Rn with constant coefficients]]
 - [[Planar Dynamical Systems]]
 - [[Dynamical Systems Associated to Autonomous Differential Equations]]
+- [[The Direction Field]]
 Labs
 - [[Introduction to Maple8]]
 - [[Solving LHDEs in Maple]]
