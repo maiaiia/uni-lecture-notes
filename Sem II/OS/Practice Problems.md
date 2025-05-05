@@ -1354,6 +1354,31 @@ done
 >>```
 
 ### Horea
+>[!tip]
+>>[!code]
+>>```c
+>>void write_to_fd(int fd, char *buf) {
+>>    int len = strlen(buf);
+>>    if (0 > write(fd, &len, sizeof(int))) {
+>>        perror("Error on write length");
+>>    }
+>>    if (0 > write(fd, buf, len * sizeof(char))) {
+>>        perror("Error on write buffer");
+>>    }
+>>}
+>>
+>>void read_from_fd(int fd, int max, char *buf) {
+>>    int read_bytes = 0;
+>>    while(read_bytes < max) {
+>>        int k;
+>>        if((k = read(fd, buf + read_bytes, (max - read_bytes) * sizeof(char))) > 0) {
+>>            read_bytes += k;
+>>        }
+>>    }
+>>}
+>>```
+>
+
 >[!done]- 1. Write a C program that creates n child processes. Each child process will print its PID and its parent PID. The parent process will print its PID and the PID of each of the child processes.
 >>[!code]-
 >>```c
