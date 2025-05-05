@@ -1577,12 +1577,127 @@ done
 >>}
 >>```
 
->[!todo]- 5. Write two independent programs A and B that communicate using fifos. Program A reads words from keyboard and send them to process B, receiving back the word in uppercase letters and a number representing the number of letters of the word. Program B received from A a word, computes the corresponsing word with uppercase letters and number of letters and sends these to to program A. This continues in a loop, untill program A sends word "000" and receives back the same word and number 0 and terminates. So doesa program B, when received "000", sends to A "000" and number 0 and terminates.
->
->>[!code]
+>[!done]- 5. Write two independent programs A and B that communicate using fifos. Program A reads words from keyboard and send them to process B, receiving back the word in uppercase letters and a number representing the number of letters of the word. Program B received from A a word, computes the corresponsing word with uppercase letters and number of letters and sends these to to program A. This continues in a loop, untill program A sends word "000" and receives back the same word and number 0 and terminates. So doesa program B, when received "000", sends to A "000" and number 0 and terminates.
+>```tabs
+>tab: fifo_c5a.c
+>>[!code] fifo_c5a.c
 >>```c
+>>#include <stdio.h>
+>>#include <fcntl.h>
+>>#include <unistd.h>
+>>#include <string.h>
+>>#include <stdlib.h>
+>>
+>>int a2b, b2a;
+>>
+>>int read_string(int fd, char* buf){
+>>    int bytes_read = 0;
+>>    while (1){
+>>        int k = read(fd, buf+bytes_read, sizeof(char));
+>>        if (!k) break;
+>>        if (k == -1){
+>>            perror("Error on read");
+>>            close(a2b); close(b2a);
+>>                      free(buf);
+>>                      exit(1);
+>>        }
+>>        if (buf[bytes_read] == '\0')
+>>            break;
+>>        bytes_read++;
+>>    }
+>>    return bytes_read;
+>>}
+>>
+>>int main(){
+>>      a2b = open("a2b", O_WRONLY);
+>>      b2a = open("b2a", O_RDONLY);
+>>
+>>      while (1){
+>>              printf("Enter a word: \n");
+>>              char* w = malloc(50 * sizeof(char));
+>>              scanf("%s", w);
+>>              w[strlen(w)]='\0'; //redundant, again
+>>              printf("A sends %s\n", w);
+>>              write(a2b, w, (strlen(w)+1) * sizeof(char));
+>>
+>>              read_string(b2a, w);
+>>              int l; read(b2a, &l, sizeof(int));
+>>              printf("A reads %s and %d\n", w, l);
+>>              
+>>              int b = (strcmp(w, "000") == 0);
+>>              free(w);
+>>              if (b)
+>>                      break;
+>>
+>>      }
+>>      close(a2b); close(b2a);
+>>      return 0;
+>>}
 >>```
 >
+>tab: fifo_c5b.c
+>>[!code] fifo_c5b.c
+>>```c
+>>#include <stdio.h>
+>>#include <fcntl.h>
+>>#include <unistd.h>
+>>#include <string.h>
+>>#include <stdlib.h>
+>>
+>>int a2b, b2a;
+>>
+>>int read_string(int fd, char* buf){
+>>      int bytes_read = 0;
+>>      while (1){
+>>              int k = read(fd, buf+bytes_read, sizeof(char));
+>>              if (!k) break;
+>>              if (k == -1){
+>>                      perror("Error on read");
+>>                      close(a2b); close(b2a);
+>>                      free(buf);
+>>                      exit(1);
+>>              }
+>>              if (buf[bytes_read] == '\0')
+>>                      break;
+>>              bytes_read++;
+>>      }
+>>      return bytes_read;
+>>}
+>>
+>>int main(){
+>>      //int a2b, b2a;
+>>    a2b = open("a2b", O_RDONLY);
+>>    b2a = open("b2a", O_WRONLY);
+>>      
+>>      while (1){
+>>        char* w = malloc(50 * sizeof(char));
+>>              read_string(a2b, w);
+>>              printf("B reads %s\n", w);
+>>              int l = strlen(w);
+>>              int cnt = 0;
+>>              for (int i = 0; i < l; i++)
+>>                      if ('a' <= w[i] && w[i] <= 'z'){
+>>                              w[i] += 'A' - 'a';
+>>                              cnt++;
+>>                      }
+>>              w[l] = '\0';
+>>              
+>>        printf("B sends %s and %d\n", w, cnt);
+>>        write(b2a, w, (l+1)*sizeof(char));
+>>              write(b2a, &cnt, sizeof(int));
+>>        int b = (strcmp(w, "000") == 0);
+>>              free(w);
+>>        if (b)
+>>            break;
+>>
+>>      }
+>>      close(a2b); close(b2a);
+>>      return 0;
+>>
+>>}
+>>```
+>```
+
 
 >[!todo]- 6. Six children are in a circle, playing the alphabet game.  
 One of them starts with A, the next continues with B and so on, until they reach Z.  
@@ -1608,7 +1723,7 @@ Solve the problem using fifos.
 >>```
 >
 
->[!todo]- 11. Write a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prome it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes their sum.
+>[!todo]- 11. Write a program that receives as command line arguments any number of strings. For each argument, it creates a new process that launches a C or Shell program that checks if the argument is a prime number, then it returns that number as int, if it's a number not prime it returns zero, if it's a string it returns the length of the string, sending these numbers to the main program using a pipe. The main program receives these numbers, prints them and computes their sum.
 >
 >>[!code]-
 >>```c
