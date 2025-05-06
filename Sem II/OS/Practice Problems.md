@@ -1479,17 +1479,44 @@ done
 
 ## Pipe. FIFO
 ### Bota
->[!todo]- 1. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un număr natural şi îl trimite prin pipe procesului copil, iar procesul copil verifică şi afişează dacă acest număr este par sau impar.
+>[!done]- 1. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un număr natural şi îl trimite prin pipe procesului copil, iar procesul copil verifică şi afişează dacă acest număr este par sau impar.
 >
 >>[!code]-
 >>```c
->>```
->
-
->[!todo]- 2. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un număr natural şi îl trimite prin pipe procesului copil, iar procesul copil verifică şi afişează dacă acest număr este prim.
->
->>[!code]-
->>```c
+>>#include <stdio.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>int main(){
+>>	int p[2]; pipe(p);
+>>	int id = fork();
+>>	if (id == -1){
+>>		perror("Error on fork.");
+>>		exit(1);
+>>	}
+>>	if (id == 0){
+>>		close(p[1]);
+>>		int n;
+>>		read(p[0], &n, sizeof(int));
+>>		if (n % 2)
+>>			printf("%d is odd\n", n);
+>>		else
+>>			printf("%d is even\n", n);
+>>
+>>		close(p[0]);
+>>		exit(0);
+>>	}
+>>	close(p[0]);
+>>	int n; 
+>>	printf("Enter a number: ");
+>>	scanf("%d", &n);
+>>	write(p[1], &n, sizeof(int));
+>>	close(p[1]);
+>>
+>>	wait(NULL);
+>>	return 0;
+>>}
 >>```
 >
 
@@ -1497,6 +1524,64 @@ done
 >
 >>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <string.h>
+>>
+>>int read_string_no_size(int fd, char* buf){
+>>	int bytes_read = 0;	
+>>	while (1){
+>>		int k = read(fd, buf + bytes_read, sizeof(char));
+>>		if (!k || buf[bytes_read]=='\0')
+>>			break;
+>>		bytes_read += k; //should be 1, which is why i only perform de addition now
+>>	}
+>>
+>>	return bytes_read;
+>>}
+>>
+>>int main(){
+>>	int p[2]; pipe(p);
+>>	int id = fork();
+>>	if (id == -1){
+>>		perror("Error on fork.");
+>>		exit(1);
+>>	}
+>>	if (id == 0){
+>>		close(p[1]);
+>>		char c, *s;
+>>    	s = malloc(sizeof(char) * 101);
+>>		read(p[0], &c, sizeof(char));
+>>		read_string_no_size(p[0], s);
+>>		int cnt = 0;
+>>		for (int i = 0; s[i] != '\0'; i++)
+>>			if (s[i] == c)
+>>				cnt++;
+>>		printf("'%c' appears in '%s' %d times\n", c, s, cnt);
+>>		close(p[0]);
+>>		free(s);
+>>		exit(0);
+>>	}
+>>	close(p[0]);
+>>
+>>	char c, *s;
+>>	s = malloc(sizeof(char) * 101);
+>>	printf("Enter a character: ");
+>>	scanf("%c", &c);
+>>	printf("Enter a string: ");
+>>	fgets(s, 100, stdin);
+>>	fgets(s, 100, stdin);
+>>	s[strlen(s)-1] = '\0';
+>>
+>>	write(p[1], &c, sizeof(char));
+>>	write(p[1], s, (strlen(s) + 1) * sizeof(char));
+>>	free(s);
+>>	close(p[1]);
+>>	wait(NULL);
+>>	return 0;
+>>}
 >>```
 >
 
