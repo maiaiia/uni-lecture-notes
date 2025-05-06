@@ -1520,7 +1520,7 @@ done
 >>```
 >
 
->[!todo]- 3. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un caracter c şi un şir s şi le trimite prin pipe procesului copil, iar procesul copil verifică şi afişează numărul de apariţii ale caracterului c în şirul s.
+>[!done]- 3. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un caracter c şi un şir s şi le trimite prin pipe procesului copil, iar procesul copil verifică şi afişează numărul de apariţii ale caracterului c în şirul s.
 >
 >>[!code]-
 >>```c
@@ -1534,9 +1534,9 @@ done
 >>	int bytes_read = 0;	
 >>	while (1){
 >>		int k = read(fd, buf + bytes_read, sizeof(char));
->>		if (!k || buf[bytes_read]=='\0')
+>>		if (!k || buf[bytes_read] == '\0')
 >>			break;
->>		bytes_read += k; //should be 1, which is why i only perform de addition now
+>>		bytes_read += k; //should be 1 (otherwise i woul've had to perform the addition before comparing buf[bytes+read] w '\0')
 >>	}
 >>
 >>	return bytes_read;
@@ -1551,7 +1551,7 @@ done
 >>	}
 >>	if (id == 0){
 >>		close(p[1]);
->>		char c, *s;
+>>		char c, * s;
 >>    	s = malloc(sizeof(char) * 101);
 >>		read(p[0], &c, sizeof(char));
 >>		read_string_no_size(p[0], s);
@@ -1566,7 +1566,7 @@ done
 >>	}
 >>	close(p[0]);
 >>
->>	char c, *s;
+>>	char c, * s;
 >>	s = malloc(sizeof(char) * 101);
 >>	printf("Enter a character: ");
 >>	scanf("%c", &c);
