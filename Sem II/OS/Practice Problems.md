@@ -1843,8 +1843,7 @@ done
 >>```
 >```
 
-
->[!todo]- 6. Six children are in a circle, playing the alphabet game.  
+>[!done]- 6. Six children are in a circle, playing the alphabet game.  
 One of them starts with A, the next continues with B and so on, until they reach Z.  
 A dice determines the player that starts the game.  
 Write a program with 6 processes to model this game: each process receives a letter, prints out their ID and the next letter in the alphabet and sends it to the next process.  
@@ -1855,6 +1854,75 @@ Solve the problem using pipes.
 >
 >>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>int firstPlayer, p[12], id[6], rd_idx[6], wr_idx[6];
+>>
+>>void childLoop(int ord){
+>>	for (int i = 0; i < 12; i++)
+>>		if (i != rd_idx[ord] && i != wr_idx[ord])
+>>			close(p[i]);
+>>	char curr = 'A';
+>>	if (ord == firstPlayer){
+>>		printf("Game starts with player %d\n", ord + 1);
+>>		printf("Player | PID | Character\n");
+>>		printf("------------------------\n");
+>>		printf("  %d      %d      %c\n", ord + 1, getpid(), curr);
+>>		write(p[wr_idx[ord]], &curr, sizeof(char));
+>>	}
+>>	while (1){
+>>		if (read(p[rd_idx[ord]], &curr, sizeof(char)) <= 0)
+>>			break;
+>>		//if (curr == stopFlag)
+>>			//break;
+>>		curr++;
+>>	  //printf("Player | PID | Character\n");
+>>		printf("  %d      %d      %c\n", ord + 1, getpid(), curr);
+>>		if (curr == 'Z'){
+>>			printf("Game over on player %d.\n", ord + 1);
+>>			//write(p[wr_idx[ord]], &stopFlag, sizeof(char));
+>>			break;
+>>		}
+>>		//printf("%d - %d - %c\n", ord + 1, getpid(), curr);
+>>		write(p[wr_idx[ord]], &curr, sizeof(char));
+>>	}
+>>	close(p[wr_idx[ord]]);
+>>	close(p[rd_idx[ord]]);
+>>	exit(0);
+>>}
+>>
+>>int main(){
+>>	//process k reads from (2 * (k - 1)+12) % 12 and writes to 2 * k + 1
+>>	// (for k in {0,...,5})
+>>	//int p[12], id[6], rd_idx[6], wr_idx[6];
+>>	
+>>	srandom(getpid());
+>>	firstPlayer = random() % 6;
+>>
+>>	for (int k = 0; k < 6; k++){
+>>		pipe(p+2*k);
+>>		rd_idx[k] = (12 + 2 * (k - 1)) % 12;
+>>		wr_idx[k] = 2 * k + 1;
+>>	}
+>>
+>>	for (int k = 0; k < 6; k++){
+>>		id[k] = fork();
+>>		if (id[k] == -1){
+>>			perror("Error on fork");
+>>			exit(1);
+>>		}
+>>		if (id[k] == 0)
+>>			childLoop(k);
+>>	}
+>>	for (int i = 0; i < 12; i++)
+>>		close(p[i]);
+>>
+>>	for (int i = 0; i < 6; i++)
+>>		wait(NULL);
+>>	return 0;
+>>}
 >>```
 >
 
