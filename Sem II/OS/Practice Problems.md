@@ -1926,13 +1926,125 @@ Solve the problem using pipes.
 >>```
 >
 
->[!todo]- 7. Model problem 6 such that one of the 6 children randomly skips an alphabet letter.  
+>[!done]- 7. Model problem 6 such that one of the 6 children randomly skips an alphabet letter.  
 When this mistake happens, the direction of the game is changed.  
 You will need an additional set of pipes, in order to have one for each direction of the game (clockwise/counterclockwise).  
 Solve the problem using fifos.
 >
 >>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>#include <sys/types.h>
+>>#include <sys/stat.h>
+>>#include <fcntl.h>
+>>
+>>const char CHANGE_DIRECTION = '#';
+>>
+>>int firstPlayer, skipPlayer, id[6], rd_desc[2][6], wr_desc[2][6];
+>>const char fifos[2][6][3] = {{"01", "12", "23", "34", "45", "50"},{"05","10", "21", "32", "43", "54"}};
+>>
+>>//0 - clockwise, 1 - anti-clockwise
+>>
+>>void childLoop(int ord){
+>>      //OPEN FIFO - be mindful of deadlocks!
+>>      if (ord % 2){
+>>              //open read first
+>>              rd_desc[0][ord] = open(fifos[0][(ord + 6 - 1) % 6], O_RDONLY);
+>>              wr_desc[0][ord] = open(fifos[0][ord], O_WRONLY);
+>>              rd_desc[1][ord] = open(fifos[1][(ord + 1) % 6], O_RDONLY);
+>>              wr_desc[1][ord] = open(fifos[1][ord], O_WRONLY);
+>>      }
+>>      else {
+>>              //open write first
+>>              wr_desc[0][ord] = open(fifos[0][ord], O_WRONLY);
+>>              rd_desc[0][ord] = open(fifos[0][(ord + 5) % 6], O_RDONLY);
+>>              wr_desc[1][ord] = open(fifos[1][ord], O_WRONLY);
+>>              rd_desc[1][ord] = open(fifos[1][(ord + 1) % 6], O_RDONLY);
+>>      }
+>>
+>>
+>>      int dir = 0; //when the direction changes, dir ^= 1     
+>>      char curr = 'A';
+>>
+>>      if (ord == firstPlayer){
+>>              printf("Game starts with player %d\n", ord + 1);
+>>              printf("Player | PID | Character\n");
+>>              printf("------------------------\n");
+>>              printf("  %d      %d      %c\n", ord + 1, getpid(), curr);
+>>              write(wr_desc[dir][ord], &curr, sizeof(char));
+>>      }
+>>
+>>      while (1){
+>>              if (read(rd_desc[dir][ord], &curr, sizeof(char)) <= 0)
+>>                      break;
+>>              if (curr == CHANGE_DIRECTION){
+>>                      int nextPlayer;
+>>                      if (dir == 0) //clockwise
+>>                              nextPlayer = (ord + 1) % 6;
+>>                      else
+>>                              nextPlayer = (ord + 5) % 6; // - 1 + 6
+>>                      if (nextPlayer != skipPlayer)
+>>                              write(wr_desc[dir][ord], &CHANGE_DIRECTION, sizeof(char));
+>>                      dir ^= 1;
+>>                      continue;
+>>              }
+>>              
+>>              curr++;
+>>              int skip = 0;
+>>              if (ord == skipPlayer && curr < 'Z' && random() % 3 == 0) 
+>>                      skip = 1 ; 
+>>              
+>>              if (!skip)
+>>                      printf("  %d      %d      %c\n", ord + 1, getpid(), curr);
+>>              else {
+>>                      printf("Skip!\n");
+>>                      write(wr_desc[dir][ord], &CHANGE_DIRECTION, sizeof(char));
+>>                      curr--;
+>>                      dir ^= 1;
+>>              }
+>>              if (curr >= 'Z'){
+>>                      printf("Game over on player %d.\n", ord + 1);
+>>                      break;
+>>              }
+>>              write(wr_desc[dir][ord], &curr, sizeof(char));
+>>              
+>>      }
+>>      close(rd_desc[0][ord]); close(rd_desc[1][ord]);
+>>      close(wr_desc[0][ord]); close(wr_desc[1][ord]);
+>>      exit(0);
+>>}
+>>
+>>int main(){
+>>      for (int i = 0; i < 6; i++)
+>>              for (int dir = 0; dir < 2; dir++)
+>>                      mkfifo(fifos[dir][i], 0600);
+>>
+>>      srandom(getpid());
+>>      firstPlayer = random() % 6;
+>>      skipPlayer = random() % 6;
+>>      printf("Player %d is the 'skipper'\n", skipPlayer + 1);
+>>
+>>      for (int k = 0; k < 6; k++){
+>>              id[k] = fork();
+>>              if (id[k] == -1){
+>>                      perror("Error on fork");
+>>                      exit(1);
+>>              }
+>>              if (id[k] == 0)
+>>                      childLoop(k);
+>>      }
+>>
+>>      for (int i = 0; i < 6; i++)
+>>              wait(NULL);
+>>      
+>>      for (int i = 0; i < 6; i++)
+>>        for (int dir = 0; dir < 2; dir++)
+>>            unlink(fifos[dir][i]);
+>>
+>>      return 0;
+>>}
 >>```
 >
 
