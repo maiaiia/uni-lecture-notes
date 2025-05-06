@@ -1478,6 +1478,66 @@ done
 >>```
 
 ## Pipe. FIFO
+### Bota
+>[!todo]- 1. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un număr natural şi îl trimite prin pipe procesului copil, iar procesul copil verifică şi afişează dacă acest număr este par sau impar.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 2. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un număr natural şi îl trimite prin pipe procesului copil, iar procesul copil verifică şi afişează dacă acest număr este prim.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 3. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură un caracter c şi un şir s şi le trimite prin pipe procesului copil, iar procesul copil verifică şi afişează numărul de apariţii ale caracterului c în şirul s.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 4. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte de la tastatură două numere întregi pe care le trimite prin pipe procesului copil, iar procesul copil returnează prin pipe suma lor.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 5. Să se scrie un program C care creează un proces copil cu care comunică prin pipe. Procesul părinte citeşte dintr-un fişier de tip text două numere întregi pe care le trimite prin pipe procesului copil, iar procesul copil returnează prin pipe suma lor.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 6. Write a C program in which two processes communicate via pipes, like this:
+>Parent process:
+>- opens a text file, reads its entire contents and sends it via pipe to the child process
+>
+>Child process:
+>- reads from the pipe, calculates and displays the number of words/letters
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 7. Write a C program in which two processes communicate via pipes, like this:
+>Parent process:
+>- continuously reads an operation ('+', '-', ' * ', '/') and two integers from the keyboard and writes them to the pipe
+>
+>Child process:
+>- reads from the pipe, executes the operation and writes the numbers and the result obtained to a text file
+>
+>>[!code]-
+>>```c
+>>```
+>
+
 ### Calin 
 >[!done]- 4. Write a program that creates a child process. The two communicate through a pipe. The parent reads a string with >25 characters and sends it to the child, which removes 1 vowel and sends it to the parent, which removes the first and the last character and sends it to the child back which removes again a vowel and sends it back .... and so on untill the string contains 3 or less characters.
 >
@@ -2130,6 +2190,19 @@ Solve the problem using fifos.
 >>```c
 >>```
 
+>[!todo]- 12. Write a C program that receives any number of command-line arguments. For each argument, create a child process that attempts to run the argument using one of the exec functions. If the exec function call fails, the child process sends a message to the parent, obeying the template “Unable to run \[argument\] since it is not a valid command.”, where \[argument\] is the actual value of the argument. The parent will read the message from the pipe and display it together with the PID of the child process that sent the message. (Note: In the case where the child process successfully runs the command with exec, the parent does not need to print anything.) selected.
+>
+>>[!code]-
+>>```c
+>>```
+>
+
+>[!todo]- 13. Write a simple one-to-one chat program that communicates via FIFO. The program will receive as arguments the names/paths of two FIFOs, one for incoming messages and one for outgoing messages. The program must create a process that awaits messages on the incoming FIFO and displays them as they are received. In a separate process, the program will wait for the user to write messages from the keyboard and will write them in the outgoing FIFO. 
+>
+>>[!code]-
+>>```c
+>>```
+>
 ## Threads 
 ### Calin
 ### Horea
