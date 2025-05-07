@@ -1,21 +1,33 @@
 # Threads
 ___
 Class: [[OS]]
-Type: Lecture
+Type: Lecture + Seminar
 Tags: # 
 Date: April 10th, 2025
 ___
 
-One of the downsides of threads is that they duplicate memory
->[!Warning]
->If a thread crashes, the whole server goes down
+One of the downsides of forking [[Unix Processes |processes]] is that a lot of memory is duplicated.
 
 This is an overview of how the memory allocated for a program looks
 ![[Memory_of_a_program]]
-When forking a process, the *impure* part of memory is copied. 
-Threads, on the other hand, share the same memory. The only thing created is a new stack for each thread
+When forking a process, the *impure* part of the memory is copied. 
+Threads, on the other hand, share the same memory. The only thing created is a new [[src/Sem I/ASC/-tags_and_indexes/stack|stack]] for each thread. 
+```tabs
+tab: particular to each thread
 
-Threads don't have PIDs, but they do have descriptors
+- [[Registers|registers]]
+- stack
+- local variables (saved on the stack)
+- program counter
+- thread-specific data
+tab: in common 
+- global variables
+- heap
+- file descriptors
+- basically everything else
+```
+
+Threads don't have PIDs, but they do have *descriptors*.
 We must wait for thread termination (this is called *joining*)
 For compiling, one may need to specify the thread library in the command 
 ### Example
@@ -63,3 +75,8 @@ tab: example2.c
 >```
 ```
 
+ 
+>[!Warning]
+>If a thread crashes, the whole server goes down
+
+## [[Mutex]]

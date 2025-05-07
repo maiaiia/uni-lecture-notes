@@ -1,11 +1,16 @@
 # Mutex
 ___
 Class: [[OS]]
-Type: Lecture
+Type: Lecture + Seminar
 Tags: # 
 Date: April 17th, 2025
 ___
+An *atomic operation* is an operation that cannot be interrupted 
+>[!example] 
+>var++ consists of 3 operations (not on macOS though :)) - load data in register, increment value, store data from register.
 
+The purpose of a *mutex* (mutual exclusive) is to turn an operation into an atomic one.
+## Examples
 >[!example]- Tic Tac Toe
 >>[!code]
 >>```c
@@ -88,4 +93,5 @@ ___
 >>	return 0;
 >>}
 >>```
-## TODO - tic tac toe de la vio
+### TODO - tic tac toe de la vio
+
