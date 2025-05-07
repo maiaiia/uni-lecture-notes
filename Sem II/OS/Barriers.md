@@ -2,7 +2,7 @@
 ___
 Class: [[OS]]
 Type: Lecture
-Tags: # 
+Tags: #process_syncronization
 Date: April 17th, 2025
 ___
 

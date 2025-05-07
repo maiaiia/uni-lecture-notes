@@ -2,14 +2,14 @@
 ___
 Class: [[OS]]
 Type: Lecture + Seminar
-Tags: # 
+Tags: #process_syncronization
 Date: April 17th, 2025
 ___
 An *atomic operation* is an operation that cannot be interrupted 
 >[!example] 
 >var++ consists of 3 operations (not on macOS though :)) - load data in register, increment value, store data from register.
 
-The purpose of a *mutex* (mutual exclusive) is to turn an operation into an atomic one.
+The purpose of a *mutex* (mutual exclusion) is to turn an operation into an atomic one.
 ## Examples
 >[!example]- Tic Tac Toe
 >>[!code]
