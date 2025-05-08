@@ -1,10 +1,12 @@
 # Read Write Lock
 ___
 Class: [[OS]]
-Type: Seminar
+Type: Lecture + Seminar
 Tags: #process_syncronization
 Date: May 7th, 2025
 ___
+
+A different type of [[Mutex|mutex]] generalisation. It works as an optimization.
 
 rdlock - allows multiple readers, but no writers
 wrlock - allows one writer only (so basically a [[mutex]])

@@ -13,6 +13,7 @@ Lecture
 	- [[Read Write Lock]]
 	- [[Semaphores]]
 	- [[Barriers]]
+	- [[Read Write Lock]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]

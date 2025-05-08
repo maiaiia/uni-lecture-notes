@@ -6,7 +6,7 @@ Tags: #process_syncronization
 Date: April 17th, 2025
 ___
 
-Analogy: Like the bus at the airport, it waits for all travellers to get in 
+Analogy: Like the bus at the airport, it waits for all travellers to get in. 
 
 >[!example]
 >Add all the numbers in an array as if in a binary tree 
