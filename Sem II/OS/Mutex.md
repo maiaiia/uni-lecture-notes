@@ -5,7 +5,7 @@ Type: Lecture + Seminar
 Tags: #process_syncronization
 Date: April 17th, 2025
 ___
-An *atomic operation* is an operation that cannot be interrupted 
+An *atomic operation* is an operation that cannot be interrupted  ^9fbb3e
 >[!example] 
 >var++ consists of 3 operations (not on macOS though :)) - load data in register, increment value, store data from register.
 
