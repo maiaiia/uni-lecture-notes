@@ -6,7 +6,7 @@ Tags: #LHDE
 Date: March 10th, 2025
 ___
 ## Def 
-$\mathcal{L}(x)(t) = x^{(n)}(t)+a_1x^{(n-1)}(t)+...+a_n(t)x(t), t\in I$ where $I \subset \mathbb{R}$ nonempty, open interval, $a_1, ....,a_n \in C(I)$. We consider the LHDE $(1)$ $\mathcal{L}(x)=0$.
+$\mathcal{L}(x)(t) = x^{(n)}+a_1x^{(n-1)}+...+a_n(t), t\in I$ where $I \subset \mathbb{R}$ nonempty, open interval, $a_1, ....,a_n \in C(I)$. We consider the LHDE $(1)$ $\mathcal{L}(x)=0$.
 We also consider the Ln-HDE $(2)$ $\mathcal{L}(x)=f$ with $f \in C(I)$ given.
 
 ## The fundamental theorems 

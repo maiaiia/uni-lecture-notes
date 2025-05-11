@@ -9,7 +9,7 @@ ___
 Given: $n \in \mathbb{N}^*, I \subset \mathbb{R}$ non-empty open interval, $a_1,...,a_n:I\rightarrow \mathbb{R}$ continuous.
 Find: $x:\mathbb{I}\rightarrow \mathbb{R}$ s.t.
  $$x^{(n)}+a_1(t)x^{(n-1)}+a_2(t)x^{(n-2)}+...+a_n(t)x=0 (1)$$
- > $n$ is the *order*, and $a_1,...,a_n$ are the coefficients
+ > $n$ is the *order*, and $a_1,...,a_n$ are the *coefficients*
 
 ### Examples 
 1. Let $a \in \mathbb{R}$ and consider $x'+ax=0$. The general solution is $x = ce^{-at}, c \in \mathbb{R}$. In other words, the set of all solutions of the equation is $\{ce^{-at}:c\in \mathbb{R}\}$
@@ -31,7 +31,7 @@ Recall notations from mathematical analysis:
 $C(I)$ is a linear space over $\mathbb{R}$ and $C^n(I)$ is a linear subspace of $C(I)$
 
 Let $x : I \rightarrow \mathbb{R} \Rightarrow \mathcal{L}(x):I\rightarrow \mathbb{R}$ is a function
-$\mathcal{L}(x) =^{def} x^{(n)}(t)+a_1(t)x^{(n-1)}+...+a_n(t)x(t), \forall t \in I$ ${(2)}$ 
+$\mathcal{L}(x) =^{def} x^{(n)}(t)+a_1(t)x^{(n-1)}(t)+...+a_n(t)x(t), \forall t \in I$ ${(2)}$ 
 So $X = C(I), Y = C(I) \Rightarrow \mathcal{L}:C^{(n)}(I)\rightarrow C(I)$
 
 **Proposition**: The map $\mathcal{L}:C^{(n)}(I)\rightarrow C(I)$ defined by (2) is linear, i.e. $\mathcal{L}(\alpha x)= \alpha \mathcal{L}(x)$ and $\mathcal{L}(x_1+x_2) = \mathcal{L}(x_1)+\mathcal{L}(x_2)$ 
