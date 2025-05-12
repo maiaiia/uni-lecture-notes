@@ -11,6 +11,8 @@ Lectures
 - [[Planar Dynamical Systems]]
 - [[Dynamical Systems Associated to Autonomous Differential Equations]]
 - [[The Direction Field]]
+- [[Numerical methods for ODEs]]
+- [[Discrete Dynamical Systems]]
 Labs
 - [[Introduction to Maple8]]
 - [[Solving LHDEs in Maple]]
