@@ -21,9 +21,9 @@ Find: $x:\mathbb{I}\rightarrow \mathbb{R}$ s.t.
 	$x'-2tx=0|\cdot e^{-t^2} \Rightarrow x'\cdot e^{-t^2}-2tx\cdot e^{-t^2}=0 \Rightarrow (x\cdot e^{-t^2}) = 0\Rightarrow x=c e^{t^2}$
 *Conclusion*: The general solution of the equation is $x=ce^{t^2}, c\in \mathbb{R}$ or, in other words, the set of all its solutions is $$\{ce^{t^2}:c\in \mathbb{R}\}$$
 ## Linear Algebra Recap
-Given: $X,Y$ linear spaces and $\mathcal{L} : X \rightarrow Y$ a  linear map 
-Prove: $\mathcal{L}(x) = 0$ is a linear homogeneous equation
-Find: $x \in X$ s.t. $\mathcal{L}(x) = 0$
+**Given**: $X,Y$ linear spaces and $\mathcal{L} : X \rightarrow Y$ a  linear map 
+**Prove**: $\mathcal{L}(x) = 0$ is a linear homogeneous equation
+**Find**: $x \in X$ s.t. $\mathcal{L}(x) = 0$
 
 Recall notations from mathematical analysis: 
 - $C(I) = \{f:I\rightarrow \mathbb{R}\}$
