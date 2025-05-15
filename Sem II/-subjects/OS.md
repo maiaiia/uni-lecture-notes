@@ -14,6 +14,7 @@ Lecture
 	- [[Semaphores]]
 	- [[Barriers]]
 	- [[Read Write Lock]]
+- [[Process Theory]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]
