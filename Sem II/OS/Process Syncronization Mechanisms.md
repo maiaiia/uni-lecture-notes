@@ -22,3 +22,4 @@ unlock
 A trampoline has both a weight limit and a limit for the number of people who can hop on it.
 Use 2 semaphores
 
+4. Bees - Bears - Rangers
