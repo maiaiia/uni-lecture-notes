@@ -22,7 +22,7 @@ For example, when $n = 2$, the second order LDE $x''+\alpha_1(t)x'+\alpha_2(t)x=
 $\begin{cases} x_1'=x_2 \\ x_2'=-\alpha_2(t)x_1-\alpha_1(t)x_2+f(t) \end{cases}$, $A(t) := \begin{pmatrix} 0 && 1 \\ -\alpha_2(t) && -\alpha_1(t) \end{pmatrix}$, $F(t) := \begin{pmatrix} 0 \\ f(t) \end{pmatrix}$
 
 ## The existence and Uniqueness theorem for the IVP
-Let $t_0 \in I$ and $\eta \in \mathbb{R}^n$. Then the IVP $\begin{cases} x'-A(t)X+F(t) \\ x(t_0)=\eta \end{cases}$ has a unique solution
+Let $t_0 \in I$ and $\eta \in \mathbb{R}^n$. Then the IVP $\begin{cases} X'-A(t)X+F(t) \\ X(t_0)=\eta \end{cases}$ has a unique solution
 
 First, we associate a map $\mathcal{L}(X)(t) = X'(t)-A(t)X(t)$, $\mathcal{L}:C^1(I, \mathbb{R}^n)\rightarrow C(I,\mathbb{R}^n)$
 We can notice that $\mathcal{L}$ is a linear map, i.e. $\mathcal{L}(k_1X+k_2Y)=k_1\mathcal{L}(X)+k_2\mathcal{L}(Y), \forall X,Y \in C^1$

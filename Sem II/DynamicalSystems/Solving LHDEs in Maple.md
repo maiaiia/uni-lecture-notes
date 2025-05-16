@@ -8,5 +8,5 @@ ___
 
 >[!important] IVPs are NOT!! systems
 
->[!tip] inside the differential equation use `diff` to differentiate and outside it use D(x)
+>[!tip] inside the differential equation use `diff` to differentiate and outside of it use D(x)
 >
