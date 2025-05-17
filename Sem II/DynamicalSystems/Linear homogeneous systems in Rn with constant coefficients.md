@@ -18,10 +18,10 @@ For $n = 2$: in the seminar we learn, for coupled systems, the reduction method
 We know from the existence and uniqueness theorem: $\forall \eta \in \mathbb{R}^n$, the IVP $\begin{cases} X' = AX \\ X(0) = \eta \end{cases}$ has a unique solution. 
 
 **The fundamental theorem for LH systems**: System $(1)$ has $n$ [[Linear independence. Bases|linearly independent]] solutions $x_1,...,x_n$ and its general solution can be written as $x = c_1x_1+...+c_nx_n$, where $c_1,...,c_n \in \mathbb{R}$
-Moreover, if we denote $U(t) = (x_1(t)...x_n(t))$, the gen. sol. can be written as $$X = U(t)C$$, where $C \in \mathbb{R}^n$
+Moreover, if we denote $U(t) = \begin{pmatrix}x_1(t) && |\dots |&& |x_n(t)\end{pmatrix}$, the gen. sol. can be written as $$X = U(t)C$$, where $C \in \mathbb{R}^n$
 
 ### Today
-- the role of *eigenvalues* and *eigenvectors* of $A$.
+- the role of the *eigenvalues* and *eigenvectors* of $A$.
 - we define the *exponential matrix* and see that the unique solution of the IVP $\begin{cases} X' = AX \\ X(0) = \eta \end{cases}$ is $X=e^{At}\eta$
 - we introduce the notion of *diagonizable matrices* 
 - we find the general solution of $(1)$ when $A$ is diagonizable
@@ -36,7 +36,7 @@ Moreover, if we denote $U(t) = (x_1(t)...x_n(t))$, the gen. sol. can be written 
 >The function $\varphi(t)=e^{\lambda t}u$ with $\lambda \in \mathbb{C}$ and $u \in \mathbb{C}^n$ verifies $$\varphi'(t)=A\varphi(t) \iff Au = \lambda u$$
 
 <u>Proof</u>: $\varphi'(t)=A\varphi(t),\forall t\in\mathbb{R}$ with $\varphi(t)=e^{\lambda t}u$ $\iff \lambda e^{\lambda t}u=A(e^{\lambda t}u),\forall t \in \mathbb{R} \iff \lambda u = Au$
-Example: Find the general solution of $\begin{cases} x_1'=x_1+3x_2 \\ x_2'=x_1-x_2 \end{cases}$
+*<u>Example</u>*: Find the general solution of $\begin{cases} x_1'=x_1+3x_2 \\ x_2'=x_1-x_2 \end{cases}$
 
 $A = \begin{pmatrix} 1 && 3 \\ 1 && -1 \end{pmatrix}$
 1. Find the eigenvalues of $A$
@@ -76,7 +76,7 @@ Thus, $x_1, x_2$ are linearly independent and, by the fundamental theorem, the g
 
 A matrix that is not diagonalizable on $\mathbb{C}$ is said to be *deffective*.
 >[!property]
->Let $A \in \mathcal{M}_n(\mathbb{R})$. We have that $A$ is *diagonalizable over $\mathbb{R} iff$ any eigenvalue of $A$ is real and there are $n$ linearly independent eigenvectors in $\mathbb{R}^n$ 
+>Let $A \in \mathcal{M}_n(\mathbb{R})$. We have that $A$ is *diagonalizable* over $\mathbb{R} \iff$ any eigenvalue of $A$ is real and there are $n$ linearly independent eigenvectors in $\mathbb{R}^n$ 
 
 >[!definition] Definition - The exponential matrix
 > Let $A \in \mathcal{M}_n(\mathbb{R})$.

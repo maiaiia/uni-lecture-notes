@@ -14,7 +14,7 @@ $A : I \rightarrow \mathcal{M}_n(\mathbb{R})$ continuous
 
 A solution of (1) is a function $\varphi : I \rightarrow \mathbb{R}$  of class $C^1$ s.t. $\varphi ' (t) = A(t)\varphi(t)+F(t), \forall t \in I$
 For example, for $n = 2$, denote $F(t) = \begin{pmatrix}f_1(t)\\f_2(t)\end{pmatrix}$, $A(t)=\begin{pmatrix} a_{11}(t) && a_{12}(t) \\ a_{21}(t) && a_{22}(t) \end{pmatrix}$
-$X = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}$ $(1) \Leftrightarrow \begin{cases} x_1' = a_{11}(t)x_1 + a_{12}(t)x_2+f_1(t) \\ x_2' = a_{21}(t)x_2 + a_{22}(t)x_2+f_2(t) \end{cases}$
+$X = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}$ $(1) \Leftrightarrow \begin{cases} x_1' = a_{11}(t)x_1 + a_{12}(t)x_2+f_1(t) \\ x_2' = a_{21}(t)x_1 + a_{22}(t)x_2+f_2(t) \end{cases}$
 
 *Remark*: Any LDE of order $n$ can be written in the form $(1)$ with the unknown $X = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} = \begin{pmatrix} x \\ x' \\ \vdots \\ x^{(n-1)} \end{pmatrix}$
 
