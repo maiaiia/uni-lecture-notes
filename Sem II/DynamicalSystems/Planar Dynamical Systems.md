@@ -38,7 +38,7 @@ Let $c \in \mathbb{R}$. Then, the level curve of $H$ has the eq. $x^2+y^2=c$.
 >[!remark]
 > The orbits lie on the level curves of a first integral
 
-**Example**:  Consider the planar system $\begin{cases}\dot x=-y \\ \dot y=x\end{cases}$. Find the flow and check that $H(x^2,y^2)$ is a global first integral. Represent the phase portrait
+**Example**:  Consider the planar system $\begin{cases}\dot x=-y \\ \dot y=x\end{cases}$. Find the flow and check that $H=x^2+y^2$ is a global first integral. Represent the phase portrait
 1. flow 
 Let $\eta = \begin{pmatrix} \eta_1 \\ \eta_2 \end{pmatrix}$ and consider the IVP $\begin{cases} \dot x=-y \\ \dot y=x \\ x(0)=\eta_1 \\ y(0)=\eta_2 \end{cases}$ $\Rightarrow \begin{cases}\ddot x=-\dot y=-x \\ y =  -\dot x\end{cases}$ $\Rightarrow \ddot x+x=0; r^2+1=0\Rightarrow r_{1,2}=\pm i \mapsto \cos t, \sin t$ $\Rightarrow \begin{cases}x=c_1\cos t + c_2 \sin t \\ y = c_1\sin t + c_2\cos t\end{cases}$ $\Rightarrow c_1=\eta_1, c_2=\eta_2$ $\Rightarrow \varphi(t,\eta_1,\eta_2)=(\eta_1 \cos t - \eta_2 \sin t, \eta_1 \sin t + \eta_2 \cos t), \forall t \in \mathbb{R}. \forall \begin{pmatrix} \eta_1 \\ \eta_2 \end{pmatrix}\in \mathbb{R}^2$
 2. global first integral
