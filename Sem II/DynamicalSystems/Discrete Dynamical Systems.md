@@ -80,3 +80,62 @@ $x_1 = f(\eta)$
 
 In summary:
 start with $x_0 = \eta$. Then, move vertically until you find the graph of $f$. Then, horizontally until you find the graph of $y = x$. Then, again, vertically...
+
+## Scalar maps
+We consider $f : \mathbb{R} \rightarrow \mathbb{R}$ continuous (or $f : I \rightarrow I$ continuous, where $I \subseteq \mathbb{R}$ nonempty). 
+- $(1) x_{k+1}=f(x_k)$, $x_0=\eta \in \mathbb{R}$ given.
+- $f^2 = f \circ f$, $f^3 = f \circ f \circ f$ and so on
+- $f^k$ is called the $k$'th iteration of $f$
+- $f^0$ denotes the *identity*
+
+The unique solution of $(1)$ is $x_k = f^k(\eta)$, $\forall k \geq 0$
+$\gamma_\eta = \{\eta, f(\eta), f^2(\eta), \dots\}$ is called a *positive* orbit (since it only contains future states)
+
+$\eta^*\in\mathbb{R}$ is a fixed point of $f \iff f(\eta^*)=\eta^*$
+Note that if $\eta^*$ is a fixed point of $f$, then $\eta^*$ is a fixed point of $f^k$, $\forall k \geq 2$
+
+>[!property]
+>If $\eta, \eta^*\in \mathbb{R}$ are s.t. $\lim_{t\rightarrow \infty}f^k(\eta)=\eta^*$, then $\eta^*$ is a fixed point of f 
+
+We defined the notion of an attractor:
+>[!definition]
+>We say that $\eta^*$ is an *attractor* of the map $f$ when $\exists$ an open neighbourhood $V$ of $\eta^*$ s.t. $$\lim_{t\rightarrow \infty}f^k(\eta)=\eta^*,\forall \eta \in V$$
+>
+
+>[!Example]
+A linear map $f(x)=ax$, $a \in \mathbb{R}$ fixed.
+$x_{k+1}=ax_k$, $k>0$ and $x_0=\eta\in\mathbb{R}$
+
+$\Rightarrow x_k = f^k(\eta)=a^k\eta, \forall k \geq 0$
+Solve $f(x)=x$ in order to find the fixed points. We egt:
+ if $a\neq 1$, then $\eta^*=0$ is the unique fixed point 
+- if $|a|<1$, then $\lim_{k\rightarrow \infty}a^k=0$, thus $\lim_{k\rightarrow \infty}f^k(\eta)=0, \forall \eta\in\mathbb{R}$, meaning that the fixed point $0$ is a global attractor for $f$
+- if $|a| >1$, then $a^k$ is an unbounded sequence, thus $\forall \eta \in \mathbb{R}^*$, the sequence $f^k(\eta)$ is unbounded 
+
+![[cobwebDiagram]]
+
+### The linearization method
+Let $f : \mathbb{R} \rightarrow \mathbb{R}$ be a $C^1$ map and $\eta^*\in\mathbb{R}$ be a fixed point of $f$.
+- If $|f'(\eta^*)|<1$, then $\eta^*$ is an attractor
+- If $|f'(\eta^*)|>1$, then $\eta^*$ is a repeller
+
+![[Discrete Dynamical Systems 2025-05-19 12.35.49.excalidraw]]
+
+>[!Example]
+>$f:(0,\infty)\rightarrow \mathbb{R}, f(x)=\cfrac{x^2+5}{2x}$
+>1.  Note that $f(x)>0,\forall x\in(0,\infty)$. thus, $f:(0,\infty)\rightarrow(0,\infty)$
+>2.  Check that $\eta^*=\sqrt{5}$ is the unique fixed point of $f$ and it is an attractor 
+>3.  Represent the cob-web diagram and note that it seems like$\lim_{k\rightarrow \infty} f(\eta)= \sqrt{5},\forall \eta \in (0, \infty)$ 
+>4. Prove that $\lim_{k\rightarrow \infty} f^k(\eta)=\sqrt{5}, \forall \eta \in (0,\infty)$
+
+2. $f(x)=x\Leftrightarrow \cfrac{x^2+5}{2x}=x\Leftrightarrow x^2-5=0\Leftrightarrow x_{1,2}=\pm\sqrt{5}$. Since $x>0$, we have that the only fixed point $f$ ~ $\sqrt{5}$. $f'(x) = \cfrac{x^2-5}{2x^2}$. $f'(\sqrt{5})=0$ (it is said that $\sqrt{5}$ is a *super-attractor*)
+3. ![[Discrete Dynamical Systems 2025-05-19 12.49.33.excalidraw]]
+Let $\eta \in (\sqrt{5}, +\infty)$. Then $f^k(\eta)\in(\sqrt{5},+\infty), \forall k \geq 0$ (1).
+We claim that $f(x)<x,\forall x\in(\sqrt{5},\infty)$ (2)
+Indeed, $f(x)<x\Leftrightarrow \cfrac{x^2+5}{2x}<x\Leftrightarrow\cfrac{x^2+5-2x^2}{2x}\Leftrightarrow\cfrac{x^2-5}{2x}>0$, true $\forall x\in(\sqrt{5},\infty)$
+
+(1), (2) $\Rightarrow$ $f(f^k(\eta))<f^k(\eta),\forall \eta > \sqrt{5}$. Thus, the sequence is strictly decreasing 
+$\Rightarrow \sqrt{5}<f^k(\eta) < \eta, \forall k \geq 0$
+Thus, $(f^k(\eta))$ is convergent $\Rightarrow$ its limit is a fixed point of $f$. But $\sqrt{5}$ is the only fixed point  of $f$ $\Rightarrow$ $\lim_{k\rightarrow \infty}f^k(\eta)=\sqrt{5}, \forall \eta \in (\sqrt{5}, \infty)$
+Let $\eta \in (0,\sqrt{5}) \Rightarrow f(\eta)\in(\sqrt{5},\infty)\Rightarrow \lim_{k\rightarrow\infty}f^k(f(\eta))=\sqrt{5}$ $\Rightarrow \lim_{k\rightarrow\infty}f^{k+1}(\eta)=\sqrt{5}$
+Let $\eta = \sqrt{5}$ fixed point, so $f^k(\sqrt{5})=\sqrt{5}$
