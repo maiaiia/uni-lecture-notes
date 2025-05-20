@@ -3,7 +3,7 @@ ___
 Class: [[DynamicalSystems]]
 Type: 
 Tags: # 
-Date: May 12th, 2025
+Date: May 12th, 2025 / May 19th, 2025
 ___
 
 Instead of differential equations, we will consider difference equations:
@@ -138,4 +138,59 @@ Indeed, $f(x)<x\Leftrightarrow \cfrac{x^2+5}{2x}<x\Leftrightarrow\cfrac{x^2+5-2x
 $\Rightarrow \sqrt{5}<f^k(\eta) < \eta, \forall k \geq 0$
 Thus, $(f^k(\eta))$ is convergent $\Rightarrow$ its limit is a fixed point of $f$. But $\sqrt{5}$ is the only fixed point  of $f$ $\Rightarrow$ $\lim_{k\rightarrow \infty}f^k(\eta)=\sqrt{5}, \forall \eta \in (\sqrt{5}, \infty)$
 Let $\eta \in (0,\sqrt{5}) \Rightarrow f(\eta)\in(\sqrt{5},\infty)\Rightarrow \lim_{k\rightarrow\infty}f^k(f(\eta))=\sqrt{5}$ $\Rightarrow \lim_{k\rightarrow\infty}f^{k+1}(\eta)=\sqrt{5}$
-Let $\eta = \sqrt{5}$ fixed point, so $f^k(\sqrt{5})=\sqrt{5}$
+Let $\eta = \sqrt{5}$ fixed point, so $f^k(\sqrt{5})=\sqrt{5}, \forall k \geq 0$
+
+### The Newton - Raphson Method
+This is a method used for approximating the roots of a map $g$
+>[!theorem]
+>Let $V\subset \mathbb{R}$ be an open interval and $g: V \rightarrow \mathbb{R}$ be a $C^2$ map s.t. $g'(x)\neq 0, \forall x \in V$. For each $\eta \in V$ we consider a sequence defined by $$x_{k+1}=x_k-\cfrac{g(x_k)}{g'(x_k)}, x_0=\eta$$
+>
+>Let $\eta^*\in V$ be s.t. $g(\eta^*)=0$.
+>Then, there exists a neighbourhood of $\eta^*$ $\tilde V$ s.t. $\forall \eta \in \tilde V$ we have $\lim_{t\rightarrow\infty}x_k=\eta^*$
+
+<u>Proof</u>:
+Consider $f(x)=x-\cfrac{g(x)}{g'(x)}$ $\Rightarrow x_k=f^k(\eta)$. Thus, the conclusion $\Leftrightarrow$ $\eta^*$ is an attractor for $f$
+1. We prove that $f(\eta^*)=\eta^*$ - true, since $g(\eta^*)=0$ 
+2. $f'(\eta^*)=?$
+$f'(x)=1-\cfrac{g'(x)\cdot g'(x) - g(x)\cdot g''(x)}{(g'(x))^2}$
+$f'(\eta^*)=1-1=0 \Rightarrow \eta^*$ is a super-attractor
+
+
+>[!Example]
+>$g(x)=x^2-5$
+
+![[Discrete Dynamical Systems 2025-05-19 13.21.37.excalidraw]]
+$x_{k+1}=x_k-\cfrac{g(x_k)}{g'(x_k)}$
+
+### P-cycles
+Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a continuous map.
+>[!definition]
+>Let $\eta^*\in\mathbb{R}$ and $p\in\mathbb{N}, p \geq 2$
+>
+>- We say that $\eta^*$ is a $p$-periodic point of $f$ (equivalently, $\gamma_{\eta^*}$ is a p-cycle) when $\eta^*$ is a fixed point of the iterate $f^p$, but it is not a fixed point of $f,f^2,\dots,f^{n-1}$
+>- We say that a $p$-cycle $\gamma_{\eta^*}$ is an *attractor* when $\eta^*$ is an attracting fixed point of the iterate $f^p$
+>
+
+>[!remark] Remarks
+> 1. Let $\eta^*$ be a $p$-periodic point. Then, the corresponding $p$-cycle is $$\gamma_{\eta^*}=\{\eta^*, f(\eta^*),\dots,f^{p-1}(\eta^*)\}$$
+> (it contains $p$ different values)
+> 
+>2. If, in addition, $\gamma_{\eta^*}$ is an attractor $\forall \eta$ in the basin of attraction of the fixed point $\eta^*$ of $f^p$ we have $$\lim_{k\rightarrow\infty}(f^p)^k(\eta)=\eta^*$$
+
+>[!Example]
+>for $p = 3$
+>$\gamma_{\eta}=\{\eta, f(\eta), f^2(\eta), f^3(\eta),\dots\}$
+>$p = 3 \Rightarrow \lim_{k\rightarrow \infty}f^{3k}(\eta)=\eta^*$
+>$\lim_{k\rightarrow \infty}f^{3k+1}(\eta)=f(\eta^*)$
+>$\lim_{k\rightarrow \infty}f^{3k+2}(\eta)=f^2(\eta^*)$
+>(i.e. we can decompose the orbit of $\eta$ into $p$ subsequences that converge to different values, thus getting a $2^p$ cycle)
+
+
+
+
+
+
+
+
+
+![[Discrete Dynamical Systems 2025-05-19 13.37.57.excalidraw]]
