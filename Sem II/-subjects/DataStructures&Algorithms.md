@@ -10,6 +10,7 @@
 - [[Sorted Multimap]]
 - [[src/Sem II/DataStructures&Algorithms/Relations|Relations]]
 - [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms]]
+- [[Huffman Coding]]
 Seminars
 - [[Seminar 4]]
 - [[Seminar 5]]
