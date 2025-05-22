@@ -14,7 +14,10 @@ Lecture
 	- [[Semaphores]]
 	- [[Barriers]]
 	- [[Read Write Lock]]
+"Pure" theory
 - [[Process Theory]]
+- [[Deadlocks]]
+- [[Scheduling Mechanisms]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]

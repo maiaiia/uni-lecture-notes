@@ -112,7 +112,7 @@ B 4 -> 3
 B 2 -> 1
 ```
 
-## Deadlocks 
+## [[Deadlocks]] 
 Deadlocks are conditions blocking the execution of a program 
 
 Example - open
