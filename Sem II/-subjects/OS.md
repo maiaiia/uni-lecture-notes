@@ -18,6 +18,7 @@ Lecture
 - [[Process Theory]]
 - [[Deadlocks]]
 - [[Scheduling Mechanisms]]
+- [[Memory]]
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]
