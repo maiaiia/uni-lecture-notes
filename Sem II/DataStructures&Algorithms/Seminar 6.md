@@ -58,9 +58,70 @@ Total complexity: $\approx \alpha \cdot \cfrac{m \cdot (m+1)}{2} = \cfrac{n}{m} 
 
 ## 2. ADT BidirectionalMap 
 Both the key and the value must be unique
+### Interface
 - $\text{init}(bdm)$ - $\Theta(1)$
 - $\text{insert}(bdm,k,v)$ - $\Theta(1)$ on avg. amortised
 - $\text{search}(bdm, k)$ - $\Theta(1)$ on avg.
 - $\text{reverseSearch}(bdm,v)$ - $\Theta(1)$ on avg.
 - $\text{remove}(bdm, k)$ - $\Theta(1)$ on avg.
+
+### Solution
+- ADT Level
+	- 2 maps: $(k,v)$ and $(v,k)$
+- Data Structure Level
+	- 2 hash tables - use separate chaining to avoid duplicate data
+### Representation
+![[bidirectionalMapDSLevel]]
+
+```tabs
+tab: BdmNode
+$\text{k: TKey}$
+$\text{v: TValue}$
+$\text{nextK: }\uparrow\text{ BdmNode}$
+$\text{prevK: }\uparrow\text{ BdmNode}$
+$\text{nextV: }\uparrow\text{ BdmNode}$
+$\text{prevV: }\uparrow\text{ BdmNode}$
+tab: Bdm
+$\text{keyTable: }(\uparrow\text{BdmNode})[]$
+$\text{valueTable: }\uparrow\text{BdmNode})[]$
+$\text{size: Integer}$
+$\text{m: Integer}$
+$\text{hashK: TFunction}$
+$\text{hashV: TFunction}$
+```
+
+### Implementation
+
+>[!code] search(bdm, k)
+>```pseudocode 
+>subalg search(bdm, k):
+>	pos <- bdm.hKey(k)
+>	currentNode <-bdm.keyTable[pos]
+>	while currentNode != NIL and [currentNode].k != k execute
+>		currentNode <-[currentNode].nextk
+>	if currentNode != NIL and [currentNode].k = k then:
+>		search <- [currentNode].v
+>	search <- NULL_TVALUE
+>```
+
+>[!code] removeNode(bdm, k)
+>```pseudocode 
+>subalg removeNode(bdm, k):
+>pre: node is not NIL
+>	//remove from keyList
+>	if [node].prevK = NIL then
+>		kPos <- bdm.hKey([node].k)
+>		bm.keyTable[kPos] <- [node].nextK
+>		if [node].nextK != NIL then
+>			[bdm.keyTable[kPos]].prevK <- NIL
+>	else
+>		if [node].nextK = NIL then
+>			[[node].prevK].nextK <- NIL
+>		else
+>			[[node].prevK].nextK <-[node].nextK
+>			[[node].nextK].prevK <-[node].prevK
+>	//same for valueList
+>	@deallocate(node)
+>
+>```
 
