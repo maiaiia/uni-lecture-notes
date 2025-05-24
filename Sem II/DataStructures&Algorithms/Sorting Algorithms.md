@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Seminar
-Tags: # 
+Tags: #Sorting
 Date: April 16th, 2025
 ___
 ## Bucket Sort
@@ -96,3 +96,4 @@ A version of [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms#^49e290|L
 ### Complexity
 $\Theta(d \cdot (N + n)) \approx \Theta(d \cdot n) \approx \Theta(n)$
 
+[[src/Sem I/FP/Sorting Algorithms|Sorting Algorithms]]

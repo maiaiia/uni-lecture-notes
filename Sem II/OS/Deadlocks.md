@@ -11,7 +11,7 @@ ___
 	- occurs when a thread locks something then wants to lock another resource
 3. No preemption 
 4. Circular wait
-## Q
+## Questions
 
 1. How to get out of a deadlock? - choose a "victim" to kill
 2. How to detect a deadlock? 
@@ -30,7 +30,7 @@ while (trylock < 0)
 ```
 - data corruption!!! 
 
->[!warning] Exam Question 
+>[!question] Exam Question 
 >How to prevent deadlocks?
->>[!important] The best way to avoid deadlocks is to **always lock resources in the same order**
+>>[!important] The best way to prevent deadlocks is to **always lock resources in the same order**
 
