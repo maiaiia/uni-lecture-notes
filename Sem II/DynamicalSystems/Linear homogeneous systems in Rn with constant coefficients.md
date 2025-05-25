@@ -129,7 +129,7 @@ $PD = (u_1...u_n)\begin{pmatrix} \lambda_1 && 0 && ... && 0 \\ 0 && \lambda_2 &&
 4. We have already proven that $e^{t\lambda_1}u_1,...,e^{t\lambda_n}u_n$ are solutions of the equations, so we only need to prove linear independence
 Let $k_1,...,k_n \in \mathbb{R}$ s.t. $k_1e^{t\lambda_1}u_1+...+k_ne^{t\lambda_n}u_n = 0, \forall t$ $\Rightarrow$ (for $t=0$) $k_1u_1+...+k_nu_n=0$ $\Rightarrow k_1=...=k_n=0$ (we have already proven that $u_1,...,u_n$ are linearly independent) $\Rightarrow$ qed.
 
-### The characteristic method to find the general solution of $X'=AX$, where $A$ is diagonalizable over $\mathbb{R}$
+#### The characteristic method to find the general solution of $X'=AX$, where $A$ is diagonalizable over $\mathbb{R}$
 
 **Step 1**
 We find the eigenvalues and the eigenvectors of $A$. Decide whether or not $A$ is diagonalizable over $\mathbb{R}$
