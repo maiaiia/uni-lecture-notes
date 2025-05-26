@@ -72,7 +72,13 @@ $f(x)=x \Leftrightarrow 3x^2-2x=0 \Leftrightarrow x\in \{0,\cfrac{2}{3}\}$
 Suppose $f$ has a $2$-cycle
 $\{\eta^*,f(\eta^*)\}$ is a $2$-cycle $\iff$ $f^2(\eta^*)=\eta^*$ and $f(\eta^*)\neq(\eta^*)$.
 So, $\eta^*$ is a fixed point of $(f^2)^k$
-$f^2(x)=3f(x)-3(f(x))^2=3(3x-3x^2)-3(3x-3x^2)^2=9x-9x^2-27(x^2-2x^3+x^4)$ $=-27x^4+54x^3-x^2+9x$
+$f^2(x)=3f(x)-3(f(x))^2=3(3x-3x^2)-3(3x-3x^2)^2=9x-9x^2-27(x^2-2x^3+x^4)$ 
+$f^2(x)=x \Leftrightarrow 27x^4-54x^3+36x^2-8x=0$ $\Leftrightarrow$ $x \cdot (27x^3-54x^2+36x-8)=0$
+In order to find the roots of the polynomial, we can use the fact that any fixed point of $f$ is a fixed point of $f^2$
+
+bla bla bla the roots are $\{0, \cfrac{2}{3}\}$ (the polynomial is in fact $(3x-2)^2=0$)
+So $f^2$ has the same fixed points as those of $f$. But in order to have a 2-cycle, we must have a fixed point of $f^2$ which is not a fixed point of $f$.
+
 
 
 
