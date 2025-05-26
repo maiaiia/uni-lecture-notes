@@ -154,8 +154,10 @@ Thus, $\eta^*$ is an attractor fixed point of $f$
 II. 
 $\exists f^{-1}$
 $f(\eta^*)=\eta^* \Rightarrow \eta^*$ is a fixed point of $f^{-1}$
-Since $f^{-1}(f(x))=x,\forall x \in \mathbb{R}$, we have $(f^{-1})'(f(x))\cdot f'(x)=1,\forall x \in \mathbb{R}$
+Since $f^{-1}(f(x))=x,\forall x \in \mathbb{R}$, we have $(f^{-1})'(f(x))\cdot f'(x)=1,\forall x \in \mathbb{R}$ $\Rightarrow$ $(f^{-1})'(\eta^*)=\cfrac{1}{f'(\eta^*)}$
+If $|f'(\eta^*)|>1$, then $|(f^{-1})'(\eta^*)|<1$ and, using I, we have that $\eta^*$ is an attractor of $f^{-1}$. (which is, by definition, a repeller fixed point of $f$).
 
 
+![[Scalar (real) maps 2025-05-26 13.28.57.excalidraw]]
 
  
