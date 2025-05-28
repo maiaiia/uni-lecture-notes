@@ -2619,3 +2619,91 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```
 
 ### Misc
+```c
+/* N persoane trebuie sa treaca un rau
+ * O barca poate tine M pasageri in acelasi timp (si N % M = 0)
+ * Se doreste efectuarea a cat mai putine calatorii (deci folosesc o bariera)
+ * Fiecare persoana are un factor de greutate
+ * Durata de calatorie este egala cu greutatea totala + durata unei calatorii cand barca este goala
+ * Durata default a calatoriei este D
+ * Afiseaza timpul total al calatoriei
+ */
+
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h> 
+#include <stdlib.h>
+
+
+const int N = 20; // pasageri
+const int M = 5; 
+const int D = 3; // durata unei calatorii
+
+int greutate = 0;
+int timp = 0;
+int nrPasageri=0;
+pthread_cond_t c;
+
+pthread_mutex_t m; //mutex pe greutatea totala si totalul de pasageri
+
+sem_t s;
+
+void* pasager(void* wp){
+    int *w = (int*)wp;
+    printf("Un pasager cu greutatea %d asteapta\n", *w);
+    sem_wait(&s); //asteapta sa urce in barca
+    //poate urca in barca
+    printf("Un pasager cu greutatea %d urca in barca\n", *w);
+    pthread_mutex_lock(&m);
+    nrPasageri++;
+    greutate += *w;
+    if (nrPasageri == M)
+        pthread_cond_signal(&c);
+    pthread_mutex_unlock(&m);
+
+    return NULL;
+}
+
+void* barcagiu(){
+    while(1){
+        pthread_mutex_lock(&m);
+        while (nrPasageri < M)
+            pthread_cond_wait(&c,&m);
+        printf("Barca duce pasagerii - greutatea totala este %d\n", greutate);
+        timp += greutate + 2 * D; //dus-intors
+        printf("Momentul intoarcerii - %d\n", timp);
+        nrPasageri -= M;
+        for (int i = 0; i < M; i++)
+            sem_post(&s);
+        pthread_mutex_unlock(&m);
+    }
+
+    return NULL;
+}
+
+
+int main(){
+    pthread_t pasageri[N+5];
+    int w[N+5];
+
+    pthread_t capitan;
+    sem_init(&s,0,M);
+    
+    srandom(getpid());
+    pthread_create(&capitan, NULL, barcagiu, NULL);
+    for (int i = 0; i < N; i++){
+        //factor de greutate
+        w[i] = (random() % 10 + 10) % 10;
+        pthread_create(&pasageri[i], NULL, pasager, &w[i]);
+    }
+    for (int i = 0; i < N; i++)
+        pthread_join(pasageri[i], NULL);
+    pthread_join(capitan, NULL);
+    pthread_mutex_destroy(&m);
+    pthread_cond_destroy(&c);
+    sem_destroy(&s);
+   
+    return 0;
+}
+```
