@@ -1,4 +1,4 @@
-xLecture
+Lecture
 - [[Standard Input-Output-Errror]]
 - [[File Permissions]]
 - [[Unix Processes]]
@@ -19,6 +19,7 @@ xLecture
 - [[Deadlocks]]
 - [[Scheduling Mechanisms]]
 - [[Memory]]
+
 Lab/Seminar
 - [[Command Line Intro]]
 - [[REGEX]]

@@ -23,6 +23,9 @@ ___
 - in this case, the segment selector is implicit (CS, DS, SS), and picked by the assembler
 >[!tip] a NEAR address is always relative to the one of the 4 active segments
 ### Segments
+
+^5e4129
+
 #### Def
 an uninterrupted sequence of memory locations / a block of memory of discrete size
 ![[Address 2024-12-03 22.39.47.excalidraw]]
