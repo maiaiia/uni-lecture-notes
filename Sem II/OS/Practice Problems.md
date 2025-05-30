@@ -2470,7 +2470,7 @@ Solve the problem using fifos.
 >
 ## Threads 
 ### Calin
->[!todo]- 2. Write a program that creates 4 threads and had 3 global variables v5, v2, v3.
+>[!done]- 2. Write a program that creates 4 threads and had 3 global variables v5, v2, v3.
 Each thread generates a random number and:
 >- if the number is multiple of 2 increments v2
 >- if the number is multiple of 3, increments v3
@@ -2484,12 +2484,122 @@ Each thread generates a random number and:
 >
 >>[!code]-
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <time.h>
+>>#include <stdlib.h>
+>>
+>>int v2, v3, v5, generated=0;
+>>pthread_mutex_t m, m2, m3, m5; //generate + increments
+>>
+>>void* threadFunc(void* arg){
+>>    (void)arg;
+>>    while(1){
+>>      pthread_mutex_lock(&m);
+>>              if (generated == 30){
+>>                      pthread_mutex_unlock(&m);
+>>                      return NULL;
+>>      }
+>>      generated++;
+>>      int newNumber = abs((int)random()) % 200;
+>>      printf("%d\t%d:\t%d %d %d\n", generated, newNumber, newNumber%2==0, newNumber%3==0, newNumber%5==0);
+>>      pthread_mutex_unlock(&m);
+>>      if (newNumber % 2 == 0){
+>>              pthread_mutex_lock(&m2);
+>>                      v2++;
+>>                      pthread_mutex_unlock(&m2);
+>>      }
+>>      if (newNumber % 3 == 0){
+>>                      pthread_mutex_lock(&m3);
+>>                      v3++;
+>>                      pthread_mutex_unlock(&m3);
+>>      }
+>>      if (newNumber % 5 == 0){
+>>                      pthread_mutex_lock(&m5);
+>>                      v5++;
+>>                      pthread_mutex_unlock(&m5);
+>>      }
+>>    }
+>>    return NULL;
+>>}
+>>
+>>int main(){
+>>    srand(time(0));
+>>    pthread_t thr[4];
+>>    for (int i = 0; i < 4; i++)
+>>              pthread_create(&thr[i], NULL, threadFunc, NULL);
+>>    for (int i = 0; i < 4; i++)
+>>              pthread_join(thr[i], NULL);
+>>    printf("%d - %d - %d\n", v2, v3, v5);
+>>      return 0;
+>>}
 >>```
 
->[!todo]- 3. Write a program that creates 20 threads, giving each thread a string as parameter. Each thread will count and add to the global variables v and n as follows: the number of vowels contained by the string added to v, and the number of digits contained in the string added to n. Synchronise threads using mutex and check for memory leaks.
+>[!done]- 3. Write a program that creates 20 threads, giving each thread a string as parameter. Each thread will count and add to the global variables v and n as follows: the number of vowels contained by the string added to v, and the number of digits contained in the string added to n. Synchronise threads using mutex and check for memory leaks.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <time.h>
+>>#include <stdlib.h>
+>>#include <string.h>
+>>
+>>
+>>int v, n;
+>>pthread_mutex_t mv, mn;
+>>
+>>char* generateString(){
+>>	int l = abs((int)random()) % 20 + 5;
+>>	char* w = malloc((l+1) * sizeof(char));
+>>	int vs = 0, ns = 0;
+>>	for (int i = 0; i < l; i++){
+>>		// one in eight chance of a digit
+>>		int digit = (random() % 8 == 0);
+>>		if (digit){
+>>			ns++;
+>>			w[i] = '0' + (abs((int)random())%10);
+>>		}
+>>		else{
+>>			w[i] = 'a' + (abs((int)random())%26);
+>>			if (strchr("aeiou", w[i]))
+>>				vs++;
+>>		}
+>>	}
+>>	w[l]='\0';
+>>	printf("V: %d - N: %d - S: %s\n", vs, ns, w);
+>>	return w;
+>>}
+>>
+>>void* threadFunc(void* arg){
+>>	char* s = (char*)arg;
+>>	for (int i = 0; i < (int)strlen(s); i++)
+>>		if ('0' <= s[i] && s[i] <= '9'){
+>>			pthread_mutex_lock(&mn);
+>>			n++;
+>>			pthread_mutex_unlock(&mn);
+>>		}
+>>		else if (strchr("aeoiu", s[i])){
+>>			pthread_mutex_lock(&mv);
+>>			v++;
+>>			pthread_mutex_unlock(&mv);
+>>		}
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(){
+>>	srand(time(0));
+>>	pthread_t thr[20];
+>>	for (int i = 0; i < 20; i++){
+>>		pthread_create(&thr[i], NULL, threadFunc, (void*)generateString());
+>>	}
+>>	for (int i = 0; i < 20; i++)
+>>		pthread_join(thr[i], NULL);
+>>	printf("%d - %d\n", v, n);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 4. A C program receives command line args pairs of numbers, and creates for each pair a thread that checks is the two numbers are relatively prime (gcd=1), incrementing a global variable. The program prints at the end how many relatively prime pairs have been found and the respective pairs.
