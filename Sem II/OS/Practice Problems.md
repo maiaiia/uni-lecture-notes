@@ -2470,6 +2470,106 @@ Solve the problem using fifos.
 >
 ## Threads 
 ### Calin
+>[!todo]- 2. Write a program that creates 4 threads and had 3 global variables v5, v2, v3.
+Each thread generates a random number and:
+>- if the number is multiple of 2 increments v2
+>- if the number is multiple of 3, increments v3
+>- if the number is multiple of 5 increments v5
+>The number can be a multiple of more numbers (ex. for 10 we will increment both V2 and V5)
+>
+>Threads print the generated numbers and stop when 30 numbers have been generated.
+>
+>The main program prints the 3 global variables.  
+>!!! Use mutex for synchronisation.
+>
+>>[!code]-
+>>```c
+>>```
+
+>[!todo]- 3. Write a program that creates 20 threads, giving each thread a string as parameter. Each thread will count and add to the global variables v and n as follows: the number of vowels contained by the string added to v, and the number of digits contained in the string added to n. Synchronise threads using mutex and check for memory leaks.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 4. A C program receives command line args pairs of numbers, and creates for each pair a thread that checks is the two numbers are relatively prime (gcd=1), incrementing a global variable. The program prints at the end how many relatively prime pairs have been found and the respective pairs.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 5. Write a program that computes the sum of the elements of a matix using threads. Try to come up with a most efficient solution.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 6. Write a C program that reads strings (words) from stdin until the word stop is given. For each string, the program will launch a thread that receives this string as argument and computes the number of vowels in the string. The thread will send this result as a return value to the main thread. The main thread will print each string and their number of vowels, as well as the total sum. Solve the problem without using global variables.
+>
+>>[!code]- 
+>>```c
+>>```
+
+>[!todo]- 7. Write a C program that creates 2 threads that will print each their thread ID, but always alternatively.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- 8. Write a C program using threads and mutexes that results in a deadlock.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]-
+>
+>>[!code]
+>>```c
+>>```
+
 ### Horea
 >[!todo]- 12a. Write a C program that reads a matrix of integers from a file. It then creates as many threads as there are rows in the matrix, each thread calculates the sum of the numbers on a row. The main process waits for the threads to finish, then prints the sums.
 >
