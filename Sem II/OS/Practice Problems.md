@@ -2602,10 +2602,62 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 4. A C program receives command line args pairs of numbers, and creates for each pair a thread that checks is the two numbers are relatively prime (gcd=1), incrementing a global variable. The program prints at the end how many relatively prime pairs have been found and the respective pairs.
+>[!done]- 4. A C program receives command line args pairs of numbers, and creates for each pair a thread that checks is the two numbers are relatively prime (gcd=1), incrementing a global variable. The program prints at the end how many relatively prime pairs have been found and the respective pairs.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>#include <sys/param.h>
+>>
+>>int relPrimes;
+>>pthread_mutex_t m;
+>>
+>>struct pair{
+>>	int t1, t2;
+>>};
+>>
+>>void* threadFunc(void* arg){
+>>	struct pair* p = (struct pair*)(arg);
+>>	for (int i = 2; i <= MIN(p->t1, p->t2); i++)
+>>		if (p->t1 % i == 0 && p->t2 % i == 0){
+>>			free(p);
+>>			return NULL;
+>>		}
+>>	//free(p);
+>>	pthread_mutex_lock(&m);
+>>	relPrimes++;
+>>	pthread_mutex_unlock(&m);
+>>	return p;
+>>
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	const int pairCount = argc / 2;
+>>	pthread_t thr[pairCount];
+>>	for (int i = 0; i < pairCount; i++){
+>>	  struct pair* p = malloc(sizeof(struct pair));
+>>		p->t1 = atoi(argv[2*i+1]); p->t2=atoi(argv[2*i+2]);
+>>		pthread_create(&thr[i], NULL, threadFunc, (void*)p);
+>>	}
+>>	
+>>	struct pair* ret[pairCount];// = NULL; 
+>>	for (int i = 0; i < pairCount; i++){
+>>			pthread_join(thr[i], (void**)&ret[i]);
+>>	}
+>>	printf("%d\n", relPrimes);
+>>	
+>>	for (int i = 0; i < pairCount; i++)
+>>		if (ret[i] != NULL){
+>>			printf("%d - %d\n", ret[i]->t1, ret[i]->t2);
+>>			free(ret[i]);
+>>		}
+>>	//free(ret);
+>>	
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 5. Write a program that computes the sum of the elements of a matix using threads. Try to come up with a most efficient solution.
@@ -2614,13 +2666,66 @@ Each thread generates a random number and:
 >>```c
 >>```
 
->[!todo]- 6. Write a C program that reads strings (words) from stdin until the word stop is given. For each string, the program will launch a thread that receives this string as argument and computes the number of vowels in the string. The thread will send this result as a return value to the main thread. The main thread will print each string and their number of vowels, as well as the total sum. Solve the problem without using global variables.
+>[!done]- 6. Write a C program that reads strings (words) from stdin until the word stop is given. For each string, the program will launch a thread that receives this string as argument and computes the number of vowels in the string. The thread will send this result as a return value to the main thread. The main thread will print each string and their number of vowels, as well as the total sum. Solve the problem without using global variables.
 >
 >>[!code]- 
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>#include <string.h>
+>>
+>>struct ret{
+>>	char* w;
+>>	int cnt;
+>>};
+>>
+>>void* threadFunc(void* arg){
+>>	char* w = (char*)arg;
+>>	int cnt = 0;
+>>	
+>>	for (int i = 0; i < (int)strlen(w); i++)
+>>		if (strchr("aeiou", w[i]))
+>>			cnt++;
+>>
+>>	struct ret* val = malloc(sizeof(struct ret));
+>>	val->w = w;
+>>	val->cnt = cnt;
+>>	return (void*)val;
+>>}
+>>
+>>int main(){
+>>	pthread_t t[100];
+>>	int wordCount = 0;
+>>	while (1){
+>>		char*w = malloc(30 * sizeof(char));
+>>		fgets(w,25, stdin);
+>>		w[strlen(w)-1]='\0';
+>>		if (strcmp(w, "stop")==0){
+>>			free(w);
+>>			break;
+>>		}
+>>		pthread_create(&t[wordCount], NULL, threadFunc, (void*)w);
+>>		wordCount++;
+>>	}
+>>	int sum = 0;
+>>	struct ret** vals = malloc(sizeof(struct ret*)*wordCount);
+>>	for (int i = 0; i < wordCount; i++){
+>>		pthread_join(t[i], (void**)&vals[i]);
+>>		sum += vals[i]->cnt;
+>>	}
+>>	printf("%d\n", sum);
+>>	for (int i = 0; i < wordCount; i++){
+>>		printf("%s - %d\n", vals[i]->w, vals[i]->cnt);
+>>		free(vals[i]->w); free(vals[i]);
+>>  }
+>>	free(vals);
+>>	return 0;
+>>}
+>>
 >>```
 
->[!todo]- 7. Write a C program that creates 2 threads that will print each their thread ID, but always alternatively.
+>[!todo]- 7. Write a C program that creates 2 threads. Each one will print their thread ID, but always alternatively.
 >
 >>[!code]
 >>```c
