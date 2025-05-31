@@ -3016,14 +3016,41 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 18. Create a C program that converts all lowecase letters from the command line arguments to uppercase letters and prints the result. Use a thread for each given argument.
+>[!done]- 18. Create a C program that converts all lowecase letters from the command line arguments to uppercase letters and prints the result. Use a thread for each given argument.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <string.h>
+>>
+>>void* thrFunc(void* arg){
+>>	char* w = (char*) arg;
+>>	for (int i = 0; i < (int)strlen(w); i++)
+>>		if ('a' <= w[i] && w[i] <= 'z')
+>>			w[i] += 'A'-'a';
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	pthread_t thr[argc+1];
+>>	for (int i = 1; i < argc; i++)
+>>		pthread_create(&thr[i], NULL, thrFunc, (void*)argv[i]);
+>>	
+>>	for (int i = 1; i < argc; i++)
+>>		pthread_join(thr[i], NULL);
+>>
+>>	for (int i = 1; i < argc; i++)
+>>		printf("%s ", argv[i]);
+>>	printf("\n");
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 19. Create a C program that takes one integer N as a command line argument, and then reads N integers from the keyboard and stores them in an array. It then calculates the sum of all the read integers using threads that obey the hierarchy presented in the image below. For any given N, the array has to be padded with extra integers with value 0 to ensure that it always contains a number of elements equal to a power of 2 (let this number be M). The required number of threads will be M - 1, let each thread have and ID from 1 to M - 1. As per the image, threads with ID >= M / 2 will calculate the sum of 2 numbers on consecutive positions in the array. Threads with an ID < M / 2 must wait for 2 threads to finish and then they will add the results produced by those two threads.
->
+>![[Pasted image 20250531171250.png]]
 >>[!code]
 >>```c
 >>```
