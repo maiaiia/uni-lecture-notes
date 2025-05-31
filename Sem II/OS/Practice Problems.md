@@ -3053,6 +3053,80 @@ Each thread generates a random number and:
 >![[Pasted image 20250531171250.png]]
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>struct leafArg{
+>>	int l, r;
+>>};
+>>struct intArg{
+>>	pthread_t l, r;
+>>};
+>>
+>>void* leaf(void*arg){
+>>	struct leafArg* a = (struct leafArg*)arg;
+>>	int l = a->l; int r = a->r;
+>>	free(a);
+>>	
+>>	int* sum = malloc(sizeof(int));
+>>	*sum = l + r;
+>>	return (void*)sum;
+>>}
+>>
+>>void* internal(void* arg){
+>>	struct intArg* a = (struct intArg*)arg;
+>>	pthread_t l = a->l, r = a->r;
+>>	free(a);
+>>	int* lsum, *rsum;
+>>	pthread_join(l, (void**)&lsum);
+>>	pthread_join(r, (void**)&rsum);
+>>	int*sum = malloc(sizeof(int));
+>>	*sum = *lsum + *rsum;
+>>	free(lsum); free(rsum);
+>>	return (void*)sum;
+>>}
+>>
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one argument only\n");
+>>		return 1;
+>>	}
+>>
+>>	int N = atoi(argv[1]);
+>>	int M = 1;
+>>	while (M < N)
+>>		M *= 2;
+>>
+>>	int num[M+2];
+>>	for (int i = N; i <= M; i++)
+>>		num[i] = 0;
+>>
+>>	printf("Enter %d numbers:\n", N);
+>>	for (int i = 0; i < N; i++)
+>>		scanf("%d", num+i);
+>>
+>>	pthread_t thr[M+2];
+>>	for (int i = M / 2, j = 0; i < M; i++, j += 2){
+>>		struct leafArg* p = malloc(sizeof(struct leafArg));
+>>		p->l = num[j]; p->r = num[j+1];
+>>		pthread_create(&thr[i], NULL, leaf, (void*)p);
+>>	}
+>>	for (int i = M / 2 - 1; i; i--){
+>>		struct intArg* p = malloc(sizeof(struct intArg));
+>>		p->l = thr[2 * i]; p->r = thr[2 * i + 1];
+>>		pthread_create(&thr[i], NULL, internal, (void*)p);
+>>	}
+>>
+>>	int* sum;
+>>	pthread_join(thr[1], (void**)&sum);
+>>	printf("The sum is: %d\n", *sum);
+>>	free(sum);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!done]- 20. Write a C program that takes as command line arguments 2 numbers: N and M. The program will simulate a thread race that have to pass through M checkpoints. Through each checkpoint the threads must pass one at a time (no 2 threads can be inside the same checkpoint). Each thread that enters a checkpoint will wait between 100 and 200 milliseconds (usleep(100000) makes a thread or process wait for 100 milliseconds) and will print a message indicating the thread number and the checkpoint number, then it will exit the checkpoint. Ensure that no thread will try to pass through a checkpoint until all threads have been created.
