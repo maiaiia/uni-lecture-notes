@@ -3200,10 +3200,77 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 21. Write a C program that creates 2^N threads that race to the finish (N is a command line argument). The threads must pass through N checkpoint. The checkpoint with number X will allow half as many threads to pass simultaneously than checkpoint number X - 1 (N >= X >=1). Checkpoint 0 (the first one) will allow 2^(N-1) to pass simultaneously through it.
+>[!done]- 21. Write a C program that creates 2^N threads that race to the finish (N is a command line argument). The threads must pass through N checkpoint. The checkpoint with number X will allow half as many threads to pass simultaneously than checkpoint number X - 1 (N >= X >=1). Checkpoint 0 (the first one) will allow 2^(N-1) to pass simultaneously through it.
 >
 >>[!code]
 >>```c
+>>#include <pthread.h>
+>>#include <stdio.h>
+>>#include <semaphore.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>pthread_barrier_t b;
+>>
+>>int M;
+>>
+>>struct s{
+>>	int ord;
+>>	sem_t* checkpoint;
+>>};
+>>
+>>pthread_mutex_t mtx; //mutex for printing
+>>
+>>void* runner(void* arg){
+>>	struct s* p = (struct s*)arg;
+>>	int threadNumber = p->ord;
+>>	sem_t* checkpoint = p->checkpoint;
+>>	free(p);
+>>	pthread_barrier_wait(&b);
+>>	for (int i = 0; i < M; i++){
+>>		sem_wait(checkpoint+i);
+>>		pthread_mutex_lock(&mtx);
+>>		printf("Runner %d arrived at checkpoint %d\n",threadNumber,i+1);
+>>		pthread_mutex_unlock(&mtx);
+>>		usleep(600000+abs((int)random())%100000);
+>>		sem_post(checkpoint+i);
+>>	}
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one integer only");
+>>		return 0;
+>>	}
+>>	
+>>	M = atoi(argv[1]);
+>>	int N = 1;
+>>	for (int i = 0; i < M; i++)
+>>		N *= 2;
+>>
+>>	pthread_barrier_init(&b, 0, N);
+>>	sem_t checkpoint[M+5];
+>>	for (int i = M-1, pw = 1; i>=0; i--, pw *= 2)
+>>		sem_init(&checkpoint[i],0, pw);
+>>
+>>	pthread_t thr[N+5];
+>>	for (int i = 0; i < N; i++){
+>>		struct s* p = malloc(sizeof(struct s));
+>>		p->ord = i + 1;
+>>		p->checkpoint = checkpoint;
+>>		pthread_create(&thr[i], NULL, runner, (void*)p);
+>>	}
+>>	for (int i = 0; i < N; i++)
+>>		pthread_join(thr[i], NULL);
+>>	
+>>	pthread_barrier_destroy(&b);
+>>	for (int i = 0; i < M; i++)
+>>		sem_destroy(checkpoint+i);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 22. Write a C program that creates 10 child processes and synchronizes their execution. Each process will sleep for 1 second and then exit. Time the execution of the processes. (If all goes well, the total time should be a little over 10 seconds).
