@@ -3049,16 +3049,81 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 19. Create a C program that takes one integer N as a command line argument, and then reads N integers from the keyboard and stores them in an array. It then calculates the sum of all the read integers using threads that obey the hierarchy presented in the image below. For any given N, the array has to be padded with extra integers with value 0 to ensure that it always contains a number of elements equal to a power of 2 (let this number be M). The required number of threads will be M - 1, let each thread have and ID from 1 to M - 1. As per the image, threads with ID >= M / 2 will calculate the sum of 2 numbers on consecutive positions in the array. Threads with an ID < M / 2 must wait for 2 threads to finish and then they will add the results produced by those two threads.
+>[!done]- 19. Create a C program that takes one integer N as a command line argument, and then reads N integers from the keyboard and stores them in an array. It then calculates the sum of all the read integers using threads that obey the hierarchy presented in the image below. For any given N, the array has to be padded with extra integers with value 0 to ensure that it always contains a number of elements equal to a power of 2 (let this number be M). The required number of threads will be M - 1, let each thread have and ID from 1 to M - 1. As per the image, threads with ID >= M / 2 will calculate the sum of 2 numbers on consecutive positions in the array. Threads with an ID < M / 2 must wait for 2 threads to finish and then they will add the results produced by those two threads.
 >![[Pasted image 20250531171250.png]]
 >>[!code]
 >>```c
 >>```
 
->[!todo]- 20. Write a C program that takes as command line arguments 2 numbers: N and M. The program will simulate a thread race that have to pass through M checkpoints. Through each checkpoint the threads must pass one at a time (no 2 threads can be inside the same checkpoint). Each thread that enters a checkpoint will wait between 100 and 200 milliseconds (usleep(100000) makes a thread or process wait for 100 milliseconds) and will print a message indicating the thread number and the checkpoint number, then it will exit the checkpoint. Ensure that no thread will try to pass through a checkpoint until all threads have been created.
+>[!done]- 20. Write a C program that takes as command line arguments 2 numbers: N and M. The program will simulate a thread race that have to pass through M checkpoints. Through each checkpoint the threads must pass one at a time (no 2 threads can be inside the same checkpoint). Each thread that enters a checkpoint will wait between 100 and 200 milliseconds (usleep(100000) makes a thread or process wait for 100 milliseconds) and will print a message indicating the thread number and the checkpoint number, then it will exit the checkpoint. Ensure that no thread will try to pass through a checkpoint until all threads have been created.
 >
 >>[!code]
 >>```c
+>>#include <pthread.h>
+>>#include <stdio.h>
+>>#include <semaphore.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>pthread_barrier_t b;
+>>
+>>int M;
+>>
+>>struct s{
+>>	int ord;
+>>	sem_t* checkpoint;
+>>};
+>>
+>>pthread_mutex_t mtx; //mutex for printing
+>>
+>>void* runner(void* arg){
+>>	struct s* p = (struct s*)arg;
+>>	int threadNumber = p->ord;
+>>	sem_t* checkpoint = p->checkpoint;
+>>	free(p);
+>>	pthread_barrier_wait(&b);
+>>	for (int i = 0; i < M; i++){
+>>		sem_wait(checkpoint+i);
+>>		pthread_mutex_lock(&mtx);
+>>		printf("Runner %d arrived at checkpoint %d\n",threadNumber,i+1);
+>>		pthread_mutex_unlock(&mtx);
+>>		usleep(100000+abs((int)random())%100000);
+>>		sem_post(checkpoint+i);
+>>	}
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 3){
+>>		perror("Please enter 2 integers only");
+>>		return 0;
+>>	}
+>>	
+>>	const int N = atoi(argv[1]);
+>>	M = atoi(argv[2]);
+>>
+>>	pthread_barrier_init(&b, 0, N);
+>>	sem_t checkpoint[M+5];
+>>	for (int i = 0; i < M; i++)
+>>		sem_init(&checkpoint[i],0, 1);
+>>
+>>	pthread_t thr[N+5];
+>>	for (int i = 0; i < N; i++){
+>>		struct s* p = malloc(sizeof(struct s));
+>>		p->ord = i + 1;
+>>		p->checkpoint = checkpoint;
+>>		pthread_create(&thr[i], NULL, runner, (void*)p);
+>>	}
+>>	for (int i = 0; i < N; i++)
+>>		pthread_join(thr[i], NULL);
+>>	
+>>	pthread_barrier_destroy(&b);
+>>	for (int i = 0; i < M; i++)
+>>		sem_destroy(checkpoint+i);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 21. Write a C program that creates 2^N threads that race to the finish (N is a command line argument). The threads must pass through N checkpoint. The checkpoint with number X will allow half as many threads to pass simultaneously than checkpoint number X - 1 (N >= X >=1). Checkpoint 0 (the first one) will allow 2^(N-1) to pass simultaneously through it.
