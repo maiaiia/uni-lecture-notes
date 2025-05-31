@@ -2836,22 +2836,184 @@ Each thread generates a random number and:
 >>```
 
 ### Horea
->[!todo]- 15. Write a program that receives strings of characters as command line arguments. For each string the program creates a thread which calculates the number of digits, the number of leters and the number of special characters (anything other than a letter or digit). The main program waits for the threads to terminate and prints the total results (total number of digits, letters and special characters across all the received command line arguments) and terminates. Use efficient synchronization. Do not use global variables
+>[!done]- 15. Write a program that receives strings of characters as command line arguments. For each string the program creates a thread which calculates the number of digits, the number of leters and the number of special characters (anything other than a letter or digit). The main program waits for the threads to terminate and prints the total results (total number of digits, letters and special characters across all the received command line arguments) and terminates. Use efficient synchronization. Do not use global variables
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <string.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>struct counter{
+>>	int letter, digit, special;
+>>};
+>>
+>>void* thrFunc(void* arg){
+>>	char* w = (char*)arg;
+>>	struct counter* ret = malloc(sizeof(struct counter));
+>>	ret->letter = 0; ret->digit = 0; ret->special = 0;
+>>	for (int i = 0; i < (int)strlen(w); i++)
+>>		if ('0' <= w[i] && w[i] <= '9')
+>>			ret->digit++;
+>>		else if ('a' <= w[i] && w[i] <= 'z')
+>>			ret->letter++;
+>>		else
+>>			ret->special++;
+>>	return (void*)ret;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	pthread_t thr[argc+2];
+>>	for (int i = 1; i < argc; i++)
+>>		pthread_create(&thr[i], NULL, thrFunc, (void*) argv[i]);
+>>
+>>	int letters = 0, specials = 0, digits = 0;
+>>	struct counter* ret = NULL;
+>>	for (int i = 1; i < argc; i++){
+>>		pthread_join(thr[i], (void**)&ret);
+>>  	letters += ret->letter;
+>>		specials += ret->special;
+>>		digits += ret->digit;
+>>		free(ret);
+>>	}
+>>	printf("Letters: %d\nDigits: %d\nSpecial Characters: %d\n", letters, digits, specials);
+>>	
+>>	return 0;
+>>}
 >>```
 
->[!todo]-  16. Write a C program that receives integers as command line argument. The program will keep a frequency vector for all digits. The program will create a thread for each argument that counts the number of occurences of each digit and adds the result to the frequency vector. Use efficient synchronization.
+>[!done]-  16. Write a C program that receives integers as command line argument. The program will keep a frequency vector for all digits. The program will create a thread for each argument that counts the number of occurences of each digit and adds the result to the frequency vector. Use efficient synchronization.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <string.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>
+>>struct counter{
+>>	int d[10];
+>>};
+>>
+>>void* thrFunc(void* arg){
+>>	int n = atoi((char*)arg);
+>>	struct counter* ret = malloc(sizeof(struct counter));
+>>	for (int i = 0; i < 10; i++)
+>>		ret->d[i] = 0;
+>>
+>>	if (!n)
+>>		ret->d[0]++;
+>>	while(n){
+>>		ret->d[n%10]++;
+>>		n /= 10;
+>>	}
+>>
+>>	return (void*)ret;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	pthread_t thr[argc+2];
+>>	for (int i = 1; i < argc; i++)
+>>		pthread_create(&thr[i], NULL, thrFunc, (void*) argv[i]);
+>>
+>>	struct counter total;
+>>	for (int i = 0; i < 10; i++)
+>>		total.d[i]=0;
+>>	struct counter* ret = NULL;
+>>	for (int i = 1; i < argc; i++){
+>>		pthread_join(thr[i], (void**)&ret);
+>>		for (int j = 0; j < 10; j++)
+>>			total.d[j] += ret->d[j];
+>>		free(ret);
+>>	}
+>>	for (int i = 0; i < 10; i++)
+>>		printf("%d: %d\n", i, total.d[i]);
+>>	return 0;
+>>}
+>>
 >>```
 
->[!todo]- 17. Write a C program that reads a number N and creates 2 threads. One of the threads will generate an even number and will append it to an array that is passed as a parameter to the thread. The other thread will do the same, but using odd numbers. Implement a synchronization between the two threads so that they alternate in appending numbers to the array, until they reach the maximum length N.
+>[!done]- 17. Write a C program that reads a number N and creates 2 threads. One of the threads will generate an even number and will append it to an array that is passed as a parameter to the thread. The other thread will do the same, but using odd numbers. Implement a synchronization between the two threads so that they alternate in appending numbers to the array, until they reach the maximum length N.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>
+>>int n, appended;
+>>pthread_mutex_t m;
+>>
+>>void* oddFunc(void* arg){
+>>	int* arr = (int*) arg;
+>>	while (1){
+>>    int num = abs((int)random()) % 100;
+>>    if (num % 2 == 0)
+>>      num++;
+>>
+>>		pthread_mutex_lock(&m);
+>>		if (appended == n){
+>>			pthread_mutex_unlock(&m);
+>>			break;
+>>		}
+>>		if (appended % 2){
+>>			arr[appended] = num;
+>>			appended++;
+>>		}
+>>		pthread_mutex_unlock(&m);
+>>		
+>>	}
+>>
+>>	return NULL;
+>>}
+>>
+>>void* evenFunc(void* arg){
+>>  int* arr = (int*) arg;
+>>  while (1){
+>>    int num = abs((int)random()) % 100;
+>>    if (num % 2)
+>>      num++;
+>>
+>>    pthread_mutex_lock(&m);
+>>    if (appended == n){
+>>      pthread_mutex_unlock(&m);
+>>      break;
+>>    }
+>>    if (appended % 2 == 0){
+>>      arr[appended] = num;
+>>      appended++;
+>>    }
+>>    pthread_mutex_unlock(&m);
+>>
+>>  }
+>>
+>>  return NULL;
+>>}
+>>
+>>
+>>int main()
+>>{
+>>	printf("Enter maximum array length: ");
+>>	scanf("%d", &n);
+>>
+>>	int* arr = malloc(sizeof(int) * (n+1));
+>>
+>>	pthread_t odd, even;
+>>	pthread_create(&odd, NULL, oddFunc, (void*)arr);
+>>	pthread_create(&even, NULL, evenFunc, (void*)arr);
+>>
+>>	pthread_join(odd, NULL);
+>>	pthread_join(even, NULL);
+>>	for (int i = 0; i < n; i++)
+>>		printf("%d ", arr[i]);
+>>	free(arr);
+>>	printf("\n");
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 18. Create a C program that converts all lowecase letters from the command line arguments to uppercase letters and prints the result. Use a thread for each given argument.
