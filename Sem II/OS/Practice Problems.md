@@ -3279,10 +3279,95 @@ Each thread generates a random number and:
 >>```c
 >>```
 
->[!todo]- 23. Write a C program that receives any number of strings as command line arguments. The program creates two child processes, which inherit the parent's command line arguments (ie. no need to send the arguments via pipe/fifo to the children for this problem). Each child process creates a thread for each of the command line arguments. Each thread created by the first child will extract the vowels from its argument and will append them to a string shared among the threads. Each thread created by the second child process will extract the digits from its argument and will add them to a sum shared among the threads. Both child processes wait for their respective threads to finish and send the result to the parent via pipe. The parent displays the results.
+>[!done]- 23. Write a C program that receives any number of strings as command line arguments. The program creates two child processes, which inherit the parent's command line arguments (ie. no need to send the arguments via pipe/fifo to the children for this problem). Each child process creates a thread for each of the command line arguments. Each thread created by the first child will extract the vowels from its argument and will append them to a string shared among the threads. Each thread created by the second child process will extract the digits from its argument and will add them to a sum shared among the threads. Both child processes wait for their respective threads to finish and send the result to the parent via pipe. The parent displays the results.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <sys/wait.h>
+>>#include <unistd.h>
+>>#include <fcntl.h>
+>>#include <string.h>
+>>#include <stdlib.h>
+>>
+>>int sum = 0, current;
+>>char w[200];
+>>pthread_mutex_t vm, dm;
+>>
+>>void* vowelThr(void* arg){
+>>	char* word = (char*) arg;
+>>	for (int i = 0; i < (int)strlen(word); i++)
+>>		if (strchr("aeiou", word[i])){
+>>			pthread_mutex_lock(&vm);
+>>			w[current] = word[i];
+>>			current++;
+>>			pthread_mutex_unlock(&vm);
+>>		}
+>>	return NULL;
+>>}
+>>
+>>void* digitThr(void* arg){
+>>	char* word = (char*)arg;
+>>	for (int i = 0; i < (int)strlen(word); i++)
+>>		if ('0' <= word[i] && word[i] <= '9'){
+>>			pthread_mutex_lock(&dm);
+>>			sum += word[i] - '0';
+>>			pthread_mutex_unlock(&dm);
+>>		}
+>>	return NULL;
+>>}
+>>
+>>
+>>int main(int argc, char* argv[]){
+>>	int one2p[2], two2p[2]; //r-w
+>>	pipe(one2p); pipe(two2p);
+>>
+>>	if (fork() == 0){ //vowels
+>>		close(one2p[0]); 
+>>		close(two2p[0]); close(two2p[1]);
+>>		pthread_t thr[argc];
+>>		for (int i = 1; i < argc; i++)
+>>			pthread_create(&thr[i], NULL, vowelThr, (void*)argv[i]);
+>>		for (int i = 1; i < argc; i++)
+>>			pthread_join(thr[i], NULL);
+>>		w[current] = '\0';
+>>		write(one2p[1], &current, sizeof(int));
+>>		write(one2p[1], w, sizeof(char) * current);
+>>		close(one2p[1]);
+>>		return 0;
+>>	}
+>>	if (fork() == 0){ //digits
+>>		close(two2p[0]);
+>>		close(one2p[0]); close(one2p[1]);
+>>		pthread_t thr[argc];
+>>		for (int i = 1; i < argc; i++)
+>>			pthread_create(&thr[i], NULL, digitThr, (void*)argv[i]);
+>>		for (int i = 1; i < argc; i++)
+>>			pthread_join(thr[i], NULL);
+>>		write(two2p[1], &sum, sizeof(int));
+>>		close(two2p[1]);
+>>		return 0;
+>>	}
+>>	close(one2p[1]); close(two2p[1]);
+>>	int n, l;
+>>
+>>	read(one2p[0], &l, sizeof(int));
+>>	char* w = malloc(sizeof(char)*(l+1));
+>>	read(one2p[0], w, sizeof(char) * l);
+>>	w[l]='\0';
+>>	close(one2p[0]);
+>>
+>>	read(two2p[0], &n,sizeof(int));
+>>	close(two2p[0]);
+>>	wait(NULL);
+>>	wait(NULL);
+>>
+>>	printf("Sum: %d\nVowels: %s\n", n, w);
+>>	free(w);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 24. Write a C program that creates N threads and one child process (N given as a command line argument). Each thread will receive a unique id from the parent. Each thread will generate two random numbers between 1 and 100 and will print them together with its own id. The threads will send their generated numbers to the child process via pipe or FIFO. The child process will calculate the average of each pair of numbers received from a thread and will print it alongside the thread id. Use efficient synchronization.
