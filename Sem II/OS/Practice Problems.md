@@ -3609,6 +3609,30 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```c
 >>```
 
+>[!todo]- Barrier - Create N threads. Each thread generates some treasure (number) on start up. After all threads have generated their treasure, each thread randomly selects another thread's treasure and steals 10% from it.
+>[solution](https://www.cs.ubbcluj.ro/~horea.muresan/os/sem6/bar.c)
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- RWLock - Create multiple reader and writer threads. Reader threads will print the value of n and Writer threads will increment it.
+>[solution](https://www.cs.ubbcluj.ro/~horea.muresan/os/sem5/rw.c)
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- Hot Potato: Write a C program that receives a number N as a command-line argument. The main process generates a random integer between 1000 and 10000 (we'll call this variable POTATO) and creates N threads and assigns them a unique identifier starting at 1. The N threads will execute an infinite loop in which they try to subtract a random amount of time between 100 and 200 milliseconds. The first thread that causes the POTATO to have a negative value prints a message that announces this alongside its given identifier, breaks the loop, and terminates. Any thread that observes that the value of the POTATO is negative will also break the loop and terminate, but without printing a message.
+>
+>>[!code]
+>>```c
+>>```
+
+>[!todo]- Write a C program that receives 2 command-line arguments: Src, Dest and N. Src and Dest are filenames, and Src must already exist. The program will copy file Src into file Dest using N threads, where each thread will repeatedly read chunks of 20 bytes from Src and write them to Dest. Ensure that the Dest file is a correct copy of the Src file.
+>
+>>[!code]
+>>```c
+>>```
+
 ### Misc
 ```c
 /* N persoane trebuie sa treaca un rau
