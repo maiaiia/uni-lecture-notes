@@ -3553,10 +3553,65 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 26. Write a C program that receives a command line argument representing a filename. The main process creates a child process. The child will read the content of the specified file, and will convert all lowercase letters preceded by the "." character to uppercase. If there are any amount of whitespaces (space, tab, newline, etc.) between the "." character and the next lowercase letter, the letter will be converted to uppercase. However, if there is any non-whitespace character between the "." character and a lowercase letter, that letter will not be changed. The child process sends to the parent the modified text. The parent process prints everything it receives from the child process.
+>[!done]- 26. Write a C program that receives a command line argument representing a filename. The main process creates a child process. The child will read the content of the specified file, and will convert all lowercase letters preceded by the "." character to uppercase. If there are any amount of whitespaces (space, tab, newline, etc.) between the "." character and the next lowercase letter, the letter will be converted to uppercase. However, if there is any non-whitespace character between the "." character and a lowercase letter, that letter will not be changed. The child process sends to the parent the modified text. The parent process prints everything it receives from the child process.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <string.h>
+>>#include <unistd.h>
+>>#include <stdlib.h>
+>>#include <sys/wait.h>
+>>#include <ctype.h>
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one argument only\n");
+>>		return 1;
+>>	}
+>>	char* filename = malloc(sizeof(char) * (strlen(argv[1])+1));
+>>	strcpy(filename, argv[1]);
+>>
+>>	int c2p[2]; pipe(c2p);
+>>
+>>	if (fork() == 0){
+>>		close(c2p[0]);
+>>		FILE * file = fopen(filename, "r");
+>>		free(filename);
+>>		char line[100];
+>>		fgets(line, 100, file);
+>>		fclose(file);
+>>		int l = strlen(line);
+>>		//printf("%d\n", l);
+>>		//printf("%s\n", line);
+>>		write(c2p[1], &l, sizeof(int));
+>>		
+>>		int capitalize = 0;
+>>		for (int i = 0; i < l; i++){
+>>			if (line[i]=='.')
+>>				capitalize = 1;
+>>			else if (!(isalpha(line[i]) || line[i] == ' ' || line[i] == '\t'))
+>>				capitalize = 0;
+>>			else if (islower(line[i]) && capitalize)
+>>				line[i] += 'A' - 'a';
+>>		}
+>>
+>>		write(c2p[1], line, sizeof(char) * l);
+>>		close(c2p[1]);
+>>		return 0;
+>>	}
+>>	free(filename);
+>>	close(c2p[1]);
+>>	int l; char line[100]="\0";
+>>	read(c2p[0], &l, sizeof(int));
+>>	read(c2p[0], line, l * sizeof(char));
+>>	printf("%s", line);
+>>	close(c2p[0]);
+>>	wait(NULL);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 27. Write a C program that takes two numbers, N and M, as arguments from the command line. The program creates N "generator" threads that generate random lowercase letters and append them to a string with 128 positions. The program will create an additional "printer" thread that that waits until all the positions of the string are filled, at which point it prints the string and clears it. The N "generator" threads must generate a total of M such strings and the "printer" thread prints each one as soon as it gets to length 128.
