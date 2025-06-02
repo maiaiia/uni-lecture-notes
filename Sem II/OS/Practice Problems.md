@@ -3614,13 +3614,92 @@ Each thread generates a random number and:
 >>
 >>```
 
->[!todo]- 27. Write a C program that takes two numbers, N and M, as arguments from the command line. The program creates N "generator" threads that generate random lowercase letters and append them to a string with 128 positions. The program will create an additional "printer" thread that that waits until all the positions of the string are filled, at which point it prints the string and clears it. The N "generator" threads must generate a total of M such strings and the "printer" thread prints each one as soon as it gets to length 128.
+>[!done]- 27. Write a C program that takes two numbers, N and M, as arguments from the command line. The program creates N "generator" threads that generate random lowercase letters and append them to a string with 128 positions. The program will create an additional "printer" thread that that waits until all the positions of the string are filled, at which point it prints the string and clears it. The N "generator" threads must generate a total of M such strings and the "printer" thread prints each one as soon as it gets to length 128.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>#define L 128
+>>
+>>int n, m, genCnt, currL;
+>>char wrd[L+1];
+>>pthread_mutex_t mtx;
+>>pthread_cond_t cond;
+>>
+>>void* prt(){
+>>	while(1){
+>>		pthread_mutex_lock(&mtx);
+>>		while (currL != L)
+>>			pthread_cond_wait(&cond, &mtx);
+>>		printf("%s", wrd);
+>>		currL = 0;
+>>		genCnt++;
+>>		pthread_mutex_unlock(&mtx);
+>>		//i can check this outside the mutex, since only the printer modifies the value of genCnt
+>>		if (genCnt == m)
+>>			break;
+>>	}
+>>	return NULL;
+>>}
+>>
+>>void* gen(){
+>>	while (1){
+>>		char c = 'a' + (abs((int)random()) % 26);
+>>		pthread_mutex_lock(&mtx);
+>>		if (currL == L){
+>>			pthread_mutex_unlock(&mtx);
+>>			continue;
+>>		}
+>>		if (genCnt == m){
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		wrd[currL] = c;
+>>		currL++;
+>>		if (currL == L){
+>>			pthread_mutex_unlock(&mtx);
+>>			pthread_cond_signal(&cond);
+>>			continue;
+>>		}
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>	return NULL;
+>>}
+>>
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 3){
+>>		perror("Please enter 2 arguments only\n");
+>>		return 1;
+>>	}
+>>	wrd[L]='\n';
+>>	n = atoi(argv[1]);
+>>	m = atoi(argv[2]);
+>>	
+>>	srand(getpid());
+>>	pthread_cond_init(&cond, NULL);
+>>	pthread_t generator[n];
+>>	pthread_t printer;
+>>	
+>>	pthread_create(&printer, NULL, prt, NULL);
+>>	for (int i = 0; i < n; i++)
+>>		pthread_create(generator + i, NULL, gen, NULL);
+>>
+>>	pthread_join(printer, NULL);
+>>	for (int i = 0; i < n; i++)
+>>		pthread_join(generator[i], NULL);
+>>
+>>	pthread_cond_destroy(&cond);
+>>	return 0;
+>>}
+>>
 >>```
 
->[!todo]- 28. Write a C program that reads a number n from standard input and generates an array s of n random integers between 0 and 1000. After the array is created, the main process creates n + 1 threads. Each of the first n threads repeats the following steps until the array is sorted in ascending order:  
+>[!done]- 28. Write a C program that reads a number n from standard input and generates an array s of n random integers between 0 and 1000. After the array is created, the main process creates n + 1 threads. Each of the first n threads repeats the following steps until the array is sorted in ascending order:  
 >- generates 2 random integers between 0 and n-1, called i and j  
 >- if i < j and s[i] > s[j], exchanges the values of s[i] and s[j]  
 >- if i > j and s[i] < s[j], exchanges the values of s[i] and s[j]  
@@ -3628,9 +3707,102 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >
 >>[!code]
 >>```c
+>>#include <pthread.h>
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>int n, arr[100], sorted;
+>>pthread_mutex_t mtx;
+>>pthread_barrier_t b;
+>>
+>>void* func(){
+>>	//first check if the array is already sorted on the first call 
+>>	int sortedLocal = 1;
+>>	pthread_mutex_lock(&mtx);
+>>	for (int i = 0; i < n - 1; i++)
+>>		if (arr[i] > arr[i+1]){
+>>			sortedLocal = 0;
+>>			break;
+>>		}
+>>	pthread_mutex_unlock(&mtx);
+>>	if (sortedLocal){
+>>		pthread_barrier_wait(&b);
+>>		return NULL;
+>>	}
+>>	while (1){
+>>		int i = abs((int)random()) % n;
+>>    int j = abs((int)random()) % n;
+>>		while (i == j)
+>>			j = abs((int)random()) % n;
+>>		if (i > j){
+>>			int aux = i;
+>>			i = j;
+>>			j = aux;
+>>		}
+>>		
+>>		pthread_mutex_lock(&mtx);
+>>		if (sorted){
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		if (arr[i] > arr[j]){
+>>			//swap
+>>			int aux = arr[i];
+>>			arr[i] = arr[j];
+>>			arr[j] = aux;
+>>			//check if sorted
+>>			sortedLocal = 1;
+>>			for (i = 0; i < n - 1; i++)
+>>				if (arr[i] > arr[i+1]){
+>>					sortedLocal = 0;
+>>					break;
+>>				}
+>>			if (sortedLocal){
+>>				pthread_mutex_unlock(&mtx);
+>>				break;
+>>			}
+>>		}
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>	pthread_barrier_wait(&b);
+>>	return NULL;
+>>}
+>>void* prt(){ 
+>>	pthread_barrier_wait(&b);
+>>	for (int i = 0; i < n; i++)
+>>		printf("%d ", arr[i]);
+>>	printf("\n");
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(){
+>>	srand(getpid());
+>>	printf("Enter n: ");
+>>	scanf("%d", &n);
+>>	printf("Enter the values in the array: ");
+>>	for (int i = 0; i < n; i++)
+>>		scanf("%d", arr + i);
+>>	
+>>	pthread_barrier_init(&b, 0, n + 1);
+>>
+>>	pthread_t thr[n+1];
+>>	for (int i = 0; i < n; i++)
+>>		pthread_create(&thr[i], NULL, func, NULL);
+>>	pthread_create(&thr[n], NULL, prt, NULL);
+>>
+>>	for (int i = 0; i < n; i++)
+>>		pthread_join(thr[i], NULL);
+>>	pthread_join(thr[n], NULL);
+>>
+>>	pthread_barrier_destroy(&b);
+>>	return 0;
+>>}
+>>
 >>```
 
->[!todo]- 29. Write a C program that reads a number n from standard input and creates n threads, numbered from 0 to n - 1. Each thread places a random number between 10 and 20 on the position indicated by its id in an array of integers. After all threads have placed their number in the array, each thread repeats the following:  
+>[!done]- 29. Write a C program that reads a number n from standard input and creates n threads, numbered from 0 to n - 1. Each thread places a random number between 10 and 20 on the position indicated by its id in an array of integers. After all threads have placed their number in the array, each thread repeats the following:  
 >- Checks if the number on its own position is greater than 0.  
 >- If yes, it substracts 1 from all numbers of the array, except the one on its own position.  
 >- If not, the thread terminates.  
@@ -3639,6 +3811,79 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>#include <pthread.h>
+>>
+>>struct data{
+>>	int n, id, *arr;
+>>	pthread_mutex_t* m;
+>>	pthread_barrier_t* b;
+>>};
+>>
+>>void* func(void*arg){
+>>	struct data* d = (struct data*) arg;
+>>	int v = 10 + abs((int)random()) % 11;
+>>	d->arr[d->id] = v;
+>>	pthread_barrier_wait(d->b);
+>>	while(1){
+>>		pthread_mutex_lock(d->m);
+>>		if (d->arr[d->id] <= 0){
+>>			pthread_mutex_unlock(d->m);
+>>			break;
+>>		}
+>>		int greaterFound = 0;
+>>		for (int i = 0; i < d->n; i++){
+>>			if (i == d->id) continue;
+>>			d->arr[i]--;
+>>			if (d->arr[i] > 0)
+>>				greaterFound = 1;
+>>		}
+>>		pthread_mutex_unlock(d->m);
+>>		if (!greaterFound)
+>>			break;
+>>	}
+>>
+>>	free(d);
+>>	return NULL;
+>>}
+>>
+>>int main()
+>>{
+>>	srand(getpid());
+>>	int n; 
+>>	printf("Enter n: ");
+>>	scanf("%d", &n);
+>>
+>>	pthread_barrier_t* b = malloc(sizeof(pthread_barrier_t));
+>>	pthread_mutex_t* m = malloc(sizeof(pthread_mutex_t));
+>>
+>>	pthread_t* thr = malloc(sizeof(pthread_t) * n);
+>>	int* arr = malloc(sizeof(int) * n);
+>>	
+>>	pthread_barrier_init(b, 0, n);
+>>
+>>	for (int i = 0; i < n; i++){
+>>		struct data* d = malloc(sizeof(struct data));
+>>		d->n = n; d->id = i; d->arr = arr; 
+>>		d->b = b; d->m = m;
+>>		pthread_create(&thr[i], NULL, func, (void*) d);
+>>	}
+>>	for (int i = 0; i < n; i++)
+>>		pthread_join(thr[i], NULL);
+>>	
+>>	free(thr);
+>>	free(m);
+>>	pthread_barrier_destroy(b);
+>>	free(b);
+>>	for (int i = 0; i < n; i++)
+>>		printf("%d ", arr[i]);
+>>	printf("\n");
+>>	free(arr);
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 30. Relay: Create a C program that reads a number n from the standard input and created 4 * n threads. The threads will be split into teams of 4. In each team the threads will be numbered from 0 and will run according to the relay rules:  
