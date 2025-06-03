@@ -160,9 +160,9 @@ Regard the tree as if it were divided into columns (negative columns are allowed
 
 #### I) Sorted Map
 Use a \<column, firstNode\> map, where the *first* node encountered on a certain level is stored. Display the values sorted by column
-
+![[column-first-map]]
 #### II) Regular Map + Minimum Distance
-After traversing the tree, simply retrieve the data from the columns in order (starting from the minimum distance and iterating for `map size` steps)
+Note that the map does not actually need to be sorted. If the index of the leftmost column is known, then the elements having the keys in the range \[leftmostColumn, leftmostColumn + mapSize - 1\] can simply be retrieved in increasing order of their key
 #### III) Dequeue 
 - Use a double ended queue and store the results in the order they were found
 - Store the minimum and maximum column found at any given moment
