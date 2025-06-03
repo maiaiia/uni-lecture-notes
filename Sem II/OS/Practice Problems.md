@@ -4106,25 +4106,99 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 
 ### Misc
 
->[!todo]- Write a C program that creates two threads. The first thread generates an array of 5 integers between 0 and 1000 and prints them. After generating the array, the first thread signals the second thread, which checks if the elements of the array are in ascending order. If yes, it prints the array, signals the first thread to terminate, then terminates itself. If not, it signals the first thread to generate a new array of 5 integers. This repeats until the first thread generates an array of 5 integers in ascending order.
+>[!done]- Write a C program that creates two threads. The first thread generates an array of 5 integers between 0 and 1000 and prints them. After generating the array, the first thread signals the second thread, which checks if the elements of the array are in ascending order. If yes, it prints the array, signals the first thread to terminate, then terminates itself. If not, it signals the first thread to generate a new array of 5 integers. This repeats until the first thread generates an array of 5 integers in ascending order.
 >
 >>[!code]
 >>```c
+>>#include <pthread.h>
+>>#include <stdio.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>//flag 0 - generator's turn, 1 - checker's turn, 2 - sorted
+>>
+>>int flag = 0, arr[5];
+>>pthread_cond_t c;
+>>pthread_mutex_t mtx;
+>>
+>>void* generate(){
+>>	while(1){
+>>		pthread_mutex_lock(&mtx);
+>>		//generate
+>>		for (int i = 0; i < 5; i++)
+>>			arr[i] = abs((int)random())%1000;
+>>		//send signal
+>>		flag = 1;
+>>		pthread_cond_signal(&c);
+>>		//wait for signal
+>>		while (flag == 1)
+>>			pthread_cond_wait(&c, &mtx);
+>>		if (flag == 2){
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		printf("Failed array: ");
+>>		for (int i = 0; i < 5; i++)
+>>			printf("%d ", arr[i]);
+>>		printf("\n");
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>
+>>	return NULL;
+>>}
+>>void* check(){
+>>	while (1){
+>>		pthread_mutex_lock(&mtx);
+>>		//wait for signal
+>>		while (flag != 1)
+>>			pthread_cond_wait(&c, &mtx);
+>>		//check
+>>		flag = 2;
+>>		for (int i = 0; i < 4; i++)
+>>			if (arr[i] > arr[i+1])
+>>				flag = 0;
+>>		if (flag == 2){
+>>			printf("Success!\n");
+>>			for (int i = 0; i < 5; i++)
+>>				printf("%d ", arr[i]);
+>>			printf("\n");
+>>		}
+>>		//send signal
+>>		pthread_cond_signal(&c);
+>>		if (flag == 2){
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>	return NULL;
+>>}
+>>
+>>
+>>int main(){
+>>	pthread_t generator, checker;
+>>
+>>	pthread_cond_init(&c, NULL);
+>>
+>>	srand(getpid());
+>>	pthread_create(&generator, NULL, generate, NULL);
+>>	pthread_create(&checker, NULL, check, NULL);
+>>
+>>	pthread_join(checker, NULL);
+>>	pthread_join(generator, NULL);
+>>
+>>	pthread_cond_destroy(&c);
+>>
+>>	return 0;
+>>}
+>>
+>>
 >>```
 
->[!done]-
+>[!done]- N persoane trebuie sa treaca un rau. O barca poate duce M pasageri in acelasi timp (presupunem si ca N % M = 0). Se doreste efectuarea a cat mai putine calatorii. Fiecare persoana are un factor de greutate. Durata de calatorie este egata cu greutatea totala + durata unei calatorii cand barca este goala (D). Sa se afiseze durata totala a calatoriei.
 >
 >>[!code]
 >>```c
->>/* N persoane trebuie sa treaca un rau
->> * O barca poate tine M pasageri in acelasi timp (si N % M = 0)
->> * Se doreste efectuarea a cat mai putine calatorii (deci folosesc o bariera)
->> * Fiecare persoana are un factor de greutate
->> * Durata de calatorie este egala cu greutatea totala + durata unei calatorii cand barca este goala
->> * Durata default a calatoriei este D
->> * Afiseaza timpul total al calatoriei
->> */
->>
 >>#include <stdio.h>
 >>#include <pthread.h>
 >>#include <semaphore.h>
