@@ -61,7 +61,7 @@ isEmpty(s)$\rightarrow$e
 #### 1. Recursive solution
 - for the current node
 	- print its left child (if it exists)
-	- have recursive call on both children (if they exist)
+	- have a recursive call on both children (if they exist)
 >[!code]- subalgorithm printRecursive(node: Node)
 >```pseudocode
 >subalgorithm printRecursive(node: Node ptr)
@@ -157,6 +157,7 @@ Regard the tree as if it were divided into columns (negative columns are allowed
 | 4    | 0      |
 | 25   | 0      |
 | 8    | 2      |
+| etc  |        |
 
 #### I) Sorted Map
 Use a \<column, firstNode\> map, where the *first* node encountered on a certain level is stored. Display the values sorted by column
@@ -164,8 +165,8 @@ Use a \<column, firstNode\> map, where the *first* node encountered on a certain
 #### II) Regular Map + Minimum Distance
 Note that the map does not actually need to be sorted. If the index of the leftmost column is known, then the elements having the keys in the range \[leftmostColumn, leftmostColumn + mapSize - 1\] can simply be retrieved in increasing order of their key
 #### III) Dequeue 
-- Use a double ended queue and store the results in the order they were found
-- Store the minimum and maximum column found at any given moment
+- Store the minimum (minLeft) and maximum (maxRight) column found at any given moment
+- Use a double ended queue and store the results in the order they were found (pushing either to the left or to the right, depending on whether minLeft or maxRight is updated)
 >[!code] subalg topView(tree):
 >```pseudocode
 >subalg topView(tree):
@@ -196,10 +197,11 @@ Note that the map does not actually need to be sorted. If the index of the leftm
 
 >[!Warning]
 >The implementation above is not always correct
+>![[Seminar 7 2025-06-03 11.42.06.excalidraw]]
+>Here, the expected output is $2,1,3,8$, but what the algorithm returns is $2,1,3,9$
 
-![[Seminar 7 2025-06-03 11.42.06.excalidraw]]
-Tweak the implementation like so: 
+In order to fix this problem, tweak the implementation like so: 
 - have dq store triples (node, distance, currentLevel)
 - have topView store pairs (node, level)
 - updating minLeft remains unchanged
-- updating maxRight must also take into account whether maxRight is equal to d+1. In this case, if the level where the previous node was found is equal to the current level, update maxRight to the new node (since the )
+- updating maxRight must also take into account whether maxRight is equal to d+1. In this case, if the level where the previous node was found is equal to the current level, update maxRight to the new node (since the node that belongs to the rightmost branch is desired)
