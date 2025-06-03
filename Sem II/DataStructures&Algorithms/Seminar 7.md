@@ -124,15 +124,16 @@ isEmpty(s)$\rightarrow$e
 >```pseudocode
 >subalgorithm ancestors(tree, k) is 
 >	init(q)
->	if tree.root != NIL
+>	if tree.root != NIL 
 >		push(q, tree.root)
->	push(q, NIL)
+>		push(q, NIL)
 >	currentLevel <- 0
 >	while not isEmpty(q) execute
 >		currentNode <- pop(q)
 >		if currentNode = NIL then 
 >			currentLevel <- currentLevel + 1
->			push(q, NIL))
+>			if not isEmpty(q) then
+>				push(q, NIL))
 >		else
 >			if currentLevel = k then
 >				print([currentNode].info)
@@ -142,3 +143,63 @@ isEmpty(s)$\rightarrow$e
 >				push(q, [currentNode].right)
 >```
 
+## 3. Display all nodes visible from a top view 
+Desired output:: 3 10 6 17 8 59
+![[Seminar 7 2025-06-03 11.12.20.excalidraw]]
+### Dynamic Programming-like solution
+Regard the tree as if it were divided into columns (negative columns are allowed)
+
+| Node | Column |
+| ---- | ------ |
+| 6    | 0      |
+| 10   | -1     |
+| 3    | -2     |
+| 4    | 0      |
+| 25   | 0      |
+| 8    | 2      |
+
+#### I) Sorted Map
+Use a \<column, firstNode\> map, where the *first* node encountered on a certain level is stored. Display the values sorted by column
+
+#### II) Regular Map + Minimum Distance
+After traversing the tree, simply retrieve the data from the columns in order (starting from the minimum distance and iterating for `map size` steps)
+#### III) Dequeue 
+- Use a double ended queue and store the results in the order they were found
+- Store the minimum and maximum column found at any given moment
+>[!code] subalg topView(tree):
+>```pseudocode
+>subalg topView(tree):
+>	init(dq) // dequeue <node, distance> pairs
+>	init(topView) // nodes, dequeue
+>	if tree.root != NIL then
+>		push_back(dq, <tree.root, 0>)
+>		push_back(topView, tree.root)
+>		minLeft <-0
+>		maxRight <-0
+>	while nod isEmpty(dq) execute:
+>		<node,d> <-pop_frond(dq)
+>		if [node].left != NIL then
+>			if d-1 < minLeft then
+>				minLeft <- d - 1
+>				push_front(topView, [node].left)
+>			push_back(dq, <[node].left, d-1>)
+>		if [node].right != NIL
+>			if d+1 > maxRight then 
+>				maxRight <- d+1
+>				push_back(topView, <[node].right, d+1>)
+>			push_back(dq, <[node].right, d+1>)
+>	while nod isEmpty(topView)
+>		node <- pop_front(topView)
+>		print([node].info)
+>		
+>```
+
+>[!Warning]
+>The implementation above is not always correct
+
+![[Seminar 7 2025-06-03 11.42.06.excalidraw]]
+Tweak the implementation like so: 
+- have dq store triples (node, distance, currentLevel)
+- have topView store pairs (node, level)
+- updating minLeft remains unchanged
+- updating maxRight must also take into account whether maxRight is equal to d+1. In this case, if the level where the previous node was found is equal to the current level, update maxRight to the new node (since the )
