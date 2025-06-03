@@ -2827,12 +2827,6 @@ Each thread generates a random number and:
 >>```c
 >>```
 
->[!todo]-
->
->>[!code]
->>```c
->>```
-
 ### Horea
 >[!done]- 15. Write a program that receives strings of characters as command line arguments. For each string the program creates a thread which calculates the number of digits, the number of leters and the number of special characters (anything other than a letter or digit). The main program waits for the threads to terminate and prints the total results (total number of digits, letters and special characters across all the received command line arguments) and terminates. Use efficient synchronization. Do not use global variables
 >
@@ -3976,10 +3970,64 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```c
 >>```
 
->[!todo]- Barrier - Create N threads. Each thread generates some treasure (number) on start up. After all threads have generated their treasure, each thread randomly selects another thread's treasure and steals 10% from it.
+>[!done]- Barrier - Create N threads. Each thread generates some treasure (number) on start up. After all threads have generated their treasure, each thread randomly selects another thread's treasure and steals 10% from it.
 >[solution](https://www.cs.ubbcluj.ro/~horea.muresan/os/sem6/bar.c)
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <semaphore.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>#define N 10
+>>
+>>pthread_t thr[N];
+>>pthread_barrier_t b, printB;
+>>sem_t mtx;
+>>int treasure[N];
+>>
+>>void* func(void* arg){
+>>	int id = *(int*)arg;
+>>	treasure[id] = abs((int)random()) % 10000;
+>>	pthread_barrier_wait(&b);
+>>	pthread_barrier_wait(&printB);
+>>	int other = abs((int)random())%N + 1;
+>>	while (other == id)
+>>		other = abs((int)random())%N + 1;
+>>	sem_wait(&mtx);
+>>	printf("Thread %d steals from %d: %d -> ", id, other, treasure[other]);
+>>	treasure[other] -= treasure[other] * 10 / 100;
+>>	printf("%d\n", treasure[other]);
+>>	sem_post(&mtx);
+>>	return NULL;
+>>}
+>>
+>>int main(){
+>>	srand(getpid());
+>>	int id[N];
+>>	pthread_barrier_init(&b, 0, N+1);
+>>	pthread_barrier_init(&printB, 0, N+1);
+>>	sem_init(&mtx, 0, 1);
+>>	for (int i = 0; i < N; i++){
+>>		id[i] = i+1;
+>>		pthread_create(&thr[i], NULL, func, (void*)&id[i]);
+>>	}
+>>	pthread_barrier_wait(&b);
+>>	printf("The generated treasures are:\n");
+>>	for (int i = 0; i < N; i++)
+>>		printf("%d ", treasure[i+1]);
+>>	printf("\n");
+>>	pthread_barrier_wait(&printB);
+>>	for (int i = 0; i < N; i++)
+>>		pthread_join(thr[i], NULL);
+>>	sem_destroy(&mtx);
+>>	pthread_barrier_destroy(&b);
+>>	pthread_barrier_destroy(&printB);
+>>	return 0;
+>>}
+>>
+>>
 >>```
 
 >[!todo]- RWLock - Create multiple reader and writer threads. Reader threads will print the value of n and Writer threads will increment it.
@@ -4057,91 +4105,101 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```
 
 ### Misc
-```c
-/* N persoane trebuie sa treaca un rau
- * O barca poate tine M pasageri in acelasi timp (si N % M = 0)
- * Se doreste efectuarea a cat mai putine calatorii (deci folosesc o bariera)
- * Fiecare persoana are un factor de greutate
- * Durata de calatorie este egala cu greutatea totala + durata unei calatorii cand barca este goala
- * Durata default a calatoriei este D
- * Afiseaza timpul total al calatoriei
- */
 
-#include <stdio.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include <unistd.h> 
-#include <stdlib.h>
+>[!todo]- Write a C program that creates two threads. The first thread generates an array of 5 integers between 0 and 1000 and prints them. After generating the array, the first thread signals the second thread, which checks if the elements of the array are in ascending order. If yes, it prints the array, signals the first thread to terminate, then terminates itself. If not, it signals the first thread to generate a new array of 5 integers. This repeats until the first thread generates an array of 5 integers in ascending order.
+>
+>>[!code]
+>>```c
+>>```
 
-
-const int N = 20; // pasageri
-const int M = 5; 
-const int D = 3; // durata unei calatorii
-
-int greutate = 0;
-int timp = 0;
-int nrPasageri=0;
-pthread_cond_t c;
-
-pthread_mutex_t m; //mutex pe greutatea totala si totalul de pasageri
-
-sem_t s;
-
-void* pasager(void* wp){
-    int *w = (int*)wp;
-    printf("Un pasager cu greutatea %d asteapta\n", *w);
-    sem_wait(&s); //asteapta sa urce in barca
-    //poate urca in barca
-    printf("Un pasager cu greutatea %d urca in barca\n", *w);
-    pthread_mutex_lock(&m);
-    nrPasageri++;
-    greutate += *w;
-    if (nrPasageri == M)
-        pthread_cond_signal(&c);
-    pthread_mutex_unlock(&m);
-
-    return NULL;
-}
-
-void* barcagiu(){
-    while(1){
-        pthread_mutex_lock(&m);
-        while (nrPasageri < M)
-            pthread_cond_wait(&c,&m);
-        printf("Barca duce pasagerii - greutatea totala este %d\n", greutate);
-        timp += greutate + 2 * D; //dus-intors
-        printf("Momentul intoarcerii - %d\n", timp);
-        nrPasageri -= M;
-        for (int i = 0; i < M; i++)
-            sem_post(&s);
-        pthread_mutex_unlock(&m);
-    }
-
-    return NULL;
-}
-
-
-int main(){
-    pthread_t pasageri[N+5];
-    int w[N+5];
-
-    pthread_t capitan;
-    sem_init(&s,0,M);
-    
-    srandom(getpid());
-    pthread_create(&capitan, NULL, barcagiu, NULL);
-    for (int i = 0; i < N; i++){
-        //factor de greutate
-        w[i] = (random() % 10 + 10) % 10;
-        pthread_create(&pasageri[i], NULL, pasager, &w[i]);
-    }
-    for (int i = 0; i < N; i++)
-        pthread_join(pasageri[i], NULL);
-    pthread_join(capitan, NULL);
-    pthread_mutex_destroy(&m);
-    pthread_cond_destroy(&c);
-    sem_destroy(&s);
-   
-    return 0;
-}
-```
+>[!done]-
+>
+>>[!code]
+>>```c
+>>/* N persoane trebuie sa treaca un rau
+>> * O barca poate tine M pasageri in acelasi timp (si N % M = 0)
+>> * Se doreste efectuarea a cat mai putine calatorii (deci folosesc o bariera)
+>> * Fiecare persoana are un factor de greutate
+>> * Durata de calatorie este egala cu greutatea totala + durata unei calatorii cand barca este goala
+>> * Durata default a calatoriei este D
+>> * Afiseaza timpul total al calatoriei
+>> */
+>>
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <semaphore.h>
+>>#include <unistd.h> 
+>>#include <stdlib.h>
+>>
+>>
+>>const int N = 20; // pasageri
+>>const int M = 5; 
+>>const int D = 3; // durata unei calatorii
+>>
+>>int greutate = 0;
+>>int timp = 0;
+>>int nrPasageri=0;
+>>pthread_cond_t c;
+>>
+>>pthread_mutex_t m; //mutex pe greutatea totala si totalul de pasageri
+>>
+>>sem_t s;
+>>
+>>void* pasager(void* wp){
+>>    int *w = (int*)wp;
+>>    printf("Un pasager cu greutatea %d asteapta\n", *w);
+>>    sem_wait(&s); //asteapta sa urce in barca
+>>    //poate urca in barca
+>>    printf("Un pasager cu greutatea %d urca in barca\n", *w);
+>>    pthread_mutex_lock(&m);
+>>    nrPasageri++;
+>>    greutate += *w;
+>>    if (nrPasageri == M)
+>>        pthread_cond_signal(&c);
+>>    pthread_mutex_unlock(&m);
+>>
+>>    return NULL;
+>>}
+>>
+>>void* barcagiu(){
+>>    while(1){
+>>        pthread_mutex_lock(&m);
+>>        while (nrPasageri < M)
+>>            pthread_cond_wait(&c,&m);
+>>        printf("Barca duce pasagerii - greutatea totala este %d\n", greutate);
+>>        timp += greutate + 2 * D; //dus-intors
+>>        printf("Momentul intoarcerii - %d\n", timp);
+>>        nrPasageri -= M;
+>>        for (int i = 0; i < M; i++)
+>>            sem_post(&s);
+>>        pthread_mutex_unlock(&m);
+>>    }
+>>
+>>    return NULL;
+>>}
+>>
+>>
+>>int main(){
+>>    pthread_t pasageri[N+5];
+>>    int w[N+5];
+>>
+>>    pthread_t capitan;
+>>    sem_init(&s,0,M);
+>>    
+>>    srandom(getpid());
+>>    pthread_create(&capitan, NULL, barcagiu, NULL);
+>>    for (int i = 0; i < N; i++){
+>>        //factor de greutate
+>>        w[i] = (random() % 10 + 10) % 10;
+>>        pthread_create(&pasageri[i], NULL, pasager, &w[i]);
+>>    }
+>>    for (int i = 0; i < N; i++)
+>>        pthread_join(pasageri[i], NULL);
+>>    pthread_join(capitan, NULL);
+>>    pthread_mutex_destroy(&m);
+>>    pthread_cond_destroy(&c);
+>>    sem_destroy(&s);
+>>   
+>>    return 0;
+>>}
+>>```
