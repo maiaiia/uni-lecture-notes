@@ -5,6 +5,7 @@ Type: Lecture
 Tags: # 
 Date: May 22nd, 2025
 ___
+Deadlocks are conditions blocking the execution of a program 
 ## Causes of Deadlocks
 1. Mutual exclusion
 2. Hold and wait 

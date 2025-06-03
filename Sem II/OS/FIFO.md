@@ -5,22 +5,20 @@ Type: Lecture + Seminar
 Tags: # 
 Date: April 3rd, 2025
 ___
-
 ## Intro
-A FIFO is a named pipe. It works in the same manner, but it can be used by unrelated processes as well. 
+A **FIFO** is a named [[pipes|pipe]]. It works in the same manner, but it can be used by unrelated processes as well. 
 FIFOs are persistent. They are created either
-- before being used with `mkfifo`  or
+- in the terminal, using the command `mkfifo`  or
 - in the source code (usually `mkfifo(fifo_name, 0600)`)
 FIFOs are removed either
-- manually afterwards using `rm` or 
+- manually afterwards (in the terminal) using `rm` or 
 - with `unlink` in the source code
 
-
 In order to run a program using FIFOs, you need to 
-1. Create the FIFOs
+1. Create the FIFOs (either in the source code or in the terminal)
 2. Compile each file
 3. Execute each file in a separate shell window
-4. Remove the FIFOs
+4. Remove the FIFOs (in either way)
 ## Example 
 
 ```tabs
@@ -112,17 +110,11 @@ B 4 -> 3
 B 2 -> 1
 ```
 
-## [[Deadlocks]] 
-Deadlocks are conditions blocking the execution of a program 
-
+## FIFO [[Deadlocks]] 
 Example - open
-For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but with the opposite operation. 
+For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but *with the opposite operation*. 
 ![[FIFO 2025-04-16 11.03.32.excalidraw]]
 In order to avoid this, make sure to open FIFOs in the same order in both processes
-
->[!Warning]
->on mac you can't make fifos so try smth like mkfifo /tmp/(filename)
-
 ### LAB
 ```c
 #include <stdio.h>

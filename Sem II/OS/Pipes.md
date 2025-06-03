@@ -39,13 +39,11 @@ int main() {
 ```
 
 >[!Important] Always close unused ends of the pipe ASAP
->- When trying to read from an empty pipe / write to a full pipe, the corresponding function waits. If the pipes are not handled correctly, this behaviour may result in a deadlock
+>- When trying to read from an empty pipe / write to a full pipe, the corresponding function waits. If the pipes are not handled correctly, this behaviour may result in a deadlock. For instance, when calling write on a full pipe, the function waits for some free space or until there is no process that can read from said pipe.
 >- A pipe disappears automatically (it's destroyed by the OS) only after all its ends are closed.
 
 ![[Inter Process Communication 2025-03-27 09.01.30.excalidraw]]
 
-
-As an example, write when the pipe is full waits for some space or until there is no process that can read from the pipe.
 
 ### Example - Eeny Meeny Miny Moe
 
@@ -131,11 +129,12 @@ int main() {
 }
 ```
 
-This is the equivalent of using stdio and executing the program with `./beer | less`
+This is the equivalent of using stdin and executing the program with `./beer | less`
 
 ## Dup(2)
-Q: How do pipes work when used in the bash terminal? (as in, how do the commands "know" where to read stuff from)
-A: Using the file descriptor table! `dup`, `dup2` - duplicate an existing file descriptor
+>[!Question]
+>Q: How do pipes work when used in the bash terminal? (as in, how do the commands "know" where to read stuff from)
+>A: Using the file descriptor table! `dup`, `dup2` - duplicate an existing file descriptor
 ### Example - simulate a command in C
 Command: `ps -ef | grep -E "^root\>" | awk '{print $2}' | tail -n 5`
 ![[Pipes 2025-04-03 09.21.14.excalidraw]]

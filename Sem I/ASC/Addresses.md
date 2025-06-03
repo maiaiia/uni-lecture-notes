@@ -50,6 +50,9 @@ on 32 bits, the programmer can only control offsets, but not the starting addres
 >[!important] the segment selector is computed and provided by the OS
 
 ### Offsets
+
+^1f8d63
+
 #### Def
 - the address of a location *relative to the beginning of a segment* (the number of bytes between the beginning of that segment and that particular memory location)
 

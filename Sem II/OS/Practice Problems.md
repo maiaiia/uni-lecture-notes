@@ -94,8 +94,6 @@ cat $1 | awk '{print $1}' | tail -n+2 | sort | uniq -c | sort -n -r
 
 >[!todo]- 11. Display in the pager the top of usernames by their time spent logged on in the system.
 
-
-
 ### Boian
 >[!done]-  Find all the usernames that logged in from "economica" on a Sunday 
 >```regex
