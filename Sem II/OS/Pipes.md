@@ -153,7 +153,7 @@ int main(){
 
     if(fork()==0) { //ps
         close(p2g[0]); close(g2a[0]); close(g2a[1]); close(a2t[0]); close(a2t[1]);
-        dup2(p2g[1],1);
+        dup2(p2g[1],1); //second argument is stdout
         execlp("ps","ps","-ef",NULL);
         exit(1);
     }
