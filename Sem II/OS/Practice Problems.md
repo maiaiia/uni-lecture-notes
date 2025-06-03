@@ -3988,10 +3988,66 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```c
 >>```
 
->[!todo]- Hot Potato: Write a C program that receives a number N as a command-line argument. The main process generates a random integer between 1000 and 10000 (we'll call this variable POTATO) and creates N threads and assigns them a unique identifier starting at 1. The N threads will execute an infinite loop in which they try to subtract a random amount of time between 100 and 200 milliseconds. The first thread that causes the POTATO to have a negative value prints a message that announces this alongside its given identifier, breaks the loop, and terminates. Any thread that observes that the value of the POTATO is negative will also break the loop and terminate, but without printing a message.
+>[!done]- Hot Potato: Write a C program that receives a number N as a command-line argument. The main process generates a random integer between 1000 and 10000 (we'll call this variable POTATO) and creates N threads and assigns them a unique identifier starting at 1. The N threads will execute an infinite loop in which they try to subtract a random amount of time between 100 and 200 milliseconds. The first thread that causes the POTATO to have a negative value prints a message that announces this alongside its given identifier, breaks the loop, and terminates. Any thread that observes that the value of the POTATO is negative will also break the loop and terminate, but without printing a message.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>int POTATO = 0;
+>>pthread_mutex_t mtx;
+>>pthread_barrier_t b;
+>>
+>>void* func(void* arg){
+>>	int id = *(int*)arg;
+>>	pthread_barrier_wait(&b);
+>>	while (1){
+>>		pthread_mutex_lock(&mtx);
+>>		if (POTATO < 0){
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		POTATO -= abs((int)random()) % 101 + 100;
+>>		printf("%d - %d\n", id, POTATO);
+>>		if (POTATO < 0){
+>>			printf("%d ended the game\n", id);
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one integer only");
+>>		return 0;
+>>	}
+>>
+>>	srand(getpid());
+>>	int n = atoi(argv[1]);
+>>
+>>	pthread_barrier_init(&b, 0, n);
+>>
+>>	POTATO = 1000 + abs((int)random()) % 9001;
+>>	pthread_t thr[n+2], id[n+2];
+>>	for (int i = 0; i < n; i++){
+>>		id[i] = i;
+>>		pthread_create(&thr[i], NULL, func, (void*)&id[i]);
+>>	}
+>>	for (int i = 0; i < n; i++)
+>>		pthread_join(thr[i], NULL);
+>>	pthread_barrier_destroy(&b);
+>>
+>>	return 0;
+>>}
+>>
+>>
 >>```
 
 >[!todo]- Write a C program that receives 2 command-line arguments: Src, Dest and N. Src and Dest are filenames, and Src must already exist. The program will copy file Src into file Dest using N threads, where each thread will repeatedly read chunks of 20 bytes from Src and write them to Dest. Ensure that the Dest file is a correct copy of the Src file.
