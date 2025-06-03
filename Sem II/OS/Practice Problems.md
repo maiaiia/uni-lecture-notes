@@ -3897,10 +3897,79 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>```c
 >>```
 
->[!todo]- 31. Write a C program that receives a number N as a command-line argument. The program creates N threads that will generate random numbers between 0 and 111111 (inclusive) until one thread generates a number divisible by 1001. The threads will display the generated numbers, but the final number that is displayed must be the one that is divisible by 1001. No thread will start generating random numbers until all threads have been created. Do not use global variables.
+>[!done]- 31. Write a C program that receives a number N as a command-line argument. The program creates N threads that will generate random numbers between 0 and 111111 (inclusive) until one thread generates a number divisible by 1001. The threads will display the generated numbers, but the final number that is displayed must be the one that is divisible by 1001. No thread will start generating random numbers until all threads have been created. Do not use global variables.
 >
 >>[!code]
 >>```c
+>>#include <stdio.h>
+>>#include <unistd.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>
+>>
+>>struct data{
+>>	int* found;
+>>	pthread_barrier_t* b;
+>>	pthread_mutex_t* m;
+>>};
+>>
+>>void* func(void* arg){
+>>	struct data* d = (struct data*)arg;
+>>	pthread_barrier_wait(d->b);
+>>	while(1){
+>>		int num = abs((int)random()) % 11112;
+>>		pthread_mutex_lock(d->m);
+>>		if (*(d->found)){
+>>			pthread_mutex_unlock(d->m);
+>>			break;
+>>		}
+>>		printf("%d\n", num);
+>>		if (num % 1001==0){
+>>			*(d->found) = 1;
+>>			pthread_mutex_unlock(d->m);
+>>			break;
+>>		}
+>>		pthread_mutex_unlock(d->m);
+>>	}
+>>
+>>	free(d);
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one argument only\n");
+>>		return 1;
+>>	}
+>>
+>>	srand(getpid());
+>>
+>>	pthread_mutex_t* m = malloc(sizeof(pthread_mutex_t));
+>>	pthread_barrier_t* b = malloc(sizeof(pthread_barrier_t));
+>>	int* flag = malloc(sizeof(int)); *flag = 0;
+>>
+>>	int n = atoi(argv[1]);
+>>
+>>	pthread_barrier_init(b, 0, n);
+>>	pthread_mutex_init(m, 0);
+>>	pthread_t* thr = malloc(sizeof(pthread_t) * n);
+>>	for (int i = 0; i < n; i++){
+>>		struct data* d = malloc(sizeof(struct data));
+>>		d->found = flag; d->m = m; d->b = b;
+>>		pthread_create(thr + i, NULL, func, (void*)d);
+>>	}
+>>
+>>	for (int i = 0; i < n; i++)
+>>		pthread_join(thr[i], NULL);
+>>
+>>	free(thr);
+>>	pthread_barrier_destroy(b);
+>>	pthread_mutex_destroy(m);
+>>	free(m); free(b); free(flag);
+>>
+>>	return 0;
+>>}
+>>
 >>```
 
 >[!todo]- 32. Write a C program that creates N threads (N given as a command line argument). The main process opens a file F, provided as a command line argument (the file's contents are words of a maximum of 20 characters each separated by spaces). Each thread will take turns reading between 1 and 3 words from the file and concatenating them to a thread-local buffer until all the content of the file is read. Once the whole file is completely read, the threads return their local buffer and the main process will print the result from each thread. After it does one reading pass, ensure that each thread waits for the other threads to complete their reading attempt before starting a new reading pass.
