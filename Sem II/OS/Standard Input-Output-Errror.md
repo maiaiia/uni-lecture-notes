@@ -15,4 +15,4 @@ Redirect errors to a file using '2>'
 > note that '>' is actually implicitly '1>'
 
 Redirect errors to the same place as stdout: '2>&1'
-The location where unnecessary stuff can be hidden / redirected on linux is /dev/null 
+The location where unnecessary stuff can be hidden / redirected to on linux is `/dev/null`

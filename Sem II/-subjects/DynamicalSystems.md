@@ -13,6 +13,5 @@ Lectures
 - [[The Direction Field]]
 - [[Numerical methods for ODEs]]
 - [[Discrete Dynamical Systems]]
-Labs
-- [[Introduction to Maple8]]
-- [[Solving LHDEs in Maple]]
+- [[Scalar (real) maps]]
+- [[Chaotic map]]

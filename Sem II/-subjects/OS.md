@@ -1,4 +1,4 @@
-Lecture
+Lectures
 - [[Standard Input-Output-Errror]]
 - [[File Permissions]]
 - [[Unix Processes]]
@@ -14,16 +14,18 @@ Lecture
 	- [[Semaphores]]
 	- [[Barriers]]
 	- [[Read Write Lock]]
-"Pure" theory
+
+Theory
 - [[Process Theory]]
 - [[Deadlocks]]
 - [[Scheduling Mechanisms]]
 - [[Memory]]
 
-Lab/Seminar
+Labs / Seminars
 - [[Command Line Intro]]
 - [[REGEX]]
 - [[Grep. Sed. Awk]]
 - [[Intro to Shell Programming]]
+
 Misc
 - [[Practice Problems]]

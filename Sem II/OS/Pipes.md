@@ -6,10 +6,10 @@ Tags: #
 Date: March 27th, 2025
 ___
 ## Introduction
-Pipes get created in the kernel. It contains 2 descriptors for reading and writing. When creating a child process, it will also have a copy of the pipe, with the same contents.
+Pipes get created in the kernel. Each pipe contains 2 descriptors for reading and writing. When creating a child process, it will also have a copy of the pipe, with the same contents.
 
->[!Important] Always close an unused end of the pipe ASAP
-> Both the parent and the child can write to the pipe. However, keeping the pipe unidirectional is essential!! Meaning, have each process use one end of the pipe (either the child or the parent can read to the other). 
+>[!Important] Always keep pipes unidirectional 
+> In theory, both the parent and the child can write to the same pipe. However, using pipes in this manner may result in the data being mixed up
 
 ```c++
 #include <stdio.h>
@@ -38,13 +38,12 @@ int main() {
 
 ```
 
-When closing an end of a pipe within a process, it only closes that end for the current process.
-A pipe disappears automatically (it's destroyed by the OS) only after all its ends are closed.
+>[!Important] Always close unused ends of the pipe ASAP
+>- When trying to read from an empty pipe / write to a full pipe, the corresponding function waits. If the pipes are not handled correctly, this behaviour may result in a deadlock
+>- A pipe disappears automatically (it's destroyed by the OS) only after all its ends are closed.
+
 ![[Inter Process Communication 2025-03-27 09.01.30.excalidraw]]
 
-
-Reading from an empty pipe - read waits 
-Writing to a full pipe - write waits 
 
 As an example, write when the pipe is full waits for some space or until there is no process that can read from the pipe.
 

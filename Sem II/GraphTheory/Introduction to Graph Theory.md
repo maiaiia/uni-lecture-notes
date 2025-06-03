@@ -1,7 +1,7 @@
 # Introduction to Graph Theory
 ___
 Class: [[GraphTheory]]
-Type: Seminar&Lecture
+Type: Seminar & Lecture
 Tags: # 
 Date: February 25th, 2025
 ___

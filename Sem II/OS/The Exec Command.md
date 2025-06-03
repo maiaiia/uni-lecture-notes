@@ -6,7 +6,7 @@ Tags: #
 Date: March 27th, 2025
 ___
 
-Say we want to execute the command `grep -E abc a.txt`
+Say we want to execute the command `grep -E abc a.txt` within a c program
 
 |       |                          Search Path                           |                             No Search Path                              |
 | :---: | :------------------------------------------------------------: | :---------------------------------------------------------------------: |
