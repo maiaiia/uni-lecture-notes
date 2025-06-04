@@ -2821,12 +2821,6 @@ Each thread generates a random number and:
 >>```c
 >>```
 
->[!todo]-
->
->>[!code]
->>```c
->>```
-
 ### Horea
 >[!done]- 15. Write a program that receives strings of characters as command line arguments. For each string the program creates a thread which calculates the number of digits, the number of leters and the number of special characters (anything other than a letter or digit). The main program waits for the threads to terminate and prints the total results (total number of digits, letters and special characters across all the received command line arguments) and terminates. Use efficient synchronization. Do not use global variables
 >
@@ -4094,6 +4088,97 @@ The n+1th thread waits until the array is sorted, after which it prints it to th
 >>
 >>	return 0;
 >>}
+>>
+>>
+>>```
+
+>[!done]- Hot Potato 2 - Electric Boogaloo: Instead of ending the game when the POTATO is negative, simply eliminate each loser one by one. Have a monitor thread that resets the POTATO as long as there are still players in the game, joins the eliminated player threads and announces the winner.
+>
+>>[!code]
+>>```c
+>>>>#include <stdio.h>
+>>#include <pthread.h>
+>>#include <stdlib.h>
+>>#include <unistd.h>
+>>
+>>int POTATO = 0, loser;
+>>pthread_mutex_t mtx;
+>>pthread_barrier_t b;
+>>pthread_cond_t cond;
+>>pthread_t thr[100];
+>>
+>>//FIXME the winner will keep playing by itself - i m way too tired to fix it rn
+>>
+>>void* func(void* arg){
+>>	int id = *(int*)arg;
+>>	pthread_barrier_wait(&b);
+>>	while (1){
+>>		pthread_mutex_lock(&mtx);
+>>		if (POTATO < 0){
+>>			pthread_mutex_unlock(&mtx);
+>>			continue;
+>>		}
+>>		POTATO -= abs((int)random()) % 101 + 100;
+>>		printf("%d - %d\n", id, POTATO);
+>>		if (POTATO < 0){
+>>			loser = id;
+>>			pthread_cond_signal(&cond);
+>>			pthread_mutex_unlock(&mtx);
+>>			break;
+>>		}
+>>		pthread_mutex_unlock(&mtx);
+>>	}
+>>
+>>	return NULL;
+>>}
+>>
+>>void* observe(void* arg){
+>>	int alive = *(int*)arg;
+>>	pthread_mutex_lock(&mtx);
+>>	while (1){
+>>		while (POTATO > 0) 
+>>			pthread_cond_wait(&cond, &mtx);
+>>		alive--;
+>>		pthread_join(thr[loser], NULL);
+>>		if (alive){		
+>>			printf("Player %d was eliminated.\n", loser);
+>>			POTATO = abs((int)random()) % 9001 + 1000;
+>>		}
+>>		else{
+>>			printf("Player %d is the winner!!\n", loser); //ironic
+>>			pthread_mutex_unlock(&mtx);
+>>			break;	
+>>		}
+>>	}
+>>	return NULL;
+>>}
+>>
+>>int main(int argc, char* argv[]){
+>>	if (argc != 2){
+>>		perror("Please enter one integer only");
+>>		return 0;
+>>	}
+>>
+>>	srand(getpid());
+>>	int n = atoi(argv[1]);
+>>
+>>	pthread_barrier_init(&b, 0, n);
+>>	pthread_cond_init(&cond, NULL);
+>>
+>>	POTATO = 1000 + abs((int)random()) % 9001;
+>>	int id[n+2];
+>>	pthread_t observer;
+>>	pthread_create(&observer, NULL, observe, (void*)&n);
+>>	for (int i = 0; i < n; i++){
+>>		id[i] = i;
+>>		pthread_create(&thr[i], NULL, func, (void*)&id[i]);
+>>	}
+>>	pthread_join(observer, NULL);
+>>	pthread_barrier_destroy(&b);
+>>	pthread_cond_destroy(&cond);
+>>	return 0;
+>>}
+>>
 >>
 >>
 >>```
