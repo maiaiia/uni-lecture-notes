@@ -112,7 +112,7 @@ B 2 -> 1
 
 ## FIFO [[Deadlocks]] 
 Example - open
-For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but *with the opposite operation*. 
+For FIFOs, open does not return a file descriptor until another process opens the same FIFO as well but *with the opposite operation*. This is why open is said to be a *blocking call*
 ![[FIFO 2025-04-16 11.03.32.excalidraw]]
 In order to avoid this, make sure to open FIFOs in the same order in both processes
 ### LAB

@@ -7,10 +7,9 @@ Date: April 17th, 2025
 ___
 An *atomic operation* is an operation that cannot be interrupted  ^9fbb3e
 >[!example] 
->var++ consists of 3 operations (not on macOS though :)) - load data in register, increment value, store data from register.
+>var++ is (in most cases) not atomic (it is on macos!!). it consists of 3 operations - load data in register, increment value, store data from register.
 
 The purpose of a *mutex* (mutual exclusion) is to turn an operation into an atomic one.
-
 
 >[!tip]
 >- lock always waits until a thread is available
@@ -100,4 +99,3 @@ The purpose of a *mutex* (mutual exclusion) is to turn an operation into an atom
 >>}
 >>```
 ### TODO - tic tac toe de la vio
-

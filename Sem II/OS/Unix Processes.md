@@ -109,7 +109,7 @@ When you have a common resource and many actors can access it, with at least one
 ![[Processes 2025-04-10 09.37.56.excalidraw]]
 
 
-Solution (for [[Threads]]): guard the critical segments using a [[mutex]]
+Solution (for [[Threads]]): guard the critical segments using a [[Mutex]]
 
 ```c
 #include <stdlib.h>

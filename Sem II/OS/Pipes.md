@@ -38,8 +38,8 @@ int main() {
 
 ```
 
->[!Important] Always close unused ends of the pipe ASAP
->- When trying to read from an empty pipe / write to a full pipe, the corresponding function waits. If the pipes are not handled correctly, this behaviour may result in a deadlock. For instance, when calling write on a full pipe, the function waits for some free space or until there is no process that can read from said pipe.
+>[!Important] Always close unused ends of pipes ASAP
+>- When trying to read from an empty pipe / write to a full pipe, the corresponding function waits. If the pipes are not handled correctly, this behaviour may result in a deadlock. For instance, when calling write on a full pipe, the function waits for some free space or until there is no process that can read from said pipe. (so if the pipe remains unused, but its end is not closed, write may wait forever for it to be emptied)
 >- A pipe disappears automatically (it's destroyed by the OS) only after all its ends are closed.
 
 ![[Inter Process Communication 2025-03-27 09.01.30.excalidraw]]
