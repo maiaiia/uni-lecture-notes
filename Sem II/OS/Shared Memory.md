@@ -14,7 +14,6 @@ Give permission 644 to the shared memory in order to not allow anybody else modi
 
 There is no synchronisation with shared memory though 
 
-
 ### Example 
 ```tabs
 tab: shm.h

@@ -6,7 +6,7 @@ Tags: #process_syncronization
 Date: May 7th, 2025
 ___
 
-A different type of [[Mutex|mutex]] generalisation. It works as an optimization.
+A different type of [[Mutex|mutex]] generalisation. It works as an optimisation.
 
 rdlock - allows multiple readers, but no writers
 wrlock - allows one writer only (so basically a [[mutex]])

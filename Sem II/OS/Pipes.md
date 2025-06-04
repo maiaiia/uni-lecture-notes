@@ -129,12 +129,14 @@ int main() {
 }
 ```
 
-This is the equivalent of using stdin and executing the program with `./beer | less`
+This is equivalent to using stdin and executing the program with `./beer | less`
 
 ## Dup(2)
 >[!Question]
 >Q: How do pipes work when used in the bash terminal? (as in, how do the commands "know" where to read stuff from)
->A: Using the file descriptor table! `dup`, `dup2` - duplicate an existing file descriptor
+>A: Using the file descriptor table! 
+
+`dup`, `dup2` - duplicate an existing file descriptor
 ### Example - simulate a command in C
 Command: `ps -ef | grep -E "^root\>" | awk '{print $2}' | tail -n 5`
 ![[Pipes 2025-04-03 09.21.14.excalidraw]]

@@ -6,7 +6,7 @@ Tags: #process_syncronization
 Date: April 17th, 2025
 ___
 
-Analogy: Like the bus at the airport, it waits for all travellers to get in. 
+Analogy: Like a bus at the airport waits for all travellers to get in before departing, a barrier waits for all threads to reach it before allowing them to go past a certain point
 
 >[!example]
 >Add all the numbers in an array as if in a binary tree 
