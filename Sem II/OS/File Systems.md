@@ -5,8 +5,6 @@ Type: Lecture
 Tags: # 
 Date: June 5th, 2025
 ___
-
-
 ## Types
 
 - Windows
@@ -30,11 +28,27 @@ ___
 
 ## Disk Organisation
 ![[File Systems 2025-06-05 08.53.46.excalidraw]]
+### Superblock
+### I-nodes
+- I-nodes store file owner, group, access mode, file type, link count (how many links are pointing to it)
+- Each I-node has a number (around 10 - 12ish) of fields that store addresses of data blocks (direct access)
+- Past the direct nodes, there are indirect nodes (at most three, so far). An indirect node of order 'k' points to a block of indirect nodes of order 'k-1'
+
+|                                                                                           |                                                            | Indirect node                         | Indirect node to Indirect node |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------- | ------------------------------ |
+| file owner, group, access mode, file type, link count (how many links are pointing to it) | fields that store addresses of data blocks (direct access) | node pointing to a block of addresses |                                |
+![[File Systems 2025-06-05 09.31.28.excalidraw]]
+#### Data Corruption Prevention
+- journaling
+- CoW (copy on write)
+- RAID (redundant array of inexpensive disks)
+
 ## Types of Files
 - file (regular)
 - directory
 	- file storing a list of files
 	- a \<fileName, I-node\> pair
+	- ![[Directory]]
 - FIFO
 - links
 	- Symbolic (Soft) Links
@@ -56,3 +70,5 @@ ___
 >Only root users can create hard links
 
 
+## Mounting
+- mapping a new partition to a directory
