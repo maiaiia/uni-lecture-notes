@@ -102,3 +102,5 @@ When physical memory is full, the OS swaps (sends and stores) pages to disk.
 	- When a page is accessed, its row is filled with 1's and its column with 0s
 	- The page chosen as 'victim' is the one with the lowest row sum
 ![[LRU]]
+
+## [[Caches]]

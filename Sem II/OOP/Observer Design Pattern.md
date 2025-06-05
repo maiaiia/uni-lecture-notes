@@ -12,5 +12,3 @@ subject has a list of observers
 
 chat window has a user and a reference to a chat session (chat session is a private member)
 
-
-public qwidget, public observer

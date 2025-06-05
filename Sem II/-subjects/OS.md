@@ -20,6 +20,8 @@ Theory
 - [[Deadlocks]]
 - [[Scheduling Mechanisms]]
 - [[Memory]]
+	- [[Caches]]
+- [[File Systems]]
 
 Labs / Seminars
 - [[Command Line Intro]]
