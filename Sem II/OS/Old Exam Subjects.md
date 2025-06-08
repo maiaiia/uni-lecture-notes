@@ -112,9 +112,11 @@ tab: 29.06.2023
 6. scrieti 5 moduri de a verifica daca un string este gol(cu test)
 
 7. afisati ierarhia proceselor a urmatorului cod:
-for(int i = 0; i < 3; i++)
-    if (fork() != 0)
-        wait();
+>```c
+>for(int i = 0; i < 3; i++)
+>    if (fork() != 0)
+>        wait();
+>```
 
 8. scrieti ce afiseaza codul:
 execlp(“expr”,”expr”,”a”,”+”,”1”);mut
@@ -151,17 +153,15 @@ tab: ??.??.2023
 5. EN: Give four ways of redirecting the standard output of a process.
 6. EN: Write three UNIX Shell conditions that check the existence of a file.
 7. EN: Draw the hierarchy of processes created by the code below, including the parent process.
-    for(i=0; i<3; i++) {
-        if(execlp("ls", "ls", "/", NULL) != -1) {
-            fork();
-        }
-    }
-8. EN: Add the necessary code so that the instruction below does not get stuck waiting for standard input.
-    execlp("cat", NULL);
+>```c
+>    for(i=0; i<3; i++) {
+>        if(execlp("ls", "ls", "/", NULL) != -1) {
+>            fork();
+>        }
+>    }
+>```
 
-	int fd = open("a.txt", O_RDRWR);
-	dup2(fd, 0);
-	execlp("cat", "cat", NULL);
+8. EN: Add the necessary code so that the instruction below does not get stuck waiting for standard input: `execlp("cat", NULL);`
 
 9. EN: Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
 10. EN: How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
