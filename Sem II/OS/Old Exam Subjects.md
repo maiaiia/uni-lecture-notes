@@ -10,7 +10,8 @@ ___
 >1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
 >2. 
 
->[!Question]- Give a GREP command that display all the lines in a file that contain an even number of vowels (among other potential characters).
+>[!Question] Give a GREP command that display all the lines in a file that contain an even number of vowels (among other potential characters).
+> `grep -Ei "^([^aeiou])*([aeiou]([^aeiou])*[aeiou]([^aeiou])*)+$" randomText.txt`
 
 >[!Question]- Write a SED command that display from a file only the lines that contain exclusively a valid artihmetical expression of integer additions and subtractions.
 
