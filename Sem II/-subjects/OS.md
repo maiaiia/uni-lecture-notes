@@ -16,7 +16,7 @@ Lectures
 	- [[Read Write Lock]]
 
 Theory
-- [[Process Theory]]
+- [[Processes - Theory]]
 - [[Deadlocks]]
 - [[Scheduling Mechanisms]]
 - [[Memory]]
