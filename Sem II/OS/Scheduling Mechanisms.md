@@ -13,7 +13,7 @@ ___
 Metrics
 Time for turnaround: $\text{T}_\text{turnaround} = \text{T}_\text{completion} - \text{T}_\text{arrival}$
 Time of response: $\text{T}_\text{response}=\text{T}_\text{first\_run} -\text{T}_\text{arrival}$
-## Scheduling Politics
+## Scheduling Policies
 ### FCFS - First Come First Served (FIFO)
 ![[Scheduling Mechanisms 2025-05-22 09.05.13.excalidraw]]
 <u>solutions</u>: 

@@ -471,4 +471,98 @@ printf("%d\n", n);
 3. File a.txt contains on each line two numbers separated by space. Write a UNIX Shell command that displays for each line the sum of its numbers
 4. Display only the lines of file a.txt that appear only once (not duplicated)
 5. Write a UNIX Shell script that displays the name of each .txt file in the current directory that contains the word "cat"
-6. in the program fragment below, m
+6. in the program fragment below, mark which process executes each line (the parent, the child of both)
+```c
+P C
+x x k = fork();
+x x	if (k == 0)
+  x		printf("A\n");
+x	else
+x		printf("B\n");
+x x	printf("C\n");
+```
+7. How many proesses will be created by the code fragment below, excluding the initial parent process? `fork(); wait(0); fork(); wait(0); fork();`
+8. What are the possible console outputs of the following code fragment (ignoring any output that execl might generate) and when will they happen?: `printf("A\n"); exdecl(...); printf("B/n");`
+9. What does the system call "read" do when the pipe is empty?
+10. What does the system call "open" do before returning from opening a FIFO?
+11. Give a reason for choosing threads over processes
+12. Considering that functions "fa" and "fb" are run in concurrent threads, what will the value of "n" be after the threads are finished? Why?
+```c
+pthread_mutex_t a, b;
+int n = 0;
+void* fa(void* p){
+	pthread_mutex_lock(&a);
+	n++;
+	pthread_mutex_unlock(&a);
+}
+void* fb(void* p){
+	pthread_mutex_lock(&b);
+	n++;
+	pthread_mutex_unlock(&b);
+}
+```
+13. Schedule the following jobs (given as Name/Duration/Deadline) s.t. they all meet their deadlines: A/5/9, B/7/13, C/1/10
+14. Give one advantage and one disadvantage of the segmented allocation method over the paged allocation method
+15. When would you load into memory the pages of a program that is being started?
+16. When does a process change state from RUN to READY?
+17. Given a UNIX file system configured with a block size of B bytes that can contain A addresses, and i-noes having S direct links, one simple indirection link, one double indirection link, and one triple indirection link, give the formula for the maximum file size possible
+18. What happens with the data when you delete a file that has a hard link pointing to it?
+19. Give a method for preventing deadlocks
+20. What is a binary semaphore, and what is the effect of its P method, when called by multiple concurrent processes/threads?
+## 2018-2019/2 - Test D
+1. Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one number with more than 2 decimal digits
+2. Write a UNIX Shell command that eliminates all non-letter characters from file a.txt 
+3. Write an AWK program that applied to a file containing words separated by spaces, calculates the average word count per line
+4. Display all the unique file names (without the path) in a given directory and all its hierarchy of subdirectories
+5. Write a UNIX shell script that calculates the average number of lines in the files with the .txt extension in the current directory
+6. How many processes will be created by the code fragment below, excluding the parent process? 
+```c
+for(i=0;i<6;i++)
+	if(i%3 != 1)
+		fork();
+```
+7. How many processes are created by the parent process P, when it calls f(3) and what is their relationship with each other and with the parent process P?
+```c
+void f(int n){
+	if (n > 0 && fork() == 0){
+		f(n-1);
+		exit(0);
+	}
+	wait(0);
+}
+```
+8. What will the code fragment below print to the console?
+```c
+char *s[3] = {"X", "Y", "Z"};
+for (i = 0; i < 3; i++)
+	execl("/bin/echo", "/bin/echo", s[i], NULL);
+```
+9. What does the system call "read" do when the FIFO contains less data then it is required to read, but it is not empty?
+10. What will the code fragment below print to the console, if no other process opens the "abc" FIFO? Justify your answer.
+```c
+int r, w, n = 0;
+r = open("abc", O_RDONLY);
+n--;
+w = open("abc", O_WRONLY);
+n--;
+printf("%d\n", n);
+```
+11. What happens with a process between the moment it finishes and the moment its parent calls wait?
+12. impossible to read
+13. scheduling thing
+14. Consider the producer consumer problem with a buffer of capacity N. How many semaphores would you use to ensure operation correctness and what would the semaphores' initial values be?
+15. Add the necessary instructions to the code fragment below, so that the stdin of command /bin/pwd is read from PIPE p
+```c
+int p[2];
+
+pipe(p);
+
+if(fork()==0){
+	
+	execl("/bin/pwd", "/bin/pwd", NULL);
+	
+	exit(0);	
+	
+}
+
+```

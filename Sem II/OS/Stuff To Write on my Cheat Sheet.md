@@ -184,3 +184,11 @@ The process of connecting a file system, on a certain disk, to an existing direc
 | Associative       | No Collisio                        | Slow                                   |
 | Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
 | Set-Allocative    | Decent speed<br>No collisions ions |                                        |
+## Scheduling Mechanisms
+- time for turnaround: completion_time - arrival_time
+- time of response: first_run_time - arrival_time
+### Policies
+1. FCFS (FIFO)
+	- SJF (shortest jump first)
+	- STCF (shortest termination comes first)
+2. 
