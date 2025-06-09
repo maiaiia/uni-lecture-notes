@@ -21,6 +21,7 @@ ___
 
 ## File systems
 ### Disk organization
+0. Boot block
 1. Superblock
 	- contains global information about the entire file system
 		- block size
@@ -33,9 +34,9 @@ ___
 		- file type
 		- number of links
 	- about 10-12 direct nodes that store addresses of data blocks (direct access)
-	- indirect node storing addresses of direct nodes
-	- indirect node of order 2 storing addresses of indirect nodes of order 1 
-	- indirect node of order 3 storing addresses of indirect nodes of order 2 
+	- simple indirect node storing addresses of direct nodes
+	- double indirect node storing addresses of simple indirect nodes
+	- triple indirect node storing addresses of double indirect nodes
 3. Data
 
 ### Types of file systems
@@ -84,15 +85,15 @@ ___
 - these are files pointing to a file / directory (they simply store pathnames)
 ##### Differences
 
-| Characteristic                        | Hard Links                                                            | Symbolic Links                                                   |
-| ------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| Can link to directories?              | No                                                                    | Yes                                                              |
-| Can link to files in other partitions | No (I-node number is particular to file system)                       | Yes                                                              |
-| Creation                              | ln                                                                    | ln -s                                                            |
-| Original file removal                 | nothing happens                                                       | dangling reference                                               |
-| Linked file removal                   | may delete the original file too (if no other files are linked to it) | the original file is not affected after deleting a symlink to it |
-| who can create them?                  | TODO                                                                  | TODO                                                             |
->[!Warning] not done
+| Characteristic                        | Hard Links                                                               | Symbolic Links                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| Can link to directories?              | No                                                                       | Yes                                                              |
+| Can link to files in other partitions | No (I-node number is particular to file system)                          | Yes                                                              |
+| Creation                              | ln                                                                       | ln -s                                                            |
+| Original file removal                 | nothing happens                                                          | dangling reference                                               |
+| Linked file removal                   | may delete the original file too (if no other files are linked to it)    | the original file is not affected after deleting a symlink to it |
+| who can create them?                  | only the system administrator (although this information seems outdated) | anybody                                                          |
+
 ### Mounting
 The process of connecting a file system, on a certain disk, to an existing directory in the implicit file system (so like simply taking an existing directory as a target mount point and essentially pasting a new file system onto the directory tree at that point)
 
@@ -191,4 +192,12 @@ The process of connecting a file system, on a certain disk, to an existing direc
 1. FCFS (FIFO)
 	- SJF (shortest jump first)
 	- STCF (shortest termination comes first)
-2. 
+2. RR (Round Robin) - allocate a certain amount of time for each process and execute processes in a circular order
+	- MLFQ (multi level feedback queue) - priority queues
+	- RULES
+		1. if priority(A) > priority(B), A runs 
+		2. if priority(A) = priority(B), RR A and B
+		3. when A enters system, A goes to top Queue (this is especially useful for interactive OSs)
+		4. once A exhausted its quota on a priority queue, move it down (i.e. the priority of a process that has been executed decreases)
+		5. periodically bring all to top queue (so that the ones at the bottom don't starve)
+		6. When using MLFQs, if two threads of different priorities use the same mutex, elevate the low priority process to the priority of the high priority process
