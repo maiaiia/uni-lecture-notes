@@ -31,4 +31,4 @@ Labs / Seminars
 
 Misc
 - [[Practice Problems]]
-- [[OSTEP extracts]]
+- [[Stuff To Write on my Cheat Sheet]]

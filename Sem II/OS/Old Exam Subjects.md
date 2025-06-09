@@ -166,3 +166,4 @@ printf(“xyz\n”);
 >[!Question]-  EN: Explain the difference between a symbolic link and a hard link.
 
 
+## 

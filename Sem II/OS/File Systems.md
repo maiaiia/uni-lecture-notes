@@ -53,7 +53,7 @@ ___
 - links
 	- Symbolic (Soft) Links
 		- a file pointing to another path
-		- created with `lm -s`
+		- created with `ln -s`
 		- used in order to work easier with files that have a long path
 		- in other words, symlinks store paths to files
 	- Hard Links
