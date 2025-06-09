@@ -2,7 +2,7 @@
 ___
 Class: [[OS]]
 ___
-## REGEX
+## - REGEX
 '.' - any character 
 '\\' - changes the meaning of any character (special $\leftrightarrow$ normal) %%e.g.: \n - new line%%
 '\[]' - any character from list between square brackets. Dashes can be used to specify intervals (e.g. \[a-z], \[0-9], \[A-Z])
@@ -19,7 +19,7 @@ ___
 '()' - make a group that can be repeated a certain number of times
 	- groups can be referenced by '\\no', where 'no' is the number of the group
 
-## File systems
+## - File systems
 ### Disk organization
 0. Boot block
 1. Superblock
