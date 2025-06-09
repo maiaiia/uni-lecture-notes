@@ -111,6 +111,8 @@ The process of connecting a file system, on a certain disk, to an existing direc
 6. Finish
 	- execution done
 	  
+  >[!warning] not done
+
   ![[Screenshot 2025-06-09 at 16.24.54.png]]
 ## Memory
 ### In-Process memory management
@@ -138,16 +140,47 @@ The process of connecting a file system, on a certain disk, to an existing direc
 	- fragmentation :( 
 #### Virtual Allocation
 1. **Paging**
-	- RAM memory is split into pages
+	- RAM memory is split into pages of a specific size
 	- the pages corresponding to a certain process can be randomly spread in the RAM memory
 	- addresses are now \<page, offset\> pairs
 2. **Segments**
+	- segments are larger than pages and have different permissions (allowing some protection)
+	- their main purpose is extending the memory
 3. **Paged-Segmentation**
-
-### Swapping 
+	- addresses are now \<segment, page, offset\> tuples
+### Swapping
+- the process of temporarily transferring inactive memory pages to disk to free up RAM for active processes
 #### Replacement policies
-- **FIFO**
-- **NRU** (not recently used)
+- **FIFO** - evicts the oldest page
+- **NRU** (not recently used) 
+	- every page has a 2 bit marker for the way the file was accessed (0-read, 1-write)
+	- whenever data is read from / written to a file, its marker is updated
+	- files are swapped in increasing order of their markers
+	- markers must pe updated periodically
 - **LRU** (least recently used)
+	- if there are N pages, an NxN matrix is stored
+	- when a page is accessed, its row is filled with 1's, then its column with 0s
+	- files are swapped in increasing order of the number of 1s in their row
 
 ### Caches
+- used for increasing speed of accessing data
+- when a certain page is requested, the CPU checks if it has been loaded in the cache memory. if not, it loads it there, alongside neighbouring pages
+>[!Tip] Principle of locality
+> When a specific page is requested, the likelihood of a neighbouring page to be requested afterwards is really high. (so load it in the cache memory in advance)
+## Organization
+- Associative - list of pages and their locations
+- Direct Map (like a hash map)
+	- cache location is page number % cache size
+	- advantage: fast
+	- disadvantages
+		- [[collision|collisions]]
+		- threshing (when 2 caches have the same hash and are accessed alternatively)
+- Set-Allocative
+	- A combination of both
+	- Use a modulo to find a set of caches and within that set, have an associative organisation
+
+| Organization Type | Advantages                         | Disadvantages                          |
+| ----------------- | ---------------------------------- | -------------------------------------- |
+| Associative       | No Collisio                        | Slow                                   |
+| Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
+| Set-Allocative    | Decent speed<br>No collisions ions |                                        |
