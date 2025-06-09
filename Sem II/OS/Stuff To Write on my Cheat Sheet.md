@@ -97,7 +97,7 @@ ___
 ### Mounting
 The process of connecting a file system, on a certain disk, to an existing directory in the implicit file system (so like simply taking an existing directory as a target mount point and essentially pasting a new file system onto the directory tree at that point)
 
-## Processes
+## - Processes
 ### States of a process
 ![[Process Theory 2025-05-15 09.32.49.excalidraw]]
 1. Load
@@ -111,8 +111,6 @@ The process of connecting a file system, on a certain disk, to an existing direc
 5. Swap
 6. Finish
 	- execution done
-	  
-  >[!warning] not done
 
   ![[Screenshot 2025-06-09 at 16.24.54.png]]
 ## Memory

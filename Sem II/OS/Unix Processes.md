@@ -150,7 +150,7 @@ int main(int argc, char** argv){
 
 ```
 
-## Extra - Signals
+## Signals
 >[!Question]
 >Q: How could the concurrent server be improved so as to kill its zombie processes?
 A: Using signals!!!

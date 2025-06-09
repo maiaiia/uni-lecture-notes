@@ -26,19 +26,19 @@ Approach 2: 2 embedded linked lists - one for the free space and one for the all
 	- optimised for common allocation sizes (e.g. frequently requested structures like 64-bit objects)
 	- it's important to select the chunks according to the most common sizes of memory (...)
 - **Buddy Allocation**
-	- splits memory into blocks having a size equal to a power of 2
-		- each block is treated as multiple smaller blocks (so $2^n = 2^0 + 2^0 + 2^1 +...+2^{n-1}$)
-	- supports coalescing; when 2 adjacent free blocks of the same size are found, they merge into a larger block (this can be done recursively, up to the maximum size)
-	- more general purpose compared to segregated lists (since the size of the blocks is not specific to the structures used)
+	- free memory is thought of as a big space of size $2^N$
+	- when a request for memory is made, the search for free space recursively divides free space by two as much as possible in order to accommodate the request
+	- the 2 halves created in each step are "buddies"
+	- when 2 buddies are free, they are coalesced (this is done recursively)
 
-|          Allocation Policy           | Speed |           Fragmentation            |
-| :----------------------------------: | :---: | :--------------------------------: |
-|              First fit               | high  |                 ?                  |
-|               Next Fit               | high  |                 ?                  |
-|               Best Fit               |  low  |    makes very small free slices    |
-|              Worst Fit               |  low  | also causes a lot of fragmentation |
-| Segregated Lists /<br>Slab Allocator | high  |               lower                |
-|           Buddy Allocation           |       |                                    |
+|          Allocation Policy           | Speed  |           Fragmentation            |
+| :----------------------------------: | :----: | :--------------------------------: |
+|              First fit               |  high  |                 ?                  |
+|               Next Fit               |  high  |                 ?                  |
+|               Best Fit               |  low   |    makes very small free slices    |
+|              Worst Fit               |  low   | also causes a lot of fragmentation |
+| Segregated Lists /<br>Slab Allocator |  high  |               lower                |
+|           Buddy Allocation           | medium |                low                 |
 
 >[!info]
 >Mozilla Firefox dealt with fragmentation in a cool way, look it up 
@@ -104,3 +104,5 @@ When physical memory is full, the OS swaps (sends and stores) pages to disk.
 ![[LRU]]
 
 ## [[Caches]]
+
+## Deadlocks
