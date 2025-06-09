@@ -19,7 +19,8 @@ ___
 '()' - make a group that can be repeated a certain number of times
 	- groups can be referenced by '\\no', where 'no' is the number of the group
 
-## Disk organization
+## File systems
+### Disk organization
 1. Superblock
 	- contains global information about the entire file system
 		- block size
@@ -30,13 +31,14 @@ ___
 		- file ownership
 		- access mode
 		- file type
+		- number of links
 	- about 10-12 direct nodes that store addresses of data blocks (direct access)
 	- indirect node storing addresses of direct nodes
 	- indirect node of order 2 storing addresses of indirect nodes of order 1 
 	- indirect node of order 3 storing addresses of indirect nodes of order 2 
 3. Data
 
-## File systems
+### Types of file systems
 1. Windows: 
 	- FAT 12 / 16 / 32 (works on basically all OSs)
 	- NTFS
@@ -50,7 +52,7 @@ ___
 	- btrfs 
 	- ReiserFS
 
-## File types
+### File types
 1. Managed by system calls
 	- regular files
 	- directories
@@ -66,20 +68,86 @@ ___
 	- Message Queues
 	- Semaphores
 
-### 1. Regular files
+#### 1. Regular files
 - store arrays of bytes 
-### 2. Directories
+#### 2. Directories
 - store a list of (file name, I-node) pairs
-### 3. Links 
-#### Hard Links
-- When a hard link is created, what actually happens is that a new (file name, I-node) link is created. (so they work like an alias to a specific I-node). Nothing is actually copied 
-- When unlink is called 
-#### Symbolic Links
-#### Differences
+- a reference to itself - '.'
+- a reference to its parent directory - '..'
+- all directories form a directory tree / hierarchy
+#### 3. Links 
+##### Hard Links
+- When a hard link is created, what actually happens is that a new (file name, I-node) link is created. (so they work like an alias to a specific I-node)
+- When unlink is called, the link between the file name and the I-node is deleted. A reference count within the i-node is checked and modified accordingly. When it reaches zero, the file is truly deleted
+- for hard links, files appear duplicated (but no data is actually copied!!!)
+##### Symbolic Links
+- these are files pointing to a file / directory (they simply store pathnames)
+##### Differences
 
-| Characteristic | Hard Links | Soft Links |
-| -------------- | ---------- | ---------- |
-|                |            |            |
+| Characteristic                        | Hard Links                                                            | Symbolic Links                                                   |
+| ------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Can link to directories?              | No                                                                    | Yes                                                              |
+| Can link to files in other partitions | No (I-node number is particular to file system)                       | Yes                                                              |
+| Creation                              | ln                                                                    | ln -s                                                            |
+| Original file removal                 | nothing happens                                                       | dangling reference                                               |
+| Linked file removal                   | may delete the original file too (if no other files are linked to it) | the original file is not affected after deleting a symlink to it |
+| who can create them?                  | TODO                                                                  | TODO                                                             |
+>[!Warning] not done
+### Mounting
+The process of connecting a file system, on a certain disk, to an existing directory in the implicit file system (so like simply taking an existing directory as a target mount point and essentially pasting a new file system onto the directory tree at that point)
 
+## Processes
+### States of a process
+![[Process Theory 2025-05-15 09.32.49.excalidraw]]
+1. Load
+	- getting the important program bits from disk into memory
+2. Ready
+	- when a process is ready to run but for some reason the OS has chosen not to run it at this given moment
+3. Running
+	- in the running state, a process is running on a processor (i.e. executing instructions)
+4. Wait / Blocked
+	- when a process has performed some kind of operation that makes it not ready to run until some other event takes place (for instance, when a process initiates an I/O request to a disk, it becomes blocked - because I/O takes so damn long - and thus some other process can use the processor)
+5. Swap
+6. Finish
+	- execution done
+	  
+  ![[Screenshot 2025-06-09 at 16.24.54.png]]
+## Memory
+### In-Process memory management
+#### Allocation policies
+- **First Fit** - allocate memory in the first available block
+- **Next Fit** - allocate memory in the first available block after the last allocation
+- **Best Fit** - smallest available block that can accommodate the request
+- **Worst Fit** - largest available block 
+- **Segregated List / Slab Allocator** - multiple lists of pre-defined size classes
+- **Buddy Allocation** - memory is split into blocks having size equal to a power of 2
+	- supports coalescing (2 adjacent free blocks of the same size are merged recursively into larger blocks)
+### Memory management from an OS's perspective
+#### Real (Physical) Allocation
+1. **Single tasking systems** 
+	 - only one process may run at any given time
+	 - addresses are actual physical RAM addresses
+2. **Fixed absolute partitions** 
+	- each process is compiled at a certain partition
+	- compiler hardcodes physical addresses
+3. **Fixed relocatable partitions**
+	- processes can be run in any partition
+	- addresses are now offsets from the base address of a partition 
+4. **Variable Partitions** (like malloc)
+	- partitions have variable size
+	- fragmentation :( 
+#### Virtual Allocation
+1. **Paging**
+	- RAM memory is split into pages
+	- the pages corresponding to a certain process can be randomly spread in the RAM memory
+	- addresses are now \<page, offset\> pairs
+2. **Segments**
+3. **Paged-Segmentation**
 
+### Swapping 
+#### Replacement policies
+- **FIFO**
+- **NRU** (not recently used)
+- **LRU** (least recently used)
 
+### Caches
