@@ -3,7 +3,7 @@ ___
 Class: [[OS]]
 Type: Exam Session Prep
 ___
-## (to check) 27.06.2024
+## (1-to check) 27.06.2024
 
 1. Give three regular expressions that match any line that contains a least two vowels but no digits.
 	1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
@@ -136,6 +136,265 @@ ___
 20. Considering that a block can contain N addresses towards other blocks, how many data blocks are addressed by an i-node's double and triple indirections together?
 	- $N^2 + N^3$ (a simple indirect node has N direct nodes, each pointing to one block. a double indirection has N simple indirect nodes and a triple indirection has N double indirections)
 
+## (2-to check) 2021-2022
+1. How many threads would you use for processing a million files? Justify your choice.
+	- i would use a number of threads proportional (and at least equal to) to the number of cores on the processor so there is a balance between having too many threads that don't actually get to use the processor and too few threads, which would lead to the CPU not being used to its full capacity. however, i think that choosing the number of threads to use highly depends on the type of processing that is done and should be established empirically
+2. Give an example of values for T, N1, N2 and N3 s.t. the program below reaches its end
+	```c
+	pthread_barrier_t b1, b2, b3;
+	
+	void* f1(void* a)
+	{
+		pthread_barrier_wait(&b1);
+		return NULL;
+	}
+	
+	void* f2(void* a)
+	{
+	        pthread_barrier_wait(&b2);
+	        return NULL;
+	}
+	
+	void* f3(void* a)
+	{
+	        pthread_barrier_wait(&b3);
+	        return NULL;
+	}
+	
+	int main()
+	{
+		int i;
+		pthread_t t[T][3];
+	
+		pthread_barrier_init(&b1, N1);
+		pthread_barrier_init(&b2, N2);
+		pthread_barrier_init(&b3, N3);
+		for (i = 0; i < T; i++)
+		{
+			pthread_join(t[i][0], NULL);
+			pthread_join(t[i][1], NULL);
+			pthread_join(t[i][2], NULL);
+		}
+		pthread_barrier_destroy(&b1);
+		pthread_barrier_destroy(&b2);
+		pthread_barrier_destroy(&b3);
+		return NULL;
+	}
+	```
+	- any number works? the threads are not initialised anywhere and there are no calls to none of the functions? if the intention was, however, to create the threads and call each function T times, then any positive values would work, as long as T = N2 = N2 = N3
+3. Why do I/O operations cause a process to move from the state RUN to the state WAIT?
+	- Because I/O operations take a long time. If the process were to remain in a RUN state, it would keep the processor "busy" for no reason. instead, by having it move to the "wait" state, other tasks can be performed in the meantime 
+4. How is the address calculation done in the absolute fixed partition allocation?
+	- in absolute fixed partition allocation, the memory is split into partitions of fixed size. processes are compiled for one specific partition and may only be run there. thus, addresses are simply hardcoded by the compiler as physical (real) addresses
+5. Give an advantage and a disadvantage of the First-Fit placement policy versus the Worst-Fit
+	- First-Fit is faster than Worst-Fit, since the latter implies searching through the entire memory in order to find the worst (biggest) block of memory to allocate, whereas, for the former, the search stops at the first block that is available and fits the request
+	- in terms of fragmentation, both are equally bad
+6. What is the most prioritary memory page that the NRU replacement policy chooses as victim page?
+	- the NRU (not recently used) replacement policy assigns a 2 bit marker to each page currently loaded in the internal memory, each corresponding to an access mode (0-read, 1-write). Every time a file is accessed, its marker is updated correspondingly. When a page needs to be evicted, the one whose marker has the lowest value is chosen (so the pages are evicted in increasing order with regards to the markers 0->1->2->3)
+7. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the triple indirect addressing of an i-node?
+	- $A^3$ blocks, each of size $B$. (a simple indirect addressing node stores A direct addressing nodes, a double indirect addressing node stores A simple indirect....)
+8. Write a regular expression that accepts lines that contain the letter "a" but do not contain the letter "b"
+	- `a[^b]`
+9. What is the maximum number of child processes, created by the code fragment below, that can coexist simultaneously?
+	```c
+	for (i = 0; i < 7; i++)
+	{
+		if (fork() == 0)
+		{
+			sleep(rand() % 10);
+			exit(0);
+		}
+		if (i % 3 == 0)
+		{
+			wait(0);
+		}
+	}
+	```
+	- a total of 7 child processes are created (all of them having the same parent; no child process creates any other processes)
+	- the condition `i % 3 == 0` is true for $i \in \{0,3,6\}$, so 3 child processes are 'killed'
+		- before wait is called for the first time, only one child process is running. afterwards, there remain none
+		- before the second wait, there may be at most 3 child processes running. afterwards, 2 remain
+		- before the third wait, there may be at most 5 child processes running. this is the maximum number of child processes that can coexist
+10. Processes A, B and C communicate through FIFOs X, Y and Z according to the diagram below. Sketch the code fragments that open the FIFOs in the 3 processes.
+	```
+	A --X--> B
+	B --Y--> C
+	C --Z--> A
+	```
+
+	```c
+	int x[2], y[2], z[2];
+	pipe(x); pipe(y); pipe(z); 
+	if (fork() == 0){ //A
+		close(y[0]); close(y[1]); //unused
+		close(x[0]); close(z[1]);
+		//...
+		close(x[1]); close(z[0]);
+	}
+	if (fork() == 0){ //B
+		close(z[0]); close(z[1]);
+		close(y[0]); close(x[1]);
+		//...
+		close(y[1]); close(x[0]);
+	}
+	if (fork() == 0){ //C
+		close(x[0]); close(x[1]);
+		close(z[0]); close(y[1]);
+		//...
+		close(z[1]); close(y[0]);
+	}
+	close(x[0]); close(x[1]);
+	close(y[0]); close(y[1]);
+	close(z[0]); close(z[1]);
+	
+	```
+11. Why can a hard-link only be created toward files on the same partition and not toward files on other partitions? 
+	- A hard link is a \<fileName, I-node_number\> pair. I-node numbers are unique inside each partition. Additionally, different partitions may even correspond to different file systems, that are configured differently (the number of I-nodes may be different, for instance)
+## (3-to check) 2023
+1. Give three regular expressions that match any non-negative number that is a multiple of 5
+	- `\<\+?[0-9]*[05]\>`
+	- `\<\+?[0-9]{0,}[05]\>`
+	- `\<\+?[0-9]{0,}[05]+\>`
+	- `\<[0-9]*0|[0-9]*5\>`
+2. Give 5 GREP commands that display all the lines in a file that contain the letter "a" (either uppercase of lower case)
+	- `grep -E "[aA]" testFile.txt`
+	- `grep -Ei "a" testFile.txt`
+	- `grep -Ei "[aA]" testFile.txt`
+	- `grep -Eiv "^[^a]+$" testFile.txt`
+	- `grep -E "a|A" testFile.txt`
+	- `grep -Ei ".*a.*" testFile.txt`
+3. Write two SED commands that display from a file only the lines that do not contain the digit '7'
+	- `sed -n -E "s/^[^7]*$/&/p" testFile.txt`
+	- `sed -n -E "s/^[^7]*$/&/pg" testFile.txt`
+	- `sed -E "s/^.*7.*$//" testFile.txt` - i don't know if this counts, but in this case the lines containing '7' are transformed into empty lines
+	- `sed -n '/7/!p' testFile.txt`
+	- `sed '/7/d' testFile.txt`
+4. Write an AWK command that displays the sum of the next to last field of all lines
+	- `awk -F: 'BEGIN{sum=0}{i=NF-1;sum+=$i;print i,$i}END{print sum}' numbers.txt`
+5. How can one redirect in the command line the standard error through pipe to another program?
+	- `command 2>&1 | program2`
+6. Write a UNIX Shell script that displays all command line arguments without using FOR
+	- solution:
+		```bash
+		#!/bin/bash
+		
+		while [ $# -gt 0 ]; do
+		        echo $1
+		        shift 1
+		done
+		```
+7. Draw the hierarchy of processes created by the code below, including the parent process: 
+	```c
+	for (i = 0; i < 3; i++){
+		fork();
+		execlp("ls", "ls", "/", NULL);
+	}
+	```
+	- solution:
+		```
+		P
+		|
+		C
+		```
+		- both the parent and the child process reach the (correct) instruction `execlp`. Both will run it and then immediately stop their executions
+8. Add the necessary code so that file b.txt is overwritten with the content of file a.txt from the instruction `execlp("cat", "cat", "a.txt", NULL);`
+	- solution:
+		```c
+		if (fork() == 0){
+			int fd = open("b.txt", O_WRONLY);
+			dup2(fd, 1);
+			execlp("cat", "cat", "a.txt", NULL);
+		}
+		wait(0);
+		```
+9. Why is it not advisable to communicate bidirectionally though a single FIFO?
+	- because data may get mixed up (one process may read the same data it wrote to the FIFO, which was originally intended to be read by another process)
+10. How many FIFOs can a process open if they are not and will not ever be used by any other process?
+	- none. for FIFOS, open is a blocking call, meaning that it waits for a different process to open the same FIFO, but with the opposite permissions. if no other process does so, the execution is blocked => deadlock
+11. When would you prefer using a process instead of a thread?
+	- answered
+12. What is a "critical section"?
+	- a critical section is a section of code where a critical resource is accessed (either read or modified). a critical resource is a resource that is accessed by multiple actors (and modified by at least one of them)
+13. Why should the thread recheck the condition after returning from the pthread_cond_wait call?
+	- because there is no guarantee that the condition has not changed again in-between the time when the signal is sent and the moment of returning from pthread_cond_wait (what's important is to note that this time frame *exists* and that changes to the condition may occur)
+14. What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_rdlock
+	- answered
+15. What is the effect of calling pthread_barrier_wait on a barrier initialized with 1?
+	- there is no effect - the thread will continue its execution without having to wait. the barrier will be automatically reinitialised with value 1.
+16. How can you increment the value of a POSIX semaphore?
+	- yes, by calling the sem_post() method upon said semaphore
+17. What can you do as a software developer to prevent deadlocks?
+	- already answered
+18. What state transition will a process undergo when reading from a file?
+	- already answered
+19. What is the content of the superblock on a Linux disk?
+	- already answered
+20. Can you create a hard link towards a file on a different partition? Justify your answer.
+	- already answered
+## 2018-2019/2 - Test D
+1. Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one number with more than 2 decimal digits
+	- 
+2. Write a UNIX Shell command that eliminates all non-letter characters from file a.txt 
+	- 
+3. Write an AWK program that applied to a file containing words separated by spaces, calculates the average word count per line
+	- 
+4. Display all the unique file names (without the path) in a given directory and all its hierarchy of subdirectories
+	- 
+5. Write a UNIX shell script that calculates the average number of lines in the files with the .txt extension in the current directory
+	- 
+6. How many processes will be created by the code fragment below, excluding the parent process? 
+	```c
+	for(i=0;i<6;i++)
+		if(i%3 != 1)
+			fork();
+	```
+	- 
+7. How many processes are created by the parent process P, when it calls f(3) and what is their relationship with each other and with the parent process P?
+	```c
+	void f(int n){
+		if (n > 0 && fork() == 0){
+			f(n-1);
+			exit(0);
+		}
+		wait(0);
+	}
+	```
+	- 
+8. What will the code fragment below print to the console?
+```c
+char *s[3] = {"X", "Y", "Z"};
+for (i = 0; i < 3; i++)
+	execl("/bin/echo", "/bin/echo", s[i], NULL);
+```
+9. What does the system call "read" do when the FIFO contains less data then it is required to read, but it is not empty?
+10. What will the code fragment below print to the console, if no other process opens the "abc" FIFO? Justify your answer.
+```c
+int r, w, n = 0;
+r = open("abc", O_RDONLY);
+n--;
+w = open("abc", O_WRONLY);
+n--;
+printf("%d\n", n);
+```
+11. What happens with a process between the moment it finishes and the moment its parent calls wait?
+12. impossible to read
+13. scheduling thing
+14. Consider the producer consumer problem with a buffer of capacity N. How many semaphores would you use to ensure operation correctness and what would the semaphores' initial values be?
+15. Add the necessary instructions to the code fragment below, so that the stdin of command /bin/pwd is read from PIPE p
+```c
+int p[2];
+
+pipe(p);
+
+if(fork()==0){
+	
+	execl("/bin/pwd", "/bin/pwd", NULL);
+	
+	exit(0);	
+	
+}
+
+```
 ## 29.06.2023
 
 1. scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
@@ -252,148 +511,6 @@ printf("C\n");
 	- a binary semaphore is a synchronization primitive that can have two states: 0 (locked) and 1 (unlocked). it is often used to control access to a shared resource or coordinate the execution of concurrent processes or threads.
 	- the P method of a binary semaphore decrements its value by 1 and, if the value becomes negative, blocks the calling process or thread until the semaphore becomes unlocked (i.e. its value becomes 1). if the semaphore is already unlocked, the P method simply decrements the value to 0 and continues executing.
 
-## (to check) 2021-2022
-1. How many threads would you use for processing a million files? Justify your choice.
-	- i would use a number of threads proportional (and at least equal to) to the number of cores on the processor so there is a balance between having too many threads that don't actually get to use the processor and too few threads, which would lead to the CPU not being used to its full capacity. however, i think that choosing the number of threads to use highly depends on the type of processing that is done and should be established empirically
-2. Give an example of values for T, N1, N2 and N3 s.t. the program below reaches its end
-	```c
-	pthread_barrier_t b1, b2, b3;
-	
-	void* f1(void* a)
-	{
-		pthread_barrier_wait(&b1);
-		return NULL;
-	}
-	
-	void* f2(void* a)
-	{
-	        pthread_barrier_wait(&b2);
-	        return NULL;
-	}
-	
-	void* f3(void* a)
-	{
-	        pthread_barrier_wait(&b3);
-	        return NULL;
-	}
-	
-	int main()
-	{
-		int i;
-		pthread_t t[T][3];
-	
-		pthread_barrier_init(&b1, N1);
-		pthread_barrier_init(&b2, N2);
-		pthread_barrier_init(&b3, N3);
-		for (i = 0; i < T; i++)
-		{
-			pthread_join(t[i][0], NULL);
-			pthread_join(t[i][1], NULL);
-			pthread_join(t[i][2], NULL);
-		}
-		pthread_barrier_destroy(&b1);
-		pthread_barrier_destroy(&b2);
-		pthread_barrier_destroy(&b3);
-		return NULL;
-	}
-	```
-	- any number works? the threads are not initialised anywhere and there are no calls to none of the functions? if the intention was, however, to create the threads and call each function T times, then any positive values would work, as long as T = N2 = N2 = N3
-3. Why do I/O operations cause a process to move from the state RUN to the state WAIT?
-	- Because I/O operations take a long time. If the process were to remain in a RUN state, it would keep the processor "busy" for no reason. instead, by having it move to the "wait" state, other tasks can be performed in the meantime 
-4. How is the address calculation done in the absolute fixed partition allocation?
-	- in absolute fixed partition allocation, the memory is split into partitions of fixed size. processes are compiled for one specific partition and may only be run there. thus, addresses are simply hardcoded by the compiler as physical (real) addresses
-5. Give an advantage and a disadvantage of the First-Fit placement policy versus the Worst-Fit
-	- First-Fit is faster than Worst-Fit, since the latter implies searching through the entire memory in order to find the worst (biggest) block of memory to allocate, whereas, for the former, the search stops at the first block that is available and fits the request
-	- in terms of fragmentation, both are equally bad
-6. What is the most prioritary memory page that the NRU replacement policy chooses as victim page?
-	- the NRU (not recently used) replacement policy assigns a 2 bit marker to each page currently loaded in the internal memory, each corresponding to an access mode (0-read, 1-write). Every time a file is accessed, its marker is updated correspondingly. When a page needs to be evicted, the one whose marker has the lowest value is chosen (so the pages are evicted in increasing order with regards to the markers 0->1->2->3)
-7. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the triple indirect addressing of an i-node?
-	- $A^3$ blocks, each of size $B$. (a simple indirect addressing node stores A direct addressing nodes, a double indirect addressing node stores A simple indirect....)
-8. Write a regular expression that accepts lines that contain the letter "a" but do not contain the letter "b"
-	- `a[^b]`
-9. What is the maximum number of child processes, created by the code fragment below, that can coexist simultaneously?
-	```c
-	for (i = 0; i < 7; i++)
-	{
-		if (fork() == 0)
-		{
-			sleep(rand() % 10);
-			exit(0);
-		}
-		if (i % 3 == 0)
-		{
-			wait(0);
-		}
-	}
-	```
-	- a total of 7 child processes are created (all of them having the same parent; no child process creates any other processes)
-	- the condition `i % 3 == 0` is true for $i \in \{0,3,6\}$, so 3 child processes are 'killed'
-		- before wait is called for the first time, only one child process is running. afterwards, there remain none
-		- before the second wait, there may be at most 3 child processes running. afterwards, 2 remain
-		- before the third wait, there may be at most 5 child processes running. this is the maximum number of child processes that can coexist
-10. Processes A, B and C communicate through FIFOs X, Y and Z according to the diagram below. Sketch the code fragments that open the FIFOs in the 3 processes.
-	```
-	A --X--> B
-	B --Y--> C
-	C --Z--> A
-	```
-
-	```c
-	int x[2], y[2], z[2];
-	pipe(x); pipe(y); pipe(z); 
-	if (fork() == 0){ //A
-		close(y[0]); close(y[1]); //unused
-		close(x[0]); close(z[1]);
-		//...
-		close(x[1]); close(z[0]);
-	}
-	if (fork() == 0){ //B
-		close(z[0]); close(z[1]);
-		close(y[0]); close(x[1]);
-		//...
-		close(y[1]); close(x[0]);
-	}
-	if (fork() == 0){ //C
-		close(x[0]); close(x[1]);
-		close(z[0]); close(y[1]);
-		//...
-		close(z[1]); close(y[0]);
-	}
-	close(x[0]); close(x[1]);
-	close(y[0]); close(y[1]);
-	close(z[0]); close(z[1]);
-	
-	```
-11. Why can a hard-link only be created toward files on the same partition and not toward files on other partitions? 
-	- A hard link is a \<fileName, I-node_number\> pair. I-node numbers are unique inside each partition. Additionally, different partitions may even correspond to different file systems, that are configured differently (the number of I-nodes may be different, for instance)
-## 2023
-1. Give three regular expressions that match any non-negative number that is a multiple of 5
-2. Give 5 GREP commands that display all the lines in a file that contain the letter "a" (either uppercase of lower case)
-3. Write two SED commands that display from a file only the lines that do not contain the digit '7'
-4. Write an AWK command that displays the sum of the next to last field of all lines
-5. How can one redirect in the command line the standard error through pipe to another program?
-6. Write a UNIX Shell script that displays all command line arguments without using FOR
-7. Draw the hierarchy of processes created by the code below, including the parent process: 
-```c
-for (i = 0; i < 3; i++){
-	fork();
-	execlp("ls", "ls", "/", NULL);
-}
-```
-8. Add the necessary code so that file b.txt is overwritten with the content of file a.txt from the instruction `execlp("cat", "cat", "a.txt", NULL);`
-9. Why is it not advisable to communicate bidirectionally though a single FIFO?
-10. How many FIFOs can a process open if they are not and will not ever be used by any other process?
-11. When would you prefer using a process instead of a thread?
-12. What is a "critical section"?
-13. Why should the thread recheck the condition after returning from the pthread_cond_wait call?
-14. What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_rdlock
-15. What is the effect of calling pthread_barrier_wait on a barrier initialized with 1?
-16. How can you increment the value of a POSIX semaphore?
-17. What can you do as a software developer to prevent deadlocks?
-18. What state transition will a process undergo when reading from a file?
-	- the process will go to a wait state until the content required is loaded into memory from the disk
-19. What is the content of the superblock on a Linux disk?
-20. Can you create a hard link towards a file on a different partition? Justify your answer.
 
 ## 2023 reexam
 1. Give a regular expression that matches any even-length sequence of lower-case words separated by spaces, if for each word its length and its position in the sequence are either both odd or both even. Ex: the 5th word has to be of odd length and the 16th has to be of even length.
@@ -579,60 +696,3 @@ void* fb(void* p){
 18. What happens with the data when you delete a file that has a hard link pointing to it?
 19. Give a method for preventing deadlocks
 20. What is a binary semaphore, and what is the effect of its P method, when called by multiple concurrent processes/threads?
-## 2018-2019/2 - Test D
-1. Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one number with more than 2 decimal digits
-2. Write a UNIX Shell command that eliminates all non-letter characters from file a.txt 
-3. Write an AWK program that applied to a file containing words separated by spaces, calculates the average word count per line
-4. Display all the unique file names (without the path) in a given directory and all its hierarchy of subdirectories
-5. Write a UNIX shell script that calculates the average number of lines in the files with the .txt extension in the current directory
-6. How many processes will be created by the code fragment below, excluding the parent process? 
-```c
-for(i=0;i<6;i++)
-	if(i%3 != 1)
-		fork();
-```
-7. How many processes are created by the parent process P, when it calls f(3) and what is their relationship with each other and with the parent process P?
-```c
-void f(int n){
-	if (n > 0 && fork() == 0){
-		f(n-1);
-		exit(0);
-	}
-	wait(0);
-}
-```
-8. What will the code fragment below print to the console?
-```c
-char *s[3] = {"X", "Y", "Z"};
-for (i = 0; i < 3; i++)
-	execl("/bin/echo", "/bin/echo", s[i], NULL);
-```
-9. What does the system call "read" do when the FIFO contains less data then it is required to read, but it is not empty?
-10. What will the code fragment below print to the console, if no other process opens the "abc" FIFO? Justify your answer.
-```c
-int r, w, n = 0;
-r = open("abc", O_RDONLY);
-n--;
-w = open("abc", O_WRONLY);
-n--;
-printf("%d\n", n);
-```
-11. What happens with a process between the moment it finishes and the moment its parent calls wait?
-12. impossible to read
-13. scheduling thing
-14. Consider the producer consumer problem with a buffer of capacity N. How many semaphores would you use to ensure operation correctness and what would the semaphores' initial values be?
-15. Add the necessary instructions to the code fragment below, so that the stdin of command /bin/pwd is read from PIPE p
-```c
-int p[2];
-
-pipe(p);
-
-if(fork()==0){
-	
-	execl("/bin/pwd", "/bin/pwd", NULL);
-	
-	exit(0);	
-	
-}
-
-```
