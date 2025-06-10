@@ -2,7 +2,7 @@
 ___
 Class: [[OS]]
 ___
-## - REGEX
+## REGEX
 '.' - any character 
 '\\' - changes the meaning of any character (special $\leftrightarrow$ normal) %%e.g.: \n - new line%%
 '\[]' - any character from list between square brackets. Dashes can be used to specify intervals (e.g. \[a-z], \[0-9], \[A-Z])
@@ -19,7 +19,7 @@ ___
 '()' - make a group that can be repeated a certain number of times
 	- groups can be referenced by '\\no', where 'no' is the number of the group
 
-## - File systems
+## File systems
 ### Disk organization
 0. Boot block
 1. Superblock
@@ -97,7 +97,7 @@ ___
 ### Mounting
 The process of connecting a file system, on a certain disk, to an existing directory in the implicit file system (so like simply taking an existing directory as a target mount point and essentially pasting a new file system onto the directory tree at that point)
 
-## - Processes
+## Processes
 ### States of a process
 ![[Process Theory 2025-05-15 09.32.49.excalidraw]]
 1. Load
@@ -161,8 +161,8 @@ The process of connecting a file system, on a certain disk, to an existing direc
 	- when a page is accessed, its row is filled with 1's, then its column with 0s
 	- files are swapped in increasing order of the number of 1s in their row
 
-### -[[Caches]]
-## - Scheduling Mechanisms
+### [[Caches]]
+## Scheduling Mechanisms
 - time for turnaround: completion_time - arrival_time
 - time of response: first_run_time - arrival_time
 ### Policies
