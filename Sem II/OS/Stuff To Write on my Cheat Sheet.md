@@ -183,7 +183,7 @@ The process of connecting a file system, on a certain disk, to an existing direc
 | Associative       | No Collisio                        | Slow                                   |
 | Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
 | Set-Allocative    | Decent speed<br>No collisions ions |                                        |
-## Scheduling Mechanisms
+## - Scheduling Mechanisms
 - time for turnaround: completion_time - arrival_time
 - time of response: first_run_time - arrival_time
 ### Policies
