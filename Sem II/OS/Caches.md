@@ -14,11 +14,11 @@ ___
 - Associative - list of pages and their locations
 - Direct Map (like a hash map)
 	- cache location is page number % cache size
-	- advantage: fast
+	- advantage: fast and simple
 	- disadvantages
 		- [[collision|collisions]]
 		- threshing (when 2 caches have the same hash and are accessed alternatively)
-- Set-Allocative
+- Set-Associative
 	- A combination of both
 	- Use a modulo to find a set of caches and within that set, have an associative organisation
 
@@ -26,4 +26,4 @@ ___
 | ----------------- | ---------------------------------- | -------------------------------------- |
 | Associative       | No Collisio                        | Slow                                   |
 | Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
-| Set-Allocative    | Decent speed<br>No collisions ions |                                        |
+| Set-Associative   | Decent speed<br>No collisions ions |                                        |

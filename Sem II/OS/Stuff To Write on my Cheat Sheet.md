@@ -161,28 +161,7 @@ The process of connecting a file system, on a certain disk, to an existing direc
 	- when a page is accessed, its row is filled with 1's, then its column with 0s
 	- files are swapped in increasing order of the number of 1s in their row
 
-### Caches
-- used for increasing speed of accessing data
-- when a certain page is requested, the CPU checks if it has been loaded in the cache memory. if not, it loads it there, alongside neighbouring pages
->[!Tip] Principle of locality
-> When a specific page is requested, the likelihood of a neighbouring page to be requested afterwards is really high. (so load it in the cache memory in advance)
-## Organization
-- Associative - list of pages and their locations
-- Direct Map (like a hash map)
-	- cache location is page number % cache size
-	- advantage: fast
-	- disadvantages
-		- [[collision|collisions]]
-		- threshing (when 2 caches have the same hash and are accessed alternatively)
-- Set-Allocative
-	- A combination of both
-	- Use a modulo to find a set of caches and within that set, have an associative organisation
-
-| Organization Type | Advantages                         | Disadvantages                          |
-| ----------------- | ---------------------------------- | -------------------------------------- |
-| Associative       | No Collisio                        | Slow                                   |
-| Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
-| Set-Allocative    | Decent speed<br>No collisions ions |                                        |
+### [[Caches]]
 ## - Scheduling Mechanisms
 - time for turnaround: completion_time - arrival_time
 - time of response: first_run_time - arrival_time
