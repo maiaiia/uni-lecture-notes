@@ -109,23 +109,32 @@ ___
 		- neutral:
 			- changes to parent process do not affect child process
 12. What is a "critical resource"?
-	- 
+	- a critical resource is a resource that is accessed by multiple actors that run concurrently and modified by at least one of them. 
 13. Why does the pthread_cond_wait call get also a mutex as argument?
-	- 
+	- pthread_cond_wait performs multiple operations: 
+		- upon call
+			- it releases a mutex
+			- it waits for a signal to be sent via a conditional variable
+		- upon successful return
+			- it locks the mutex again
+	- so both the conditional variable and the mutex must be passed as arguments
+	- the reason why the mutex is needed is because it is meant to protect a critical resource that is tied with the condition needed for the waiting thread to do a certain action. after the wait call is finished, the condition must be checked again, to make sure that it is indeed met (and since that condition is tied to some critical resource, that resource must be protected by a mutex when accessed)
 14. What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_wrlock?
-	- 
+	- read write locks are optimisations of the mutex. They allow multiple readers to access one critical resource, but only one writer to modify it. 
+	- In theory, rwlocks are supposed to make the execution faster. In practice, however, there are certain cases - when the number of readers and writers is disproportionate - when they may actually slow down execution. The greater the ratio between readers and writers becomes (for instance; it can also go the other way), the more difficult it becomes for a writer to get a write lock. This is called *starvation*. 
 15. What is the effect of calling sem_wait on a semaphore with value zero?
-	- 
+	- The thread calling sem_wait is stuck waiting on the semaphore until its value increases. It may not continue its execution otherwise.
 16. How can you decrement the value of a POSIX semaphore?
-	- 
+	- By calling sem_wait(). Note that the value of the semaphore cannot be decreased once it becomes 0
 17. What can you do as a software developer to prevent deadlocks? Justify your answer.
-	- 
+	- Deadlocks can have 4 causes: mutual exclusion, hold and wait, no preemption and circular wait. To prevent deadlocks, developers can break one or more of these conditions. Out of them, however, the one that is most easily prevented is circular wait; in this case, deadlocks can be avoided by simply establishing an order in which resources are locked and sticking with it. 
+	- the other causes can't be prevented: eliminating mutexes is dangerous to the integrity of the data; hold and wait deadlocks may be "solved" by either freeing all blocked resources before asking for one or blocking all necessary resources on start (both of which defy the purpose of concurrency and slow execution down), and trying to introduce preemption may cause livelocks
 18. What state transition will a process undergo when writing to a file?
-	- 
+	- when writing to a file, a process will go from a RUN to a WAIT / BLOCK state. This is done in order to avoid needlessly taking up CPU (and allow it to perform other tasks), due to the fact that I/O operations, such as writing to a file, take a long time.  After writing has finished, the process goes to a READY state and waits for the operating system (or the process, depending on the scheduling type) to allow it to run again
 19. What is the content of the superblock on a Linux disk?
-	- 
+	- the superblock contains global information about the entire file system, such as block size, I-node number and size, and a pointer to the head of a list of empty blocks.
 20. Considering that a block can contain N addresses towards other blocks, how many data blocks are addressed by an i-node's double and triple indirections together?
-	- 
+	- $N^2 + N^3$ (a simple indirect node has N direct nodes, each pointing to one block. a double indirection has N simple indirect nodes and a triple indirection has N double indirections)
 
 ## 29.06.2023
 
