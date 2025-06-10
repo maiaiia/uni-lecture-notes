@@ -34,5 +34,6 @@ awk - has its own programming language and is weird?
 - use -F to change separator
 - basic syntax: `awk -F sep BEGIN{init_vars}{do_stuff}END{do_stuff}`
 	- example: ` awk -F: '{if ($3 % 2 == 0) print $0}'`
-
+- multiple fields in print are separated by commas
+- NR - number of rows | NF - number of fields in current line
 ## [[Practice Problems#^4f4c2e|Practice Problems]]

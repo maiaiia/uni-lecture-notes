@@ -15,54 +15,71 @@ ___
 	- `grep -Ei "^([^aeiou])*([aeiou]([^aeiou])*[aeiou]([^aeiou])*)+$" randomText.txt`
 3. Write a SED command that will display from a file only the lines that contain exclusively a valid artihmetical expression of integer additions and subtractions.
 	- `sed -n -E "s/^(-?[0-9]+)(([+-]{1}[0-9]+)*)$/&/p" testFile.txt`
-4. Write an AWK command that displays the sum of the fields on the position equal to the current line number.
+4. Write an AWK command that displays the sum of the fields on the position equal to the current line number. (assume fields are separated by ':')
+	- `awk -F: 'BEGIN{I=0; sum=0}{I++; sum+=$I}END{print sum}' numbers.txt`
 5. Give two solutions for hiding a commands standard and error outputs by redirecting them to /dev/null.
 	1. `>/dev/null 2>/dev/null`
 	2. `>/dev/null 2>&1` 
 6. Write a UNIX Shell script that asks the user for a directory name and insists until it gets a directory that does not exist already.
+	- solution:
+		```bash
+		#!/bin/bash
+		
+		FOUND=1
+		while [ $FOUND -eq 1 ]; do
+			read INPUT
+			if [ -d $INPUT ]; then
+				echo Directory already exists
+			else
+				echo $INPUT is a new directory!
+				FOUND=0
+			fi
+		
+		done
+		```
 7.  Draw the hierarchy of processes created by the code below, including the parent process.
+	- code
+		```c
+		for(i=0; i<2; i++) {
+			fork();
+			execl("/etc", "/etc", NULL);
+		}
+		```
+	- solution:
+		```
+		If the instruction is successful:
+			P
+			|
+			C
+			this is because both the parent and the first child process execute the `execl` instruction. once that happens, no future lines are executed.
+		If the instruction is not executed (i.e. error occurs):
+			 P
+			| \
+			C1 \
+			|   \
+			C2   C3
+			if execl cannot be correctly executed, processes continue their execution in the current scope
+		```
+8. Add the necessary lines of C code so that the instruction below overwrites the content of a file b.txt. Do not change the instruction: `execlp("sort", "sort", "a.txt", NULL);`
+	- `execlp("sort", "sort", "a.txt", ">", "b.txt", NULL);`
+9. Why is it not advisable to communicate bidirectionally through a single pipe?
+10. What will display the sequence of commands below, considering the f is created successfully?
 >[!code]
->```c
->for(i=0; i<2; i++) {
->>	fork();
->>	execl("/etc", "/etc", NULL);
->>}
->>```
-
-
->[!Question]- Add the necessary lines of C code so that the instruction below overwrites the content of a file b.txt. Do not change the instruction: `execlp("sort", "sort", "a.txt", NULL);`
->
-
->[!Question]- Why is it not advisable to communicate bidirectionally through a single pipe?
-
->[!Question]- What will display the sequence of commands below, considering the f is created successfully?
->>[!code]
->>```
->>mkfifo f
->>echo asdf > f
->>cat f
->>```
->
-
->[!Question]- When would you prefer using a process instead of a thread?
-
->[!Question]- EN: What is a "critical resource"?
-
->[!Question]- EN: Why does the pthread_cond_wait call get also a mutex as argument?
-
->[!Question]- EN: What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_wrlock?
-
->[!Question]- EN: What is the effect of calling sem_wait on a semaphore with value zero?
-
->[!Question]- EN: How can you decrement the value of a POSIX semaphore?
-
->[!Question]- EN: What can you do as a software developer to prevent deadlocks? Justify your answer.
-
->[!Question]- EN: What state transition will a process undergo when writing to a file?
-
->[!Question]- EN: What is the content of the superblock on a Linux disk?
-
->[!Question]- EN: Considering that a block can contain N addresses towards other blocks, how many data blocks are addressed by an i-node's double and triple indirections together?
+>```bash
+>mkfifo f
+>echo asdf > f
+>cat f
+>```
+11. When would you prefer using a process instead of a thread?
+12. What is a "critical resource"?
+13. Why does the pthread_cond_wait call get also a mutex as argument?
+14. What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_wrlock?
+15. What is the effect of calling sem_wait on a semaphore with value zero?
+16. How can you decrement the value of a POSIX semaphore?
+17. What can you do as a software developer to prevent deadlocks? Justify your answer.
+18. What state transition will a process undergo when writing to a file?
+19. What is the content of the superblock on a Linux disk?
+20. Considering that a block can contain N addresses towards other blocks, how many data blocks are addressed by an i-node's double and triple indirections together?
 
 ## 29.06.2023
 

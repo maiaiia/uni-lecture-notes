@@ -19,6 +19,18 @@ ___
 '()' - make a group that can be repeated a certain number of times
 	- groups can be referenced by '\\no', where 'no' is the number of the group
 
+## [[Grep. Sed. Awk]]
+## Shell Programming
+- shell scripts start with `#!/bin/bash`
+- command line arguments:
+	- `$0` - name of script
+	- `$#` - total number of arguments
+	- `$@` or `$*` - list of all arguments
+	- `$n` - nth argument
+	- `shift n` shifts arguments n times
+- `[ $s = $t ]` tests if the strings s and t are equal (note the spaces between the brackets and the arguments) - command is equivalent to test
+- `find dir -type f/d/p(fifo)/s(ocket)` - find files of a given type in dir ()
+
 ## File systems
 ### Disk organization
 0. Boot block
