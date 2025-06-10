@@ -155,13 +155,13 @@ The process of connecting a file system, on a certain disk, to an existing direc
 	- every page has a 2 bit marker for the way the file was accessed (0-read, 1-write)
 	- whenever data is read from / written to a file, its marker is updated
 	- files are swapped in increasing order of their markers
-	- markers must pe updated periodically
+	- markers must be periodically reset
 - **LRU** (least recently used)
 	- if there are N pages, an NxN matrix is stored
 	- when a page is accessed, its row is filled with 1's, then its column with 0s
 	- files are swapped in increasing order of the number of 1s in their row
 
-### [[Caches]]
+### -[[Caches]]
 ## - Scheduling Mechanisms
 - time for turnaround: completion_time - arrival_time
 - time of response: first_run_time - arrival_time

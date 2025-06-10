@@ -10,7 +10,7 @@ ___
 >[!Tip] Principle of locality
 > When a specific page is requested, the likelihood of a neighbouring page to be requested afterwards is really high. (so load it in the cache memory in advance)
 
-## Organization
+## Projection of operative memory on cache memory
 - Associative - list of pages and their locations
 - Direct Map (like a hash map)
 	- cache location is page number % cache size
@@ -22,8 +22,8 @@ ___
 	- A combination of both
 	- Use a modulo to find a set of caches and within that set, have an associative organisation
 
-| Organization Type | Advantages                         | Disadvantages                          |
-| ----------------- | ---------------------------------- | -------------------------------------- |
-| Associative       | No Collisio                        | Slow                                   |
-| Direct Map        | F                                  | [[collision\|collisions]]<br>Threshing |
-| Set-Associative   | Decent speed<br>No collisions ions |                                        |
+| Organization Type | Advantages                        | Disadvantages                          |
+| ----------------- | --------------------------------- | -------------------------------------- |
+| Associative       | No Collisions                     | Slow                                   |
+| Direct Map        | Fast and easy to implement        | [[collision\|collisions]]<br>Threshing |
+| Set-Associative   | Decent speed<br>No collisionsions |                                        |
