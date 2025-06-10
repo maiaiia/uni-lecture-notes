@@ -6,9 +6,9 @@ ___
 
 >[!Warning] Exam material!
 
-There are a bunch of threads and a bunch of bytes to be written to and read from a pipe.
+There are a bunch of threads and a bunch of bytes to be written to and read from a pipe. The size of the buffer is fixed. Sketch a solution for the problem s.t. no producer tries to produces to a full pipe and no consumer tries to consume from an empty pipe
 
-Let the buffer size be `n`. Initialize 2 semaphores: `F(ull) = 0` and `E(mpty) = n`. Let X = 1 be the position where data is produced.
+Let the buffer size be `n`. Initialise 2 semaphores: `F(ull) = 0` and `E(mpty) = n`. Let X = 1 be the position where data is produced.
 
 | Producer                                              | Consumer                                              |
 | ----------------------------------------------------- | ----------------------------------------------------- |

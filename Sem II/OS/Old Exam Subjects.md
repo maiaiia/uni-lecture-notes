@@ -3,7 +3,7 @@ ___
 Class: [[OS]]
 Type: Exam Session Prep
 ___
-## (done) 27.06.2024
+## (to check) 27.06.2024
 
 1. Give three regular expressions that match any line that contains a least two vowels but no digits.
 	1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
@@ -252,80 +252,120 @@ printf("C\n");
 	- a binary semaphore is a synchronization primitive that can have two states: 0 (locked) and 1 (unlocked). it is often used to control access to a shared resource or coordinate the execution of concurrent processes or threads.
 	- the P method of a binary semaphore decrements its value by 1 and, if the value becomes negative, blocks the calling process or thread until the semaphore becomes unlocked (i.e. its value becomes 1). if the semaphore is already unlocked, the P method simply decrements the value to 0 and continues executing.
 
-## 2021-2022
+## (to check) 2021-2022
 1. How many threads would you use for processing a million files? Justify your choice.
-	- i would use a number of threads equal to the number of cores on the processor so there is a balance between having too many threads that don't actualyy get the processor to run their code and to few threads that the code becomes almost as if we were to write it iteratively.
+	- i would use a number of threads proportional (and at least equal to) to the number of cores on the processor so there is a balance between having too many threads that don't actually get to use the processor and too few threads, which would lead to the CPU not being used to its full capacity. however, i think that choosing the number of threads to use highly depends on the type of processing that is done and should be established empirically
 2. Give an example of values for T, N1, N2 and N3 s.t. the program below reaches its end
-```c
-pthread_barrier_t b1, b2, b3;
-
-void* f1(void* a)
-{
-	pthread_barrier_wait(&b1);
-	return NULL;
-}
-
-void* f2(void* a)
-{
-        pthread_barrier_wait(&b2);
-        return NULL;
-}
-
-void* f3(void* a)
-{
-        pthread_barrier_wait(&b3);
-        return NULL;
-}
-
-int main()
-{
-	int i;
-	pthread_t t[T][3];
-
-	pthread_barrier_init(&b1, N1);
-	pthread_barrier_init(&b2, N2);
-	pthread_barrier_init(&b3, N3);
-	for (i = 0; i < T; i++)
+	```c
+	pthread_barrier_t b1, b2, b3;
+	
+	void* f1(void* a)
 	{
-		pthread_join(t[i][0], NULL);
-		pthread_join(t[i][1], NULL);
-		pthread_join(t[i][2], NULL);
+		pthread_barrier_wait(&b1);
+		return NULL;
 	}
-	pthread_barrier_destroy(&b1);
-	pthread_barrier_destroy(&b2);
-	pthread_barrier_destroy(&b3);
-	return NULL;
-}
-```
-3. Why I/O operations cause a process to move from the state RUN to the state WAIT?
-	- Because I/O operations take a long time. if the process were to remain in a RUN state, it would keep the processor "busy" for no reason. instead, by having it move to the "wait" state, other processes can utilise it
+	
+	void* f2(void* a)
+	{
+	        pthread_barrier_wait(&b2);
+	        return NULL;
+	}
+	
+	void* f3(void* a)
+	{
+	        pthread_barrier_wait(&b3);
+	        return NULL;
+	}
+	
+	int main()
+	{
+		int i;
+		pthread_t t[T][3];
+	
+		pthread_barrier_init(&b1, N1);
+		pthread_barrier_init(&b2, N2);
+		pthread_barrier_init(&b3, N3);
+		for (i = 0; i < T; i++)
+		{
+			pthread_join(t[i][0], NULL);
+			pthread_join(t[i][1], NULL);
+			pthread_join(t[i][2], NULL);
+		}
+		pthread_barrier_destroy(&b1);
+		pthread_barrier_destroy(&b2);
+		pthread_barrier_destroy(&b3);
+		return NULL;
+	}
+	```
+	- any number works? the threads are not initialised anywhere and there are no calls to none of the functions? if the intention was, however, to create the threads and call each function T times, then any positive values would work, as long as T = N2 = N2 = N3
+3. Why do I/O operations cause a process to move from the state RUN to the state WAIT?
+	- Because I/O operations take a long time. If the process were to remain in a RUN state, it would keep the processor "busy" for no reason. instead, by having it move to the "wait" state, other tasks can be performed in the meantime 
 4. How is the address calculation done in the absolute fixed partition allocation?
+	- in absolute fixed partition allocation, the memory is split into partitions of fixed size. processes are compiled for one specific partition and may only be run there. thus, addresses are simply hardcoded by the compiler as physical (real) addresses
 5. Give an advantage and a disadvantage of the First-Fit placement policy versus the Worst-Fit
+	- First-Fit is faster than Worst-Fit, since the latter implies searching through the entire memory in order to find the worst (biggest) block of memory to allocate, whereas, for the former, the search stops at the first block that is available and fits the request
+	- in terms of fragmentation, both are equally bad
 6. What is the most prioritary memory page that the NRU replacement policy chooses as victim page?
+	- the NRU (not recently used) replacement policy assigns a 2 bit marker to each page currently loaded in the internal memory, each corresponding to an access mode (0-read, 1-write). Every time a file is accessed, its marker is updated correspondingly. When a page needs to be evicted, the one whose marker has the lowest value is chosen (so the pages are evicted in increasing order with regards to the markers 0->1->2->3)
 7. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the triple indirect addressing of an i-node?
+	- $A^3$ blocks, each of size $B$. (a simple indirect addressing node stores A direct addressing nodes, a double indirect addressing node stores A simple indirect....)
 8. Write a regular expression that accepts lines that contain the letter "a" but do not contain the letter "b"
+	- `a[^b]`
 9. What is the maximum number of child processes, created by the code fragment below, that can coexist simultaneously?
-```c
-for (i = 0; i < 7; i++)
-{
-	if (fork() == 0)
+	```c
+	for (i = 0; i < 7; i++)
 	{
-		sleep(rand() % 10);
-		exit(0);
+		if (fork() == 0)
+		{
+			sleep(rand() % 10);
+			exit(0);
+		}
+		if (i % 3 == 0)
+		{
+			wait(0);
+		}
 	}
-	if (i % 3 == 0)
-	{
-		wait(0);
-	}
-}
-```
+	```
+	- a total of 7 child processes are created (all of them having the same parent; no child process creates any other processes)
+	- the condition `i % 3 == 0` is true for $i \in \{0,3,6\}$, so 3 child processes are 'killed'
+		- before wait is called for the first time, only one child process is running. afterwards, there remain none
+		- before the second wait, there may be at most 3 child processes running. afterwards, 2 remain
+		- before the third wait, there may be at most 5 child processes running. this is the maximum number of child processes that can coexist
 10. Processes A, B and C communicate through FIFOs X, Y and Z according to the diagram below. Sketch the code fragments that open the FIFOs in the 3 processes.
-```
-A --X--> B
-B --Y--> C
-C --Z--> A
-```
+	```
+	A --X--> B
+	B --Y--> C
+	C --Z--> A
+	```
+
+	```c
+	int x[2], y[2], z[2];
+	pipe(x); pipe(y); pipe(z); 
+	if (fork() == 0){ //A
+		close(y[0]); close(y[1]); //unused
+		close(x[0]); close(z[1]);
+		//...
+		close(x[1]); close(z[0]);
+	}
+	if (fork() == 0){ //B
+		close(z[0]); close(z[1]);
+		close(y[0]); close(x[1]);
+		//...
+		close(y[1]); close(x[0]);
+	}
+	if (fork() == 0){ //C
+		close(x[0]); close(x[1]);
+		close(z[0]); close(y[1]);
+		//...
+		close(z[1]); close(y[0]);
+	}
+	close(x[0]); close(x[1]);
+	close(y[0]); close(y[1]);
+	close(z[0]); close(z[1]);
+	
+	```
 11. Why can a hard-link only be created toward files on the same partition and not toward files on other partitions? 
+	- A hard link is a \<fileName, I-node_number\> pair. I-node numbers are unique inside each partition. Additionally, different partitions may even correspond to different file systems, that are configured differently (the number of I-nodes may be different, for instance)
 ## 2023
 1. Give three regular expressions that match any non-negative number that is a multiple of 5
 2. Give 5 GREP commands that display all the lines in a file that contain the letter "a" (either uppercase of lower case)
