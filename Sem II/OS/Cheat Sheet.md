@@ -1,4 +1,4 @@
-# Stuff To Write on my Cheat Sheet
+# Cheat Sheet
 ___
 Class: [[OS]]
 ___

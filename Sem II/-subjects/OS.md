@@ -31,4 +31,5 @@ Labs / Seminars
 
 Misc
 - [[Practice Problems]]
-- [[Stuff To Write on my Cheat Sheet]]
+- [[Cheat Sheet]]
+- [[Old Exam Subjects]]

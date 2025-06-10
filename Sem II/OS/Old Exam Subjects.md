@@ -5,34 +5,30 @@ Type: Exam Session Prep
 ___
 ## 27.06.2024
 
->[!Question] Give three regular expressions that match any line that contains a least two vowels but no digits.
-> 
->1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
->2. 
-
->[!Question] Give a GREP command that display all the lines in a file that contain an even number of vowels (among other potential characters).
-> `grep -Ei "^([^aeiou])*([aeiou]([^aeiou])*[aeiou]([^aeiou])*)+$" randomText.txt`
-
->[!Question]- Write a SED command that display from a file only the lines that contain exclusively a valid artihmetical expression of integer additions and subtractions.
-
->[!Question]- Write an AWK command that displays the sum of the fields on the position equal to the current line number.
-
->[!Question]- Give two solutions for hiding a commands standard and error outputs by redirecting them to /dev/null.
-> 
->2. `>/dev/null 2>/dev/null`
->3. `>/dev/null 2>&1` 
-
->[!Question]- Write a UNIX Shell script that asks the user for a directory name and insists until it gets a directory that does not exist already.
-
->[!Question]- Draw the hierarchy of processes created by the code below, including the parent process.
->>[!code]
->>```c
->>for(i=0; i<2; i++) {
+1. Give three regular expressions that match any line that contains a least two vowels but no digits.
+	1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
+	2. `grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" randomText.txt | grep -E "([0987654321])" -v` (doesn't really count though I think)
+	3. `grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" randomText.txt | grep -E "([0-9])" -v` (still don't know if it counts as different)
+	4. `sed -n "s/^[^0-9]*$/&/gp" testFile.txt | sed -n "s/[aeiou].*[aeiou]/&/pi"` (and i could technically invert the order of the pipes but i bet that's not valid either)
+	5. some sort of awk
+2. Give a GREP command that display all the lines in a file that contain an even number of vowels (among other potential characters).
+	- `grep -Ei "^([^aeiou])*([aeiou]([^aeiou])*[aeiou]([^aeiou])*)+$" randomText.txt`
+3. Write a SED command that will display from a file only the lines that contain exclusively a valid artihmetical expression of integer additions and subtractions.
+	- `sed -n -E "s/^(-?[0-9]+)(([+-]{1}[0-9]+)*)$/&/p" testFile.txt`
+4. Write an AWK command that displays the sum of the fields on the position equal to the current line number.
+5. Give two solutions for hiding a commands standard and error outputs by redirecting them to /dev/null.
+	1. `>/dev/null 2>/dev/null`
+	2. `>/dev/null 2>&1` 
+6. Write a UNIX Shell script that asks the user for a directory name and insists until it gets a directory that does not exist already.
+7.  Draw the hierarchy of processes created by the code below, including the parent process.
+>[!code]
+>```c
+>for(i=0; i<2; i++) {
 >>	fork();
 >>	execl("/etc", "/etc", NULL);
 >>}
 >>```
->
+
 
 >[!Question]- Add the necessary lines of C code so that the instruction below overwrites the content of a file b.txt. Do not change the instruction: `execlp("sort", "sort", "a.txt", NULL);`
 >
