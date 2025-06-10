@@ -3,7 +3,7 @@ ___
 Class: [[OS]]
 Type: Exam Session Prep
 ___
-## 27.06.2024
+## (done) 27.06.2024
 
 1. Give three regular expressions that match any line that contains a least two vowels but no digits.
 	1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
@@ -138,102 +138,64 @@ ___
 
 ## 29.06.2023
 
->[!Question]- scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
-
->[!Question]- scrieti 2 grep uri care iau liniile care nu au numarul de caractere multiplu al lui 3
-
->[!Question]- scrieti un sed care inlocuieste prima aparitie a caracterului A cu caracterul B
-
->[!Question]- scrieti un awk care afiseaza liniile care au primul cuvant identic cu ultimul cuvant si al caror penultim cuvant are numar par de caractere
-
->[!Question]- scrieti 3 moduri de a crea un fisier gol
-
->[!Question]- scrieti 5 moduri de a verifica daca un string este gol(cu test)
-
->[!Question]- afisati ierarhia proceselor a urmatorului cod:
->>[!Code]
->>```c
->>for(int i = 0; i < 3; i++)
->>    if (fork() != 0)
->>        wait();
->>```
-
->[!Question]-  scrieti ce afiseaza codul:
-execlp(“expr”,”expr”,”a”,”+”,”1”);mut
-printf(“xyz\n”);
-
->[!Question]- schitati o implementare a functiilor popen si pclose
-
->[!Question]- cate FIFO pot fi deschise de catre un fisier daca fiecare dintre acele FIFO-uri va avea capatul celalalt deschis de catre un alt proces?
-
->[!Question]- cand am dori sa folosim execl si cand am dori sa folosim execv?
-
->[!Question]- definiti notiunea de sectiune critica
-
->[!Question]- care sunt consecintele inlocuirii lui pthread_mutex_lock cu sem_post in cod?
-
->[!Question]- definiti un semafor binar si explicati cum functioneaza
-
->[!Question]- scrieti un mod de a preveni deadlock
-
->[!Question]- prin ce stare(gen ready, wait, swap, etc) trece un proces cand apelam pthread_join?
-
->[!Question]- daca avem B drept block size si A drept address size, cate adrese o sa aiba un double indirect dintr-un i-node?
-
->[!Question]- ce se intampla cu continutul directorului in care montam o partitie?
+1. scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
+2. scrieti 2 grep uri care iau liniile care nu au numarul de caractere multiplu al lui 3
+3. scrieti un sed care inlocuieste prima aparitie a caracterului A cu caracterul B
+4. scrieti un awk care afiseaza liniile care au primul cuvant identic cu ultimul cuvant si al caror penultim cuvant are numar par de caractere
+5. scrieti 3 moduri de a crea un fisier gol
+6. scrieti 5 moduri de a verifica daca un string este gol(cu test)
+7. afisati ierarhia proceselor a urmatorului cod:
+	- code: 
+		```c
+		for(int i = 0; i < 3; i++)
+		    if (fork() != 0)
+		        wait();
+		```
+8. scrieti ce afiseaza codul:
+	- code:
+		```c
+		execlp(“expr”,”expr”,”a”,”+”,”1”);mut
+		printf(“xyz\n”);
+		```
+9. schitati o implementare a functiilor popen si pclose
+10. cate FIFO pot fi deschise de catre un fisier daca fiecare dintre acele FIFO-uri va avea capatul celalalt deschis de catre un alt proces?
+11. cand am dori sa folosim execl si cand am dori sa folosim execv?
+12. definiti notiunea de sectiune critica
+13. care sunt consecintele inlocuirii lui pthread_mutex_lock cu sem_post in cod?
+14. definiti un semafor binar si explicati cum functioneaza
+15. scrieti un mod de a preveni deadlock
+16.  prin ce stare(gen ready, wait, swap, etc) trece un proces cand apelam pthread_join?
+17. daca avem B drept block size si A drept address size, cate adrese o sa aiba un double indirect dintr-un i-node?
+18. ce se intampla cu continutul directorului in care montam o partitie?
 
 ## ??.??.2023
-
->[!Question]- Give a regular expression that matches any odd number of words, each word having an odd number of letters.
-
->[!Question]- EN: Give four commands that display the number of empty lines in a file.
-
->[!Question]-  EN: Write a SED command that displays a file's lines deleting the first, the third, the fifth, the seventh, etc space on those lines
-
->[!Question]-  EN: Write an AWK command that displays the product of the last field of lines on odd positions having an odd number of fields.
-
->[!Question]- EN: Give four ways of redirecting the standard output of a process.
-
->[!Question]- EN: Write three UNIX Shell conditions that check the existence of a file.
-
->[!Question]-  EN: Draw the hierarchy of processes created by the code below, including the parent process.
->>[!code]
->>```c
->>    for(i=0; i<3; i++) {
->>        if(execlp("ls", "ls", "/", NULL) != -1) {
->>            fork();
->>        }
->>    }
->>```
->
-
->[!Question]- EN: Add the necessary code so that the instruction below does not get stuck waiting for standard input: `execlp("cat", NULL);`
-
->[!Question]-  EN: Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
-
->[!Question]- EN: How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
-
->[!Question]- EN: When would you prefer using a FIFO instead of a pipe?
-
->[!Question]- EN: What is a "critical section"?
-
->[!Question]- EN: When would you prefer using a mutex instead of a rwlock?
-
->[!Question]-  EN: What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_wait?
-
->[!Question]-  EN: What does pthread_cond_wait do with the mutex it gets as argument?
-
->[!Question]- EN: Sketch a solution for the producer-consumer problem.
-
->[!Question]- EN: What can you do as a software developer to prevent deadlocks?
-
->[!Question]- EN: What state transition will a process undergo when it calls pthread_cond_wait? Justify your answer.
-
->[!Question]- EN: What is the content of file of type directory in the Linux file system?
-
->[!Question]-  EN: Explain the difference between a symbolic link and a hard link.
-
-
+1. Give a regular expression that matches any odd number of words, each word having an odd number of letters.
+2. Give four commands that display the number of empty lines in a file.
+3. Write a SED command that displays a file's lines deleting the first, the third, the fifth, the seventh, etc space on those lines
+4. Write an AWK command that displays the product of the last field of lines on odd positions having an odd number of fields.
+5. Give four ways of redirecting the standard output of a process.
+6. Write three UNIX Shell conditions that check the existence of a file.
+7. Draw the hierarchy of processes created by the code below, including the parent process.
+	```c
+	    for(i=0; i<3; i++) {
+	        if(execlp("ls", "ls", "/", NULL) != -1) {
+	            fork();
+	        }
+	    }
+	```
+8. Add the necessary code so that the instruction below does not get stuck waiting for standard input: execlp("cat", NULL);
+9. Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
+10. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
+11. When would you prefer using a FIFO instead of a pipe?
+12. What is a "critical section"?
+13. When would you prefer using a mutex instead of a rwlock?
+14. What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_wait?
+15. What does pthread_cond_wait do with the mutex it gets as argument?
+16. Sketch a solution for the producer-consumer problem.
+17. What can you do as a software developer to prevent deadlocks?
+18. What state transition will a process undergo when it calls pthread_cond_wait? Justify your answer.
+19. What is the content of file of type directory in the Linux file system?
+20. Explain the difference between a symbolic link and a hard link.
 ## 2017-2018
 1. Write a UNIX Shell command that displays the lines in a file a.txt that contains words starting with capital letters
 2. Write a UNIX Shell command that inverts in file a.txt all pairs of neighboring digits (ex: a3972b -> a9327b)
