@@ -61,25 +61,71 @@ ___
 			if execl cannot be correctly executed, processes continue their execution in the current scope
 		```
 8. Add the necessary lines of C code so that the instruction below overwrites the content of a file b.txt. Do not change the instruction: `execlp("sort", "sort", "a.txt", NULL);`
-	- `execlp("sort", "sort", "a.txt", ">", "b.txt", NULL);`
+	- solution
+		```c
+		int fd = open("b.txt", O_WRONLY);
+		dup2(fd,1);
+		execlp("sort","sort","a.txt",NULL);
+		```
 9. Why is it not advisable to communicate bidirectionally through a single pipe?
+	- because the data may get mixed up in between processes (meaning that a process A may, for instance, send data intended for process B to the pipe and then read that exact same data, if process B does not get CPU in time to read before A)
 10. What will display the sequence of commands below, considering the f is created successfully?
->[!code]
->```bash
->mkfifo f
->echo asdf > f
->cat f
->```
+	- code
+		```bash
+		mkfifo f
+		echo asdf > f
+		cat f
+		```
+	- solution
+		- echo is a blocking call! the fifo is opened with write permissions, but open waits for the fifo to also be opened with read permissions
+		- same goes for cat
+		- if the commands are ran in the same window / script / whatever -> deadlock
+		- if 2 different processes run each command (echo and cat), regardless of the order, then the one calling cat will display asdf. afterwards, both processes will stop
+		- extra: if, instead of `echo`, a simple redirect were used, then the reading and writing would not have stoped 
+		- my english is horrendous 
 11. When would you prefer using a process instead of a thread?
+	- threads are usually used for performing small tasks, while processes are used for bigger tasks
+	- threads: 
+		- pros:
+			- communication between threads is much easier (more mechanisms available) and faster
+			- threads are more lightweight - only a new stack (and a copy of the registers) is needed
+			- switching between threads takes less than switching between processes
+			- threads can exercise control over threads of the same process
+		- cons:
+			- shared code and shared data may make multi-threaded code harder to work with
+			- race conditions, critical resources
+			- ==if a thread crashes, the whole system does==
+		- neutral? can be either a pro or a con
+			- changes to a thread may affect behaviour of other threads
+	- processes: 
+		- pros:
+			- a process being terminated does not imply the failure of the entire system
+			- the only way to call `execl/v`, is if you create a new process!
+			- ==if a child process crashes, the parent process is unaffected== 
+		- cons:
+			- processes use a lot of space (when forking a process, the entire 'impure' part of the memory is duplicated)
+			- communication is harder - interprocess communication methods like pipes, fifos, shm segments must be used
+			- processes can only exercisde control over the samee process
+		- neutral:
+			- changes to parent process do not affect child process
 12. What is a "critical resource"?
+	- 
 13. Why does the pthread_cond_wait call get also a mutex as argument?
+	- 
 14. What will be the effect of replacing calls to pthread_mutex_lock with calls to pthread_rwlock_wrlock?
+	- 
 15. What is the effect of calling sem_wait on a semaphore with value zero?
+	- 
 16. How can you decrement the value of a POSIX semaphore?
+	- 
 17. What can you do as a software developer to prevent deadlocks? Justify your answer.
+	- 
 18. What state transition will a process undergo when writing to a file?
+	- 
 19. What is the content of the superblock on a Linux disk?
+	- 
 20. Considering that a block can contain N addresses towards other blocks, how many data blocks are addressed by an i-node's double and triple indirections together?
+	- 
 
 ## 29.06.2023
 
