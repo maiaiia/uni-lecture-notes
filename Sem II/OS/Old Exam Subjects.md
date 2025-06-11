@@ -331,24 +331,70 @@ ___
 	- already answered
 20. Can you create a hard link towards a file on a different partition? Justify your answer.
 	- already answered
-## 2018-2019/2 - Test D
+## (4-to check) 2018-2019/2 - Test D
 1. Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one number with more than 2 decimal digits
-	- 
+	- `grep -E "\<[0-9]+\.[0-9]{2,}\>" a.txt`
 2. Write a UNIX Shell command that eliminates all non-letter characters from file a.txt 
-	- 
+	- `sed -E "s/[^a-zA-Z]//g" a.txt`
 3. Write an AWK program that applied to a file containing words separated by spaces, calculates the average word count per line
-	- 
+	- `awk 'BEGIN{sum=0;lin=0}{sum+=NF;lin+=1}END{print sum/lin}' a.txt`
 4. Display all the unique file names (without the path) in a given directory and all its hierarchy of subdirectories
-	- 
+	- solution:
+		```bash
+		#!/bin/bash
+		
+		if ! [ $# -eq 1 ]; then
+		        echo Please enter one argument only
+		        exit 1
+		fi
+		
+		DIR=$1
+		if ! [ -d $DIR ]; then
+		        echo $DIR is not a directory
+		        exit 1
+		fi
+		
+		
+		FILES=$(find $DIR -type f -exec basename {} \; | sort | uniq)
+		DIRECTORIES=$(find $DIR -type d)
+		
+		for DIRECTORY in $DIRECTORIES; do
+		        echo $DIRECTORY
+		done
+		
+		for FILE in $FILES; do
+		        echo $FILE 
+		done
+		```
+	- sol 2: `find d -type f -exec basename {} \; | sort | uniq` - files ony
+	- sol 3: `find dir1 -type f | awk -F/ '{print $NF}'  | sort -u` - files only
 5. Write a UNIX shell script that calculates the average number of lines in the files with the .txt extension in the current directory
-	- 
+	- solution
+		```bash
+		#!/bin/bash
+		
+		SUM=0
+		CNT=0
+		FILES=$(ls)
+		for FILE in $FILES; do
+		    if [ $(echo $FILE | grep -E "^.*\.txt$" -c) -eq 1 ]; then
+		        #SUM=$SUM + $FILE
+		        LINES=$(wc -l < $FILE)
+		        SUM=$((SUM + LINES))
+		        CNT=$((CNT + 1))
+		    fi
+		done
+		AVG=$((SUM/CNT))
+		echo $AVG
+		
+		```
 6. How many processes will be created by the code fragment below, excluding the parent process? 
 	```c
 	for(i=0;i<6;i++)
 		if(i%3 != 1)
 			fork();
 	```
-	- 
+	- a fork is performed for $i \in \{0,2,3,5\}$. Every time, all processes create a child process of their own, so the total number of processes is doubled. The total number of processes (excluding the parent) is $2^4-1 = 15$ 
 7. How many processes are created by the parent process P, when it calls f(3) and what is their relationship with each other and with the parent process P?
 	```c
 	void f(int n){
@@ -359,42 +405,64 @@ ___
 		wait(0);
 	}
 	```
-	- 
+	- solution:
+		```
+		P 
+		|
+		C3
+		|
+		C2
+		|
+		C1
+		```
+		- only child processes create new child processes, so a total of 4 child processes will be created, but only the first one will be a direct child of P. 
+		- note that, after n becomes 0, the fork is not executed (due to the fact that the `&&` operator was used, and not `&`)
 8. What will the code fragment below print to the console?
-```c
-char *s[3] = {"X", "Y", "Z"};
-for (i = 0; i < 3; i++)
-	execl("/bin/echo", "/bin/echo", s[i], NULL);
-```
+	```c
+	char *s[3] = {"X", "Y", "Z"};
+	for (i = 0; i < 3; i++)
+		execl("/bin/echo", "/bin/echo", s[i], NULL);
+	```
+	- it will print X (after a call to execl is successfully executed, the process ends)
 9. What does the system call "read" do when the FIFO contains less data then it is required to read, but it is not empty?
+	- it reads a number of bytes from the FIFO and proceeds with the execution (reading is done)
 10. What will the code fragment below print to the console, if no other process opens the "abc" FIFO? Justify your answer.
-```c
-int r, w, n = 0;
-r = open("abc", O_RDONLY);
-n--;
-w = open("abc", O_WRONLY);
-n--;
-printf("%d\n", n);
-```
+	```c
+	int r, w, n = 0;
+	r = open("abc", O_RDONLY);
+	n--;
+	w = open("abc", O_WRONLY);
+	n--;
+	printf("%d\n", n);
+	```
+	- open is a blocking call, so, on line 2, the process will enter a deadlock (it will wait for another process to open "abc" with write permissions)
 11. What happens with a process between the moment it finishes and the moment its parent calls wait?
+	- the process turns into a zombie and waits for the parent to call wait upon it. this behaviour enables the parent process to access the exit code of the child process.
 12. impossible to read
+	- 
 13. scheduling thing
+	- 
 14. Consider the producer consumer problem with a buffer of capacity N. How many semaphores would you use to ensure operation correctness and what would the semaphores' initial values be?
+	- i would use 3 semaphores
+		- a binary semaphore that works as a mutex
+		- a semaphore for the empty bytes, initialised with E
+		- a semaphore for the full bytes, initialised with 0
 15. Add the necessary instructions to the code fragment below, so that the stdin of command /bin/pwd is read from PIPE p
-```c
-int p[2];
-
-pipe(p);
-
-if(fork()==0){
+	```c
+	int p[2];
 	
-	execl("/bin/pwd", "/bin/pwd", NULL);
-	
-	exit(0);	
-	
-}
-
-```
+	pipe(p);
+	close(p[1]); //added
+	if(fork()==0){
+		dup2(p[0],0); //added
+		close(p[0]); //added
+		execl("/bin/pwd", "/bin/pwd", NULL);
+		exit(1);
+	}
+	close(p[0]); //added
+	wait(NULL); //added
+	```
+	- 
 ## 29.06.2023
 
 1. scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
