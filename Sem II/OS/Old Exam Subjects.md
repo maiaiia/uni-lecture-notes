@@ -547,7 +547,7 @@ ___
 	- $A^2$ adrese, fiecare corespunzand unui block de dimensiune $B$ 
 18. ce se intampla cu continutul directorului in care montam o partitie?
 	- acesta nu mai este vizibil / accesibil. la momentul demontarii partitiei, continutul redevine accesibil
-## ??.??.2023
+## (7-to check)??.??.2023
 1. Give a regular expression that matches any odd number of words, each word having an odd number of letters.
 	- `grep -Ei "^(\<([a-z][a-z])*[a-z]\> +\<([a-z][a-z])*[a-z]\> +)*\<([a-z][a-z])*[a-z]\>$"`
 2. Give four commands that display the number of empty lines in a file.
@@ -603,28 +603,38 @@ ___
 10. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
 	- if the FIFOS have not been opened anywhere else for writing, 
 11. When would you prefer using a FIFO instead of a pipe?
-	- 
+	- when the 2 processes that need to communicate are unrelated 
 12. What is a "critical section"?
 	- 
 13. When would you prefer using a mutex instead of a rwlock?
-	- 
+	- when the number of readers and writers is disproportionate (in order to avoid starvation)
+	- when concurrent readers are not needed
 14. What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_wait?
-	- 
+	- depending on the value that the semaphore was initialised with, more threads may be allowed in a critical section (if the semaphore was initialised with 1, nothing happens; if it was initialised with 0 -> deadlock)
+	- so if the program called for mutual exclusion, the data may not be correctly handled (operations that were supposed to be atomic are not anymore)
 15. What does pthread_cond_wait do with the mutex it gets as argument?
-	- 
+	- upon call, it unlocks the mutex
+	- upon return, it locks it again
 16. Sketch a solution for the producer-consumer problem.
-	- 
+	- assuming the buffer size if B
+	- use 2 semaphores, F and E (full and empty). initialise F with 0 and E with B
+	- producers call wait on E, protect the critical resource with a mutex, produce, unlock the mutex and post the quantity that was produced on F
+	- consumers call wait on F, protect the critical resource with a mutex, consume, unlock the mutex and post the quantity that was consumed on E
 17. What can you do as a software developer to prevent deadlocks?
-	- 
+	- circular wait bla bla
 18. What state transition will a process undergo when it calls pthread_cond_wait? Justify your answer.
-	- 
+	- run -> wait (until a signal is sent) -> ready 
 19. What is the content of file of type directory in the Linux file system?
-	- 
+	- a list of \<filename, i-number\> pairs corresponding to all the files (regular, directories, links etc) within the directory. 2 additional entries are added (. and ..), pointing to the directory and its parent respectively
 20. Explain the difference between a symbolic link and a hard link.
-	- 
+	- a hard link is, simply put, a  new \<filename, i-number\> pair. a symlink is a file storing the path to a certain file. 
+	- when a hard link is created, a new link is registered in the i-node corresponding to that file, whereas nothing changes in the structure of the i-node when a symlink is created 
+	- the original file is not affected in any way when a symlink is deleted. however, when hard links are deleted, the counter inside the i-node of the linked file is decremented. if it reaches zero, the data is deleted.
+	- if the original file is deleted (the one upon which ln was called), the data is not deleted (assuming the hard link was not deleted beforehand). symlinks, however, will simply point to an inexistent path (dangling reference)
+	- to summarise, hard links point directly to the i-node of a file, whereas symlinks point to its path
 ## 2017-2018
 1. Write a UNIX Shell command that displays the lines in a file a.txt that contains words starting with capital letters
-	- 
+	- `grep -E "\<[A-Z][a-zA-Z]*\>" a.txt`
 2. Write a UNIX Shell command that inverts in file a.txt all pairs of neighboring digits (ex: a3972b -> a9327b)
 	- 
 3. File a.txt contains on each line two numbers separated by space. Write a UNIX Shell command that displays for each line the sum of its numbers
@@ -687,75 +697,80 @@ printf("C\n");
 	- the P method of a binary semaphore decrements its value by 1 and, if the value becomes negative, blocks the calling process or thread until the semaphore becomes unlocked (i.e. its value becomes 1). if the semaphore is already unlocked, the P method simply decrements the value to 0 and continues executing.
 
 
-## 2023 reexam
+## (6-to check) 2023 reexam
 1. Give a regular expression that matches any even-length sequence of lower-case words separated by spaces, if for each word its length and its position in the sequence are either both odd or both even. Ex: the 5th word has to be of odd length and the 16th has to be of even length.
-	- 
+	- `"^( *\<([a-z][a-z])*[a-z]\> +\<([a-z][a-z])*\>)*$"`
 2. When would you load into memory the pages of a process that is just starting?
-	- 
-3. Considering that the size of a block is B and the size of an address isA, how many data blocks are addressed by the double indirect addressing of an i-node?
-	- 
+	- I would load pages when they are requested, according to the principle of locality (so, when a page is requested, i would first check if it has already been loaded. if not, i would load it and its neighbours)
+3. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the double indirect addressing of an i-node?
+	- B/A addresses fit in each block, so a double indirect addressing of an i-node has B/A addresses of simple indirect addressing nodes. each of the latter has B/A addresses of direct nodes. Each direct node points to exactly one ... so a total of (B/A)^2 data blocks are addressed
 4. What state transition will a process undergo when it calls sem_wait and under what conditions? Justify your answer.
-	- 
+	- if it actually has to wait at the semaphore (i.e. the value of the semaphore is 0), it will enter a wait state (run -> wait) until the value of the semaphore increases. afterwards, it will enter a ready state (wait->ready).
+	- if the semaphore's value is not zero, it will simply continue its execution as long as the OS allows it to do so (what i mean is that if it enters a different state, like ready, it won't have anything to do with the fact that sem_wait was called)
 5. Give an example of distinct values greater than 0 for T, N1, N2 and N3 for which the program below finishes execution.
-```c
-pthread_barrier_t b1, b2;
-
-void* f1(void* a)
-{
-	pthread_barrier_wait(&b1);
-	return NULL;
-}
-
-void* f2(void* a)
-{
-	pthread_barrier_wait(&b2);
-	return NULL;
-}
-
-int main()
-{
-	int i;
-	pthread_t t[T][2];
-
-	pthread_barrier_init(&b1, NULL, N1);
-	pthread_barrier_init(&b2, NULL, N2);
-	for (i = 0; i < T; i++)
+	```c
+	pthread_barrier_t b1, b2;
+	
+	void* f1(void* a)
 	{
-		pthread_create(&t[i][0], NULL, f1, NULL);
-		pthread_create(&t[i][1], NULL, f2, NULL);
-	}	
-	for (i = 0; i < T; i++)
-	{
-		pthread_join(t[i][0], NULL);
-		pthread_join(t[i][1], NULL);
+		pthread_barrier_wait(&b1);
+		return NULL;
 	}
-	pthread_barrier_destroy(&b1);
-	pthread_barrier_destroy(&b2);
-	return NULL;
-}
-```
+	
+	void* f2(void* a)
+	{
+		pthread_barrier_wait(&b2);
+		return NULL;
+	}
+	
+	int main()
+	{
+		int i;
+		pthread_t t[T][2];
+	
+		pthread_barrier_init(&b1, NULL, N1);
+		pthread_barrier_init(&b2, NULL, N2);
+		for (i = 0; i < T; i++)
+		{
+			pthread_create(&t[i][0], NULL, f1, NULL);
+			pthread_create(&t[i][1], NULL, f2, NULL);
+		}	
+		for (i = 0; i < T; i++)
+		{
+			pthread_join(t[i][0], NULL);
+			pthread_join(t[i][1], NULL);
+		}
+		pthread_barrier_destroy(&b1);
+		pthread_barrier_destroy(&b2);
+		return NULL;
+	}
+	```
+	- example: T = 30, N1 = 3, N2 = 10 (the only thing that is important is that T is a multiple of both N1 and N2)
 6. What could happen if function f were executed by several simultaneous threads? Why?
-```c
-pthread_mutex_t m[2];
-void* f(void* p)
-{
-	int id = (int) p;
-	pthread_mutex_t* first = &m[id % 2];
-	pthread_mutex_t* second = &m[(id + 1) % 2];
-
-	pthread_mutex_lock(first);
-	pthread_mutex_lock(second);
-	...
-	pthread_mutex_unlock(second);
-	pthread_mutex_unlock(first);
-}
-```
+	```c
+	pthread_mutex_t m[2];
+	void* f(void* p)
+	{
+		int id = (int) p;
+		pthread_mutex_t* first = &m[id % 2];
+		pthread_mutex_t* second = &m[(id + 1) % 2];
+	
+		pthread_mutex_lock(first);
+		pthread_mutex_lock(second);
+		...
+		pthread_mutex_unlock(second);
+		pthread_mutex_unlock(first);
+	}
+	```
+	- if all the id's belong to the same modulo class, nothing (no circular waits! resources are locked and unlocked in the same order). if, however, at least one thread has an even id and at least one has an odd id (and there also exists a third thread), they might enter a deadlock
 7. What can you do as a software developer to prevent deadlocks?
 	- 
 8. What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_post?
 	- 
 9. Give three function calls that ensure mutual exclusion.
-	- 
+	- pthread_mutex_(un)lock
+	- sem_wait, sem_post
+	- pthread_rwlock_rdlock/wrlock
 10. What is a "critical section"?
 	- 
 11. When would you use execv instead of execl?
@@ -763,33 +778,50 @@ void* f(void* p)
 12. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for writing?
 	- 
 13. Explain why the file descriptor returned by popen must be closed with pclose instead of fclose.
-	- 
+	- because pclose not only closes the pipe, but also waits for the child process to end (so basically zombies)
 14. What will the fragment below print? Justify your answer.
-```c
-execl("expr", "expr", "1", "+", "1", NULL);
-execlp("echo", "echo", "3", NULL);
-printf("4\n");
-```
+	```c
+	execl("expr", "expr", "1", "+", "1", NULL);
+	execlp("echo", "echo", "3", NULL);
+	printf("4\n");
+	```
+	- 3 (first exec is not correct (should be /bin/expr for the first 2 arguments or execlp), second one gets executed, no code is executed afterwards)
 15. Give three ways of finding the size of a file on the linux command line.
-	- 
+	- `ls -l` (5th field, can be isolated with awk)
+	- `wc -c`
+	- `stat`
+	- `du -b` (does not work on mac)
 16. Draw the hierarchy of processes created by the code below, including the parent process.
-```c
-for (i = 0; i < 3; i++)
-{
-	if (fork() > 0)
+	```c
+	for (i = 0; i < 3; i++)
 	{
-		wait(0);
-		wait(0);
-		exit(0);
+		if (fork() > 0)
+		{
+			wait(0);
+			wait(0);
+			exit(0);
+		}
 	}
-}
-```
+	```
+	- solution:
+		```
+		P
+		|
+		C1
+		|
+		C2
+		|
+		C3
+		```
 17. Write two SED commands that display a file's lines deleting the first non-empty sequence of lower-case letters.
-	- 
-18. Write an AWK command that displays the sum of all the numbers in a text file whose lines consist of sequences of digits separated by spaces.
-	- 
+	- `sed -E "s/[a-z]*//" testFile.txt`
+	- `sed -E "s/([a-z]*)(.*)/\2/" testFile.txt`
+18. Write an AWK command that displays the sum of all the numbers in a text file whose lines consist of sequences of digits separated by columns.
+	- `awk -F: 'BEGIN{s=0}{for (i=1;i<=NF;i++) s+=$i}END{print s}' numbers.txt`
 19. Give three GREP commands that display the lines of a file which consist exclusively of a non-empty sequence of alternating leters and digits (ex: a0g or 1r5m)
-	- 
+	- `grep -E "^[0-9]?([a-z][0-9])*[a-z]?$" testFile.txt`
+	- `grep -E "^[a-z]?([0-9][a-z])*[0-9]?$" testFile.txt`
+	- `grep -E "^([a-z][0-9])*[a-z]?$|^([0-9][a-z])*[0-9]?$" testFile.txt`
 ## 2018-2019 / 2
 1.  Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one natural number divisible by 5
 	- 
