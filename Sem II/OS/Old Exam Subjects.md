@@ -463,7 +463,7 @@ ___
 	wait(NULL); //added
 	```
 	- 
-## 29.06.2023
+## (5-to check) 29.06.2023
 
 1. scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
 	- `grep -Eo "(\<[a-z]*[aeiou][a-z]*[aeiou][a-z]*\> \<[a-z]*[aeiou][a-z]*[aeiou][a-z]*\>)" testFile.txt`
@@ -481,41 +481,71 @@ ___
 	- `echo -n > file.txt`
 	- `> file.txt + Ctrl C`
 	- `:> file.txt` (: is null command)
+	- `cat /dev/null > file.txt`
 6. scrieti 5 moduri de a verifica daca un string este gol(cu test)
+	- `test $s = ""`
+	- `test -z $s`
+	- `test $s`
+	- `! test $s != ""`
 	- 
 7. afisati ierarhia proceselor a urmatorului cod:
 	- code: 
 		```c
 		for(int i = 0; i < 3; i++)
 		    if (fork() != 0)
-		        wait();
+		        wait(NULL);
 		```
-	- 
+	- solution:
+		- wait is a blocking call. since no child processes are killed, the execution of each process that creates a child will stop immediately afterwards (deadlock). The only way to solve this deadlock is if the last child is killed during the rest of the execution
+		```
+		P
+		|
+		C1
+		|
+		C2
+		|
+		C3
+		```
 8. scrieti ce afiseaza codul:
 	- code:
 		```c
-		execlp(“expr”,”expr”,”a”,”+”,”1”);mut
+		execlp(“expr”,”expr”,”a”,”+”,”1”);
 		printf(“xyz\n”);
 		```
-	- 
+	- solution:
+		- if `expr a + 1` were a valid expression, it would have displayed its result and the rest of the code would not have been executed
+		- since it is not valid, the execution continues and xyz is printed
 9. schitati o implementare a functiilor popen si pclose
-	- 
+	- solution:
+		- open a pipe 
+		- create a child process
+		- if popen is called with "r":
+			- in the child process
+				- redirect stdout to the pipe
+			- in the parent process
+				- redirect stdin from pipe
+		- if popen is called with write permissions:
+			- in the child process
+				- redirect stdin from pipe
+			- in the parent process
+				- redirect stdout to pipe
+		- in both cases, have the child execute the command
 10. cate FIFO pot fi deschise de catre un fisier daca fiecare dintre acele FIFO-uri va avea capatul celalalt deschis de catre un alt proces?
-	- 
+	- oricat de multe, cat timp ordinea in care sunt deschise fifo-urile coincide pentru ambele procese
 11. cand am dori sa folosim execl si cand am dori sa folosim execv?
-	- 
+	- execl are ca argumente stringuri, in timp ce execv are ca argument un array de stringuri. Astfel, se prefera folosirea comenzii execl cand dorim sa hard-codam o comanda (i.e. cand comanda ce trebuie executata este cunoscuta la momentul elaborarii codului), si cea a comenzii execv atunci cand se doreste mai multa flexibilitate (i.e. comanda poate fi stabilita la momentul executiei - spre exemplu, transmisa ca argument sau introdusa de utilizator)
 12. definiti notiunea de sectiune critica
-	- 
-13. care sunt consecintele inlocuirii lui pthread_mutex_lock cu sem_post in cod?
-	- 
+	- o sectiune critica este o "bucata" de cod in care este accesata o resursa critica. O resursa critica este o resursa accesata concurent de mai multi actori (threaduri sau procese) si modificata de cel putin unul
+13. care sunt consecintele inlocuirii lui pthread_mutex_lock cu sem_wait in cod? (si presupun ca unlock cu post)
+	- daca semaforul este initializat cu 1, nimic (practic, un semafor este o generalizare a conceptului de mutex)
 14. definiti un semafor binar si explicati cum functioneaza
-	- 
+	- un semafor binar este un semafor initializat cu valoarea 1. functioneaza exact ca un mutex.
 15. scrieti un mod de a preveni deadlock
-	- 
+	- se poate preveni un circular wait prin prestabilirea unei ordini in care sunt blocate resursele si respectarea acesteia pe tot parcursul executiei
 16.  prin ce stare(gen ready, wait, swap, etc) trece un proces cand apelam pthread_join?
-	- 
+	- run -> wait / blocked (cat timp se asteapta finalizarea executiei threadului respectiv) -> ready 
 17. daca avem B drept block size si A drept address size, cate adrese o sa aiba un double indirect dintr-un i-node?
-	- 
+	- $A^2$ adrese, fiecare corespunzand unui block de dimensiune $B$ 
 18. ce se intampla cu continutul directorului in care montam o partitie?
 	- 
 ## ??.??.2023
