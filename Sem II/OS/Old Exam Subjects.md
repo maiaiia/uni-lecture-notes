@@ -3,7 +3,7 @@ ___
 Class: [[OS]]
 Type: Exam Session Prep
 ___
-## (1-to check) 27.06.2024
+## (checked) 27.06.2024
 
 1. Give three regular expressions that match any line that contains a least two vowels but no digits.
 	1. `cat randomText.txt | grep -E -i "(.)*([aeiou])+(.)*([aeiou])+" | grep -E "([0987654321])" -v`
@@ -109,7 +109,7 @@ ___
 		- neutral:
 			- changes to parent process do not affect child process
 12. What is a "critical resource"?
-	- a critical resource is a resource that is accessed by multiple actors that run concurrently and modified by at least one of them. 
+	- a critical resource is a resource that is accessed by multiple actors that run concurrently and is modified by at least one of them. 
 13. Why does the pthread_cond_wait call get also a mutex as argument?
 	- pthread_cond_wait performs multiple operations: 
 		- upon call
@@ -188,7 +188,6 @@ ___
 	- in absolute fixed partition allocation, the memory is split into partitions of fixed size. processes are compiled for one specific partition and may only be run there. thus, addresses are simply hardcoded by the compiler as physical (real) addresses
 5. Give an advantage and a disadvantage of the First-Fit placement policy versus the Worst-Fit
 	- First-Fit is faster than Worst-Fit, since the latter implies searching through the entire memory in order to find the worst (biggest) block of memory to allocate, whereas, for the former, the search stops at the first block that is available and fits the request
-	- in terms of fragmentation, both are equally bad
 6. What is the most prioritary memory page that the NRU replacement policy chooses as victim page?
 	- the NRU (not recently used) replacement policy assigns a 2 bit marker to each page currently loaded in the internal memory, each corresponding to an access mode (0-read, 1-write). Every time a file is accessed, its marker is updated correspondingly. When a page needs to be evicted, the one whose marker has the lowest value is chosen (so the pages are evicted in increasing order with regards to the markers 0->1->2->3)
 7. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the triple indirect addressing of an i-node?
@@ -587,9 +586,22 @@ ___
 8. Add the necessary code so that the instruction below does not get stuck waiting for standard input: `execlp("cat", NULL);`
 	- 
 9. Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
-	- 
+	- popen:
+		- function will only have a command as parameter (since the permission is implicitly "r")
+		- create a pipe and open it
+		- fork and create a child process
+		- in the child process
+			- close the end of the pipe used for reading
+			- use dup2 to redirect output to pipe (dup2(pipe\[1], 1))
+		- in the parent process
+			- close the end of the pipe used for writing
+			- open a FILE* stream to read from pipe and return it
+	- pclose:
+		- close the stream 
+		- wait for the child process to terminate
+
 10. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
-	- 
+	- if the FIFOS have not been opened anywhere else for writing, 
 11. When would you prefer using a FIFO instead of a pipe?
 	- 
 12. What is a "critical section"?
