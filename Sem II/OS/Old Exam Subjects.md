@@ -466,11 +466,23 @@ ___
 ## 29.06.2023
 
 1. scrieti un grep care ia grupurile de cate 2 cuvinte, separate de un singur spatiu, care sunt formate doar din litere mici si fiecare cuvant contine cel putin 2 vocale
+	- `grep -Eo "(\<[a-z]*[aeiou][a-z]*[aeiou][a-z]*\> \<[a-z]*[aeiou][a-z]*[aeiou][a-z]*\>)" testFile.txt`
 2. scrieti 2 grep uri care iau liniile care nu au numarul de caractere multiplu al lui 3
+	- `grep -Ev "^(.{3})*$" test2.txt`
+	- `grep -E "^(.{3})*.$|^(.{3})*(.)(.)$" test2.txt`
+	- `grep -Ev "^(...)*$" test2.txt`
+	- `grep -E "^(...)*..?$" test2.txt`
 3. scrieti un sed care inlocuieste prima aparitie a caracterului A cu caracterul B
+	- `sed "s/A/B/" testFile.txt`
 4. scrieti un awk care afiseaza liniile care au primul cuvant identic cu ultimul cuvant si al caror penultim cuvant are numar par de caractere
+	- `awk '{len=length($(NF-1));if (NF>1&&$1==$NF && len%2==0) print $0}' a.txt`
 5. scrieti 3 moduri de a crea un fisier gol
+	- `touch file.txt`
+	- `echo -n > file.txt`
+	- `> file.txt + Ctrl C`
+	- `:> file.txt` (: is null command)
 6. scrieti 5 moduri de a verifica daca un string este gol(cu test)
+	- 
 7. afisati ierarhia proceselor a urmatorului cod:
 	- code: 
 		```c
@@ -478,30 +490,47 @@ ___
 		    if (fork() != 0)
 		        wait();
 		```
+	- 
 8. scrieti ce afiseaza codul:
 	- code:
 		```c
 		execlp(“expr”,”expr”,”a”,”+”,”1”);mut
 		printf(“xyz\n”);
 		```
+	- 
 9. schitati o implementare a functiilor popen si pclose
+	- 
 10. cate FIFO pot fi deschise de catre un fisier daca fiecare dintre acele FIFO-uri va avea capatul celalalt deschis de catre un alt proces?
+	- 
 11. cand am dori sa folosim execl si cand am dori sa folosim execv?
+	- 
 12. definiti notiunea de sectiune critica
+	- 
 13. care sunt consecintele inlocuirii lui pthread_mutex_lock cu sem_post in cod?
+	- 
 14. definiti un semafor binar si explicati cum functioneaza
+	- 
 15. scrieti un mod de a preveni deadlock
+	- 
 16.  prin ce stare(gen ready, wait, swap, etc) trece un proces cand apelam pthread_join?
+	- 
 17. daca avem B drept block size si A drept address size, cate adrese o sa aiba un double indirect dintr-un i-node?
+	- 
 18. ce se intampla cu continutul directorului in care montam o partitie?
-
+	- 
 ## ??.??.2023
 1. Give a regular expression that matches any odd number of words, each word having an odd number of letters.
+	- 
 2. Give four commands that display the number of empty lines in a file.
+	- 
 3. Write a SED command that displays a file's lines deleting the first, the third, the fifth, the seventh, etc space on those lines
+	- 
 4. Write an AWK command that displays the product of the last field of lines on odd positions having an odd number of fields.
+	- 
 5. Give four ways of redirecting the standard output of a process.
+	- 
 6. Write three UNIX Shell conditions that check the existence of a file.
+	- 
 7. Draw the hierarchy of processes created by the code below, including the parent process.
 	```c
 	    for(i=0; i<3; i++) {
@@ -511,23 +540,40 @@ ___
 	    }
 	```
 8. Add the necessary code so that the instruction below does not get stuck waiting for standard input: execlp("cat", NULL);
+	- 
 9. Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
+	- 
 10. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for reading?
+	- 
 11. When would you prefer using a FIFO instead of a pipe?
+	- 
 12. What is a "critical section"?
+	- 
 13. When would you prefer using a mutex instead of a rwlock?
+	- 
 14. What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_wait?
+	- 
 15. What does pthread_cond_wait do with the mutex it gets as argument?
+	- 
 16. Sketch a solution for the producer-consumer problem.
+	- 
 17. What can you do as a software developer to prevent deadlocks?
+	- 
 18. What state transition will a process undergo when it calls pthread_cond_wait? Justify your answer.
+	- 
 19. What is the content of file of type directory in the Linux file system?
+	- 
 20. Explain the difference between a symbolic link and a hard link.
+	- 
 ## 2017-2018
 1. Write a UNIX Shell command that displays the lines in a file a.txt that contains words starting with capital letters
+	- 
 2. Write a UNIX Shell command that inverts in file a.txt all pairs of neighboring digits (ex: a3972b -> a9327b)
+	- 
 3. File a.txt contains on each line two numbers separated by space. Write a UNIX Shell command that displays for each line the sum of its numbers
+	- 
 4. Display only the lines of file a.txt that appear only once (not duplicated).
+	- 
 5. Write a UNIX Shell script that displays the name of each .txt file in the current directory that contains the word "cat".
 6. In the program fragment below, mark which process executes each line: the Parent, the Child, or both.
 ```c
@@ -540,19 +586,23 @@ else{
 }
 printf("C\n");
 ```
-7. How many processes will be created by the code fragment below, excluding the initial parent process?
-	`fork(); wait(0); fork(); wait(0); fork();`
-8. What are the possible console outputs of the following code fragment (ignoring any output that execl might generate), and when will they happen?
-	`printf("A\n"); execl(.....); printf("B\n");`
+7. How many processes will be created by the code fragment below, excluding the initial parent process? `fork(); wait(0); fork(); wait(0); fork();
+	- 
+8. What are the possible console outputs of the following code fragment (ignoring any output that execl might generate), and when will they happen?: `printf("A\n"); execl(.....); printf("B\n");`
+	- 
 9. What does the system call "read" do when the pipe is empty?
+	- 
 10. What does the system call "open" do before returning from opening a FIFO?
+	- 
 11. Give a reason for choosing threads over processes
 (not my answer)
 	1. efficiency: threads are generally more lightweight than processes. creating a thread requires fewer system resources compared to creating a new process. threads share the same memory space, file descriptors, and other resources of the process that created them, resulting in lower overhead and faster communication between threads. this makes threads a more efficient option when multiple tasks need to be performed concurrently within a single program.
 	2. shared memory: threads within a process can directly access and modify shared memory. this allows for efficient communication and data sharing between threads without the need for complex interprocess communication mechanism, such as pipes or sockets. Sharing data between threads can be simpler and faster compared to sharing data between separate processes.
 	3. synchronization: threads can easily synchronize their execution using mechanisms like locks, semaphores, and conditional variables. Synchronization primitives enable threads to coordinate their activities, share resources safely, and avoid race conditions when accessing shared data. Inter-thread communication and coordination are generally simpler to implement and understand than inter-process communication.
 12. Considering that functions "fa" and "fb" are run in concurrent threads, what will the value of "n" be after the threads are finished? why?
+	- 
 13. Schedule the following jobs (given ads Name/Duration/Deadline) so that they all meet their deadlines: A/5/9, B/7/13, C/1/10
+	- 
 14. Give one advantage and one disadvantage of the segmented allocation method over the paged allocation method
 	- advantage: flexibility in memory allocation
 		- segmented allocation allows for more flexible memory allocation compared to paged allocation. In segmented allocation, memory is divided into variable-sized segments, where each segment can represent a logical unit or a specific module of the program. This flexibility is beneficial when dealing with programs that have varying memory requirements for different modules or data structures. Segmented allocation can efficiently allocate memory for modules of different sizes without the fixed-size restrictions imposed by the paged allocation method.
@@ -582,9 +632,13 @@ printf("C\n");
 
 ## 2023 reexam
 1. Give a regular expression that matches any even-length sequence of lower-case words separated by spaces, if for each word its length and its position in the sequence are either both odd or both even. Ex: the 5th word has to be of odd length and the 16th has to be of even length.
+	- 
 2. When would you load into memory the pages of a process that is just starting?
+	- 
 3. Considering that the size of a block is B and the size of an address isA, how many data blocks are addressed by the double indirect addressing of an i-node?
+	- 
 4. What state transition will a process undergo when it calls sem_wait and under what conditions? Justify your answer.
+	- 
 5. Give an example of distinct values greater than 0 for T, N1, N2 and N3 for which the program below finishes execution.
 ```c
 pthread_barrier_t b1, b2;
@@ -640,12 +694,19 @@ void* f(void* p)
 }
 ```
 7. What can you do as a software developer to prevent deadlocks?
+	- 
 8. What will be the effect of replacing calls to pthread_mutex_lock with calls to sem_post?
+	- 
 9. Give three function calls that ensure mutual exclusion.
+	- 
 10. What is a "critical section"?
+	- 
 11. When would you use execv instead of execl?
+	- 
 12. How many FIFOs can a process open for reading if the FIFOs are and will ever be used by other processes only for writing?
+	- 
 13. Explain why the file descriptor returned by popen must be closed with pclose instead of fclose.
+	- 
 14. What will the fragment below print? Justify your answer.
 ```c
 execl("expr", "expr", "1", "+", "1", NULL);
@@ -653,6 +714,7 @@ execlp("echo", "echo", "3", NULL);
 printf("4\n");
 ```
 15. Give three ways of finding the size of a file on the linux command line.
+	- 
 16. Draw the hierarchy of processes created by the code below, including the parent process.
 ```c
 for (i = 0; i < 3; i++)
@@ -666,14 +728,22 @@ for (i = 0; i < 3; i++)
 }
 ```
 17. Write two SED commands that display a file's lines deleting the first non-empty sequence of lower-case letters.
+	- 
 18. Write an AWK command that displays the sum of all the numbers in a text file whose lines consist of sequences of digits separated by spaces.
+	- 
 19. Give three GREP commands that display the lines of a file which consist exclusively of a non-empty sequence of alternating leters and digits (ex: a0g or 1r5m)
+	- 
 ## 2018-2019 / 2
 1.  Write a UNIX Shell command that displays all the lines in a file a.txt that contain at least one natural number divisible by 5
+	- 
 2. Write a UNIX Shell command that displays all lines from a.txt that contain words made of an odd number of lower-case letters
+	- 
 3. File a.txt contains lines of numbers separated by space. Write a UNIX Shell command that applied to a.txt displays for each line the sum of the first and last number on the line
+	- 
 4. Display the number of files in a directory and all its hierarchy of subdirectories
+	- 
 5. Write a UNIX shell script that sets permissions 600 to all C source files (extension .c) in the current directory for which the user has writing permissions
+	- 
 6. Draw the process hierarchy created by calling f(3)
 ```c
 void f(int n){
@@ -699,6 +769,7 @@ for (i = 0; i < 3; i++)
 	execl("/bin/echo", "/bin/echo", s[i], NULL);
 ```
 9. What does the system call "read" do when the FIFO contains less data then it is required to read, but it is not empty?
+	- 
 10. What will the code fragment below print to the console, if no other process opens the "abc" FIFO? Justify your answer.
 ```c
 int r, w, n = 0;
@@ -711,21 +782,35 @@ printf("%d\n", n);
 11. What happens with a process between the moment it finishes and the moment its parent calls wait?
 	- uses up a pid for no reason
 12. Schedule the following jobs (given as name/duration/deadline) so that the sum of their delays is minimized: A/3/8, B/10/15, C/3/5
+	- 
 13. What page category has the highest priority in the NRU replacement policy, when choosing a victim page?
+	- 
 14. Give one advantage and one disadvantage of the paged allocation method over the variable partitions allocation method
+	- 
 15. When would you load into memory the pages of a program that is being started?
+	- 
 16. Given two set-associative caches, one with 2 sets of 4 pages and one with 4 sets of two pages, which would perform better for the following sequence of page requests: 17, 2, 37, 6, 9. Why?
+	- 
 17. When does a process change state from RUN to READY?
+	- 
 18. Consider the producer-consumer problem with a buffer of capacity N. How many semaphores would you use to ensure operation correctness and what would be the semaphores' initial values?
+	- 
 19. Give a method for preventing the apparition of deadlocks, in a situation when you cannot avoid modifying resources concurrently
+	- 
 20. Under what conditions can UNIX processes communicate via PIPE
+	- 
 
 ## 2017 - 2018/2 - Test A
 1. Write a UNIX Shell command that displays the lines in a file a.txt that contains words starting with capital letters
+	- 
 2. Write a UNIX Shell command that inverts in file a.txt all pairs of neighbouring digits (ex a3972b->a9327b)
+	- 
 3. File a.txt contains on each line two numbers separated by space. Write a UNIX Shell command that displays for each line the sum of its numbers
+	- 
 4. Display only the lines of file a.txt that appear only once (not duplicated)
+	- 
 5. Write a UNIX Shell script that displays the name of each .txt file in the current directory that contains the word "cat"
+	- 
 6. in the program fragment below, mark which process executes each line (the parent, the child of both)
 ```c
 P C
@@ -737,10 +822,15 @@ x		printf("B\n");
 x x	printf("C\n");
 ```
 7. How many proesses will be created by the code fragment below, excluding the initial parent process? `fork(); wait(0); fork(); wait(0); fork();`
+	- 
 8. What are the possible console outputs of the following code fragment (ignoring any output that execl might generate) and when will they happen?: `printf("A\n"); exdecl(...); printf("B/n");`
+	- 
 9. What does the system call "read" do when the pipe is empty?
+	- 
 10. What does the system call "open" do before returning from opening a FIFO?
+	- 
 11. Give a reason for choosing threads over processes
+	- 
 12. Considering that functions "fa" and "fb" are run in concurrent threads, what will the value of "n" be after the threads are finished? Why?
 ```c
 pthread_mutex_t a, b;
@@ -757,10 +847,16 @@ void* fb(void* p){
 }
 ```
 13. Schedule the following jobs (given as Name/Duration/Deadline) s.t. they all meet their deadlines: A/5/9, B/7/13, C/1/10
+	- 
 14. Give one advantage and one disadvantage of the segmented allocation method over the paged allocation method
+	- 
 15. When would you load into memory the pages of a program that is being started?
 16. When does a process change state from RUN to READY?
+	- 
 17. Given a UNIX file system configured with a block size of B bytes that can contain A addresses, and i-noes having S direct links, one simple indirection link, one double indirection link, and one triple indirection link, give the formula for the maximum file size possible
+	- 
 18. What happens with the data when you delete a file that has a hard link pointing to it?
 19. Give a method for preventing deadlocks
+	- 
 20. What is a binary semaphore, and what is the effect of its P method, when called by multiple concurrent processes/threads?
+	- 
