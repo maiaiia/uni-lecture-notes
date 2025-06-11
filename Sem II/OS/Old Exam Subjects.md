@@ -570,7 +570,8 @@ ___
 	- `[ -f filename ]`
 	- `[ -e filename ]`
 	- `for FILE in *; do; echo $FILE | grep filename; done`
-	- `FILES=$(find ./ -type f -name filename);`
+	- `FILES=$(find ./ -name filename);`
+	- `FILES=$(find ./ -name filename);MATCHES=$(echo $FILES | wc -l); if [ $MATCHES -eq 1 ]; then; echo found; fi`
 7. Draw the hierarchy of processes created by the code below, including the parent process.
 	```c
 	    for(i=0; i<3; i++) {
@@ -579,7 +580,11 @@ ___
 	        }
 	    }
 	```
-8. Add the necessary code so that the instruction below does not get stuck waiting for standard input: execlp("cat", NULL);
+	- solution:
+		```
+		P
+		```
+8. Add the necessary code so that the instruction below does not get stuck waiting for standard input: `execlp("cat", NULL);`
 	- 
 9. Sketch an implementation of the popen and pclose functions, only for the case when the command output should be read in the C code.
 	- 
