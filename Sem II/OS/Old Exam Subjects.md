@@ -547,20 +547,30 @@ ___
 17. daca avem B drept block size si A drept address size, cate adrese o sa aiba un double indirect dintr-un i-node?
 	- $A^2$ adrese, fiecare corespunzand unui block de dimensiune $B$ 
 18. ce se intampla cu continutul directorului in care montam o partitie?
-	- 
+	- acesta nu mai este vizibil / accesibil. la momentul demontarii partitiei, continutul redevine accesibil
 ## ??.??.2023
 1. Give a regular expression that matches any odd number of words, each word having an odd number of letters.
-	- 
+	- `grep -Ei "^(\<([a-z][a-z])*[a-z]\> +\<([a-z][a-z])*[a-z]\> +)*\<([a-z][a-z])*[a-z]\>$"`
 2. Give four commands that display the number of empty lines in a file.
-	- 
+	- `grep -E "^$" testFile.txt | wc -l`
+	- `sed -En "s/^$//p" testFile.txt | wc -l`
+	- `awk 'BEGIN{e=0}{if (NF==0)i++}END{print i}' testFile.txt`
+	- `grep -Ev "." testFile.txt | wc -l`
 3. Write a SED command that displays a file's lines deleting the first, the third, the fifth, the seventh, etc space on those lines
-	- 
+	- `sed -E "s/( )([^ ]* ?)/\2/g" a.txt`
 4. Write an AWK command that displays the product of the last field of lines on odd positions having an odd number of fields.
-	- 
+	- `awk -F: 'BEGIN{p=1}{if (NR%2==1 && NF%2==1){p=1;for(i=1;i<=NF;i++)p*=$i}}END{print p}' numbers.txt`
 5. Give four ways of redirecting the standard output of a process.
-	- 
-6. Write three UNIX Shell conditions that check the existence of a file.
-	- 
+	- using dup2: `(dup2(fd,1));`
+	- using redirection in the command line: `>` or `>>`
+	- using pipes in the command line: `|`
+	- using popen?
+6. Write three UNIX Shell commands that check the existence of a file.
+	- `test -f filename`
+	- `[ -f filename ]`
+	- `[ -e filename ]`
+	- `for FILE in *; do; echo $FILE | grep filename; done`
+	- `FILES=$(find ./ -type f -name filename);`
 7. Draw the hierarchy of processes created by the code below, including the parent process.
 	```c
 	    for(i=0; i<3; i++) {
