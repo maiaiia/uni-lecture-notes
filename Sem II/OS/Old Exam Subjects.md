@@ -191,7 +191,7 @@ ___
 6. What is the most prioritary memory page that the NRU replacement policy chooses as victim page?
 	- the NRU (not recently used) replacement policy assigns a 2 bit marker to each page currently loaded in the internal memory, each corresponding to an access mode (0-read, 1-write). Every time a file is accessed, its marker is updated correspondingly. When a page needs to be evicted, the one whose marker has the lowest value is chosen (so the pages are evicted in increasing order with regards to the markers 0->1->2->3)
 7. Considering that the size of a block is B and the size of an address is A, how many data blocks are addressed by the triple indirect addressing of an i-node?
-	- $A^3$ blocks, each of size $B$. (a simple indirect addressing node stores A direct addressing nodes, a double indirect addressing node stores A simple indirect....)
+	- $\cfrac{B}{A}$ addresses fit inside a block. a triple indirect addressing of an i-node has $\cfrac{B}{A}$ double indirect addressing bla bla $\rightarrow \Big{(}\cfrac{B}{A}\Big{)}^3$ 
 8. Write a regular expression that accepts lines that contain the letter "a" but do not contain the letter "b"
 	- `a[^b]`
 9. What is the maximum number of child processes, created by the code fragment below, that can coexist simultaneously?
