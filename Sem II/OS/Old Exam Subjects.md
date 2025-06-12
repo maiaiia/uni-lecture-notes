@@ -632,29 +632,40 @@ ___
 	- the original file is not affected in any way when a symlink is deleted. however, when hard links are deleted, the counter inside the i-node of the linked file is decremented. if it reaches zero, the data is deleted.
 	- if the original file is deleted (the one upon which ln was called), the data is not deleted (assuming the hard link was not deleted beforehand). symlinks, however, will simply point to an inexistent path (dangling reference)
 	- to summarise, hard links point directly to the i-node of a file, whereas symlinks point to its path
-## 2017-2018
+## (8-to check) 2017-2018
 1. Write a UNIX Shell command that displays the lines in a file a.txt that contains words starting with capital letters
 	- `grep -E "\<[A-Z][a-zA-Z]*\>" a.txt`
 2. Write a UNIX Shell command that inverts in file a.txt all pairs of neighboring digits (ex: a3972b -> a9327b)
-	- 
+	- `sed -E "s/([0-9])([0-9])/\2\1/g" a.txt`
 3. File a.txt contains on each line two numbers separated by space. Write a UNIX Shell command that displays for each line the sum of its numbers
-	- 
+	- `awk '{s=$1+$2;print s}' a.txt`
 4. Display only the lines of file a.txt that appear only once (not duplicated).
-	- 
+	- `sort a.txt | uniq -c | grep "^ *1" | sed -E "s/^ *1//"`
 5. Write a UNIX Shell script that displays the name of each .txt file in the current directory that contains the word "cat".
+	```bash
+	#!/bin/bash
+	
+	for FILE in *; do
+	    if echo $FILE | grep ".*cat.*\.txt"; then
+	        continue
+	    fi
+	done
+	```
 6. In the program fragment below, mark which process executes each line: the Parent, the Child, or both.
-```c
-k = fork();
-if (k == 0){
-	printf("A\n");
-}
-else{
-	printf("B\n");
-}
-printf("C\n");
-```
+	```c
+	1 k = fork();
+	2 if (k == 0){
+	3    printf("A\n");
+	4 }
+	5 else{
+	6	 printf("B\n");
+	7 }
+	8 printf("C\n");
+	```
+	- parent: 1, 2, 5, 6, 8
+	- child: 1,2,3,8
 7. How many processes will be created by the code fragment below, excluding the initial parent process? `fork(); wait(0); fork(); wait(0); fork();
-	- 
+	- wait is a blocking call so only one process will be created
 8. What are the possible console outputs of the following code fragment (ignoring any output that execl might generate), and when will they happen?: `printf("A\n"); execl(.....); printf("B\n");`
 	- 
 9. What does the system call "read" do when the pipe is empty?
@@ -669,7 +680,7 @@ printf("C\n");
 12. Considering that functions "fa" and "fb" are run in concurrent threads, what will the value of "n" be after the threads are finished? why?
 	- 
 13. Schedule the following jobs (given ads Name/Duration/Deadline) so that they all meet their deadlines: A/5/9, B/7/13, C/1/10
-	- 
+	- CAB 
 14. Give one advantage and one disadvantage of the segmented allocation method over the paged allocation method
 	- advantage: flexibility in memory allocation
 		- segmented allocation allows for more flexible memory allocation compared to paged allocation. In segmented allocation, memory is divided into variable-sized segments, where each segment can represent a logical unit or a specific module of the program. This flexibility is beneficial when dealing with programs that have varying memory requirements for different modules or data structures. Segmented allocation can efficiently allocate memory for modules of different sizes without the fixed-size restrictions imposed by the paged allocation method.
