@@ -7,7 +7,7 @@ Date: June 7th, 2025
 ___
 
 General: $x' = f(x)$, where $f : \mathbb{R}^n \rightarrow \mathbb{R}^n$ is a $C^1$ function. 
-- $f$ is said to be *autonomous*, because it lacks $f$
+- $f$ is said to be *autonomous*, because it lacks $t$
 
 In this case, we can change the notation for the derivative with respect to time: $x' \mapsto \dot x$ 
 
@@ -22,7 +22,7 @@ We consider the IVP $(2)$: $\begin{cases}\dot x = f(x) \\ x(0)=\eta, \eta \in \m
 > Moreover,
 >- if $\varphi(\cdot, \eta)$ is bounded on $(0,\beta_\eta)$, then $\beta_\eta=\infty$
 >- if $\varphi(\cdot, \eta)$ is bounded on $(\alpha_\eta, 0]$, then $\alpha_\eta=-\infty$
->- if $\varphi(\cdot, \eta)$ is bounded on $I_eta$, then $I_\eta=\mathbb{R}$
+>- if $\varphi(\cdot, \eta)$ is bounded on $I_\eta$, then $I_\eta=\mathbb{R}$
 
 ## Equilibrium point
 >[!definition]
