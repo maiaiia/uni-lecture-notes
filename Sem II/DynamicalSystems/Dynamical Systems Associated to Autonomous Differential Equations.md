@@ -92,7 +92,7 @@ Now, we check that $\|\eta\|=\|P^-1\eta\|_E$ is a norm
 7. similar to iii)
 
 
-## The stability of the equilibrium points of nonlinear system. The linearisation method
+## The stability of the equilibrium points of nonlinear systems. The linearisation method
 $(1) \dot X = f(X), f : \mathbb{R}^2 \rightarrow \mathbb{R}^2$ a $C^1$ function 
 Let $\eta^*$ be an equilibrium of $(1)$ ($f(\eta^*)=0$)
 $(3) \dot X = Jf(\eta^*)X$
