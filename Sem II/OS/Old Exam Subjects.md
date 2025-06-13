@@ -960,3 +960,4 @@ void* fb(void* p){
 	- 
 20. What is a binary semaphore, and what is the effect of its P method, when called by multiple concurrent processes/threads?
 	- 
+
