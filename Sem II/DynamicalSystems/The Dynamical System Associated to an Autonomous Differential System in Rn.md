@@ -44,12 +44,12 @@ We consider the IVP $(2)$: $\begin{cases}\dot x = f(x) \\ x(0)=\eta, \eta \in \m
 >[!Theorem]
 >Let $\eta \in \mathbb{R}^n$. Assume that $\exists \lim_{t\rightarrow\infty}\varphi(t,\eta)=\eta^*\in\mathbb{R}^n$. Then, $\eta^*$ is an equilibrium point.
 >>[!Proof]-
->>By definition, $\dot\varphi(t)=f(\varphi(t))$ $\Rightarrow \lim_{t\rightarrow \infty}\dot \varphi(t)=f(\eta^*) = \eta^*$
+>>By definition, $\dot\varphi(t)=f(\varphi(t))$ $\Rightarrow \lim_{t\rightarrow \infty}\dot \varphi(t)=f(\eta^*)$
 ($\lim_{t\rightarrow\infty}\varphi(t)=\eta^* \Rightarrow \lim_{t\rightarrow\infty}f(\varphi(t))=f(\eta^*)$ (since $f \in C^1$)) 
 >>
 >>$\varphi=\begin{pmatrix}\varphi_1 \\ \vdots \\ \varphi_n\end{pmatrix}$. We select intervals of the form $[k,k+1]$ and apply the mean value theorem (on each component): 
 >>$\exists \zeta_k \in (k,k+1)$ s.t. $\varphi(k+1)-\varphi(k)=\varphi'(\zeta_k)(k+1-k)=\varphi'(\zeta_k)$
->>$\begin{rcases}\lim_{t\rightarrow\infty} \varphi(k) = \lim_{t\rightarrow\infty}\varphi(k+1)=\eta^* \\ \lim_{t\rightarrow\infty} \varphi'(\zeta_k)=f(\eta^*) \end{rcases}$ $\Rightarrow 0 = f(\eta^*)$, so $\eta^*$ is an equilibrium point, qed.
+>>$\begin{rcases}\lim_{k\rightarrow\infty} \varphi(k) = \lim_{k\rightarrow\infty}\varphi(k+1)=\eta^* \\ \lim_{k\rightarrow\infty} \varphi'(\zeta_k)=f(\eta^*) \end{rcases}$ $\Rightarrow 0 = f(\eta^*)$, so $\eta^*$ is an equilibrium point, qed.
 
 ## Orbits & Phase portraits
 >[!definition]
