@@ -130,21 +130,23 @@ Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a continuous map.
 I. Assume that $|f'(\eta^*)|<1$. 
 ![[Scalar (real) maps 2025-05-26 12.22.50.excalidraw]]
 Then, $\exists L \in (0,1)$ s.t. $|f'(\eta^*)|<L$. Denote $\epsilon = L - |f'(\eta^*)|<1$. 
-$g : \mathbb{R} \rightarrow \mathbb{R}, g(\eta)=|f'(\eta^*)|, \forall \eta \in \mathbb{R}$. We have that $g$ is  continuous in $\eta^*$ $\Rightarrow$ for $\eta > 0, \exists \delta > 0$ s.t. if $|\eta - \eta^*|<\delta$, then $|g(\eta) - g(\eta^*)|<\epsilon$ (definition op continuity) $\Rightarrow \exists \delta > 0$ s.t. if $|\eta - \eta^*|<\delta$, then $-\epsilon < g(\eta)-g(\eta^*)<\epsilon$ $\Rightarrow$ $-L+|f'(\eta)| < g(\eta)-g(\eta^*)<L-|f'(\eta)|$
+$g : \mathbb{R} \rightarrow \mathbb{R}, g(\eta)=|f'(\eta)|, \forall \eta \in \mathbb{R}$. We have that $g$ is  continuous in $\eta^*$ $\Rightarrow$ for $\eta > 0, \exists \delta > 0$ s.t. if $|\eta - \eta^*|<\delta$, then $|g(\eta) - g(\eta^*)|<\epsilon$ (definition of continuity) $\Rightarrow \exists \delta > 0$ s.t. if $|\eta - \eta^*|<\delta$, then $-\epsilon < g(\eta)-g(\eta^*)<\epsilon$ $\Rightarrow$ $-L+|f'(\eta)| < g(\eta)-g(\eta^*)<L-|f'(\eta)|$
 Conclusion: $|f'(\eta)|<L$, when $|\eta-\eta^*|<\delta$.
 
 $\rightarrow$ We prove that $|f(\eta)-\eta^*|\leq L|\eta-\eta^*|$ when $|\eta-\eta^*|<\delta$ (1)
 ![[Scalar (real) maps 2025-05-26 12.31.02.excalidraw]]
 
-We use the mean value theorem to get $\exists \xi_\eta$ between $\eta$ and $\eta^*$ s.t. $f(\eta)-f(\eta^*)=f'(\xi_\eta)(\eta-\eta^*)$ $\Rightarrow$ $\eta \in (\eta^*-\delta,\eta^*+\delta)$ $\Rightarrow$ $\xi_eta \in (\eta^*-\delta, \eta^*+\delta)$ $\Rightarrow$ $|f'(\xi_\eta)|<L$ $\Rightarrow$ $|f(\eta)-\eta^*|=|f'(\xi_eta)|\cdot |\eta-\eta^*|<L|\eta-\eta^*|^{f(\eta^*)-\eta^*}$
+We use the mean value theorem to get $\exists \xi_\eta$ between $\eta$ and $\eta^*$ s.t. $f(\eta)-f(\eta^*)=f'(\xi_\eta)(\eta-\eta^*)$ 
+if $\eta \in (\eta^*-\delta,\eta^*+\delta)$, then $\Rightarrow$ $\xi_\eta \in (\eta^*-\delta, \eta^*+\delta)$ $\Rightarrow$ $|f'(\xi_\eta)|<L$ $\Rightarrow$ $|f(\eta)-\eta^*|=|f'(\xi_\eta)|\cdot |\eta-\eta^*|<L|\eta-\eta^*|{f(\eta^*)-\eta^*}$
 
 $\rightarrow$ We prove that $|f^k(\eta)-\eta^*|\leq L^k|\eta-\eta^*|$ when $|\eta-\eta^*|<\delta$
 We do this by induction
 1. $k=1$ - the previous step
 2. assume for $k$ and prove for $k+1$
-Let $\eta$ be s.t. $|\eta-\eta^*|<\delta$ $\Rightarrow$ $|f^{k+1}(\eta)-\eta|=|f(f^k(\eta))-\eta^*|$ 
+Let $\eta$ be s.t. $|\eta-\eta^*|<\delta$ 
+$|f^{k+1}(\eta)-\eta^*|=|f(f^k(\eta))-\eta^*|$ 
 $|f^k(\eta)-\eta^*|\leq L^k(\eta-\eta^*)<1\cdot\delta=\delta$, so we can use (1)
-$\Rightarrow |f^{k+1}(\eta)-\eta| < L \cdot |f^k(\eta)-\eta^*|\leq L \cdot L^k|\eta-\eta^*|$
+$\Rightarrow |f^{k+1}(\eta)-\eta^*| < L \cdot |f^k(\eta)-\eta^*|\leq L \cdot L^k|\eta-\eta^*|$
 Conclusion: For $\eta$ s.t. $|\eta-\eta^*|<\delta$ we have that $\lim_{k\rightarrow \infty}|f^k(\eta)-\eta^*|=0$ since $\lim_{k\rightarrow \infty}L^k=0$ $\Rightarrow \lim_{k\rightarrow \infty}f^k(\eta)=\eta^*$
 Thus, $\eta^*$ is an attractor fixed point of $f$ 
 
