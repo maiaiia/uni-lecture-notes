@@ -41,7 +41,7 @@ The characteristic equation method:
 	- if $r_1 = \overline{r_2} \in \mathbb{C} \setminus \mathbb{R} \mapsto Re(r_1^k), Im(r_1^k)$
 - Step 3: The general solution is: $x_k = c_1x_k^{(1)}+c_2x_k^{(2)}, c_1, c_2 \in \mathbb{R}$
 
-## Scalar difference equations
+## Scalar discrete dynamical systems
 
 Given: $f: \mathbb{R}\rightarrow\mathbb{R}$ continuous
 $$(2): x_{k+1}=f(x_k),k\in\mathbb{N}$$
