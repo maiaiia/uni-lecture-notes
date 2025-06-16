@@ -19,3 +19,7 @@ Seminars
 - [[Seminar 5]]
 - [[Seminar 6]]
 - [[Seminar 7]]
+
+Exam prep 
+- [[src/Sem II/DataStructures&Algorithms/Exam Models|Exam Models]]
+- 

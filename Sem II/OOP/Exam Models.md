@@ -26,3 +26,14 @@ B* b[] = {new B{}, new D{}};
 
 `new B` allocates memory, then calls the constructor of class B (so 'B{}') is printed.
 `new D` - calls the constructor from the basic class (D inherits from B) $\Rightarrow$ prints 'B{}'. It then calls the constructor of the derived class, and prints 'D{}'
+
+
+## Written
+### Jun 10 2025
+
+![[PHOTO-2025-06-10-14-36-01.jpg]]
+![[PHOTO-2025-06-10-14-36-01 1.jpg]]
+
+## Practical
+### Jun 10 2025
+![[PHOTO-2025-06-10-14-36-02.jpg]]
