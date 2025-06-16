@@ -25,6 +25,9 @@ The advantage of using a clear interface is that modifications performed upon an
 A *container* is a collection of data which allows the addition and removal of elements 
 
 ### Examples
+- [[ADT Bag]]
+- [[ADT Dynamic Array]]
+- [[ADT Iterator]]
 - lists
 - dictionaries (python) / maps 
 - multi-maps 
@@ -32,3 +35,4 @@ A *container* is a collection of data which allows the addition and removal of e
 - queues 
 - priority queues 
 - some sorted variations of the aforementioned containers
+
