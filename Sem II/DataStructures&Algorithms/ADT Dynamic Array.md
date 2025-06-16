@@ -12,4 +12,5 @@ The address of an array is the address of the first element
 We can access elements in *constant time* 
 
 ## Dynamic Arrays 
-The advantage of dynamic arrays over regular ones is the fact that the size is not set during the declaration (meaning that the size of arrays can grow and shrink)
+The advantage of dynamic arrays over regular ones is the fact that the size can grow and shrink
+
