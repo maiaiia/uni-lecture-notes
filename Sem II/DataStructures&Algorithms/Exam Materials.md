@@ -10,3 +10,4 @@ ___
 - [[Binomial Heap]]
 - [[Trees]]
 - [[Binary Trees]]
+- [[Huffman Coding]]

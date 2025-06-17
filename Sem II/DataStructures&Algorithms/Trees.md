@@ -33,6 +33,9 @@ The children can be stored like so:
 	- visit it
 	- push all the children to the stack
 #### Level-order traversal
+
+^09a4c6
+
 - Use a queue and push the root 
 - While the queue is not empty
 	- pop the top node

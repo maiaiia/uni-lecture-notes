@@ -12,6 +12,7 @@ Lectures
 - [[src/Sem II/DataStructures&Algorithms/Relations|Relations]]
 - [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 - [[Huffman Coding]]
+- [[Hash Tables]]
 - [[BinaryHeap]]
 - [[Binomial Heap]]
 - [[Trees]]
