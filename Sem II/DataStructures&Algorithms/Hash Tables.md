@@ -90,7 +90,7 @@ ___
 	- $\approx m^2$ permutations generated 
 ![[17.3HashTableOpenAddressing.pdf]]
 
-## Other types of hashing
+## Other types of hash tables
 ### Cuckoo hashing 
 - 2 hash tables of the *same size*
 	- each has its own hash function (*2 different hash functions*)
@@ -116,5 +116,9 @@ ___
 	- make each secondary hash table of size $n_j^2$, where $n_j$ is the number of elements from this hash table
 	- each secondary hash table will be constructed with a different hash function, and will be reconstructed until it is collision free
 - it can be shown that the total space needed is at most $2N$
-- 
+>[!Warning]
+>In order to use perfect hashing, we need to have static keys: once the table is built, no new elements can be added
 ### Linked hash table
+- data structure with a *predictable* iteration order (the one in which elements were inserted)
+- separate chaining + DLL (doubly linked s.t. remove can be done in $\Theta(1)$)
+![[17.4LinkedHashTable.pdf]]

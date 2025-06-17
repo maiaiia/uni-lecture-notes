@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Seminar
-Tags: #Sorting
+Tags: #Sorting [[src/Sem I/FP/Sorting Algorithms|Sorting Algorithms]]
 Date: April 16th, 2025
 ___
 ## Bucket Sort
@@ -25,11 +25,10 @@ isEmpty(s) - $\Theta(1)$
 ```
 
 ### Code
-```tabs
-tab: BucketSort
+
 >[!code] subalg BucketSort(S,N):
->```
-> subalg BucketSort(S,N):
+>```pseudocode
+> subalg BucketSort(S,N) is:
 > 	@define B as an array of N empty sequences
 > 	while not isEmpty(S)
 > 		<k,v> <- removeFirst(S)
@@ -43,7 +42,6 @@ tab: BucketSort
 > 	end for
 > end subalg
 >```
-```
 
 ### Complexity
  If we consider n - no. of pairs and N - value interval, then the complexity is:
@@ -62,17 +60,15 @@ $(x_1,...,x_d) < (y_1,...,y_d) \iff (x_1 < y_1) \text{ or } (x_1=y_1 \text{ and 
 - $R_i$ - a relation which can compare two tuples considering only dimension $i$
 - $\text{stableSort(S,R)}$ - a stable sort algorithm which uses a relation 
 ### Code
-```tabs
-tab: LexicographicSort
+
 >[!code] subalg LexicographicSort(S,R,D):
->```
-> subalg LexicographicSort(S,R,D):
+>```pseudocode
+> subalg LexicographicSort(S,R,D) is:
 > 	for i <- d,1,-1 execute:
 > 		stableSort(S,R)
 > 	end for
 > end subalg
 >```
-```
 
 ^49e290
 
@@ -96,4 +92,3 @@ A version of [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms#^49e290|L
 ### Complexity
 $\Theta(d \cdot (N + n)) \approx \Theta(d \cdot n) \approx \Theta(n)$
 
-[[src/Sem I/FP/Sorting Algorithms|Sorting Algorithms]]

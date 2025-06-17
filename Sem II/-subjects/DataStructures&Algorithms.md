@@ -15,6 +15,7 @@ Lectures
 - [[Binary Search Trees]]
 
 Seminars
+- [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 - [[Seminar 4]]
 - [[Seminar 5]]
 - [[Seminar 6]]
