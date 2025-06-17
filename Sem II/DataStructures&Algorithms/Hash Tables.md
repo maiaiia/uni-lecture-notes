@@ -55,8 +55,38 @@ ___
 >[!Warning]
 > insertion can happen at any free empty slot, so **don't** keep the free spaces linked
 - $\alpha$ can be *at most 1* 
-
+![[17.2HashTableCoalescedChaining.pdf]]
 ### Open addressing
+- For a certain element, positions are successively generated and checked (probed) until an available position is found
+-  $h(k) \mapsto h(k,p)$, where $p$ is the *probe number* (i.e. the order of the check) 
+#### Types of probing
+- Ideally, we would like to have a hash function which can generate all the $m!$ possible permutations (but this is not possible in practice)
+- The *probe sequence* should also be a permutation of the hash table positions, so that, eventually, **every slot is considered**
+- **Linear Probing**
+	- $h(k,i)=(h'(k)+i) \text{ mod } m$ 
+	- probe sequence: $h'(k), h'(k)+1,...,0,1,...,h'(k)-1$;  $h'$ - simple hash function
+	- downsides:
+		- only $m$ distinct probe sequences
+		- *primary clustering* - long runs of occupied slots
+- **Quadratic probing**
+	- $h(k,i)=(h'(k)+c_1\cdot i+c_2\cdot i^2) \text{ mod } m$; $h'$ - simple hash function
+	- downsides:
+		- performance is sensitive to the values of $m,c_1,c_2$ 
+		- *secondary clustering*: 2 elements with identical probe positions will have an identical probe sequence
+		- only $m$ distinct probe sequences
+	- good values for the constants (probe sequence will always be a permutation)
+		- $m$ power of 2; $c_1 = c_2 = 0.5$
+		- $m$ prime; $c_1=0, c_2=(-1)^i$
+- **Double hashing**
+	- $h(k,i)=(h'(k)+i\cdot h''(k)) \text{ mod } m$
+	- $h'$ should *never return the value 0*
+	- $h'(k)$ and $h''(k)$ should always be *relatively primes*
+		- $m$ power of 2;  $h''$ always returns an odd number
+		- $m$ prime; $Im(h'') \subseteq \overline{1,m-1}$
+	- probe sequences are different even if $h(k_1,0) = h(k_2,0)$
+	- $\approx m^2$ permutations generated 
+
+
 
 ## Other types of hashing
 ### Cuckoo hashing 
