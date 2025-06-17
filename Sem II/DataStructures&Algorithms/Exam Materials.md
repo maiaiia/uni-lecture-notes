@@ -8,3 +8,5 @@ ___
 - [[Hash Tables]] 
 - [[BinaryHeap]]
 - [[Binomial Heap]]
+- [[Trees]]
+- [[Binary Trees]]

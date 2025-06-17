@@ -12,6 +12,10 @@ Lectures
 - [[src/Sem II/DataStructures&Algorithms/Relations|Relations]]
 - [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 - [[Huffman Coding]]
+- [[BinaryHeap]]
+- [[Binomial Heap]]
+- [[Trees]]
+- [[Binary Trees]]
 - [[Binary Search Trees]]
 
 Seminars
