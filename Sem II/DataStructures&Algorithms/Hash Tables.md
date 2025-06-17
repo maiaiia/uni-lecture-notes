@@ -40,10 +40,13 @@ ___
 | Hash function | $k \text{ mod } m$ | middle digits of $k^2$ | $\text{ floor }(m\cdot\text{frac}(k\cdot A))$ | collection of multiple hash functions |
 ## Collision Resolution Methods
 
-|                | Separate Chaining          | Coalesced Chaining    | Open addressing |
-| -------------- | -------------------------- | --------------------- | --------------- |
-| implementation | collection of linked lists | linked list on array  |                 |
-| $\alpha$       | any range                  | at most 1             |                 |
+|                   |         Separate Chaining         |        Coalesced Chaining         |          Open addressing          |
+| :---------------: | :-------------------------------: | :-------------------------------: | :-------------------------------: |
+|  implemented as   |    collection of linked lists     |       linked list on array        |               array               |
+|     $\alpha$      |             any range             |             at most 1             |             at most 1             |
+| insert complexity |            $\Theta(1)$            | $\Theta(1)$ AVG<br>$\Theta(m)$ WC | $\Theta(1)$ AVG<br>$\Theta(n)$ WC |
+| search complexity | $\Theta(1)$ AVG<br>$\Theta(n)$ WC | $\Theta(1)$ AVG<br>$\Theta(n)$ WC | $\Theta(1)$ AVG<br>$\Theta(n)$ WC |
+| remove complexity | $\Theta(1)$ AVG<br>$\Theta(n)$ WC |   $\Theta(1)$ AVG<br>$O(n)$ WC    | $\Theta(1)$ AVG<br>$\Theta(n)$ WC |
 ### Separate Chaining
 - Each slot from the hash table contains a linked list, with elements that hash to that slot
 - suitable for sorted containers (ish) - simply have the linked lists be SLL
@@ -85,10 +88,33 @@ ___
 		- $m$ prime; $Im(h'') \subseteq \overline{1,m-1}$
 	- probe sequences are different even if $h(k_1,0) = h(k_2,0)$
 	- $\approx m^2$ permutations generated 
-
-
+![[17.3HashTableOpenAddressing.pdf]]
 
 ## Other types of hashing
 ### Cuckoo hashing 
+- 2 hash tables of the *same size*
+	- each has its own hash function (*2 different hash functions*)
+- an element must be on the correct position in either one of the 2 tables
+- SEARCH: simply check both positions
+- DELETE: simply set the position where the element was found to be empty
+- INSERT:
+	- compute the position in the first hash table
+		- if it's empty, add the element there
+		- if it's occupied
+			- *kick out the current element* and place the new element into the first hash table
+			- compute the position of the kicked element into the second table
+				- if the position is empty, place the element there
+				- otherwise, kick the current element and call insert the kicked element in the first table 
+	- if, throughout this process, we get back the *same location with the same key* $\Rightarrow$ resize and rehash
+>[!Tip]
+ >keep each table *more than half empty* ($\alpha$ < 0.5) so that it becomes very unlikely that more than $O(log_2n)$ elements are moved (i.e. that cycles are formed)
 ### Perfect hashing
+- good for when the elements of the table are known beforehand
+- method:
+	- use a hash table of size $N$
+	- instead of using linked lists for collision resolution, each element of the hash table is another hash table (*secondary hash table*)
+	- make each secondary hash table of size $n_j^2$, where $n_j$ is the number of elements from this hash table
+	- each secondary hash table will be constructed with a different hash function, and will be reconstructed until it is collision free
+- it can be shown that the total space needed is at most $2N$
+- 
 ### Linked hash table
