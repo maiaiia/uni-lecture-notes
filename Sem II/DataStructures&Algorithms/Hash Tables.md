@@ -14,7 +14,6 @@ ___
 | $n$                     | number of elements in the hash table |
 | $\alpha = \cfrac{n}{m}$ | load factor                          |
 | $h$                     | hash function                        |
-
 ## Hash functions
 - **division method**: 
 	- $h(k)=k \text{ mod } m$ 
@@ -30,7 +29,7 @@ ___
 		- $\text{frac}$ denotes the fractional part of a number
 	- typically used for $m$ power of 2
 - **universal hashing**
-	- have a collection $\mathcal{H}$ of hash functions
+	- have a collection $\mathcal{H}$ of hash functions and *randomly choose one at the beginning*
 		- examples:
 			- $h_{a,b}(k)=((a\cdot k + b)\text{ mod }p)\text{ mod }m$, where $p$ prime and $a,b\in\overline{1,p-1}$ 
 			- $h(k)=\sum_{i=1}^r k_i\cdot x_i \text{ mod } m$, where $k_i$ is the $i^{th}$ digit of $k$ in base $m$ and $(x_i)_{i\in\overline{1,r}}\in\overline{0,m-1}$ is a *fixed sequence* of random numbers
@@ -39,6 +38,27 @@ ___
 |               | Division Method    | Mid-square Method      | Multiplication Method                         | Universal Hashing                     |
 | ------------- | ------------------ | ---------------------- | --------------------------------------------- | ------------------------------------- |
 | Hash function | $k \text{ mod } m$ | middle digits of $k^2$ | $\text{ floor }(m\cdot\text{frac}(k\cdot A))$ | collection of multiple hash functions |
-
-
 ## Collision Resolution Methods
+
+|                | Separate Chaining          | Coalesced Chaining    | Open addressing |
+| -------------- | -------------------------- | --------------------- | --------------- |
+| implementation | collection of linked lists | linked list on array  |                 |
+| $\alpha$       | any range                  | at most 1             |                 |
+### Separate Chaining
+- Each slot from the hash table contains a linked list, with elements that hash to that slot
+- suitable for sorted containers (ish) - simply have the linked lists be SLL
+- load factor can technically be in any range but, in order to preserve $\theta(1)$ complexity (amortised), keep $\alpha \in (0,1)$ by performing resizes + rehashes
+![[17.1HashTableSeparateChaining.pdf]]
+### Coalesced Chaining
+- similar to a linked list on array %%TODO make link to that%% - have a values array, a next array and a firstEmpty variable
+- when the position where an element should be placed is occupied, place it into any empty position and set the $\text{next}$ link
+>[!Warning]
+> insertion can happen at any free empty slot, so **don't** keep the free spaces linked
+- $\alpha$ can be *at most 1* 
+
+### Open addressing
+
+## Other types of hashing
+### Cuckoo hashing 
+### Perfect hashing
+### Linked hash table
