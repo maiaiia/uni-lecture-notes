@@ -6,4 +6,5 @@ ___
 - [[Pseudocode]]
 - [[Computational Complexity II]]
 - [[Hash Tables]] 
-- [[BinaryHeaps]]
+- [[BinaryHeap]]
+- [[Binomial Heap]]
