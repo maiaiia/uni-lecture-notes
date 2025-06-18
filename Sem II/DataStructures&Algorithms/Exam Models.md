@@ -25,4 +25,3 @@ ___
 ![[Pasted image 20250617140116.png]]
 ## ??????
 ![[Exam SDA iun2018.pdf]]
-## 
