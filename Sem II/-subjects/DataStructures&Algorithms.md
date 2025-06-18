@@ -8,7 +8,7 @@ Lectures
 - [[Sets]]
 - [[Complexities]]
 - [[Skip List]]
-- [[Sorted Multimap]]
+- [[Seminar 3 - Sorted Multimap]]
 - [[src/Sem II/DataStructures&Algorithms/Relations|Relations]]
 - [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 - [[Huffman Coding]]
