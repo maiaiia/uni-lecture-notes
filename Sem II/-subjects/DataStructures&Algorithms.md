@@ -17,7 +17,8 @@ Lectures
 - [[Binomial Heap]]
 - [[Trees]]
 - [[Binary Trees]]
-- [[Binary Search Trees]]
+- [[Binary Search Tree]]
+- [[AVL Trees]]
 
 Seminars
 - [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
@@ -28,5 +29,5 @@ Seminars
 
 Exam prep 
 - [[src/Sem II/DataStructures&Algorithms/Exam Models|Exam Models]]
-- [[Exam Materials]]
+- [[ExamMaterials]]
 - 

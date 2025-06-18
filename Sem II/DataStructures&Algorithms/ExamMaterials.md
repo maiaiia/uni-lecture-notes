@@ -11,4 +11,5 @@ ___
 - [[Trees]]
 - [[Binary Trees]]
 - [[Huffman Coding]]
-- [[Binary Search Trees]]
+- [[Binary Search Tree]]
+- [[AVL Trees]]
