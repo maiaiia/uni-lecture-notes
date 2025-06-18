@@ -5,8 +5,9 @@ Type:
 Tags: # 
 Date: April 16th, 2025
 ___
+## [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 
-Write a sub-algorithm to merge 2 sorted simply linked lists 
+## Write a sub-algorithm to merge 2 sorted simply linked lists 
 $l_1: 4 \rightarrow 9 \rightarrow 10 \rightarrow 18$
 $l_2: 1\rightarrow 6 \rightarrow 7 \rightarrow 8 \rightarrow 9$
 $\text{res}: 1 \rightarrow 4 \rightarrow 6 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 9 \rightarrow 10 \rightarrow 18$
@@ -55,6 +56,3 @@ tab: subalg merge
 >	l2.head = NIL
 >```
 ```
-
-
-### Complexity

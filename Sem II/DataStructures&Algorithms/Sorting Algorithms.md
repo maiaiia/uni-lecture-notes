@@ -65,7 +65,7 @@ $(x_1,...,x_d) < (y_1,...,y_d) \iff (x_1 < y_1) \text{ or } (x_1=y_1 \text{ and 
 >```pseudocode
 > subalg LexicographicSort(S,R,D) is:
 > 	for i <- d,1,-1 execute:
-> 		stableSort(S,R)
+> 		stableSort(S,R_i)
 > 	end for
 > end subalg
 >```
