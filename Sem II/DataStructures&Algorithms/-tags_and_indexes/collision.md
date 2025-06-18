@@ -1,0 +1,1 @@
+when 2 values hash to the same slot in a [[Hash Tables|hash table]] 

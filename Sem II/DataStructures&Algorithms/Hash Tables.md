@@ -2,7 +2,6 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Links: [[collision]]
 ___
 ## General Notions
 - HT is a generalisation of **direct-address tables**: $T[\text{key}] \mapsto T[\text{h(key)}]$, where $\text{h}$ is a *hash function*
