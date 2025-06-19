@@ -67,6 +67,9 @@ Same mechanism as for fixed relocatable partitions, but now the address of a par
 This is equivalent to the initial malloc situation (so we have to deal with fragmentation)
 ### Virtual Allocation
 #### 1. Paging
+
+^b0f470
+
 ![[Memory 2025-05-29 09.04.33.excalidraw]]
 - There is very little space wasted
 - Binary addresses are now offsets within the virtual page

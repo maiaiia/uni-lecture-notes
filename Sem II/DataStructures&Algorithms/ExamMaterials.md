@@ -4,7 +4,7 @@ Class: [[DataStructures&Algorithms]]
 Type: Exam Prep
 ___
 - [[Pseudocode]]
-- [[Computational Complexity II]] + [[Complexities]] (seminar)
+- [[Computational Complexity II]] 
 - [[Hash Tables]] 
 - [[BinaryHeap]]
 - [[Binomial Heap]]

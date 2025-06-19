@@ -1,4 +1,4 @@
-# Xor Linked List
+# XOR Linked List
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture

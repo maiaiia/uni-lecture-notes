@@ -19,3 +19,19 @@ ___
 	- set currentNode to the root, preorderPos to 1 and inorderPos to the position of the root in the inorder traversal (find it in a while loop)
 	- while preorderIndex != n
 		- 
+
+## Red-Black Card Game
+>[!Statement]
+>Two players each receive $\frac{n}{2}$ cards, where each card can be red or black. The two players take turns; at every turn, the current player puts the card from the upper part of his / her deck on the table. If a player puts a red card on the table, the other player has to take all cards from the table and place them at the bottom of their deck. The winner is the player that has all the cards.
+>
+>Requirement: Given the number $n$ of cards, simulate the game and determine the winner.
+
+## Robot in a maze:
+>[!Statement]
+>There is a rectangular maze, composed of occupied cells $X$ and free cells $*$. There is a robot $R$ in this maze and it can move in 4 directions: $N, S, E, W$.
+>
+>Requirements:
+>- Check whether the robot can get out of the maze (get to one border of the maze)
+>- Find a path that will take the robot out of the maze (if it exists)
+
+This is basically just Lee's algorithm

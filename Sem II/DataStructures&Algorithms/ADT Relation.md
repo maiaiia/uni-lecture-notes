@@ -1,4 +1,4 @@
-# Relations
+# ADT Relation
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture

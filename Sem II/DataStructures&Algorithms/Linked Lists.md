@@ -12,7 +12,7 @@ ___
 ^a04676
 
 ## [[Linked List on Array]]
-## [[Xor Linked List]]
+## [[XOR Linked List]]
 
 ## Circular Linked List
 ## [[Skip List]]

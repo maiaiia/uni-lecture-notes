@@ -2,6 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
+Tags: #LIFO 
 ___
 ## Interface
 ![[08Stack.pdf]]
@@ -19,5 +20,5 @@ ___
 
 ## Other Operations
 1. **GetMinimum** in constant time
-	- Keep an auxiliary stack, containing as many elements as the original stack, but storing only the minimum value up to each element
-	- 
+	- Keep an auxiliary stack (*SpecialStack*), containing as many elements as the original stack, but storing only the minimum value up to each element
+	- *Optimization*: instead of pushing the minimum after each element, only push it to the SpecialStack when the newly pushed value is $\leq$ the minimum

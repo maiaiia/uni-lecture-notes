@@ -37,6 +37,9 @@ Notes:
 - for recursion, only the number of levels in the recursion tree is counted
 
 ## Examples: 
+
+^0ce272
+
 ```python
 def f_144(data: list) -> int:
 	if len(data) == 0:
