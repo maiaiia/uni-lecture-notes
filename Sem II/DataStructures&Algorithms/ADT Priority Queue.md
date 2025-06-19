@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Tags: #HPF 
+Tags: #datatype #HPF 
 ___
 ## Interface
 ![[10Priority Queue.pdf]]

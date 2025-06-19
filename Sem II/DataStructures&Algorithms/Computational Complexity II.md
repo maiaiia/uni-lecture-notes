@@ -38,6 +38,9 @@ Is especially useful when the worst case rarely occurs (e.g. appending an elemen
 
 
 ## Examples - Seminar 3 
+
+^4d2a77
+
 1. True or False??
 a) $n^2 \in O(n^3)$ True
 b) $n^3 \in O(n^2)$ False

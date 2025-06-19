@@ -2,6 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
+Tags: #datatype 
 ___
 
 ## Interface

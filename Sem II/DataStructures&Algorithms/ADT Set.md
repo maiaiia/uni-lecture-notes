@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Tags: # 
+Tags: #datatype 
 Date: March 12th, 2025
 ___
 

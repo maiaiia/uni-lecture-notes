@@ -33,7 +33,7 @@
 	- [[Computational Complexity II]]
 
 - Seminars
-	- [[Computational Complexity#^0ce272|Complexity Analysis]]
+	- [[Computational Complexity II#^4d2a77|Complexity Analysis]]
 	- [[src/Sem II/DataStructures&Algorithms/Sorting Algorithms|Sorting Algorithms]]
 	- [[Seminar 3 - Sorted Multimap]]
 	- [[Seminar 4]]

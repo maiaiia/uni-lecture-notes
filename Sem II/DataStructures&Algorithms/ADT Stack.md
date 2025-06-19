@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Tags: #LIFO 
+Tags: #datatype #LIFO
 ___
 ## Interface
 ![[08Stack.pdf]]

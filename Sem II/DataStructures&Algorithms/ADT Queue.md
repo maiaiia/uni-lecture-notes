@@ -2,7 +2,7 @@
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
-Tags: #FIFO 
+Tags: #datatype #FIFO
 ___
 ## Interface
 ![[09Queue.pdf]]
