@@ -53,7 +53,7 @@ ___
 - load factor can technically be in any range but, in order to preserve $\theta(1)$ complexity (amortised), keep $\alpha \in (0,1)$ by performing resizes + rehashes
 ![[17.1HashTableSeparateChaining.pdf]]
 ### Coalesced Chaining
-- similar to a linked list on array %%TODO make link to that%% - have a values array, a next array and a firstEmpty variable
+- similar to a [[Linked List on Array]] - have a values array, a next array and a firstEmpty variable
 - when the position where an element should be placed is occupied, place it into any empty position and set the $\text{next}$ link
 >[!Warning]
 > insertion can happen at any free empty slot, so **don't** keep the free spaces linked

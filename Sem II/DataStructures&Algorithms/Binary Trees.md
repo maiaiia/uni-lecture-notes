@@ -60,7 +60,8 @@ ___
 			- otherwise, visit the current node and set it to NIL
 			- while the current node is not NIL, push to the stack the right child of the current node (if it exists) and the current node and then set the current node to its left child
 
-![[19IterativeTraversals.pdf]]
+>[!Traversals]-
+>![[19IterativeTraversals.pdf]]
 ### [[Trees#^09a4c6|BF / Level Order]]  
 - just like Preorder, but here it doesn't matter whether the left or right child is visited first
 
