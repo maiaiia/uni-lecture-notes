@@ -1,11 +1,8 @@
-# Friends
+# Friends <3
 ___
 Class: [[OOP]]
-Type: 
-Tags: # 
-Date: June 21st, 2025
 ___
-A friend function of a class is defined outside that class scope but it has the right to access all private and protected members of the class.
+Friend functions (and classes) are concepts that allow functions (and classes) to *directly access the private and protected members* of another class.
 
 >[!Warning]
 >Friends are **not** member functions
