@@ -1,4 +1,4 @@
-# Observer Design Pattern
+# Observer 
 ___
 Class: [[OOP]]
 Date: June 4th, 2025

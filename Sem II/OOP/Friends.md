@@ -5,4 +5,5 @@ ___
 Friend functions (and classes) are concepts that allow functions (and classes) to *directly access the private and protected members* of another class.
 
 >[!Warning]
->Friends are **not** member functions
+>Friend functions are **not** member functions (that's like the whole point)
+
