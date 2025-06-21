@@ -1,7 +1,6 @@
 - ADTs
 	- [[Abstract Data Types]]
 	- [[ADT Bag]]
-	- [[ADT Dynamic Array]]
 	- [[ADT Iterator]]
 	- [[ADT Relation|ADT Relation]] 
 	- [[ADT Set]]
@@ -11,8 +10,7 @@
 	- [[ADT Priority Queue]]
 
 - Data structures
-	- [[Data Structures]]
-	- [[ADT Dynamic Array]] - is also a data structure
+	- [[Data Structures]] 
 	- [[Linked Lists]]
 		- [[Linked List on Array]]
 		- [[XOR Linked List]]

@@ -1,4 +1,4 @@
-# ADT Dynamic Array
+# Dynamic Array
 ___
 Class: [[DataStructures&Algorithms]]
 Type: Lecture
