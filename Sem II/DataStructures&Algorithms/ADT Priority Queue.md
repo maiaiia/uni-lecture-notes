@@ -7,7 +7,7 @@ ___
 ## Interface
 ![[10Priority Queue.pdf]]
 ## Representation
-1. **[[ADT Dynamic Array|Dynamic Array]]**
+1. **[[Dynamic Array|Dynamic Array]]**
 2. **[[Linked Lists]]**
 3. **[[BinaryHeap]]** 
 4. **[[Binomial Heap]]**

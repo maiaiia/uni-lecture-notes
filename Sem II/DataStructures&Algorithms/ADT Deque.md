@@ -11,7 +11,7 @@ ___
 ## Representations
 - **Circular Array**
 - **[[Linked Lists#^a04676|DLL]]**
-- **[[ADT Dynamic Array|Dynamic Array]] of constant size arrays**
+- **[[Dynamic Array|Dynamic Array]] of constant size arrays**
 
 3. Dynamic Array of constant size arrays
 	- Fields

@@ -8,7 +8,7 @@ ___
 ![[09Queue.pdf]]
 
 ## Representation
-1. **[[ADT Dynamic Array|Dynamic Array]]** - use a circular array
+1. **[[Dynamic Array|Dynamic Array]]** - use a circular array
 2. **[[Linked Lists]]**
 
 | Problem                              | Circular Array Representation                                 | SLL Representation                                                                                                                                                                   | DLL Representation                                                                                                      |

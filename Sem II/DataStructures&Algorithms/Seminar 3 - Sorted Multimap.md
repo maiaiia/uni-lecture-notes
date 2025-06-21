@@ -19,7 +19,7 @@ blood - sange, neam
 
 ## 2nd Representation
 The list of values can be represented using:
-- Data Structures: [[ADT Dynamic Array|DA]], SLL, DLL, 
+- Data Structures: [[Dynamic Array|DA]], SLL, DLL, 
 - Containers: [[ADT Bag|Bag]], List, Vector
 We sill use a List
 Interface

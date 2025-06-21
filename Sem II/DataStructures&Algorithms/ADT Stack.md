@@ -10,7 +10,7 @@ ___
 ## Representation
 - **Arrays**
 	- *Static Array* - fixed-capacity stack
-	- *[[ADT Dynamic Array|Dynamic Array]]*  
+	- *[[Dynamic Array|Dynamic Array]]*  
 - **[[Linked Lists]]**
 
 | Problem                               | Array Representation | SLL Representation                  | DLL Representation                  |
