@@ -2,8 +2,6 @@
 An Obsidian vault containing all the lecture notes I've taken during my bachelor's degree in CS at BBU Cluj.
 ## How to use this repo
 For swift navigation between files and seamless rendering of the attachments (especially those created with Excalidraw), I highly recommend using Obsidian. Simply move the contents of this repo into a local directory, open it as an Obsidian vault, then follow the steps below:
-
-(note: starting with the 2nd semester, a reference to all lecture notes for each subject, written in order of taking them, can be found in the files under the -subjects directory)
 ## Recommended Settings 
 ### Essential
 - Install and enable Excalidraw plugin (Settings -> Community plugins -> Browse)
