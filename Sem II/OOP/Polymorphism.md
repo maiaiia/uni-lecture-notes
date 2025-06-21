@@ -10,8 +10,6 @@ Adding the keyword `virtual` to a function belonging to a parent class and `over
 
 what happens when `virtual` is added is that a new instance is created in the virtual pointer with a pointer to the function corresponding to the type of the caller
 
-
-
 ```c++
 Animal* p = new Penguin{};
 ```
