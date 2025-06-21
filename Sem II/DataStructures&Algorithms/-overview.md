@@ -41,4 +41,3 @@
 
 - Exam prep 
 	- [[src/Sem II/DataStructures&Algorithms/Exam Models|Exam Models]]
-	- [[ExamMaterials]]

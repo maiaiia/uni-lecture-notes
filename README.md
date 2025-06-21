@@ -9,6 +9,7 @@ For swift navigation between files and seamless rendering of the attachments (es
 #### General
 - Theme: Tokyo Night (Settings -> Appearance -> Themes)
 - disable inline title (Settings -> Appearance -> Show inline title)
+- Install and enable [Image Toolkit](obsidian://show-plugin?id=obsidian-image-toolkit) plugin
 #### Graphic view
 - declutter
 	- hide attachments
