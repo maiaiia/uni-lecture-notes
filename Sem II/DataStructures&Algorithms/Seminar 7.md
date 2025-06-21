@@ -6,7 +6,7 @@ Tags: #
 Date: June 3rd, 2025
 ___
 
-## 1. Build the binary tree for an arithmeic expression
+## 1. Build the binary tree for an arithmetic expression
 >[!example]
 >$(a+b)\cdot c-(d+e\cdot f)+g$ 
 
