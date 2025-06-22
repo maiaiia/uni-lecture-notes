@@ -46,7 +46,7 @@ A **QAbstractTableModel** *must* have the following methods:
 	- multiple calls may target the same cell, but with different *roles*
 
 >[!Warning]
->make sure to declare model as **Q_OBJECT**
+>make sure to declare model as **Q_OBJECT**!!!!
 
 Example:
 ```cpp
