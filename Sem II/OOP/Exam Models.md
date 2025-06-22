@@ -47,7 +47,7 @@ B* b[] = {new B{}, new D{}};
 
 ### Code Revision - Observer
 ![Code Revision.jpeg](https://github.com/jonathan2667/UBB-CS-Bachelors-Materials/blob/main/Year%201/Semester%202/Object%20Oriented%20Programming/exam_teo/Practic/Code%20Revision.jpeg?raw=true)
-### Deliver Now - Observer
+### Deliver Now - Observer done
 
 ![Deliver Now.jpeg](https://github.com/jonathan2667/UBB-CS-Bachelors-Materials/blob/main/Year%201/Semester%202/Object%20Oriented%20Programming/exam_teo/Practic/Deliver%20Now.jpeg?raw=true)
 ### Drive Connect - Observer
