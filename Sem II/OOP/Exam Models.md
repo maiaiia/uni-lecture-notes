@@ -28,6 +28,59 @@ B* b[] = {new B{}, new D{}};
 `new D` - calls the constructor from the basic class (D inherits from B) $\Rightarrow$ prints 'B{}'. It then calls the constructor of the derived class, and prints 'D{}'
 
 ## Written
+### S1
+Adder
+```cpp
+template <typename T> class Adder {  
+private:  
+    std::vector<T> values;  
+    T s=0;  
+public:  
+    explicit Adder(T t) {  
+        s=0;  
+        values.push_back(t);  
+        s += t;  
+    }    Adder(Adder<T>* other) {  
+        this->s = other->s;  
+        for (auto v: other->values)  
+            this->values.push_back(v);  
+    }    T sum() {  
+        return this->s;  
+    }    Adder& operator++() {  
+        this->s += this->values.back();  
+        this->values.push_back(this->values.back());  
+        return *this;  
+    }  
+    Adder & operator+(T i){  
+        this->s += i;  
+        this->values.push_back(i);  
+        return *this;  
+    }    Adder& operator--() {  
+        if (this->values.empty())  
+            throw std::runtime_error("No more values");  
+        this->s-=this->values.back();  
+        this->values.pop_back();  
+        return *this;  
+    }};  
+  
+void function2() {  
+    Adder<int>add(5); //build adder with initial value 5  
+    add = add + 5 + 2; //add values 5 and 2  
+    ++add; // add 2 (last added value)  
+    add + 8; //add 8  
+    std::cout << add.sum() << '\n'; //22  
+  
+    --add; //eliminate last added value  
+    cout << add.sum() << '\n'; //14  
+     --(--add); //subtract last 2 added values  
+    cout << add.sum() << '\n'; //10  
+    try {  
+        --(--(--add));  
+    }    catch (runtime_error& ex) {  
+        cout << ex.what(); //prints "No more values"  
+    }  
+}
+```
 ### Jun 10 2025
 
 ![[PHOTO-2025-06-10-14-36-01.jpg]]
