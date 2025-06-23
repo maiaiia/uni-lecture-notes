@@ -143,7 +143,220 @@ void complex() {
 }
 ```
 
-#### 
+#### SmartPointer
+terrible terrible horrible awful disgusting
+```cpp
+#include <iostream>  
+using namespace std;  
+  
+template <typename T>  
+class SmartPointer {  
+private:  
+    T* elem;  
+    int* refcount;  
+public:  
+    explicit SmartPointer(T* t): elem{t}, refcount{new int{1}} {}  
+    SmartPointer(const SmartPointer& other): elem{other.elem}, refcount{other.refcount} {  
+        (*refcount)++;  
+    }    SmartPointer& operator=(const SmartPointer&other) {  
+        if (this==&other)  
+            return *this;  
+  
+        if (--(*refcount)=0) {  
+            delete elem;  
+            delete refcount;  
+        }  
+        this->elem=other.elem;  
+        this->refcount = other.refcount;  
+        (*refcount)++;  
+        return *this;  
+    }  
+    T& operator*() const {  
+        return *elem;  
+    }    bool operator==(const SmartPointer &other) const {  
+        return this->elem==other.elem;  
+    }  
+    ~SmartPointer() {  
+        --(*refcount);  
+        if (*refcount==0) {  
+            delete this->elem;  
+            delete this->refcount;  
+        }  
+    }};  
+  
+template <typename T>  
+class Set {  
+private:  
+    std::vector<T> v;  
+public:  
+    Set() {}  
+    Set operator+(T& item) {  
+        for (auto& e: v)  
+            if (e==item)  
+                throw runtime_error("Element already exists!");  
+        Set newSet{*this};  
+        newSet.v.push_back(item);  
+        return newSet;  
+    }  
+    Set& remove(T item) {  
+        for (auto it= v.begin(); it != v.end(); )  
+            if (*it == item)  
+                it=v.erase(it);  
+        else  
+            ++it;  
+        return *this;  
+    }  
+    auto begin()  {return v.begin();}  
+    auto end() {return v.end();};  
+};  
+  
+void function1() {  
+    SmartPointer<string> s1{new string{"A"}};  
+    SmartPointer<string> s2 = s1;  
+    SmartPointer<string> s3{new string{"C"}};  
+    Set<SmartPointer<string>> set1{};  
+    cout << *s1 << ' ' << *s2 << ' ' << *s3 << '\n';  
+  
+    try {  
+        set1 = set1 + s1;  
+        set1 = set1 + s2;  
+    }    catch (runtime_error& err) {  
+        cout << err.what() << '\n';  //element already exists  
+    }  
+  
+    SmartPointer<int> i1{new int{1}};  
+    SmartPointer<int> i2{new int{2}};  
+    SmartPointer<int> i3{new int{3}};  
+    Set<SmartPointer<int>> set2{};  
+    set2 = set2+i1;  
+    set2 = set2+i2;  
+    set2 = set2+i3;  
+    set2.remove(i1).remove(i3);  
+  
+    for (auto e: set2)  
+        cout << *e << ", ";  
+  
+} //memory correctly deallocated  
+  
+int main() {  
+    function1();  
+    return 0;  
+}
+```
+
+#### HTML
+```cpp
+#include <iostream>  
+using namespace std;  
+  
+class HTMLElement {  
+private:  
+    std::string s;  
+public:  
+    HTMLElement(){}  
+    virtual ~HTMLElement()=default;  
+    HTMLElement(std::string str):s{str}{}  
+    std::string getHTMLString(){return this->s;}  
+  
+};  
+class  HTMLParagraph: public HTMLElement {  
+public:  
+    HTMLParagraph(){}  
+    HTMLParagraph(std::string str): HTMLElement("<p>"+str+"</p>") {}  
+  
+};  
+  
+class HTMLImage: public HTMLElement {  
+public:  
+    HTMLImage(){}  
+    HTMLImage(std::string str): HTMLElement("<img>" + str + "</img>"){}  
+};  
+  
+template <typename T>  
+class HTMLBuilder {  
+private:  
+    std::string s;  
+public:  
+    HTMLBuilder(){}  
+    HTMLBuilder& operator+=(const T& other) {  
+        if (!other)  
+            throw std::runtime_error("Cannot add a null element!");  
+        s += other->getHTMLString();  
+        return *this;  
+    }    //friend ostream& operator << (ostream& stream, const HTMLBuilder<T>& html);  
+    std::string getS(){return "<html><body>" + this->s + "</body>";}  
+};  
+template <typename T>  
+ostream& operator << (ostream& stream,  HTMLBuilder<T>& html) {  
+    stream << html.getS();  
+    return stream;  
+}  
+  
+void fct1() {  
+    HTMLElement* p1 = new HTMLParagraph{"Examination"};  
+    assert(p1->getHTMLString()=="<p>Examination</p>");  
+    HTMLElement*p2 = nullptr;  
+    HTMLElement* i1 = new HTMLImage{"a.jpg"};  
+    HTMLElement* i2 = new HTMLImage{"b.jpg"};  
+    assert(i2->getHTMLString()=="<img>b.jpg</img>");  
+  
+    HTMLBuilder<HTMLElement*> html;  
+    try {  
+        html += p2;  
+    }    catch (runtime_error& err) {  
+        cout << err.what() << '\n';  
+    }    ((html += p1)+=i1)+=i2;  
+    cout << html << '\n';  
+  
+    delete p1; delete i1; delete i2;  
+}  
+  
+int main() {  
+    fct1();  
+    return 0;  
+}
+```
+#### template function
+```cpp
+#include <iostream>  
+using namespace std;  
+  
+//Given the test function below, implement the function fct.  
+  
+template <typename T>  
+T fct(std::vector<T> vec) {  
+    if (vec.empty())  
+        throw std::runtime_error("Vector is empty.");  
+    T max = vec.front();  
+    for (auto t: vec)  
+        if (t > max)  
+            max = t;  
+    return max;  
+}  
+  
+void testFct()  
+{  
+    vector<int> v1{4, 2, 1, 6, 3, -4};  
+    assert(fct<int>(v1) == 6);  
+    vector<int> v2;  
+    try  
+    {  
+        fct<int>(v2);  
+        assert(false);  
+    }    catch (std::exception&) {assert(true);}  
+  
+    vector<double> v3{2, 10.5, 6.33, -100, 9, 1.212};  
+    assert(fct<double>(v3) == 10.5);  
+}  
+  
+  
+int main() {  
+    testFct();  
+    return 0;  
+}
+```
+### 2.
+### 3.
 
 ### Jun 10 2025
 
