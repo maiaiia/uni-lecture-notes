@@ -28,8 +28,8 @@ B* b[] = {new B{}, new D{}};
 `new D` - calls the constructor from the basic class (D inherits from B) $\Rightarrow$ prints 'B{}'. It then calls the constructor of the derived class, and prints 'D{}'
 
 ## Written
-### S1
-Adder
+### 1.
+#### Adder
 ```cpp
 template <typename T> class Adder {  
 private:  
@@ -81,6 +81,70 @@ void function2() {
     }  
 }
 ```
+
+#### Complex
+```cpp
+class Complex {  
+private:  
+    int r, i;  
+public:  
+    Complex(int r=0, int i=0):  
+        r{r}, i{i}{}  
+    Complex(const Complex& other):  
+        r{other.r}, i{other.i}{}  
+    int getReal(){return this->r;}  
+    int getImaginary(){return this->i;}  
+  
+    bool operator==(const Complex& other) const{  
+        return this->r == other.r && this->i == other.i;  
+    }    Complex operator /(int v) const{  
+        if (v==0)  
+            throw runtime_error("Division by zero!");  
+        return Complex{r/v, i/v};  
+    }    friend ostream& operator << (ostream& stream, const Complex& complex);  
+  
+};  
+ostream& operator << (ostream& stream, const Complex& complex) {  
+    stream << complex.r << "+" << complex.i << "i";  
+    return stream;  
+}  
+  
+template <typename T>  
+class Vector {  
+private:  
+    std::vector<T> values;  
+public:  
+    Vector(std::vector<T> vals):  
+    values(vals){}  
+    void printAll(ostream& stream) {  
+        for (const auto& val:values)  
+            stream << val << ", ";  
+        stream << '\n';  
+    }};  
+  
+  
+  
+void complex() {  
+    Complex a{}, b{1,2}, c{6,4}, d{b};  
+    assert(a.getReal()==0&&a.getImaginary()==0);  
+    assert(c.getImaginary()==4);  
+    assert(b==d);  
+    Complex res1 = c / 2;  
+    cout << res1 << '\n';  
+    try {  
+        Complex res2 = b / 0;  
+    }    catch (runtime_error& err) {  
+        std::cout << err.what() << '\n';  
+    }  
+    Vector<string> v1{std::vector<string>{"hello", "bye"}};  
+    v1.printAll(cout);  
+    Vector<Complex> v2{std::vector<Complex>{a,b,c,d}};  
+    v2.printAll(cout);  
+}
+```
+
+#### 
+
 ### Jun 10 2025
 
 ![[PHOTO-2025-06-10-14-36-01.jpg]]
