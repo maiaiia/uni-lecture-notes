@@ -356,6 +356,144 @@ int main() {
 }
 ```
 ### 2.
+#### iterate
+```cpp
+int main() {  
+    //vector<int> v(1,2,3,4,5); //ERROR  
+    vector<int>v{1,2,3,4,5};  
+    vector<int>::iterator it=std::find(v.begin(), v.end(), 4);  
+    v.insert(it,7); //1 2 3 7 4 5  
+    it = v.begin()+2;  
+    *it=11; // 1 2 11 7 4 5  
+    std::vector<int>x;  
+    std::copy_if(v.begin(), v.end(), back_inserter(x), [](int a){return a%2==1;});  
+    //x = 1 11 7 5  
+    for (auto a: x)  
+        cout << a << " ";  
+    return 0;  
+}
+```
+
+#### iterate
+```cpp
+int main() {  
+    vector<int> v{1,2,3,4,5};  
+    vector<int>::iterator it = std::find(v.begin(), v.end(), 4);  
+    v.insert(it,8); //1 2 3 8 4 5  
+    it=v.begin()+2;  
+    *it=10; //1 2 10 8 4 5  
+    vector<int>x;  
+    copy_if(v.begin(), v.end(), back_inserter(x),[](int a){return a%2==0;});  
+    for (auto a: x)  
+        cout << a << " "; //2 10 8 4  
+    return 0;  
+}
+```
+
+#### except
+```cpp
+class Ex1 {  
+public:  
+    Ex1() {cout << "Exception1 ";}  
+    Ex1(const Ex1& ex){cout << "Copy_exc1 ";}  
+};  
+  
+class Ex2: public Ex1 {  
+public:  
+    Ex2() {cout << "Exception2 ";}  
+    Ex2(const Ex2& ex) {cout << "Copy_exc2 ";}  
+};  
+void except(int x) {  
+    if (x < 0)  
+        throw Ex1{};  
+    else if (x == 0)  
+        throw Ex2{};  
+    cout << "Done";  
+  
+}  
+//Start Exception1 Exception2 Exception1 Copy_exc1  
+  
+int main() {  
+    try {  
+        cout << "Start ";  
+        try {  
+            except(0);  
+        }        catch (Ex1& e) {}  
+        except(-2);  
+    }    catch (Ex1 e){} //not passed by reference -> call to copy constructor  
+  
+    return 0;  
+}
+```
+
+#### polymorphism example
+```cpp
+class B {  
+public:  
+    void f() {cout << "B.f ";}  
+    virtual ~B(){}  
+  
+};  
+  
+class D1: public B {  
+public:  
+    virtual void f(){cout << "D1.f ";}  
+    virtual ~D1(){}  
+};  
+  
+class D2: public D1 {  
+public:  
+    void f(){cout << "D2.f ";};  
+  
+};  
+  
+int main() {  
+    B* b1 = new B{}; b1->f(); delete b1; //B.f  
+    B* b2 = new D1{}; b2->f(); delete b2; //B.f  
+    B* b3 = new D2{}; b3->f(); delete b3; //B.f  
+    D1* d = new D2{}; d->f(); delete d; //D2.f  
+    return 0;  
+}  
+/* for non-virtual functions, the call is determined by the pointer type  
+ * for virtual functions, it's determined by the actual object type * * b1, b2, b3 are typed as B* at compile time * they point to objects of classes B, D1 and D2 respectively at run time * for the first 3, the explanation is the same: the method f was not * declared virtual, so it cannot be overridden (it won't exhibit polymorphic behaviour) * thus, for the first 3 objects, the method corresponding to class B will be called * for object d, it is a member of class D1 at compile time and class D2 at run time * the method 'f' of class D1 is declared as virtual, so it can be overwritten * the 'override' specifier is missing for method f of class D2, but that does not affect the output */
+```
+
+#### noOfInstances
+```cpp
+#include <iostream>  
+#include <vector>  
+using namespace std;  
+#include <vector>  
+  
+class A {  
+private:  
+    int *x;  
+public:  
+    static int noOfInstances;  
+    A(int _x = 5) {  
+        x = new int {_x};  
+        noOfInstances++;  
+    }    int get() {return *x;}  
+    void set(int _x) {*x = _x;}  
+    ~A() {delete x;}  
+};  
+  
+int A::noOfInstances = 0;  
+  
+int main() {  
+    A a1, a2;  
+    cout << a1.noOfInstances << " "; //2  
+    A a3 = a1;  
+    cout << A::noOfInstances << " "; //2 - user defined constructor is not used - implicit copy assignment operator is called instead  
+    a1.set(10);  
+    cout << a1.get() << " " << a2.get() << ' ' << a3.get() << ' '; //10 5 10  
+    //program will crash when a1 / a3 is deallocated (whichever comes second) due to double free    return 0;  
+}
+```
+
+#### 
+```cpp
+```
 ### 3.
 
 ### Jun 10 2025
