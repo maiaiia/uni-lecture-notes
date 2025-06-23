@@ -584,9 +584,117 @@ int main() {
     //crash because of double delete + memory leak due to a3=a1 assignment    return 0;  
 } //output is 5 0 5 8
 ```
-#### 
-### 3.
 
+### 3.
+#### Contact
+```cpp
+#include <iostream>  
+#include <vector>  
+#include <random>  
+  
+class Channel {  
+public:  
+    Channel()=default;  
+    virtual ~Channel() = default;  
+    virtual void send(std::string message)=0;  
+};  
+class Telephone: public Channel {  
+private:  
+    std::string number;  
+public:  
+    Telephone(std::string number): number{number}{}  
+    void send(std::string message) override {  
+        int r = rand() % 10;  
+        if (r < 7) //testing  
+            throw std::runtime_error("Line busy");  
+        std::cout << "dialing " << number << '\n';  
+    }};  
+  
+class Fax: public Telephone {  
+public:  
+    Fax(std::string number): Telephone{number}{}  
+    void send(std::string message) override {  
+        Telephone::send(message);  
+        std::cout << "sending fax" << '\n';  
+    }};  
+class SMS: public Telephone {  
+public:  
+    SMS(std::string number): Telephone{number}{}  
+    void send(std::string message) override {  
+        Telephone::send(message);  
+        std::cout << "sending sms" << '\n';  
+    }};  
+class Failover: public Channel {  
+private:  
+    std::shared_ptr<Channel> c1, c2;  
+public:  
+    Failover(std::shared_ptr<Channel> ch1, std::shared_ptr<Channel> ch2) {  
+        c1 = ch1;  
+        c2 = ch2;  
+    }    void send(std::string message) override {  
+        try {  
+            c1->send(message);  
+            return;  
+        }        catch (std::runtime_error& err) {  
+            std::cout << err.what() << '\n';  
+        }        c2->send(message);  
+    }};  
+  
+class Contact {  
+private:  
+    std::shared_ptr<Channel> c[3];  
+public:  
+    Contact(std::shared_ptr<Channel> c1, std::shared_ptr<Channel>c2, std::shared_ptr<Channel>c3) {  
+        c[0] = c1;  
+        c[1] = c2;  
+        c[2] = c3;  
+    }    void sendAlarm(std::string message) const {  
+        for (int i = 0; i < 3; i++) {  
+            try {  
+                c[i]->send(message);  
+                return;  
+            }            catch (std::exception& err) {  
+                std::cout << err.what() << '\n';  
+            }        }    }};  
+Contact createContact() {  
+    auto telephone = std::make_shared<Telephone>("0712345678");  
+    auto fax = std::make_shared<Fax>("0756456456");  
+    auto sms = std::make_shared<SMS>("0712342113");  
+  
+    auto failover1 = std::make_shared<Failover>(fax, sms);  
+    auto failover2 = std::make_shared<Failover>(telephone, failover1);  
+    return Contact{telephone, failover1, failover2};  
+}  
+  
+int main() {  
+    srand(time(nullptr));  
+    auto contact = createContact();  
+    int cnt = 10;  
+    while (cnt) {  
+        contact.sendAlarm("message");  
+        cnt--;  
+        std::cout << "--------\n";  
+    }  
+    return 0;  
+}
+```
+
+#### Menu
+![[Screenshot 2025-06-23 at 15.42.02.png]]
+```cpp
+```
+#### Encoder
+![[Screenshot 2025-06-23 at 15.43.07.png]]
+```cpp
+```
+#### IceCream
+![[Screenshot 2025-06-23 at 15.43.39.png]]
+```cpp
+```
+#### QtWannabe
+![[Screenshot 2025-06-23 at 15.42.32.png]]
+```cpp
+```
 ### Jun 10 2025
 
 ![[PHOTO-2025-06-10-14-36-01.jpg]]
