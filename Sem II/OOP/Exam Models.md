@@ -686,6 +686,76 @@ int main() {
 #### Encoder
 ![[Screenshot 2025-06-23 at 15.43.07.png]]
 ```cpp
+#include <iostream>  
+#include <vector>  
+#include <random>  
+  
+class Encoder {  
+public:  
+    Encoder() = default;  
+    virtual ~Encoder()=default;  
+    virtual std::string encode(std::string message)=0;  
+};  
+  
+class AlienEncloder: public Encoder {  
+private:  
+    std::string header;  
+public:  
+    AlienEncloder(std::string h): header{h} {}  
+    std::string encode(std::string message) override {  
+        return header + message;  
+    }};  
+  
+class MorseEncoder: public Encoder {  
+public:  
+    MorseEncoder(){}  
+    std::string encode(std::string message) override {  
+        std::string m = "";  
+        for (auto c: message)  
+            m += ".";  
+        return m;  
+    }};  
+  
+class Mixer: public Encoder {  
+private:  
+    std::shared_ptr<Encoder> e1, e2;  
+public:  
+    Mixer(std::shared_ptr<Encoder> p1, std::shared_ptr<Encoder> p2):  
+        e1{p1}, e2{p2} {}  
+    std::string encode(std::string message) override {  
+        auto m1 = e1->encode(message);  
+        auto m2 = e2->encode(message);  
+        std::string m;  
+        for (int i = 0; i < message.size(); i++)  
+            m += (i % 2 ? m1[i] : m2[i]);  
+        return m;  
+    }};  
+class Communication {  
+    std::vector<std::string> messages;  
+    std::shared_ptr<Encoder> e;  
+public:  
+    Communication(std::vector<std::string> m, std::shared_ptr<Encoder>en):  
+        messages(m), e{en} {  
+        std::sort(messages.begin(), messages.end());  
+    }    std::string communicate() {  
+        std::string result;  
+        for (auto m: messages) {  
+            auto encoded = e->encode(m);  
+            result += encoded + "\n";  
+        }        return result;  
+    }};  
+  
+int main() {  
+    std::shared_ptr<AlienEncloder> ae = std::make_shared<AlienEncloder>("ET");  
+    std::shared_ptr<MorseEncoder> me = std::make_shared<MorseEncoder>();  
+    std::shared_ptr<Mixer> mx = std::make_shared<Mixer>(ae, me);  
+    auto c1 = Communication({"message1", "message2"}, ae);  
+    auto c2 = Communication({"message1", "message2"}, mx);  
+  
+    std::cout << c1.communicate() << '\n' << c2.communicate();  
+  
+    return 0;  
+}
 ```
 #### IceCream
 ![[Screenshot 2025-06-23 at 15.43.39.png]]
