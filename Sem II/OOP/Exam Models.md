@@ -556,9 +556,11 @@ private:
 public:  
     A(int _x=0) {  
         x = new int(_x);  
-    }    A (const A& a) {  
+    }    
+    A (const A& a) {  
         x = new int{*a.x};  
-    }    int get() {return *x;}  
+    }    
+    int get() {return *x;}  
     void set(int _x) {*x = _x;}  
     ~A() {delete x;}  
 };  
@@ -573,7 +575,9 @@ int main() {
     cout << a3.get() << ' '; //5  
     cout << a4.get() << ' '; //8  
   
-    //crash because of double delete + memory leak due to a3=a1 assignment    return 0;  
+    //crash because of double delete 
+    //memory leak due to a3=a1 assignment    
+    return 0;  
 } //output is 5 0 5 8
 ```
 
