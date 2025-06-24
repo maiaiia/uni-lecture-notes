@@ -147,63 +147,60 @@ template <typename T>
 class SmartPointer {  
 private:  
     T* elem;  
-    int* refcount;  
+    int* refCount;  
 public:  
-    explicit SmartPointer(T* t): elem{t}, refcount{new int{1}} {}  
-    SmartPointer(const SmartPointer& other): elem{other.elem}, refcount{other.refcount} {  
-        (*refcount)++;  
-    }    SmartPointer& operator=(const SmartPointer&other) {  
-        if (this==&other)  
-            return *this;  
-  
-        if (--(*refcount)=0) {  
+    SmartPointer(T* elem) {  
+        this->elem = elem;  
+        refCount = new int{1};  
+    }    ~SmartPointer() {  
+        if (--(*refCount)==0) {  
+            delete refCount;  
             delete elem;  
-            delete refcount;  
-        }  
-        this->elem=other.elem;  
-        this->refcount = other.refcount;  
-        (*refcount)++;  
+        }    }    SmartPointer(const SmartPointer& other) {  
+        this->elem = other.elem;  
+        this->refCount = other.refCount;  
+        ++(*refCount);  
+    }    SmartPointer& operator=(const SmartPointer& other) {  
+        if (--(*refCount)==0) {  
+            delete elem;  
+            delete refCount;  
+        }        this->elem=other.elem;  
+        this->refCount=other.refCount;  
+        ++(*refCount);  
         return *this;  
-    }  
-    T& operator*() const {  
+    }    bool operator==(const SmartPointer & other) const {  
+        return this->elem == other.elem;  
+    }    T operator*() {  
         return *elem;  
-    }    
-    bool operator==(const SmartPointer &other) const {  
-        return this->elem==other.elem;  
-    }  
-    ~SmartPointer() {  
-        --(*refcount);  
-        if (*refcount==0) {  
-            delete this->elem;  
-            delete this->refcount;  
-        }  
-    }};  
-  
+    }    friend ostream& operator<<(ostream&,SmartPointer&);  
+};  
 template <typename T>  
 class Set {  
-private:  
-    std::vector<T> v;  
+    std::vector<T> elems;  
 public:  
-    Set() {}  
-    Set operator+(T& item) {  
-        for (auto& e: v)  
-            if (e==item)  
-                throw runtime_error("Element already exists!");  
-        Set newSet{*this};  
-        newSet.v.push_back(item);  
-        return newSet;  
-    }  
-    Set& remove(T item) {  
-        for (auto it= v.begin(); it != v.end(); )  
-            if (*it == item)  
-                it=v.erase(it);  
-        else  
-            ++it;  
+    Set(){}  
+    Set& operator+(T& elem) {  
+        for (auto e: elems)  
+            if (e==elem)  
+                throw runtime_error("Element already exists.");  
+        elems.push_back(T{elem});  
         return *this;  
-    }  
-    auto begin()  {return v.begin();}  
-    auto end() {return v.end();};  
+    }    Set& remove(T& elem) {  
+        for (auto it=elems.begin(); it != elems.end(); ++it)  
+            if (*it==elem) {  
+                elems.erase(it);  
+                break;  
+            }        return *this;  
+    }    auto begin(){return this->elems.begin();}  
+    auto end(){return elems.end();}  
+  
 };  
+  
+template <typename T>  
+ostream& operator<<(ostream& stream,SmartPointer<T>& p) {  
+    stream << *p;  
+    return stream;  
+}
   
 void function1() {  
     SmartPointer<string> s1{new string{"A"}};  
