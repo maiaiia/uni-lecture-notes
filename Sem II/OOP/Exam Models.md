@@ -31,37 +31,32 @@ B* b[] = {new B{}, new D{}};
 ### 1.
 #### Adder
 ```cpp
-template <typename T> class Adder {  
+template <typename T>  
+class Adder {  
 private:  
     std::vector<T> values;  
-    T s=0;  
+    T current;  
 public:  
-    explicit Adder(T t) {  
-        s=0;  
-        values.push_back(t);  
-        s += t;  
-    }    Adder(Adder<T>* other) {  
-        this->s = other->s;  
-        for (auto v: other->values)  
-            this->values.push_back(v);  
-    }    T sum() {  
-        return this->s;  
+    Adder(T t) {  
+        values.emplace_back(t);  
+        current=t;  
     }    Adder& operator++() {  
-        this->s += this->values.back();  
-        this->values.push_back(this->values.back());  
+        this->values.emplace_back(this->values.back());  
+        current+=this->values.back();  
         return *this;  
-    }  
-    Adder & operator+(T i){  
-        this->s += i;  
-        this->values.push_back(i);  
+    }    Adder& operator+(const T& other) {  
+        values.push_back(other);  
+        current += other;  
         return *this;  
-    }    Adder& operator--() {  
+    }    T sum(){return this->current;}  
+    Adder& operator--() {  
         if (this->values.empty())  
-            throw std::runtime_error("No more values");  
-        this->s-=this->values.back();  
+            throw runtime_error("No more values");  
+        this->current -= this->values.back();  
         this->values.pop_back();  
         return *this;  
-    }};  
+    }  
+};
   
 void function2() {  
     Adder<int>add(5); //build adder with initial value 5  
@@ -88,39 +83,38 @@ class Complex {
 private:  
     int r, i;  
 public:  
-    Complex(int r=0, int i=0):  
-        r{r}, i{i}{}  
-    Complex(const Complex& other):  
-        r{other.r}, i{other.i}{}  
+    Complex(int r=0, int i=0): r{r}, i{i} {}  
     int getReal(){return this->r;}  
     int getImaginary(){return this->i;}  
-  
-    bool operator==(const Complex& other) const{  
+    bool operator==(const Complex &other) {  
         return this->r == other.r && this->i == other.i;  
-    }    Complex operator /(int v) const{  
-        if (v==0)  
+    }    Complex operator/(int d) {  
+        if (d==0)  
             throw runtime_error("Division by zero!");  
-        return Complex{r/v, i/v};  
-    }    friend ostream& operator << (ostream& stream, const Complex& complex);  
+        Complex n(*this);  
+        n.i /= d; n.r /= d;  
+        return n;  
+    }  
+    friend ostream& operator << (ostream& stream, const Complex& num);  
   
 };  
-ostream& operator << (ostream& stream, const Complex& complex) {  
-    stream << complex.r << "+" << complex.i << "i";  
+ostream& operator << (ostream& stream, const Complex& num) {  
+    stream << num.r << '+' << num.i <<"i";  
     return stream;  
 }  
   
 template <typename T>  
 class Vector {  
 private:  
-    std::vector<T> values;  
+    std::vector<T> v;  
 public:  
-    Vector(std::vector<T> vals):  
-    values(vals){}  
-    void printAll(ostream& stream) {  
-        for (const auto& val:values)  
-            stream << val << ", ";  
+    Vector(std::vector<T> vec): v{vec} {}  
+    void printAll(std::ostream& stream) {  
+        for (auto e: v)  
+            stream << e <<", ";  
         stream << '\n';  
-    }};  
+    }
+};  
   
   
   
@@ -173,7 +167,8 @@ public:
     }  
     T& operator*() const {  
         return *elem;  
-    }    bool operator==(const SmartPointer &other) const {  
+    }    
+    bool operator==(const SmartPointer &other) const {  
         return this->elem==other.elem;  
     }  
     ~SmartPointer() {  
@@ -234,7 +229,7 @@ void function1() {
     set2.remove(i1).remove(i3);  
   
     for (auto e: set2)  
-        cout << *e << ", ";  
+        cout << *e << ", ";  //2
   
 } //memory correctly deallocated  
   
