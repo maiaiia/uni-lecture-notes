@@ -1,7 +1,7 @@
 # Old Exam Subjects
 ___
 Class: [[OS]]
-Type: Exam Session Prep
+Type: Exam Stuff
 ___
 ## (checked) 27.06.2024
 

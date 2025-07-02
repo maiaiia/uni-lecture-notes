@@ -39,5 +39,5 @@
 	- [[Seminar 6]]
 	- [[Seminar 7]]
 
-- Exam prep 
+- Exam Stuff 
 	- [[src/Sem II/DataStructures&Algorithms/Exam Models|Exam Models]]

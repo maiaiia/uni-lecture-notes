@@ -1,7 +1,7 @@
 # Pseudocode
 ___
 Class: [[DataStructures&Algorithms]]
-Type: Exam Prep
+Type: Exam Stuff
 ___
 
 >[!Warning] Array indexing starts from 1

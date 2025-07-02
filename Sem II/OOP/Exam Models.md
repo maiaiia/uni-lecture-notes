@@ -1,9 +1,7 @@
 # Exam Models
 ___
 Class: [[OOP]]
-Type: 
-Tags: # 
-Date: June 5th, 2025
+Type: Exam Stuff
 ___
 
 ```c++

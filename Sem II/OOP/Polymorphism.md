@@ -1,9 +1,6 @@
 # Polymorphism
 ___
 Class: [[OOP]]
-Type: 
-Tags: # 
-Date: April 3rd, 2025
 ___
 
 Adding the keyword `virtual` to a function belonging to a parent class and `override` to a function belonging to a child class signals that that specific function will be called with the child's implementation (the `override`)

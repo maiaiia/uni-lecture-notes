@@ -4,7 +4,6 @@ Class: [[DataStructures&Algorithms]]
 Type: Lecture
 Tags: #datatype 
 ___
-
 ## Interface
 - operations for both stack and queue are available: *push_front*, *push_back*, *pop_front*, *pop_back*, *top_front*, *top_back*
 
@@ -27,4 +26,4 @@ ___
 	- If the first or last block is full, a new one is created and its address is put in the dynamic array (sort of like [[Memory#^b0f470|paging]], isn't it)
 	- If the dynamic array is full, a larger one is allocated, and the addresses of the blocks are copied (but the actual elements are not moved)
 >[!Tip]
->This representation allows for accessing elements based on positions
+>This representation allows accessing elements based on positions

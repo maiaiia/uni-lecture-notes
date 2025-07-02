@@ -1,7 +1,7 @@
 # Misc. Problems
 ___
 Class: [[DataStructures&Algorithms]]
-Type: Exam prep
+Type: Exam Stuff
 ___
 ## Reverse a linked list in $\Theta(n)$ time and $\theta(1)$ space
 - use 3 pointers: $\text{prev, curr, next}$ 

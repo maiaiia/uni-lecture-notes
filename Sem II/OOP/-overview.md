@@ -1,7 +1,11 @@
 Index
+- [[Polymorphism]]
 - [[Friends]]
 - [[File Streams]]
 - [[UML]]
 - [[RAII. Smart Pointers]]
 - [[Model-View Architecture]]
-- [[src/Sem II/OOP/Observer]]
+- [[Observer]] 
+
+Misc
+- [[src/Sem II/OOP/Exam Models|Exam Models]]
