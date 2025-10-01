@@ -65,6 +65,23 @@ These are relationships between two entity sets (say T1 and T2). The types of bi
 >[!Info]
 >binary relationships are considered as *restrictions* in the database; when the db is changed, the system checks whether the relationship is of the specified type
 
+## Databases 
+A **database** contains:
+- the database schema
+	- description of data structures 
+- a collection of data
+	- instances of the schema
+- various components:
+	- views, procedures, functions, roles, users
 
+data definition: kept in the database dictionary
+data management: operations (insertion, deletion, update) and querying
+
+
+### Database Management Systems
+A **database management system** (DBMS) is a set of programs that are used to manage a database
+
+>[!Example]- Examples
+>Oracle, DB2, SQL, MySQL
 
 
