@@ -24,3 +24,10 @@ Java is **garbage collected**
 - whenever an object goes out of scope (there's no access to a specific memory area), its allocated memory is deallocated
 
 Java does not allow multiple inheritance!!
+
+>[!Important]
+>Java allows instances of a parent class to be assigned with instances of a child class
+>(the type of the RHS of an assignment must be a subtype of the LHS)
+
+
+
