@@ -1,15 +1,16 @@
 # Seminar I
 ___
 Class: [[PLF]]
-Type: 
+Type: Seminar
 Tags: # 
 Date: October 9th, 2025
 ___
 
 ## Theory
-Logical and Functional programming both fall under the *declarative* programming paradigm. It's centered around defining some rules used to get to a solution. The programming language follows said rules to reach the solution.
+Logical and Functional programming both fall under the *declarative* programming paradigm. It's centred around defining some rules used to get to a solution. The programming language follows said rules to reach the solution.
 
 (another paradigm - the most used one - is the imperative paradigm; mind that both paradigms can be present in a programming language)
+
 
 - stop condition
 - recursive relationship  
@@ -72,7 +73,7 @@ g(N):-N>=10, N1 is N div 10, g(N1).
 
 so note that `g(N):-N is 4.` and `g(4).` are equivalent, but not with `g(N):-N =:= 4.` (the latter cannot be used for unbounded variable assignation)
 
-3. function that adds all elements of a list
+3. function that computes the sum of all elements of a list
 
 ```prolog
 % h(l1,...,ln) = 

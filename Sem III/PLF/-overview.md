@@ -1,2 +1,2 @@
 
-- [[Seminar I]]
+- [[src/Sem III/PLF/Seminar I]]
