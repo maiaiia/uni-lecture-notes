@@ -30,6 +30,7 @@ trace - see step by step execution
 `is` operator: *numeric* assignation (if a variable is unbounded) and *numeric comparison* (if a variable is bounded)
 `=` operator: *string* / *vector* assignation
 `[]` : empty list
+`[H|T]`:  split a list into the first element and the rest of the list
 ## Exercises
 1. Write a function that returns true if its first digit is even, and false if at least one is odd
 
@@ -77,6 +78,26 @@ so note that `g(N):-N is 4.` and `g(4).` are equivalent, but not with `g(N):-N =
 % h(l1,...,ln) = 
 % 	0, n == 0
 % 	l1 + h(l2,...,ln) otherwise
+% h(i,i), h(i,o) - flow model
 
+h(L, Res):-L = [], Res is 0.
+h([H|T], Res):-h(T, Res1), Res is Res1 + H.
 
+```
+
+4. return a list of all the divisors of a number
+
+```prolog
+% i(N, D) = 
+% 	[], D >= N
+% 	[D] U i(N, D + 1), D < N and N % D == 0
+% 	i(N, D + 1), otherwise
+% i(i, i,o)
+
+i(N, D, []):-D>=N.
+i(N, D, Res):-D < N, N mod D =:= 0, D1 is D + 1, i(N, D1, Res1), Res = [D | Res1].
+i(N, D, Res):-D < N, N mod D =\= 0, D1 is D + 1, i(N, D1, Res).
+
+% i(i,o)
+i(N, Res):-i(N,2,Res). %wrapper function
 ```
