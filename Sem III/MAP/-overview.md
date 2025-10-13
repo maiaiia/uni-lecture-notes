@@ -1,1 +1,3 @@
 - [[Introduction To Java]]
+- [[Inheritance]]
+- [[Downcasting]]

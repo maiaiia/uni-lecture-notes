@@ -28,6 +28,3 @@ Java does not allow multiple inheritance!!
 >[!Important]
 >Java allows instances of a parent class to be assigned with instances of a child class
 >(the type of the RHS of an assignment must be a subtype of the LHS)
-
-
-
