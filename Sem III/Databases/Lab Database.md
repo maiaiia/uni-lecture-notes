@@ -50,7 +50,7 @@ erDiagram
 
     LEADERSHIP {
         int leadership_id PK
-        int student_id FK
+        int membership_id FK //TODO change to membership_id
         int position_id FK
         boolean is_current
     }
