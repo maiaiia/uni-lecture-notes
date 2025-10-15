@@ -1,5 +1,5 @@
 # Student Organisations Database
-```mermaid
+```mermai
 erDiagram
     STUDENT ||--o{ MEMBERSHIP : "joins"
     ORGANIZATION ||--o{ MEMBERSHIP : "has"
