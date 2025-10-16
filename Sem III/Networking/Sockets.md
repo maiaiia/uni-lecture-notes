@@ -48,23 +48,53 @@ In C, a pointer to a `struct sockaddr_in` can be cast to a pointer to a `struct 
 
 ## Sending Data Through Sockets
 
+### Data Formats
+
 Different machines may store numbers internally in either [[Little Endian ]] or Big Endian. This can be an issue when sending data through sockets, which is why the convention is that regardless of the **Host Byte Order**, *the **Network Byte Order** is in Big-Endian*.
 
 Thus, whenever data (longer than than one byte)[^2] is sent to / read from a socket, it must be [[#converting byte orders|converted accordingly]].
 
 >[!Info]
->The `sin_addr` and `sin_port` of a `struct sockaddr_in` need to be in Network Byte Order, because they get encapsulated in a packet and sent over the network. However, the `sin_family` field is *only used by the kernel* (i.e. not sent out on the network) to identify the type of addresses that the structure contains, so it must!! be in Host Byte Order!!!!!!
+>The `sin_addr` and `sin_port` of a `struct sockaddr_in` need to be in Network Byte Order, because they *get encapsulated in a packet and sent over the network*. However, the `sin_family` field is *only used by the kernel* (i.e. not sent out on the network) to identify the type of addresses that the structure contains, so it must!! be in Host Byte Order!!!!!!
 
 [^2]: converting to / from network order is not necessary when sending a char, for instance, since both its little and big endian representations coincide
-## System Routines
 
-### reading / writing
-- `socket()`: returns the file descriptor of a socket (socket descriptor%%duh%%)
+### System Routines in C
+
+#### initialisation
+
+- `socket(int domain, int type, int protocol)`: returns the file descriptor of a socket (socket descriptor%%duh%%) or -1 on error
+	- *domain*: `AF_INET` (address family internet) or others
+	- *type*: `SOCK_STREAM`, `SOCK_DIAGRAM` etc.
+	- *protocol*: set to `0` in order to have the function choose the correct protocol based on the *type*
+- `bind(int sockfd, struct sockaddr *my_addr, int addrlen)`: associate a socket with a port on the local machine
+	- *sockfd*: socket (file) descriptor
+	- *my_addr*: pointer to a `struct sockaddr` with all relevant info
+	- *addrlen*: set to `sizeof(struct sockaddr)`
+- 
+#### reading / writing
 - `send()` & `recv` : send / receive data to / from socket[^1]
 
 [^1]: the standard `read` and `write` methods can also be used with sockets, but `send` and `recv` are preferred, because they offer much greater control over data transmission
-### converting byte orders
+#### converting byte orders 
 - `htons()` / `htonl()`: convert a short / long from host to network byte order
 - `ntohs()` / `htonl()`: convert a short / long from network to host byte order
+#### IP address handling
 
+- `inet_addr(IP_ADDRESS)`: 
+	- converts an IP address into an unsigned long
+	- returns $-1$ (translated to $255.255.255.255$, i.e. the broadcast address) on error
+- `inet_aton(const char *cp, struct in_addr *inp)`: 
+	- directly loads the ip address
+	- returns zero on failure
+- `inet_ntoa(IP_ADDR)`: convers an IP address from binary network byte order to ascii representation
+
+>[!Info]
+> `inet_addr` automatically converts the provided IP address to its corresponding Network Byte Order
+### Program Flow
+
+1. create a `struct sockaddr_in` object and set its fields accordingly
+2. get the socket descriptor via the `socket` command
+3. `bind` the socket with the `struct sockaddr_in` object (in fact, it binds the socket with the port number stored in the sockaddr_in object)
+4. 
 
