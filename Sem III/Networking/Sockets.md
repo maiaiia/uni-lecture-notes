@@ -71,9 +71,28 @@ Thus, whenever data (longer than than one byte)[^2] is sent to / read from a soc
 	- *sockfd*: socket (file) descriptor
 	- *my_addr*: pointer to a `struct sockaddr` with all relevant info
 	- *addrlen*: set to `sizeof(struct sockaddr)`
-- 
+- `connect(int sockfd, struct sockaddr *serv_addr, int addrlen)`: connect to a remote host
+- `listen(int sockfd, int backlog)`: wait for 
+	- *backlog*: number of connections allowed on the incoming queue
+- `accept(int sockfd, void *addr, int *addrlen)`
+	- *sockfd* is the listening socket descriptor
+	- *addr* is usually a pointer to a local `struct sockaddr_in`, and it's where the info about the incoming connection will go
+	- *addrlen*: should be `sizeof(sockaddr_in)`
+	- **returns a socket descriptor** that can be used for reading and writing
 #### reading / writing
-- `send()` & `recv` : send / receive data to / from socket[^1]
+- `send()` & `recv` : send / receive data to / from connected datagram socket[^1]
+	- `send(int sockfd, const void *msg, int len, int flags)`
+	- `recv(int sockfd, void *buf, int len, unsigned int flags)`
+
+>[!Tip]
+>just set flags to 0
+
+- `sendto()` & `recvfrom()`: send to / receive data from unconnected datagram socket
+	- `sendto(int sockfd, const void *msg, int len, unsigned int flats, const struct sockaddr *to, int tolen)`
+		- *to*: pointer to a `struct sockaddr` with the destination IP address and port 
+		- *tolen*: set to `sizeof(struct sockaddr)`
+	- `recvfrom(int sockfd, void *bug, int len, unsigned int flags, struct sockaddr *from, int *fromlen)`
+
 
 [^1]: the standard `read` and `write` methods can also be used with sockets, but `send` and `recv` are preferred, because they offer much greater control over data transmission
 #### converting byte orders 
