@@ -50,7 +50,7 @@ In C, a pointer to a `struct sockaddr_in` can be cast to a pointer to a `struct 
 
 ### Data Formats
 
-Different machines may store numbers internally in either [[Little Endian ]] or Big Endian. This can be an issue when sending data through sockets, which is why the convention is that regardless of the **Host Byte Order**, *the **Network Byte Order** is in Big-Endian*.
+Different machines may store numbers internally in either [[Little Endian ]] or Big Endian byte order. This can be an issue when sending data through sockets, which is why the convention is that regardless of the **Host Byte Order**, *the **Network Byte Order** is in Big-Endian*.
 
 Thus, whenever data (longer than than one byte)[^2] is sent to / read from a socket, it must be [[#converting byte orders|converted accordingly]].
 
@@ -65,7 +65,7 @@ Thus, whenever data (longer than than one byte)[^2] is sent to / read from a soc
 
 - `socket(int domain, int type, int protocol)`: returns the file descriptor of a socket (socket descriptor%%duh%%) or -1 on error
 	- *domain*: `AF_INET` (address family internet) or others
-	- *type*: `SOCK_STREAM`, `SOCK_DIAGRAM` etc.
+	- *type*: `SOCK_STREAM`, `SOCK_DGRAM` etc.
 	- *protocol*: set to `0` in order to have the function choose the correct protocol based on the *type*
 - `bind(int sockfd, struct sockaddr *my_addr, int addrlen)`: associate a socket with a port on the local machine
 	- *sockfd*: socket (file) descriptor
@@ -110,6 +110,31 @@ Thus, whenever data (longer than than one byte)[^2] is sent to / read from a soc
 
 >[!Info]
 > `inet_addr` automatically converts the provided IP address to its corresponding Network Byte Order
+
+#### end connection
+
+- `close(sockfd)`
+- `shutdown(int sockfd, int how)`
+	- *how* can be one of the following:
+		- 0 -- further receives are disallowed
+		- 1 -- further senders are disallowed
+		- 2 -- further senders and receivers are disallowed (like `close`)
+
+#### misc
+- `getpeername(int sockfd, struct sockaddr *addr, int *addrlen)`: get the address of the process at the other end of a connected stream socket
+- `gethostname(char *hostname, size_t size)`: loads the host's hostname in `* hostname`
+- `gethostbyname(const char *name)`: returns a pointer to a `struct hostent`
+```c
+    struct hostent {
+        char    *h_name;
+        char    **h_aliases;
+        int     h_addrtype;
+        int     h_length;
+        char    **h_addr_list;
+    };
+    #define h_addr h_addr_list[0]
+```
+
 ### Program Flow
 
 1. create a `struct sockaddr_in` object and set its fields accordingly
