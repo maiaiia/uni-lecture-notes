@@ -12,7 +12,6 @@ v = 2;        //(2)
 Print(v);     //(3)
 ```
 
-
 |  Execution Stack  |    Symbol Table     |     Out     |
 | :---------------: | :-----------------: | :---------: |
 | {$(1), (2), (3)$} |     $\emptyset$     | $\emptyset$ |
@@ -54,5 +53,6 @@ Print(v);     //(7)
 |    {(2) \| (3) \| (4) \|  (7)}     |          {a $\rightarrow$ F}           | $\emptyset$ |
 |        {(3) \| (4) \| (7)}         |          {a $\rightarrow$ F}           | $\emptyset$ |
 |           {(4) \| (7) }            | {a $\rightarrow$ F, v $\rightarrow$ 0} | $\emptyset$ |
-|            {(6) \| (7)}            |                   {}                   | $\emptyset$ |
-|            {(6) \| (7)}            |                                        |    {22}     |
+|            {(6) \| (7)}            | {a $\rightarrow$ F, v $\rightarrow$ 0} | $\emptyset$ |
+|               {(7)}                | {a $\rightarrow$ F, v $\rightarrow$ 3} | $\emptyset$ |
+|                 {}                 | {a $\rightarrow$ F, v $\rightarrow$ 3} |     {3}     |
