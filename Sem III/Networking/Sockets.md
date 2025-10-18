@@ -137,8 +137,4 @@ Thus, whenever data (longer than than one byte)[^2] is sent to / read from a soc
 
 ### Program Flow
 
-1. create a `struct sockaddr_in` object and set its fields accordingly
-2. get the socket descriptor via the `socket` command
-3. `bind` the socket with the `struct sockaddr_in` object (in fact, it binds the socket with the port number stored in the sockaddr_in object)
-4. 
-
+![[client-server-schema]]
