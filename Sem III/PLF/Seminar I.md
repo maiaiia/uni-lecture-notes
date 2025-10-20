@@ -38,7 +38,7 @@ trace - see step by step execution
 >[!Info] Mathematical Model
 >$f(N) = \begin{cases}N \% 2 == 0, N < 10 \\ f(N / 10) \text{ otherwise} \end{cases}$
 
-```prolog
+```
 %
 % f(N) = 
 %	N % 2 == 0, N < 10
