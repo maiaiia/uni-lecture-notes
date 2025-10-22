@@ -26,12 +26,12 @@ so `false` means all clauses have been explored. `true` means one clause has ret
 
 unbounded variables are variables which have not been assigned a value
 ### Commands and Whatever
-arithmetic equal: `=:=`
-trace - see step by step execution
-`is` operator: *numeric* assignation (if a variable is unbounded) and *numeric comparison* (if a variable is bounded)
-`=` operator: *string* / *vector* assignation
-`[]` : empty list
-`[H|T]`:  split a list into the first element and the rest of the list
+- arithmetic equal: =:=
+- `trace` - see step by step execution
+- `is` operator: *numeric* assignation (if a variable is unbounded) and *numeric comparison* (if a variable is bounded)
+- = operator: *string* / *vector* assignation
+- `[]` : empty list
+- `[H|T]`:  split a list into the first element and the rest of the list
 ## Exercises
 1. Write a function that returns true if its first digit is even, and false if at least one is odd
 
