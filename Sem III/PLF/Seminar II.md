@@ -69,3 +69,44 @@ tailCountOcc(L, Elem, Res) :- tailCountOcc(L, Elem, 0, Res).
 ```
 
 ## Reverse the elements of  a list
+
+```prolog
+rev([], Col, Col).
+rev([H|T], Col, Res):-rev(T, [H|Col], Res).
+rev(L, R):-rev(L, [], R).
+```
+
+## Write a predicate to test the equality of two sets without using the set difference
+
+>[!info]
+>$A = B \iff A \subseteq B$ and $B \subseteq A$
+>
+
+(assume the input is a set!)
+
+```prolog
+% A = B if A is a subset of B and B is a subset of A
+%
+% find(l1..ln, elem) = 
+% 	False, if n = 0	
+% 	True, if l1 = elem
+%	find(l2..ln, elem) otherwise
+% find(i,i)
+
+find([Elem|_], Elem).
+find([H|T], Elem):-H=\=Elem, find(T, Elem).
+
+% subset(l1..ln, s1..sm) = //test if S is subset of l
+% 	True, if m = 0 
+% 	False, if not find(l1..ln, s1)
+%	find(l1..ln, s2..sm) otherwise
+
+subset(_, []).
+subset(L, [H|T]):-find(L,H),subset(L,T).
+
+% equalSets(l1..ln,s1..sm) = 
+%	subset(l1..ln, s1..sm), subset(s1..sm,l1..ln)
+%
+
+equalSets(L,S):-subset(L,S), subset(S,L).
+```
