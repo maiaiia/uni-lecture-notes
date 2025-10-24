@@ -1,5 +1,5 @@
 # Student Organisations Database
-```mermai
+```mermaid
 erDiagram
     STUDENT ||--o{ MEMBERSHIP : "joins"
     ORGANIZATION ||--o{ MEMBERSHIP : "has"
@@ -50,7 +50,7 @@ erDiagram
 
     LEADERSHIP {
         int leadership_id PK
-        int membership_id FK //TODO change to membership_id
+        int membership_id FK 
         int position_id FK
         boolean is_current
     }
