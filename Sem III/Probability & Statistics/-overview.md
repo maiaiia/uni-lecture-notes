@@ -4,3 +4,4 @@
 - [[Hypergeometric Model]]
 - [[Poisson Model]]
 - [[Binomial Model]]
+- [[Random Variables and Vectors]]
