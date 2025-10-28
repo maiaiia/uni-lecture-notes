@@ -12,9 +12,11 @@ ___
 ######## create socket ######## --> server side
 rs = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # rendez vous socket
 rs.bind('0.0.0.0', 1234) # who can connect? + port numer
+##OR
+rs = socket.create_server(('0.0.0.0', 1234)) # this does both socket and bind
 rs.listen(5) # wait for connections (at most 5)
 
-client_socket, addrc = rs.accept() # accept incoming connection
+client_socket, addr_client = rs.accept() # accept incoming connection
 ######## connect socket ######### --> client side
 try:
 	s = socket.create_connection('localhost', 1234) #host, port number
