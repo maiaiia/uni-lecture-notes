@@ -6,32 +6,32 @@ Tags: #
 Date: October 28th, 2025
 ___
 
-## Bernoulli Distribution Model 
+## Models
+### Bernoulli Distribution Model 
 
 $X \in \text{Bern}(p)$, where 
 - $p$ is the probability of success in a trial
 
 $X\begin{pmatrix}0 & 1 \\ 1 - p & p\end{pmatrix}$
 
-## Binomial Distribution Model
+### Binomial Distribution Model
 
 $X \in \text{Bino}(n, p)$: repeated Bernoulli experiment where 
 - $n$ is the number of trials and 
 - $p$ is the probability of success in a single trial
 - $X$ counts the number of successes
 
-## Hypergeometric Model
+### Hypergeometric Model
 $X \in \text{Hyge}(N, n_1, n)$
 - $N$ is the population size
 - $n_1$ is the population with a desired characteristic
 - $n$ is the number of trials
 - $X$ counts the number of successes
 
-## Geometric Model
+### Geometric Model
 $X \in Geo(p)$
 - $p$ is the probability of success
 - $X$ is the number of successes
-
 
 ## PDFs
 
@@ -47,7 +47,13 @@ $P(X \leq k) = \sum_{i=0}^k\text{pdf}(i)$ is called the **cdf** function in $k$.
 ## Exercises
 ### 1. 
 
-A student takes a multiple - choice test consisting of $20$ questions. There are $4$ answers to choose from for each question and only one is correct. 
+A student takes a multiple - choice test consisting of $20$ questions. There are $4$ answers to choose from for each question and only one is correct. If he randomly guesses every answer, find the probability that
+a) he gets exactly 8 correct answers
+b) he gets at least 13 questions wrong
+c) he passes the exam (50% correct)
+d) he gets more than 7 right answers 
+e) he passes the exam, but does not get a maximum score
+f) he passes the exam, given that he answered at least 3 questions correctly
 
 |     | Model    | success                        | p   |                                                                              |
 | --- | -------- | ------------------------------ | --- | --------------------------------------------------------------------- |
@@ -118,5 +124,19 @@ c) estimate by simulations the two probabilities in parts **a)** and **b)**
 
 
 a) $P($the search stops on the 5th website$)$
-$X \in \text{Geo}(0.3)$ --> $P()$
+$X \in \text{Geo}(0.3)$ --> $P(X = 4)$ --> geopdf(4,0.3)
 
+b) $P(X \leq 3)$ --> geocdf(3,0.3)
+
+c) $N$ = number of simulations
+
+### 4.
+Network breakdowns are unexpected rare events that occur every 3 weeks, on average. Compute the probability of
+a) exactly 10 network breakdowns occurring in 50 weeks
+b) more than 4 breakdowns occurring during a 21-week period
+
+a)
+$X \in Poiss(\lambda)$, $\lambda = 50 / 3$
+$P(X = 10)$ --> poisspdf(10, 50 / 3)
+
+b) P(X > 4), $\lambda = 21 / 7$ --> 1 - poisscdf(4,7) 
