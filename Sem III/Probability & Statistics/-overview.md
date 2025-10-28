@@ -5,3 +5,4 @@
 - [[Poisson Model]]
 - [[Binomial Model]]
 - [[Random Variables and Vectors]]
+- [[LAB - Discrete Random Variable]]
