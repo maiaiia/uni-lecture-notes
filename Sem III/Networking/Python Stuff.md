@@ -105,3 +105,7 @@ t = threading.Thread(target = target_function, daemon = true)
 t = threading/Thread(target = worker, args = (arg1, arg2,)) # make args into tupples
 
 ```
+
+>[!Tip]
+>setting the daemon to true when creating a thread means that the threads will automatically be cleaned up without explicit joining
+>
