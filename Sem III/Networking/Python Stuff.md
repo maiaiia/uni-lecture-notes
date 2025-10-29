@@ -42,6 +42,36 @@ number = s.recv(4)
 number = struct.unpack('!I', number)[0] # convert from binary to desired format
 ```
 
+>[!Important] Format Characters
+>
+>| Format |     C Type     | Python type | Standard Size |
+>| ------ | :------------: | :---------: | :-----------: |
+>| `x`    |    pad byte    |  no value   |               |
+>| `c`    |      char      |    bytes    |       1       |
+>| `b`    |  signed char   |   integer   |       1       |
+>| `h`    |     short      |   integer   |       2       |
+>| `i`    |      int       |   integer   |       4       |
+>| `l`    |      long      |   integer   |       4       |
+>| `q`    |   long long    |   integer   |       8       |
+>| `f`    |     float      |    float    |       4       |
+>| `d`    |     double     |    float    |       8       |
+>| `F`    | float complex  |   complex   |       8       |
+>| `D`    | double complex |   complex   |      16       |
+>| `s`    |    char\[]     |    bytes    |               |
+>
+>>[!Tip] 
+>> The unsigned representation can be specified by capitalising the letter corresponding to the desired type
+
+>[!Important]- Format Strings
+>
+>| Character | Byte Order    | Size     | Alignment |
+>| --------- | ------------- | -------- | --------- |
+>| `@`       | native        | native   | native    |
+>| `=`       | native        | standard | none      |
+>| `<`       | little-endian | standard | none      |
+>| `>`       | big-endian    | standard | none      |
+>| `!`       | network       | standard | none      |
+
 ```python
 ######## send stuff #######
 s.sendall(b'A') # send data directly in binary format
