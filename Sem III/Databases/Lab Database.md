@@ -91,3 +91,4 @@ erDiagram
     }
 ```
 
+https://www.sql-practice.com/
