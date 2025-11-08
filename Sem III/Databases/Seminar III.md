@@ -124,10 +124,52 @@ EXEC SP_EXECUTESQL N'SELECT * FROM Spies WHERE ID=@id',N'@id INT',@id=5
 ```sql
 UPDATE Tasks T 
 SET T.salary = T.salary + 25 / 100 * T.salary 
-OUTPUT inserted.mid, inserted.spyId, deleted.salary, inserted.salary,
-GETDATE(), SUSER_NAME()
+OUTPUT 
+	inserted.mid, inserted.spyId, deleted.salary, inserted.salary, GETDATE(), SUSER_SNAME() --returns the user who performs the update 
+INTO LogTable --should already exist in the db and have the corresponding column types
+WHERE mid=100
 ```
 
+## Cursors 
+
+- similar to an iterator
+- used to access a table row by row 
+- not efficient; use alternatives whenever possible
+
+```sql
+DECLARE <cursor_name> CURSOR FOR <select_statement>
+OPEN --populates the cursor; the specified SELECT statement is executed 
+FETCH [NEXT / PRIOR / FIRST / LAST / ABSOLUTE n(int) / RELATIVE n(int)]
+CLOSE -- some resources are released, but not all of them
+DEALLOCATE -- all resources are released
+```
+
+>[!Info]
+>FETCH ABSOLUTE n 
+>- n > 0 --> the nth row after the first one in the cursor
+>- n < 0 --> the nth row before the last one in the cursor 
+>- n = 0 --> no row
+>
+> same goes for FETCH RELATIVE n, but now we compute the position relatively to the current position of the cursor
+
+>[!Tip] CLOSE vs DEALLOCATE
+>CLOSE: the cursor can be re-opened and re-used
+>DEALLOCATE: the only way to re-use the cursor is if it's redeclared
+
+```sql
+DELCARE @name VARCHAR(50), @dif INT
+DECLARE mission_cursor CURSOR FOR
+	SELECT name, difficulty 
+	FROM Missions 
+OPEN mission_cursor 
+WHILE @@FETCHSTATUS = 0 
+	BEGIN 
+		FETCH mission_cusor INTO @name, @dif 
+		PRINT @name + CAST(@dif AS VARCHAR(10))
+	END		
+CLOSE mission_cursor 	
+DEALLOCATE mission_cursor
+```
 ## Exercises 
 
 1. Find the ids of the missions which have at least 1 task assigned for the spy with the id = 2, but those missions shouldn't have any tasks assigned for spy 1
