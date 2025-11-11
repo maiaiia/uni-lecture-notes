@@ -6,3 +6,4 @@
 - [[Binomial Model]]
 - [[Random Variables and Vectors]]
 - [[LAB - Discrete Random Variable]]
+- [[LAB - Continuous Random Variables]]
