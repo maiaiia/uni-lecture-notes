@@ -1,3 +1,4 @@
 - [[src/Sem III/PLF/Seminar I]]
 - [[Seminar II]]
 - [[src/Sem III/PLF/Seminar III]]
+- [[Prolog All Labs]]
