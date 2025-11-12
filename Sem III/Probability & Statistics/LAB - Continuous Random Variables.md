@@ -28,7 +28,7 @@ MATLAB: \[abbr. if the model] pdf \ cdf (where to compute., param. of the model)
 >[!Definition] The Box-Muller Transformations
 >If you have $U_1$ and $U_2$ random variables that are randomly distributed through (0,1) ($U_1, U_2 \in \mathcal{U}(0,1)$) and you create 2 new variables $$z_1 = \sqrt{-2 \ln U_1} \cdot \cos(2 \pi U_2)$$ and $$z_2 = \sqrt{-2 \ln U_1} \cdot \sin(2 \pi U_2)$$, then $z_1, z_2 \in \mathcal{N}(0,1)$
 
->[!Definition]
+>[!Tip]
 >If $Z \in \mathcal{N}(0,1)$, then $X = \sigma \cdot Z + \mu \in \mathcal{N}(\mu, \sigma)$
 
 ### Quantiles
@@ -42,6 +42,19 @@ $P(X < q_\alpha = \alpha)$ We know that the cdf is a *bijective* function. Thus,
 
 ### Exponential model 
 $$X \in \mathcal{Exp}(\lambda)$$where $\lambda$ is the frequency of rare events, $\lambda = \cfrac{1}{t}$
+
+>[!Info]
+>in MATLAB, the notation is $\text{exp}(t)$ (the time is written instead of the frequencies)
+
+### Gamma Model
+$$X \in \text{Gamma}(a,b)$$
+where $a$ = the number of steps and $b$ = the average time for one step
+
+>[!Info]
+>in MATLAB, the notation is $gam$
+
+### The inverse transform method
+If $U \in \mathcal{U}(0,1)$, then $X = - \cfrac{1}{\lambda}\ln(U)\in\mathcal{Exp}(\lambda)$ ($U$ is a random variable)
 ## Exercises
 
  >[!Question] 
@@ -117,5 +130,36 @@ g) $P(X \geq k) = 15\% = 1 - P(X < k)$ $\Rightarrow P(x < k) = 1 - 15\% = 85\%$ 
 >c) estimate by simulations the probabilities above
 
 $X = \mathcal{Exp}(\cfrac{1}{12}\text{sec})$
+a) $P(X>30) = 1 - \text{cdf}(30)$
+b) $X \in \text{Gamma}(3,12)$. $P(X < 60) = gamcdf(60, 3, 12)$
 
+```matlab
+N=100000;
+l = 1/12;
+
+a_cnt = 0;
+for i = 1: N
+    U = rand;
+    x = -1/l * log(U);
+    if x > 30
+        a_cnt = a_cnt + 1;
+    end
+end
+a_sim = a_cnt / N;
+```
+
+>[!Question]
+>Estimate by simulations the number $\pi$
+
+We'll use the Monte Carlo method
+![[LAB - Continuous Random Variables 2025-11-11 15.30.41.excalidraw]]
+
+Idea: take points at random and count how many of them are inside the circle.
+
+$\text{freq} = \cfrac{\text{Area}_\circ}{\text{Area}_\square} = \cfrac{\pi}{4} = \text{freq} \cdot 4$
+
+
+
+>[!Question]
+>Approximate by simulations the integral $\int_0^1\sin(\sqrt[3]{x})dx$
 
