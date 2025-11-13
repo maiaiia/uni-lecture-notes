@@ -27,12 +27,13 @@ add_pw2(L, V, R) :-
 ```
 
 2.a. Write a predicate to remove all occurrences of a certain atom from a list
-2.b. Define a predicate to produce a list of pairs (atom n) from an initial list of atoms. In this initial list atom had n occurrences (e.g. numberatom(\[1,2,1,2,1,3,1], X) -> X = \[\[1,4],\[2,2],\[3,1]])
 ```prolog
 remove_occ([], _, []).
 remove_occ([H|T], H, R) :- !,remove_occ(T, H, R).
 remove_occ([H|T], X, [H|R]) :- remove_occ(T, X, R).
-
+```
+2.b. Define a predicate to produce a list of pairs (atom n) from an initial list of atoms. In this initial list atom had n occurrences (e.g. numberatom(\[1,2,1,2,1,3,1], X) -> X = \[\[1,4],\[2,2],\[3,1]])
+```prolog
 count_occ([], _, 0).
 count_occ([H|T], H, C) :- !, count_occ(T, H, C1), C is C1 + 1.
 count_occ([_|T], X, C) :- count_occ(T, X, C).
@@ -100,24 +101,138 @@ add_1([H|T], [H, 1|R]) :- add_1(T, R).
 ```
 
 5.a. Write a predicate to compute the union of two sets.
+```prolog
+in_set(H, [H|_]) :-!.
+in_set(X, [_| T]) :- in_set(X, T).
+
+setunion([], S2, S2).
+setunion([H|T], S2, R) :-
+    in_set(H, S2), !,
+    setunion(T, S2, R).
+setunion([H|T], S2, [H|R]):- setunion(T, S2, R).
+```
 5.b. Write a predicate to determine the set of all the pairs of elements in a list (e.g. \[a,b,c,d] -> \[\[a,b], \[a,c], \[a,d], \[b, c], \[b,d], \[c,d]])
+```prolog
+% make pairs with X and all elements from Y
+make_pair(_, [], []).
+make_pair(X, [H|T], [[X,H]|R]):-
+    make_pair(X, T, R).
+
+all_pairs([], []).
+all_pairs([H|T], R):-
+    make_pair(H,T,X),
+    all_pairs(T,Y),
+    setunion(X,Y,R).
+```
 
 6.a. Write a predicate to test if a list is a set 
+```prolog
+in_set(H, [H|_]) :-!.
+in_set(X, [_| T]) :- in_set(X, T).
+
+test_set([]).
+test_set([H|T]):-not(in_set(H,T)),test_set(T).
+```
 6.b. Write a predicate to remove the first three occurrences of an element in a list. If the element occurs less than three times, all occurrences will be removed
+```prolog
+remove_three(L, _, 0, L).
+remove_three([],_, _, []).
+remove_three([H|T], H, C, R):-
+    C1 is C - 1,
+    remove_three(T,H,C1,R),!.
+remove_three([H|T],V,C,[H|R]):-
+    remove_three(T,V,C,R),!.
+remove_three(L,V,R) :- remove_three(L,V,3,R).
+```
 
 7.a. Write a predicate to compute the intersection of two sets
+```prolog
+in_set(H, [H|_]) :-!.
+in_set(X, [_| T]) :- in_set(X, T).
+
+set_intersect([],_,[]).
+set_intersect([H|T], S2, [H|R]) :-
+    in_set(H, S2), !,
+    set_intersect(T,S2,R).
+set_intersect([_|T], S2, R):-
+    set_intersect(T,S2,R).
+```
 7.b. Write a predicate to create a list (m..n) of all integer numbers from the interval \[m,n]
+```prolog
+interval_list(M, M, [M]):-!.
+interval_list(N, M, [N|R]):-
+    N < M, 
+    N1 is N + 1,
+    interval_list(N1,M,R).
+```
 
 8.a. Write a predicate to determine if a list has even numbers of elements without counting the elements from the list
+```prolog
+even_len([]).
+even_len([_,_|T]):-even_len(T).
+```
 8.b. Write a predicate to delete first occurrence of the minimum number from a list
+```prolog
+find_min([M],M).
+find_min([H|T], R):-
+    find_min(T,R),
+    H > R, !.
+find_min([H|_],H).
+    
+delete_first([],_,[]).
+delete_first([H|T],H,T):-!.
+delete_first([H|T], X, [H|R]):-
+    delete_first(T, X, R).
+
+delete_first_min(L, R):-
+    find_min(L, M),
+    delete_first(L, M, R).
+```
 
 9.a. Insert an element on the position n in a list 
+```prolog
+insert_nth([], N, N, V, [V]):-!.
+%insert_nth([],_,_,_,[]). -- if position is out of bounds, return false
+insert_nth([H|T], N, N, V, [V,H|T]):-!.
+insert_nth([H|T], N, C, V, [H|R]):-
+    C1 is C + 1,
+    insert_nth(T,N,C1,V,R).
+
+insert_nth(L, N, V,R) :- insert_nth(L,N,1,V,R).
+```
 9.b. Define a predicate to determine the gcd of all numbers from a list
+```prolog
+gcd(X, 0, X) :-!.
+gcd(X, Y, R) :- Z is mod(X,Y), gcd(Y, Z, R).
+
+gcd_list([], 0).
+gcd_list([H], H) :-!.
+gcd_list([H|T], R):-
+    gcd_list(T, R1),
+    gcd(H, R1, R).
+```
 
 10.a. Define a predicate to test if a list of an integer elements has a valley aspect (a set has a valley aspect if its elements decrease up to a certain point, then they increase)
+```prolog
+isV([H1,H2|T]):- H1 < H2, inc([H2|T]), !.
+isV([H1,H2|T]):- H1 > H2, isV([H2|T]), !.
+
+inc([]).
+inc([_]).
+inc([H1,H2|T]):- H1 < H2, inc([H2|T]), !.
+
+valley([H1,H2,H3|T]):-H1>H2, isV([H1,H2,H3|T]).
+```
 10.b calculate the alternate sum of a list's elements (l1 - l2 + l3)
+```prolog
+alt_sum([],0).
+alt_sum([H|T],S):-
+    alt_sum(T,S2),
+    S is H - S2.
+```
 
 11.a. Write a predicate to substitute an element from a list with another element in the list
+??? what
 11.b. Write a predicate to create the sublist (lm..ln) from the list (l1..lk)
 
 12.a.Write a predicate to substitute in a list a value with all the elements of another list
