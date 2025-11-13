@@ -234,8 +234,32 @@ alt_sum([H|T],S):-
 11.a. Write a predicate to substitute an element from a list with another element in the list
 ??? what
 11.b. Write a predicate to create the sublist (lm..ln) from the list (l1..lk)
+```prolog
+sublist([_|T], S, E, C, R):-
+    C < S, !, C1 is C + 1,
+    sublist(T, S, E, C1, R).
+sublist([H|T], S, E, C, [H|R]):-
+    S =< C, C =< E, !,
+    C1 is C + 1,
+    sublist(T, S, E, C1, R).
+sublist(_, _, _, _, []).% :- E < C.
+
+sublist(L, S, E, R) :- sublist(L, S, E, 1, R).
+```
 
 12.a.Write a predicate to substitute in a list a value with all the elements of another list
+```prolog
+%unify(L1, L2, R)
+unify([],L2,L2).
+unify([H|T], L2, [H|R]):-unify(T,L2,R).
+
+%subs(L1,V,L2,R)
+subs([], _, _, []).
+subs([V|T], V, L2, R):-!,
+    subs(T,V,L2,R2),
+    unify(L2,R2,R).
+subs([H|T],V,L2,[H|R]):- subs(T,V,L2,R).
+```
 12.b. Remove the n-th element of a list
 ```prolog
 remove_nth([_|T], 1, T):-!.
@@ -317,7 +341,78 @@ sep_odd_ev([H|T], E, [H|O], CE, CO):-
 
 ## Lab 2 
 
+1.a. Sort a list with removing the double values (e.g. \[4, 2, 6, 2, 3, 4] --> \[2,3,4,6])
+```prolog
+%rem_val(L, V, R)
+rem_val([], _, []).
+rem_val([V|T], V, R) :-!, rem_val(T, V, R).
+rem_val([H|T], V, [H|R]):- rem_val(T,V,R).
 
+%find_min(L, M)
+find_min([M], M).
+find_min([H|T], M):-
+    find_min(T, M),
+    M < H, !.
+find_min([H|_], H).
+
+sort_no_dup([],[]).
+sort_no_dup(L, [M|R]):-
+    find_min(L, M),
+    rem_val(L, M, R1),
+    sort_no_dup(R1,R), !.
+```
+1.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to sort every sublist with removing the doubles. (e.g. \[1,2,\[4,1,4],3,6,\[7,10,1,3,9],5,\[1,1,1],7] -->\[1,2,\[1,4],3,6,\[1,3,7,9,10],5,\[1],7])
+```prolog
+sort_no_dup_het([],[]).
+sort_no_dup_het([H|T], [H|R]):-
+    number(H), !,
+    sort_no_dup_het(T,R).
+sort_no_dup_het([H|T], [S|R]):-
+    sort_no_dup(H, S),
+    sort_no_dup_het(T,R).
+```
+
+2.a Sort a list with keeping double values in the result
+2.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to sort every sublist, keeping the doubles 
+
+3.a. Merge two sorted lists with removing the double values 
+3.b. For a heterogeneous list, formed from integer numbers and lists of numbers, merge all sublists with removing the double values (e.g. \[1,\[2,3],4,5,\[1,4,6],3,\[1,3,7,9,10],5,\[1,1,11],8] --> \[1,2,3,4,6,7,9,10,11])
+
+4.a. Write a predicate to determine the sum of two numbers written in list representation
+4.b. For a heterogeneous list, formed from integer numbers and lists of digits, write a predicate to compute the sum of all numbers represented as sublists 
+
+5.a. Substitute all occurrences of an element of a list with all the elements of another list (already done)
+5.b. For a heterogeneous list, formed from integer numbers and lists of numbers, replace in every sublist all occurrences of the first element from the sublist with a new given list (e.g. \[1,\[4,1,4],3,6,\[7,10,1,3,9],5,\[1,1,1],7] and \[11,11] --> \[1,\[11,11,1,11,11],3,6,\[11,11,10,1,3,9],5,\[11,11,11,11,11,11],7])
+
+6.a. Determine the product of a number represented as digits in a list to a given digit
+6.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to replace every sublist with a list of the positions of the maximum element from that sublist
+
+7.a. Determine the positions of the maximal element of a linear list (solved in 6.b.)
+7.b. For a heterogeneous list, formed from integer numbers and lists of numbers, replace every sublist with the positions of the maximum element from that sublist (same as 6.b.)
+
+8.a. Determine the successor of a number represented as digits in a list
+8.b. For a heterogeneous list, formed from integer numbers and lists of digits, determine the successors of the sublists 
+
+9.a. For a list of integer numbers, write a predicate to add a given value in the list after the 1st, 3rd, 7th and 15th elements (so on positions that are powers of 2 greater than 1)
+9.b. For a heterogeneous list, formed from integer numbers and lists of numbers, add in every sublist after the 1st, 3rd, 7th and 15th element the value found before the sublist in the heterogeneous list (the list always starts with a number and there aren't two consecutive list elements)
+
+10.a. For a list of integer numbers, define a predicate to write every prime number twice in the list 
+10.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to write in every sublist every prime number twice
+
+11.a. Replace all occurrences of an element from a list with another element e
+11.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to determine the second greatest number of the list, and then to replace this value in each sublist with the maximum value of the sublist
+
+12.a. Define a predicate to add the divisors of a number after every element 
+12.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to add the divisors of every element in every sublist (e.g. \[1,\[1,2,5,7],4,5,\[1,4,6],2] --> \[1,\[1,2,5,7], 4,5, \[1,4,2,6,2,3],2])
+
+13.a. Given a linear numerical list, write a predicate to remove all sequences of consecutive values (e.g. \[1,2,4,6,7,8,10] --> \[4,10])
+13.b. Apply a on the sublists of a heterogeneous list 
+
+14.a. Define a predicate to determine the longest sequences of consecutive even numbers (if more exist, return one of them only)
+14.b. Replace every sublist in a heterogeneous list as stated in a.
+
+15.a. Define a predicate to determine the predecessor of a number represented as digits in a list
+15.b. Replace every sublist in a heterogeneous list with its predecessor
 ## Lab 3
 
 15. For a given n, positive, determine all decompositions of n as a sum of consecutive natural numbers.
