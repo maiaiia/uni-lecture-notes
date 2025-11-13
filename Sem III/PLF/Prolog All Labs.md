@@ -560,16 +560,147 @@ repl_het([H|T], [S|R]):-
 ```
 
 8.a. Determine the successor of a number represented as digits in a list
+```prolog
+revl([], Col, Col):-!.
+revl([H|T], Col, R):-revl(T, [H|Col], R).
+revl(L, R):- revl(L, [], R).
+
+%inc_l(L, R)
+inc_l([], 1, [1]):-!.
+inc_l(L, 0, L):-!.
+inc_l([H|T], 1, [H2|R]):-
+    H2 is mod(H + 1, 10),
+    Carry is div(H + 1, 10),
+    inc_l(T, Carry, R).
+inc_l(L, R) :- inc_l(L, 1, R).
+
+successor(L,R):-
+    revl(L, L1),
+    inc_l(L1, R1),
+    revl(R1, R).
+```
 8.b. For a heterogeneous list, formed from integer numbers and lists of digits, determine the successors of the sublists 
+```prolog
+inc_het([], []).
+inc_het([H|T], [H|R]):-
+    number(H), !,
+    inc_het(T, R).
+inc_het([H|T], [S|R]):-
+    successor(H, S),
+    inc_het(T,R).
+```
 
 9.a. For a list of integer numbers, write a predicate to add a given value in the list after the 1st, 3rd, 7th and 15th elements (so on positions that are powers of 2 greater than 1)
+```prolog
+is_pw2(2):-!. %exclude 1 for the purpose of this ex
+is_pw2(V):-
+    0 =:= mod(V, 2),
+    NV is div(V, 2),
+    is_pw2(NV).
+
+%append_pw2(L, V, Curr, R).
+append_pw2(L, _, Curr, L) :- Curr > 16, !.
+append_pw2([], _, _, []).
+append_pw2([H|T], V,Curr, [V,H |R]):-
+    is_pw2(Curr), !,
+    C is Curr + 1,
+    append_pw2(T, V, C, R).
+append_pw2([H|T], V, Curr, [H|R]):-
+    C is Curr + 1,
+    append_pw2(T, V, C, R).
+
+append_pw2(L,V, R) :- append_pw2(L,V, 1, R).
+```
 9.b. For a heterogeneous list, formed from integer numbers and lists of numbers, add in every sublist after the 1st, 3rd, 7th and 15th element the value found before the sublist in the heterogeneous list (the list always starts with a number and there aren't two consecutive list elements)
+```prolog
+% append_het(L, Prev, R)
+append_het([], _, []).
+append_het([H|T], _, [H|R]):-
+    number(H), !,
+    P is H,
+    append_het(T, P, R).
+append_het([H|T], Prev, [S|R]):-
+    append_pw2(H, Prev, S),
+    append_het(T, Prev, R).
+
+append_het(L, R) :- append_het(L, -1, R).
+```
 
 10.a. For a list of integer numbers, define a predicate to write every prime number twice in the list 
+```prolog
+divisible(X, Y):- 0 is mod(X, Y).
+
+iter_div(1,_):-!.
+iter_div(X, S):-
+    X > S,
+    divisible(X, S), !.
+iter_div(X, S):-
+    X > S,
+    S2 is S + 1,
+    iter_div(X, S2).
+iter_div(X) :- iter_div(X, 2).
+
+
+prime(2):- !.
+prime(X) :- not(iter_div(X)).
+
+duplicate_primes([],[]).
+duplicate_primes([H|T], [H, H|R]):-
+    prime(H), !,
+    duplicate_primes(T, R).
+duplicate_primes([H|T], [H|R]):-
+    duplicate_primes(T,R).
+```
 10.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to write in every sublist every prime number twice
+```prolog
+dup_het([],[]).
+dup_het([H|T], [H|R]):-
+    number(H), !,
+    dup_het(T,R).
+dup_het([H|T], [S|R]):-
+    duplicate_primes(H,S),
+    dup_het(T,R).
+```
 
 11.a. Replace all occurrences of an element from a list with another element e
+```prolog
+%repl(L, Old, New, R)
+repl([],_,_,[]).
+repl([Old|T], Old, New, [New|R]):-!,
+    repl(T, Old, New, R).
+repl([H|T], Old, New, [H|R]):-
+    repl(T, Old, New, R).
+```
 11.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to determine the second greatest number of the list, and then to replace this value in each sublist with the maximum value of the sublist
+```prolog
+find_max([M], M).
+find_max([H|T], M):-
+    find_max(T, M),
+    M > H, !.
+find_max([H|_], H).
+
+find_max_het([],0).
+find_max_het([H|T], M):-
+    not(number(H)), !,
+    find_max_het(T, M).
+find_max_het([H|T], M):-
+    find_max_het(T, M),
+    M > H, !.
+find_max_het([H|_], H).
+
+proc_het([], _, []).
+proc_het([H|T], M, [H|R]):-
+    number(H), !,
+    proc_het(T, M, R).
+proc_het([H|T], M, [S|R]):-
+    find_max(H, V),
+    repl(H, M, V, S),
+    proc_het(T, M, R).
+
+proc_het(L, R):-
+    find_max_het(L, M),
+    proc_het(L, M, R).
+```
 
 12.a. Define a predicate to add the divisors of a number after every element 
 12.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to add the divisors of every element in every sublist (e.g. \[1,\[1,2,5,7],4,5,\[1,4,6],2] --> \[1,\[1,2,5,7], 4,5, \[1,4,2,6,2,3],2])
