@@ -373,22 +373,191 @@ sort_no_dup_het([H|T], [S|R]):-
 ```
 
 2.a Sort a list with keeping double values in the result
+```prolog
+find_min([M], M).
+find_min([H|T], M):-
+    find_min(T, M),
+    M < H, !.
+find_min([H|_], H).
+
+%rem_first_occ(L, E, R)
+rem_first_occ([], _, []).
+rem_first_occ([H|T], H, T):-!.
+rem_first_occ([H|T], E, [H|R]):-rem_first_occ(T,E,R).
+
+%sort_dup(L, R)
+sort_dup([],[]):-!.
+sort_dup(L, [M|R]):-
+    find_min(L, M),
+    rem_first_occ(L, M, R1),
+    sort_dup(R1, R), !.
+```
 2.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to sort every sublist, keeping the doubles 
+```prolog
+%sort_dup_het(L, R)
+sort_dup_het([],[]):-!.
+sort_dup_het([H|T], [H|R]):-
+    number(H), !,
+    sort_dup_het(T,R).
+sort_dup_het([H|T], [S|R]):-
+    sort_dup(H, S),
+    sort_dup_het(T,R).
+```
 
 3.a. Merge two sorted lists with removing the double values 
+```prolog
+% assuming L1 and L2 are sorted
+merge_nodup([], L2, L2):-!.
+merge_nodup(L1, [], L1):-!.
+% make sure to also remove the duplicates within the sorted lists
+merge_nodup([H,H|T], L, R):-!, merge_nodup([H|T], L, R).
+merge_nodup(L, [H,H|T], R):-!,merge_nodup(L,[H|T], R).
+merge_nodup([H|T1], [H|T2], R):-!, merge_nodup([H|T1], T2, R).
+merge_nodup([H1|T1], [H2|T2], [H1|R]):- 
+    H1 < H2, !, 
+    merge_nodup(T1, [H2|T2], R).
+merge_nodup(L, [H|T], [H|R]):-
+    merge_nodup(L, T, R).
+```
 3.b. For a heterogeneous list, formed from integer numbers and lists of numbers, merge all sublists with removing the double values (e.g. \[1,\[2,3],4,5,\[1,4,6],3,\[1,3,7,9,10],5,\[1,1,11],8] --> \[1,2,3,4,6,7,9,10,11])
+```prolog
+merge_het([],[]).
+merge_het([H|T], R):-
+    number(H), !,
+    merge_het(T,R).
+merge_het([H|T], R):-
+    merge_het(T, R1),
+    merge_nodup(H, R1, R).
+```
 
 4.a. Write a predicate to determine the sum of two numbers written in list representation
+```prolog
+rev([], Col, Col).
+rev([H|T], Col, Res):-rev(T, [H|Col], Res).
+rev(L, R):- rev(L, [], R).
+
+inc_lr([], [1]).
+inc_lr([9|T], [0|R]):-!, inc_lr(T, R).
+inc_lr([H|T], [H2|T]):- H2 is H + 1.
+
+%addlr(L1,L2,Carry,Res)
+addlr([],[],0, []).
+addlr([],[],1,[1]).
+addlr([], L, 0, L).
+addlr(L,[],0,L).
+addlr(L, [], 1, R):-inc_lr(L, R).
+addlr([],L,1,R):-inc_lr(L,R).
+addlr([H1|T1], [H2|T2], Carry, [S|R]):-
+    S is H1 + H2 + Carry,
+    S < 10, !,
+    addlr(T1, T2, 0, R).
+addlr([H1|T1], [H2|T2], Carry, [S|R]):-
+    S is mod(H1 + H2 + Carry, 10),
+    addlr(T1,T2, 1, R).
+
+addlr(L1,L2,R):-addlr(L1,L2,0,R).
+
+addl(L1, L2, R):-
+    rev(L1, RL1),
+    rev(L2, RL2),
+    addlr(RL1, RL2, R2),
+    rev(R2, R), !.
+```
 4.b. For a heterogeneous list, formed from integer numbers and lists of digits, write a predicate to compute the sum of all numbers represented as sublists 
+```prolog
+add_het([], [0]).
+add_het([H|T], R):-
+    number(H), !,
+    add_het(T,R).
+add_het([H|T], R):-
+    add_het(T, R1),
+    addl(H, R1, R).
+```
+
 
 5.a. Substitute all occurrences of an element of a list with all the elements of another list (already done)
+```prolog
+%unify(L1, L2, R)
+unify([],L2,L2).
+unify([H|T], L2, [H|R]):-unify(T,L2,R).
+
+%subs(L1,V,L2,R)
+subs([], _, _, []).
+subs([V|T], V, L2, R):-!,
+    subs(T,V,L2,R2),
+    unify(L2,R2,R).
+subs([H|T],V,L2,[H|R]):- subs(T,V,L2,R).
+
+```
 5.b. For a heterogeneous list, formed from integer numbers and lists of numbers, replace in every sublist all occurrences of the first element from the sublist with a new given list (e.g. \[1,\[4,1,4],3,6,\[7,10,1,3,9],5,\[1,1,1],7] and \[11,11] --> \[1,\[11,11,1,11,11],3,6,\[11,11,10,1,3,9],5,\[11,11,11,11,11,11],7])
+```prolog
+sub_first([H|T], L2, R):-
+    subs([H|T], H, L2, R).
 
-6.a. Determine the product of a number represented as digits in a list to a given digit
-6.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to replace every sublist with a list of the positions of the maximum element from that sublist
+%subs_het(L, L2, R).
+subs_het([], _, []).
+subs_het([H|T], L2, [H|R]):-
+    number(H), !,
+    subs_het(T, L2, R).
+subs_het([H|T], L2, [S|R]):-
+    sub_first(H, L2, S),
+    subs_het(T, L2, R).
+```
 
-7.a. Determine the positions of the maximal element of a linear list (solved in 6.b.)
-7.b. For a heterogeneous list, formed from integer numbers and lists of numbers, replace every sublist with the positions of the maximum element from that sublist (same as 6.b.)
+6.a. Determine the product of a number represented as digits in a list and a number
+```prolog
+rev([], Col, Col).
+rev([H|T], Col, R):-rev(T, [H|Col], R).
+rev(L, R) :- rev(L, [], R).
+
+%prod_revl(L, Mult, Carry, R)
+prod_revl([], _, 0, []):- !.
+prod_revl([], _, Carry, [Carry]).
+prod_revl([H|T], Mult, Carry, [M|R]):-
+    M is mod(H * Mult + Carry, 10),
+    C2 is div(H * Mult + Carry, 10),
+    prod_revl(T, Mult, C2, R).
+prod_revl(L, Mult, R) :- prod_revl(L, Mult, 0, R).
+
+prodl(L, Mult, R):-
+    rev(L, LRev),
+    prod_revl(LRev, Mult, R1),
+    rev(R1, R).
+```
+6.b. For a heterogeneous list, formed from integer numbers and lists of numbers, write a predicate to replace every sublist with a list of the positions of the maximum element from that sublist (solution below - 7)
+
+7.a. Determine the positions of the maximal element of a linear list 
+```prolog
+find_max([M], M).
+find_max([H|T], M):-
+    find_max(T, M),
+    H < M, !.
+find_max([H|_], H).
+
+%get_pos(L, V, C, R)
+get_pos([], _, _, []).
+get_pos([V|T], V, C, [C|R]):-!,
+    C1 is C + 1,
+    get_pos(T, V, C1, R).
+get_pos([_|T], V, C, R):-
+    C1 is C + 1,
+    get_pos(T, V, C1, R).
+get_pos(L, V, R) :- get_pos(L, V, 1, R).
+
+get_pos_max(L, R):-
+    find_max(L, M),
+    get_pos(L, M, R).
+```
+7.b. For a heterogeneous list, formed from integer numbers and lists of numbers, replace every sublist with the positions of the maximum element from that sublist 
+```prolog
+repl_het([],[]).
+repl_het([H|T], [H|R]):-
+    number(H), !,
+    repl_het(T, R).
+repl_het([H|T], [S|R]):-
+    get_pos_max(H,S),
+    repl_het(T,R).
+```
 
 8.a. Determine the successor of a number represented as digits in a list
 8.b. For a heterogeneous list, formed from integer numbers and lists of digits, determine the successors of the sublists 
