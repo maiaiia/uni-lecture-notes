@@ -1,4 +1,5 @@
-- [[src/Sem III/PLF/Seminar I]]
-- [[Seminar II]]
-- [[src/Sem III/PLF/Seminar III]]
+- [[CHEAT_SHEET_PROLOG]]
 - [[Prolog All Labs]]
+- [[PLF-Seminar I]]
+- [[PLF-Seminar II]]
+- [[PLF-Seminar III]]
