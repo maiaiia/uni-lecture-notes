@@ -42,3 +42,89 @@ rev([], Acc, Acc).
 rev([H|T], Acc, R):- rev(T, [H|Acc], R).
 rev(L, R) :- rev(L, [], R). %wrapper
 ```
+
+### Sorting a list
+```prolog
+find_min([M], M).
+find_min([H|T], M):-
+    find_min(T, M),
+    M < H, !.
+find_min([H|_], H).
+
+%rem_first_occ(L, E, R)
+rem_first_occ([], _, []).
+rem_first_occ([H|T], H, T):-!.
+rem_first_occ([H|T], E, [H|R]):-rem_first_occ(T,E,R).
+
+%sort_dup(L, R)
+sort_dup([],[]):-!.
+sort_dup(L, [M|R]):-
+    find_min(L, M),
+    rem_first_occ(L, M, R1),
+    sort_dup(R1, R), !.
+```
+
+### Set Intersection
+```prolog
+in_set(H, [H|_]) :-!.
+in_set(X, [_| T]) :- in_set(X, T).
+
+set_intersect([],_,[]).
+set_intersect([H|T], S2, [H|R]) :-
+    in_set(H, S2), !,
+    set_intersect(T,S2,R).
+set_intersect([_|T], S2, R):-
+    set_intersect(T,S2,R).
+```
+
+### Set Union
+```prolog
+in_set(H, [H|_]) :-!.
+in_set(X, [_| T]) :- in_set(X, T).
+
+setunion([], S2, S2).
+setunion([H|T], S2, R) :-
+    in_set(H, S2), !,
+    setunion(T, S2, R).
+setunion([H|T], S2, [H|R]):- setunion(T, S2, R).
+```
+
+### Set Difference
+```prolog
+in_set([H|_], H) :-!.
+in_set([_|T], X) :- in_set(T, X).
+
+set_dif([], _, []).
+set_dif([H|T], S2, R):-
+    in_set(S2, H), !,
+    set_dif(T, S2, R).
+set_dif([H|T], S2, [H|R]) :-
+    set_dif(T, S2, R).
+```
+
+### Merge 2 Sorted Lists - remove duplicates
+```prolog
+% assuming L1 and L2 are sorted
+merge_nodup([], L2, L2):-!.
+merge_nodup(L1, [], L1):-!.
+% make sure to also remove the duplicates within the sorted lists
+merge_nodup([H,H|T], L, R):-!, merge_nodup([H|T], L, R).
+merge_nodup(L, [H,H|T], R):-!,merge_nodup(L,[H|T], R).
+merge_nodup([H|T1], [H|T2], R):-!, merge_nodup([H|T1], T2, R).
+merge_nodup([H1|T1], [H2|T2], [H1|R]):- 
+    H1 < H2, !, 
+    merge_nodup(T1, [H2|T2], R).
+merge_nodup(L, [H|T], [H|R]):-
+    merge_nodup(L, T, R).
+```
+
+BONUS: merge all the sublists of a heterogeneous list
+```prolog
+merge_het([],[]).
+merge_het([H|T], R):-
+    number(H), !,
+    merge_het(T,R).
+merge_het([H|T], R):-
+    merge_het(T, R1),
+    merge_nodup(H, R1, R).
+```
