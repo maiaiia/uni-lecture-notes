@@ -27,6 +27,7 @@ The **flow model** of a predicate is used to indicate how said predicate is inte
 	- `X+1` is not properly evaluated and if X is, say, 1, `p(1+1)` will be called (instead of `p(2)`, as any sane individual would expect). Prolog is disgusting.
 	- do this instead: `X1 is X + 1, p(X1)` (this works because `is` forces arithmetic evaluation)
 	- this mistake has wasted so much of my time 
+- Less or equal is =< for no reason other than to be annoying
 ## Examples
 
 ### [[Prolog All Labs]]
