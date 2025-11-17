@@ -703,16 +703,111 @@ proc_het(L, R):-
 ```
 
 12.a. Define a predicate to add the divisors of a number after every element 
+```prolog
+is_divisor(X, Y) :- 0 is mod(X, Y).
+
+get_divisors(1, _, []):-!.
+get_divisors(X, X, []):-!.
+get_divisors(X, Y, [Y|R]):-
+    is_divisor(X, Y), !,
+    Y1 is Y + 1,
+    get_divisors(X, Y1, R).
+get_divisors(X, Y, R):- 
+    Y1 is Y + 1,
+    get_divisors(X, Y1, R).
+
+get_divisors(X, R):- get_divisors(X, 2, R).
+
+
+%append_list(L1, L2, R)
+append_list([], L2, L2):-!.
+append_list([H|T], L2, [H|R]):-
+    append_list(T, L2, R).
+
+append_divisors([], []) :-!.
+append_divisors([H|T], R):-
+    get_divisors(H, D),
+    append_list([H], D, Dv),
+    append_divisors(T, R1),
+    append_list(Dv, R1, R).
+```
 12.b. For a heterogeneous list, formed from integer numbers and lists of numbers, define a predicate to add the divisors of every element in every sublist (e.g. \[1,\[1,2,5,7],4,5,\[1,4,6],2] --> \[1,\[1,2,5,7], 4,5, \[1,4,2,6,2,3],2])
+```prolog
+app_div_het([], []).
+app_div_het([H|T], [H|R]):-
+    number(H), !,
+    app_div_het(T, R).
+app_div_het([H|T], [S|R]):-
+    append_divisors(H, S),
+    app_div_het(T, R).
+```
 
 13.a. Given a linear numerical list, write a predicate to remove all sequences of consecutive values (e.g. \[1,2,4,6,7,8,10] --> \[4,10])
+```prolog
+%rem_consec(list, remove_current_flag, result)
+rem_consec([], _, []):-!.
+rem_consec([E], 0, [E]):-!.
+rem_consec([_], 1, []):-!.
+rem_consec([H1, H2|T], 1, R):-
+    H1_inc is H1 + 1,
+    H2 =:= H1_inc, % H2 must also be removed
+    rem_consec([H2|T], 1, R), !.
+rem_consec([_, H2 | T], 1, R):-
+    rem_consec([H2|T], 0, R). % H2 doesn't have to be removed
+rem_consec([H1, H2|T], 0, R):-
+    H1_inc is H1 + 1,
+    H2 =:= H1_inc,  % new consecutive seq discovered
+    rem_consec([H2|T], 1, R), !.
+rem_consec([H1, H2|T], 0, [H1|R]):-
+    rem_consec([H2|T], 0, R).
+
+rem_consec(L, R):- rem_consec(L, 0, R).
+```
 13.b. Apply a on the sublists of a heterogeneous list 
+```prolog
+rem_consec_het([], []):-!.
+rem_consec_het([H|T], [H|R]):-
+    number(H), !,
+    rem_consec_het(T, R).
+rem_consec_het([H|T], [S|R]):-
+    rem_consec(H, S),
+    rem_consec_het(T, R).
+```
 
 14.a. Define a predicate to determine the longest sequences of consecutive even numbers (if more exist, return one of them only)
 14.b. Replace every sublist in a heterogeneous list as stated in a.
 
 15.a. Define a predicate to determine the predecessor of a number represented as digits in a list
+```prolog
+rev([], Acc, Acc):-!.
+rev([H|T], Acc, R):- rev(T, [H|Acc], R).
+rev(L, R):- rev(L, [], R).
+
+pred_rev([0|T], [9|R]):-!,
+    pred_rev(T, R).
+pred_rev([H|T], [H_dec|T]):-
+    H_dec is H - 1.
+
+rem_leading_0([0|T], R):-!, rem_leading_0(T, R).
+rem_leading_0([H|T], [H|T]).
+
+predecessor([1], [0]):-!.
+predecessor(L, R):-
+    rev(L, L_rev),
+    pred_rev(L_rev, R_rev),
+    rev(R_rev, R_unprocessed),
+	rem_leading_0(R_unprocessed, R).
+```
 15.b. Replace every sublist in a heterogeneous list with its predecessor
+```prolog
+repl_het_predecessor([],[]).
+repl_het_predecessor([H|T], [H|R]):-
+    number(H), !,
+    repl_het_predecessor(T, R).
+repl_het_predecessor([H|T], [P|R]):-
+    predecessor(H, P),
+    repl_het_predecessor(T, R).
+```
 ## Lab 3
 
 15. For a given n, positive, determine all decompositions of n as a sum of consecutive natural numbers.
