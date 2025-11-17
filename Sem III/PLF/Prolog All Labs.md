@@ -774,8 +774,57 @@ rem_consec_het([H|T], [S|R]):-
     rem_consec_het(T, R).
 ```
 
-14.a. Define a predicate to determine the longest sequences of consecutive even numbers (if more exist, return one of them only)
-14.b. Replace every sublist in a heterogeneous list as stated in a.
+14.a. Define a predicate to determine the longest sequences of consecutive even numbers (if more exist, return only one of them)
+```prolog
+rev([], Acc, Acc):-!.
+rev([H|T], Acc, R):- rev(T, [H|Acc], R).
+rev(L, R):- rev(L, [], R).
+
+% helper
+update_acc(Curr, CL, _, ML, Curr, CL):-
+    CL > ML, !.
+update_acc(_, _, Acc_Max, ML, Acc_Max, ML).
+
+%max_even_consec(L, Acc_Curr, CL, Acc_Max, ML, R)
+
+% stop if the list is empty
+max_even_consec([], _, _, Acc_Max, _, Acc_Max):-!.
+
+% if the current head of the list is odd, skip it
+max_even_consec([H|T], _, _, Acc_Max, ML, R):-
+    1 is mod(H, 2), !,
+    max_even_consec(T, [], 0, Acc_Max, ML, R).
+
+% now it's guaranteed that the head of the list is even
+% if Acc_Curr is empty, add the head to the list
+max_even_consec([H|T], [], 0, Acc_Max, ML, R):-
+    update_acc([H], 1, Acc_Max, ML, Acc2, ML2),
+    max_even_consec([H|T], [H], 1, Acc2, ML2, R).
+
+% list has over 2 elements
+max_even_consec([H1, H2 | T], Curr, CL, Acc_Max, ML, R):-
+    H1_inc is H1 + 2,
+    H2 is H1_inc, !, % curr can be updated
+    CL2 is CL + 1,
+    update_acc([H2|Curr], CL2, Acc_Max, ML, Acc_New, ML_New),
+    max_even_consec([H2|T], [H2 | Curr], CL2, Acc_New, ML_New, R).
+max_even_consec([_|T], _, _, Acc_Max, ML, R):-
+    max_even_consec(T, [], 0, Acc_Max, ML, R).
+
+max_even_consec(L, R) :- 
+    max_even_consec(L, [], 0, [], 0, R_rev),
+    rev(R_rev, R), !.
+```
+14.b. Replace every sublist in a heterogeneous list with the longest subsequence of even numbers from that sublist.
+```prolog
+repl_het([], []).
+repl_het([H|T], [H|R]):-
+    number(H), !,
+    repl_het(T, R).
+repl_het([H|T], [S|R]):-
+    max_even_consec(H,S),
+    repl_het(T,R).
+```
 
 15.a. Define a predicate to determine the predecessor of a number represented as digits in a list
 ```prolog
