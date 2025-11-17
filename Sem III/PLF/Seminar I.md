@@ -28,8 +28,8 @@ unbounded variables are variables which have not been assigned a value
 ### Commands and Whatever
 - arithmetic equal: =:=
 - `trace` - see step by step execution
-- `is` operator: *numeric* assignation (if a variable is unbounded) and *numeric comparison* (if a variable is bounded)
-- = operator: *string* / *vector* assignation
+- `is` operator: *numeric* assignment (if a variable is unbounded) and *numeric comparison* (if a variable is bounded)
+- = operator: *string* / *vector* assignment
 - `[]` : empty list
 - `[H|T]`:  split a list into the first element and the rest of the list
 ## Exercises
@@ -71,7 +71,7 @@ g(7).
 g(N):-N>=10, N1 is N div 10, g(N1).
 ```
 
-so note that `g(N):-N is 4.` and `g(4).` are equivalent, but not with `g(N):-N =:= 4.` (the latter cannot be used for unbounded variable assignation)
+so note that `g(N):-N is 4.` and `g(4).` are equivalent, but not with `g(N):-N =:= 4.` (the latter cannot be used to assign unbounded variables the value 4)
 
 3. function that computes the sum of all elements of a list
 
