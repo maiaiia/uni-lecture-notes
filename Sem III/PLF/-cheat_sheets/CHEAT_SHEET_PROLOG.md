@@ -102,7 +102,7 @@ set_dif([H|T], S2, [H|R]) :-
     set_dif(T, S2, R).
 ```
 
-### Merge 2 Sorted Lists - remove duplicates
+### Merging 2 sorted lists and removing duplicates
 ```prolog
 % assuming L1 and L2 are sorted
 merge_nodup([], L2, L2):-!.

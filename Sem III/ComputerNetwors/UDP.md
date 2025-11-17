@@ -1,6 +1,6 @@
 # UDP
 ___
-Class: [[Networking]]
+Class: [[ComputerNetworks]]
 Type: 
 Tags: # 
 Date: October 28th, 2025

@@ -1,6 +1,6 @@
 # Introduction to Networking
 ___
-Class: [[Networking]]
+Class: [[ComputerNetworks]]
 Type: Lecture
 Tags: # 
 Date: October 1st, 2025

@@ -1,6 +1,6 @@
 # Python Stuff
 ___
-Class: [[Networking]]
+Class: [[ComputerNetworks]]
 Type: Self Study
 Tags: # 
 Date: October 28th, 2025

@@ -1,6 +1,6 @@
 # Sockets
 ___
-Class: [[Networking]]
+Class: [[ComputerNetworks]]
 Type: Self Study
 Tags: # 
 Date: October 16th, 2025
