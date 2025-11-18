@@ -18,9 +18,9 @@ Logical and Functional programming both fall under the *declarative* programming
 >[!Important]
 >If a clause is missing, false is returned implicitly
 ## Prolog stuff
-in prologue we don't define functions, but rather predicates (they always return a boolean)
+in prolog we don't define functions, but rather predicates (that always return a boolean)
 
-prologue solves stuff using backtracking. when it finds a solution, it stops and returns true. the next keyword allows going from clause to clause.
+prolog solves stuff using backtracking. when it finds a solution, it stops and returns true. the next keyword allows going from clause to clause.
 
 so `false` means all clauses have been explored. `true` means one clause has returned true (but not necessarily all were evaluated)
 
@@ -33,7 +33,7 @@ unbounded variables are variables which have not been assigned a value
 - `[]` : empty list
 - `[H|T]`:  split a list into the first element and the rest of the list
 ## Exercises
-1. Write a function that returns true if its first digit is even, and false if at least one is odd
+1. Write a function that returns true if a number's first digit is even, and false otherwise
 
 >[!Info] Mathematical Model
 >$f(N) = \begin{cases}N \% 2 == 0, N < 10 \\ f(N / 10) \text{ otherwise} \end{cases}$
