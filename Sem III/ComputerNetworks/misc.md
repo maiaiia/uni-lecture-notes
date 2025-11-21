@@ -11,7 +11,3 @@ signal(SIGALARM, time_out);
 alarm(10); //set alarm
 ```
 
-exemplul
-ex 5 
-ex 8 
-5. 8.
