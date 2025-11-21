@@ -1,2 +1,2 @@
 # ComputerNetworks
-![[src/Sem III/ComputerNetwors/-overview|-overview]]
+![[src/Sem III/ComputerNetworks/-overview|-overview]]
