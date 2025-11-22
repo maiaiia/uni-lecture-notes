@@ -1,6 +1,6 @@
 # Seminar II
 ___
-Class: [[PLF]]
+Class: [[LogicalAndFunctionalProgramming]]
 Type: 
 Tags: # 
 Date: October 23rd, 2025

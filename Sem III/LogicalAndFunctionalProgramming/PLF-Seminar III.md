@@ -1,6 +1,6 @@
 # Seminar III
 ___
-Class: [[PLF]]
+Class: [[LogicalAndFunctionalProgramming]]
 Type: Seminar
 Tags: # 
 Date: October 31st, 2025

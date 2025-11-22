@@ -1,6 +1,6 @@
 # Downcasting
 ___
-Class: [[MAP]]
+Class: [[AdvancedProgrammingMethods]]
 Type: 
 Tags: # 
 Date: October 13th, 2025

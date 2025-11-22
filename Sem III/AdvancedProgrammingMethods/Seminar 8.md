@@ -1,6 +1,6 @@
 # Seminar 8
 ___
-Class: [[MAP]]
+Class: [[AdvancedProgrammingMethods]]
 Type: 
 Tags: # 
 Date: November 21st, 2025

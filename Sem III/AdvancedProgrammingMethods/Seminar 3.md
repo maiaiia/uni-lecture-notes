@@ -1,6 +1,6 @@
 # Seminar 3
 ___
-Class: [[MAP]]
+Class: [[AdvancedProgrammingMethods]]
 Type: 
 Tags: # 
 Date: October 17th, 2025

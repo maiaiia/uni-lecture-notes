@@ -1,6 +1,6 @@
 # Prolog All Labs
 ___
-Class: [[PLF]]
+Class: [[LogicalAndFunctionalProgramming]]
 Type: 
 Tags: # 
 Date: November 12th, 2025

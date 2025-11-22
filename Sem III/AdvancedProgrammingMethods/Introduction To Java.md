@@ -1,6 +1,6 @@
 # Introduction To Java
 ___
-Class: [[MAP]]
+Class: [[AdvancedProgrammingMethods]]
 Type: Lecture
 Tags: # 
 Date: October 6th, 2025
