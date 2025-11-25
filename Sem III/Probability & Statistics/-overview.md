@@ -7,3 +7,4 @@
 - [[Random Variables and Vectors]]
 - [[LAB - Discrete Random Variable]]
 - [[LAB - Continuous Random Variables]]
+- [[LAB - Descriptive Statistics. Correlation & Regression]]
