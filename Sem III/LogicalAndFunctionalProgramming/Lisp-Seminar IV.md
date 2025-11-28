@@ -6,7 +6,7 @@ Tags: #
 Date: November 28th, 2025
 ___
 
-Lisp is a functional programming.
+Lisp is a functional programming language.
 
 A function that modifies something beyond its scope is called a secondary-role function.
 
