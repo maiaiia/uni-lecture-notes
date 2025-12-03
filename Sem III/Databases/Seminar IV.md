@@ -34,3 +34,41 @@ MERGE
 - `(column_list)`
 - `VALUES (values_list)`
 - `DEFAULT VALUES` - forces the inserted row to contain the default values defined for each column
+
+I'll use the example from seminar III to demonstrate how the merge statement can be replaced by insert / update / delete statements
+
+```sql
+------- MERGE STATEMENT --------
+INSERT INTO Grades(gid, course, student, examRoom, grade, gradedAt) VALUES
+    (1, 'Databases', 'George Bacovia', 'A321', NULL, NULL),
+    (2, 'Databases', 'George Bacovia', NULL, 9.56, NULL),
+    (3, 'Databases', 'George Bacovia', NULL, NULL, '1901-10-11'),
+    (4, 'Computer Networks', 'George Bacovia', 'L304', NULL, NULL),
+    (5, 'Computer Networks', 'George Bacovia', NULL, 8.37, NULL),
+    (6, 'Computer Networks', 'George Bacovia', NULL, NULL, '1901-11-27'),
+    (7, 'Databases', 'Lucian Blaga', 'A311', NULL, NULL),
+    (8, 'Databases', 'Lucian Blaga', NULL, 9.07, NULL),
+    (9, 'Databases', 'Lucian Blaga', NULL, NULL, '1901-12-10')
+
+MERGE Grades G USING (
+    SELECT MAX(gid), course, student, MAX(examRoom), MAX(grade), MAX(gradedAt)
+    FROM Grades 
+    GROUP BY course, student
+) G2(gid, course, student, examRoom, grade, gradedAt) ON G.gid = G2.gid
+WHEN MATCHED THEN UPDATE SET 
+    G.course = G2.course,
+    G.student = G2.student,
+    G.examRoom = G2.examRoom,
+    G.grade = G2.grade,
+    G.gradedAt = G2.gradedAt
+WHEN NOT MATCHED BY SOURCE THEN DELETE;
+
+SELECT * FROM Grades
+GO  
+```
+
+
+```sql
+
+```
+
