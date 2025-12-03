@@ -50,11 +50,13 @@ INSERT INTO Grades(gid, course, student, examRoom, grade, gradedAt) VALUES
     (8, 'Databases', 'Lucian Blaga', NULL, 9.07, NULL),
     (9, 'Databases', 'Lucian Blaga', NULL, NULL, '1901-12-10')
 
-MERGE Grades G USING (
+MERGE Grades G --target
+USING (
     SELECT MAX(gid), course, student, MAX(examRoom), MAX(grade), MAX(gradedAt)
     FROM Grades 
     GROUP BY course, student
-) G2(gid, course, student, examRoom, grade, gradedAt) ON G.gid = G2.gid
+) G2(gid, course, student, examRoom, grade, gradedAt) --source
+ON G.gid = G2.gid
 WHEN MATCHED THEN UPDATE SET 
     G.course = G2.course,
     G.student = G2.student,
@@ -63,12 +65,55 @@ WHEN MATCHED THEN UPDATE SET
     G.gradedAt = G2.gradedAt
 WHEN NOT MATCHED BY SOURCE THEN DELETE;
 
+-- additional insert example
+MERGE INTO Grades AS G
+USING NewGrades NG
+    ON G.gid = NG.gid
+WHEN NOT MATCHED BY TARGET THEN 
+    INSERT(gid, course, student, examRoom, grade, gradedAt)
+    VALUES(NG.gid, NG.course, NG.student, NG.examRoom, NG.grade, NG.gradedAt);
 SELECT * FROM Grades
-GO  
 ```
-
 
 ```sql
+--update
+UPDATE G 
+SET 
+    G.course = G2.course,
+    G.student = G2.student,
+    G.examRoom = G2.examRoom,
+    G.grade = G2.grade,
+    G.gradedAt = G2.gradedAt
+FROM Grades G
+JOIN (
+    SELECT 
+        MAX(gid) AS gid,
+        course,
+        student,
+        MAX(examRoom) AS examRoom,
+        MAX(grade) AS grade,
+        MAX(gradedAt) as gradedAt
+    FROM Grades 
+    GROUP BY course, student
+) G2 ON G.gid = G2.gid
 
+--delete
+DELETE G 
+FROM Grades G 
+WHERE G.gid NOT IN (
+    SELECT MAX(gid)
+    FROM Grades
+    GROUP BY course, student
+)
+
+-- insert
+
+INSERT INTO Grades(gid, course, student, examRoom, grade, gradedAt)
+SELECT NG.gid, NG.course, NG.student, NG.examRoom, NG.grade, NG.gradedAt 
+FROM NewGrades NG 
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM Grades G 
+    WHERE G.gid = NG.gid
+)
 ```
-
