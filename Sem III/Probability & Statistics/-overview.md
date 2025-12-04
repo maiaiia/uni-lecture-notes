@@ -9,3 +9,5 @@
 - [[LAB - Discrete Random Variable]]
 - [[LAB - Continuous Random Variables]]
 - [[LAB - Descriptive Statistics. Correlation & Regression]]
+- [[Continuous Random Variables]]
+- [[Common Continuous Distributions]]
