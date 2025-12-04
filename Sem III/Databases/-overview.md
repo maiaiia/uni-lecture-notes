@@ -3,3 +3,4 @@
 - [[Seminar I]]
 - [[src/Sem III/Databases/Seminar III]]
 - [[Seminar IV]]
+- [[Seminar V]]
