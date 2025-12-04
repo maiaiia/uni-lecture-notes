@@ -23,6 +23,12 @@ INDEX <idx-name> ON
 >[!Info]
 >If the CLUSTERED / UNCLUSTERED keyword is omitted, the index will be unclustered by default
 
+The performance of the INSERT, UPDATE and DELETE operations are affected by the creation of indices. This is due to the fact that, after any of these operations, the indices are also updated.
+
+However, DELETE operations can also be optimised using *indices on the foreign key columns*.
+
+If we have a one-to-many relationship, deleting an entry from the 'parent' (one) side of the relationship can be optimised if the 'child' side has an index for the foreign key column. 
+
 ## Characteristics
 - CLUSTERED / NONCLUSTERED
 - UNIQUE / NOT UNIQUE
@@ -60,6 +66,19 @@ The RID represents different things depending on the type of the table:
 - cl. table $\rightarrow$ cl. idx valu
 ![[ncl-index]]
 
+
+## Index Design
+
+### DB
+- consider the table size, the number of indices (too many --> decreased performance for insert / update / delete), 
+### Query
+- include covering indices for the most frequently executed queries
+
+>[!Important]
+>Even if we insert multiple values during the same insert statement, the indexes will only be updated once with all the values
+### Columns
+- first add the columns that are frequently used in where clauses
+- prioritise the columns based on the uniqueness of the data
 ## Exercises
 1000 rows / table
 - Ctrl + L
@@ -143,7 +162,6 @@ here, the optimiser has 2 options:
 >[!Info]
 >note that the key lookup is quite expensive, because it needs to go through multiple areas in memory
 
-
 7. Unique index
 
 ```sql
@@ -157,5 +175,58 @@ CREATE UNIQUE
 	ON Children(cname)
 
 -- after we create the index, the execution plan for the previous query will be a ncl unique index scan
-
 ```
+
+the uniqueness of a column is important information for the table
+
+8. NCL index - multiple columns
+
+```sql
+SELECT pid, cid
+FROM LettersToSanta 
+WHERE cid = 15
+-- currently, we only have a clustered index on letter date
+-- so the execution plan is: clustered index scan (on the letter date)
+
+CREATE NONCLUSTERED
+	INDEX ltscididx
+	ON LettersToSanta(cid, pid)
+-- ncl idx seek
+```
+
+9. Covering index
+
+if you want to get info about how indexes are used on tables, query 
+- `sp_helpindex <table>`
+- `sys.indexes`
+- `sys.dm_db_index_usage_stats`
+- `sys.dm_db_index_physical_stats`
+
+```sql
+DROP INDEX nameIndex ON Children
+-- DROP INDEX Children.nameIndex 
+
+SELECT cname, age
+FROM Children
+WHERE cname = 'Alex'
+-- for now, because we dropped the previous ncl index, this query will perform a clustered index scan
+
+CREATE NONCLUSTERED INDEX nameIndex
+ON Children(cname)
+INCLUDE(age) -- attach columns to the index, s.t. we prevent the system from performing a key lookup
+
+-- after the creation of this index, the execution plan for the query optimiser will be an ncl idx seek
+```
+
+The index is called a **Covering Index** because we include all the relevant data for a specific query (in this case, the age is included).
+
+10. Filtered index
+Create an index for just a subset of rows in the table
+
+```sql
+CREATE NONCLUSTERED INDEX 
+	idxFiltered ON Presents
+	(price) WHERE quantity > 0
+```
+
+
