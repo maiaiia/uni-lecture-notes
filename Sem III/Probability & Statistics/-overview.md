@@ -5,6 +5,7 @@
 - [[Binomial Model]]
 - [[Discrete Random Variables]]
 - [[Common Discrete Distributions]]
+- [[Discrete Random Vectors]]
 - [[LAB - Discrete Random Variable]]
 - [[LAB - Continuous Random Variables]]
 - [[LAB - Descriptive Statistics. Correlation & Regression]]

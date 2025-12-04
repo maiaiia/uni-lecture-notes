@@ -1,42 +1,22 @@
 ---
 Class: "[[Probability & Statistics]]"
-date: October 26th, 2025
+date: 2025-10-26
 type: Lecture
 ---
 # Common Discrete Distributions
 
-| Distribution                            | Notation         | PDF                                                                                                 |
-| --------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| Bernoulli Distribution                  | $\text{Bern}(p)$ | $X\begin{pmatrix}0 & 1 \\ 1 - p & p\end{pmatrix}$                                                   |
-| Discrete Uniform Distribution           | $\text{U}(m)$    | $X\begin{pmatrix}k \\ \cfrac{1}{m} \end{pmatrix}$                                                   |
-| Binomial Distribution                   | $\text{B}(n, p)$ | $X\begin{pmatrix}k \\ C_n^kp^kq^{n-k} \end{pmatrix}$                                                |
-| Hypergeometric Distribution             | $H(N, n_1, n)$   | $X\begin{pmatrix}k \\ \cfrac{C_{n_1}^kC_{N-n_1}^{n-k}}{C_N^n} \end{pmatrix}_{k \in \overline{0,n}}$ |
-| Negative Binomial (Pascal) Distribution | $\text{NB}(n,p)$ | $X\begin{pmatrix}k \\ C_{n+k-1}^kp^nq^k \end{pmatrix}$                                              |
-| Geometric Distribution                  | $\text{Geo}(p)$  | $X\begin{pmatrix}k \\ pq^{k-1} \end{pmatrix}_{k = 1,2,...}$                                         |
-| Poisson Distribution                    | $P(\lambda)$     | $X\begin{pmatrix}k \\ \cfrac{\lambda^k}{k!}e^{-\lambda} \end{pmatrix}$                              |
-
-## Bernoulli Distribution $\text{Bern}(p)$
-A Bernoulli random variable models the occurrence or nonoccurrence of an event
-
-## Discrete Uniform Distribution $\text{U}(m)$
-An example of a random variable having a Discrete Uniform distribution with parameter 6 is the number rolled on a die ($\in U(6)$)
-
-## Binomial Distribution $B(n, p)$
-This distribution corresponds to the [[Binomial Model]]. Given $n$ Bernoulli trials with probability of success $p$, let $X$ denote the number of successes. Then $X \in B(n, p)$
-
->[!Remark]
->Notice that the Bernoulli distribution is a particular case of the Binomial one, for $n = 1$
-
-## Hypergeometric Distribution $H(N, n_1, n)$
-This distribution corresponds to the [[Hypergeometric Model]], where $X$ is the number of successes.
-
-## Negative Binomial (Pascal) Distribution
-This distribution corresponds to the Negative Binomial model. $X$ denotes the number of failures that occurred before the occurrence of the $n^{th}$ success in a Negative Binomial model.
-
-## Geometric Distribution
-
-Particular case of the Negative Binomial, for $n = 1$
+| Distribution                            | Notation         | PDF                                                                                                 | Notes                                                                                                                                                                                      |
+| --------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Bernoulli Distribution                  | $\text{Bern}(p)$ | $X\begin{pmatrix}0 & 1 \\ 1 - p & p\end{pmatrix}$                                                   | A Bernoulli random variable models the occurrence or nonoccurrence of an event                                                                                                             |
+| Discrete Uniform Distribution           | $\text{U}(m)$    | $X\begin{pmatrix}k \\ \cfrac{1}{m} \end{pmatrix}$                                                   | An example of a random variable having a Discrete Uniform distribution with parameter 6 is the number rolled on a die ($\in U(6)$)                                                         |
+| Binomial Distribution                   | $\text{B}(n, p)$ | $X\begin{pmatrix}k \\ C_n^kp^kq^{n-k} \end{pmatrix}$                                                | This distribution corresponds to the [[Binomial Model]]. Given $n$ Bernoulli trials with probability of success $p$, let $X$ denote the number of successes. Then $X \in B(n, p)$          |
+| Hypergeometric Distribution             | $H(N, n_1, n)$   | $X\begin{pmatrix}k \\ \cfrac{C_{n_1}^kC_{N-n_1}^{n-k}}{C_N^n} \end{pmatrix}_{k \in \overline{0,n}}$ | This distribution corresponds to the [[Hypergeometric Model]], where $X$ is the number of successes.<br>                                                                                   |
+| Negative Binomial (Pascal) Distribution | $\text{NB}(n,p)$ | $X\begin{pmatrix}k \\ C_{n+k-1}^kp^nq^k \end{pmatrix}$                                              | This distribution corresponds to the Negative Binomial model. $X$ denotes the number of failures that occurred before the occurrence of the $n^{th}$ success in a Negative Binomial model. |
+| Geometric Distribution                  | $\text{Geo}(p)$  | $X\begin{pmatrix}k \\ pq^{k-1} \end{pmatrix}_{k = 1,2,...}$                                         | Particular case of the Negative Binomial, for $n = 1$                                                                                                                                      |
+| Poisson Distribution                    | $P(\lambda)$     | $X\begin{pmatrix}k \\ \cfrac{\lambda^k}{k!}e^{-\lambda} \end{pmatrix}$                              | [[#Poisson Distribution\|Below]]                                                                                                                                                           |
 
 ## Poisson Distribution 
 
-A Poisson rand
+A Poisson random variable **does not** come from the [[Poisson Model]]. Poisson random variables arise in connection with so-called Poisson *processes*, which involve observing discrete events in a continuous interval of time / length / space. The variable of interest in a Poisson process, $X$, represents the number of occurrences of the discrete event in a fixed interval of time, length, space. For instance, the number of gas emissions taking place at a nuclear plant in a 3-month period, the number of earthquakes hitting a certain area in a year, the number of white blood cells in a drop of blood, all these are modelled by Poisson random variables. The parameter $\lambda$ of a Poisson distribution represents the *average* number of occurrences of the event in that interval of time or other continuous medium. 
+
+Poisson's distribution is also known as the *law of rare events*. The name comes from the fact that $$\lim_{k \rightarrow \infty} \cfrac{\lambda^k}{k!}e^{-\lambda} = 0$$ i.e. as $k$ gets larger, the event $(X = k)$ becomes less likely, *rarer*. The discrete events that are counted in a Poisson model a re also called *rare events*.

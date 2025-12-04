@@ -1,6 +1,6 @@
 ---
 Class: "[[Probability & Statistics]]"
-date: October 26th, 2025
+date: 2025-10-26
 type: Lecture
 ---
 # Discrete Random Variables
