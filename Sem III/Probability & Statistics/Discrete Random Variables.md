@@ -1,10 +1,9 @@
-# Random Variables and Vectors
-___
-Class: [[Probability & Statistics]]
-Type: Lecture + Self Study
-Tags: # 
-Date: October 26th, 2025
-___
+---
+Class: "[[Probability & Statistics]]"
+date: October 26th, 2025
+type: Lecture
+---
+# Discrete Random Variables
 
 Let $(S, \mathcal{K}, P)$ be a probability space.
 
