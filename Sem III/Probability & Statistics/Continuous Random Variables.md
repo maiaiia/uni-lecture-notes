@@ -21,7 +21,7 @@ The function $f$ is called the **probability density function** of $X$.
 >1. $F'(x)=f(x) \forall x \in \mathbb{R}$
 >2. $f(x) \geq 0 \forall x \in \mathbb{R}$
 >3. $\int_\mathbb{R} f(t)dt = 1$
->4. $\forall x \in \mathbb{R}, P(X=x)=0$ and $\forall a,b\in \mathbb{R}$ with $a < b$ $$P(a < X \leq b) = P(a\leq X < b) = P(a < X < b) = P(a \leq X \leq b) = \int_a^bf(t)dt$$
+>4. $\forall x \in \mathbb{R}, P(X=x)=0$ and $\forall a,b\in \mathbb{R}$ with $a < b$ $$P(a \leq X \leq b) = P(a < X < b) = \int_a^bf(t)dt$$
 
 >[!Remark]
 >So, probabilities involving continuous random variables can be computed by integrating the density function over the given sets. Thus, geometrically, probabilities are represented by areas. The *total area* under the graph of a density function is equal to 1.
