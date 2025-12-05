@@ -2,6 +2,8 @@
 Class: "[[Probability & Statistics]]"
 date: 2025-10-26
 type: Lecture
+aliases:
+  - discrete random variable
 ---
 # Discrete Random Variables
 
