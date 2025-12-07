@@ -21,42 +21,48 @@ erDiagram
 	TestRunViews ||--o{ TestRuns : a
 
 	Tests {
-		int testID PK
-		varchar(50) name
-		varchar(250) testDescription
+		int TestID PK
+		varchar(50) Name
 	}
 	
 	Tables {
-		int tableID PK
-		varchar(50) name
+		int TableID PK
+		varchar(50) Name
+	}
+	
+	Views {
+		int ViewID PK
+		varchar(50) Name
 	}
 	
 	TestTables {
-		int testTableID PK
-		int testID FK
-		int tableID FK
-		int position
-		int noOfRows
+		int TestID PK
+		int TableID PK
+		int Position
+		int NoOfRows
+	}
+	
+	TestViews {
+		int TestID PK
+		int ViewID PK
 	}
 	
     TestRuns {
-	    int testRunID PK
-        int testID FK
-        date runDate
-        int duration
+	    int TestRunID PK
+	    varchar(2000) Description
+        datetime StartAt
+        datetime EndAt
     }
 	
 	TestRunTables {
-		int testRunTableID PK
-		int testRunID FK
-		int tableID FK
-		int insertDuration
-		int rowsToInsert
+		int testRunID PK
+		int tableID PK
+		datetibe StartAt
+		datetime EndAt
 	}
 	
 	TestRunViews{
-		int testRunViewID PK
-		int testRunID FK
+		int TestRunID FK
 		int viewID
 		itn queryDuration
 	}
