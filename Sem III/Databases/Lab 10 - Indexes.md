@@ -13,12 +13,14 @@ VALUES(@TestID, GETDATE())
 
 ```mermaid
 erDiagram
-	Tests ||--o{ TestTables : a
-	Tables ||--o{ TestTables : a
-	TestRuns ||--o{ Tests : a
-	TestRunTables ||--o{ TestRuns : a
-	TestRunTables ||--o{ Tables : a
-	TestRunViews ||--o{ TestRuns : a
+	Tables ||--o{ TestRunTables: fk
+	TestRuns ||--o{ TestRunTables: fk
+	TestRuns ||--o{ TestRunViews: fk
+	Views ||--o{ TestRunViews: fk
+	Tables ||--o{ TestTables: fk
+	Tests ||--o{ TestTables: fk
+	Tests ||--o{ TestViews: fk
+	Views ||--o{ TestViews: fk
 
 	Tests {
 		int TestID PK
@@ -36,15 +38,15 @@ erDiagram
 	}
 	
 	TestTables {
-		int TestID PK
-		int TableID PK
+		int TestID PK, FK
+		int TableID PK, FK
 		int Position
 		int NoOfRows
 	}
 	
 	TestViews {
-		int TestID PK
-		int ViewID PK
+		int TestID PK, FK
+		int ViewID PK, FK
 	}
 	
     TestRuns {
@@ -55,16 +57,17 @@ erDiagram
     }
 	
 	TestRunTables {
-		int testRunID PK
-		int tableID PK
-		datetibe StartAt
+		int TestRunID PK, FK
+		int TableID PK, FK
+		datetime StartAt
 		datetime EndAt
 	}
 	
 	TestRunViews{
-		int TestRunID FK
-		int viewID
-		itn queryDuration
+		int TestRunID PK, FK
+		int viewID PK, FK
+		datetime StartAt
+		datetime EndAt
 	}
 	
 ```
