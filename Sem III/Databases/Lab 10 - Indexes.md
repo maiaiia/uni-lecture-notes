@@ -4,6 +4,40 @@ date: 2025-12-04
 type:
 ---
 # Lab 10
+
+```mermaid
+erDiagram
+MagicSpells ||--o{ Wizards : created_by
+Casted ||--o{ MagicSpells : what
+Casted ||--o{ Wizards : by
+
+Wizards {
+	int WizardID PK
+	varchar Name
+	int Age
+	varchar House
+	varchar Location
+	
+}
+
+MagicSpells {
+	int SpellID PK
+	varchar SpellName
+	int CreatorID FK
+	int Difficulty
+	varchar SpellType
+}
+
+Casted {
+	int SpellID PK, FK
+	int WizardID PK, FK
+	int Strength
+	datetime CastDate
+
+}
+
+```
+
 ## T1
 
 ```sql
