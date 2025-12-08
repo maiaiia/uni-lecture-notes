@@ -96,10 +96,3 @@ pyspark
 
 ## T3
 insert the rows back in the table
-
-## T4
-
-```sql
-
-```
-
