@@ -8,6 +8,9 @@ type: Lab
 $X$ is a population
 $\theta$ (unknown, target parameter) is a characteristic of $X$ (mean, std, variance)
 
+>[!Important]
+>- When discussing about statistical characteristics for an entire population, greek letters are used.
+>- When discussing about statistical characteristics for a sample, the regular alphabet is used.
 ## Confidence intervals
 
 We can analyse just a sample of a population to determine an estimate of the true value of $\theta$. One method of doing so is using **Confidence intervals**.
@@ -32,7 +35,7 @@ There are multiple types of confidence intervals
 - **left tailed** - when the interval only has a left margin
 - **right tailed**
 
-## Hypothesis testing
+## Automated testing 
 
 This is used when we have a set of data and we want to prove how it has changed
 
@@ -45,6 +48,22 @@ For a hypothesis test, we must always have a question in mind: **do we reject H0
 
 Note that if the answer to this question is negative, the conclusion is not that $H_0$ holds, but rather that there's not enough data to conclude that it's false.
 
+Under the hood, this is a P value check
+## Significance testing
+
+Also used to refute a null hypothesis
+
+- Select a random sample 
+- have an error threshold 
+- if the characteristic measured upon said random sample exceeds the error threshold, we can refute the null hypothesis
+- otherwise, we can't refute it
+
+$S = \begin{cases}\alpha \geq P & \text{we reject H0} \\ \text{else} & \text{we don't reject H0}\end{cases}$
+
+## Hypothesis testing
+on OX axis instead of OY axis
+Checks if the **observed value** ($TS_0$) of the statistical test is inside the **rejection region** (denoted by $RR$). If it is, we reject it. Otherwise, we don't.
+
 ## Matlab stuff
 - \[H, P, CI, ZVAL] = **ztest**($X, \mu_0, \sigma, \alpha$, TAIL)
 	- input
@@ -55,9 +74,13 @@ Note that if the answer to this question is negative, the conclusion is not that
 		- TAIL - interval type (two tailed, left tailed, right tailed)
 	- output
 		- H - 
-		- P - 
+		- P - the P-value
 		- CI - confidence interval
-		- ZVAL - 
+		- ZVAL - observed value of the z test
+
+- \[H, P, CI, STATS] = **vartest**($X, \sigma^2_0$)
+	- $X$ - sample vector
+	- $\sigma_0^2$ - the initial assumption on variance
 
 ## Exercises
 
