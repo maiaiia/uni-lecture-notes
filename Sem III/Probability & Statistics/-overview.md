@@ -20,3 +20,4 @@
 - [[src/Sem III/Probability & Statistics/Formulas]]
 - [[MatLab Cheat Sheet]]
 - [[Numerical Characteristics of Random Variables]]
+- [[LAB - Confidence Intervals & Tests for the Mean and the Variance]]
