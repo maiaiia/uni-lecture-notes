@@ -184,4 +184,15 @@ RIGHT JOIN R ON t.RID = R.RID
 | r1.RID | r1.A | r2.B | r2.RID |
 | ------ | ---- | ---- | ------ |
 | 1      | 100  | 100  | 3      |
-|        |      |      |        |
+| 1      | 100  | 100  | 5      |
+| 3      | 100  | 100  | 3      |
+| 3      | 100  | 100  | 5      |
+| 4      | 200  | 200  | 1      |
+| 4      | 200  | 200  | 4      |
+
+(before the 3rd join and applying the WHERE clause r.RID = 5 records removed)
+
+
+after the 3rd join, all the records are removed
+table t is empty
+after the right join, we have 6 entries, (NULL, i) for i in range (1,6)
