@@ -129,4 +129,4 @@ azure data factory, databricks, apache --> cloud tools --> check integrated curs
 pyspark
 
 ## T3
-insert the rows back in the table
+select all from view
