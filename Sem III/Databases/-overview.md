@@ -6,3 +6,4 @@
 - [[Seminar V]]
 - [[Lab 10 - Indexes]]
 - [[Final Exam Problems]]
+- [[Seminar VI]]
