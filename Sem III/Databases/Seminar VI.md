@@ -38,8 +38,50 @@ Let $R$ be a table in a SQL Server database with schema $R[FK1, FK2, C1, C2, C3,
 >d) Q returns 2 records and value *Ion Creanga* is in its result set 
 >e) None of the above answers is correct
 
->[]
+>[!Question]
+>How many records does the following query return?
+>```sql
+>SELECT *
+>FROM 
+>	(SELECT FK1, FK2, C3 + C4 AS TotalC3C4
+>	FROM R
+>	WHERE FK1 = FK2) R1
+>		INNER JOIN
+>	(SELECT FK1, FK2, C5
+>	FROM R
+>	WHERE C5 LIKE '%Q%') R2 
+>		ON R1.RK1 = R2.FK1 AND R1.FK2 = R2.FK2
+>```
+>a) 2 
+>b) 8 
+>c) 0 
+>d) 1 
+>e) None of the above answers is correct
 
+>[!Question]
+> Table R has a single trigger defined on it 
+> ```sql
+> CREATE OR ALTER TRIGGER TrOnUpdate
+> 	ON R
+> 	FOR UPDATE 
+> AS
+> 	DECLARE @total INT = 0 
+> 	SELECT @total = SUM(i.C3 - d.C3)
+> 	FROM deleted d INNER JOIN inserted i ON d.FK1 = i.FK1 AND d.FK2 = i.FK2
+> 	WHERE d.C3 < i.C3
+> 	PRINT @total
+> ```
+> What's the value returned by the `PRINT` statement in the trigger when the `UPDATE` below is executed?
+> ```sql
+> UPDATE R
+> SET C3 = 300
+> WHERE FK1 < FK2
+> ```
+> a) 550
+> b) 700
+> c) 650
+> d) 600
+> e) None of the above answers is correct
 ## II
 >[!Question]
 >Create a database to manage train schedules. The database will store data about the routes of all the trains. The entities of interest to the problem domain are: *Trains*, *Train Types*, *Stations*, and *Routes*. Each train has a name and belongs to a type. A train type has a name and a description. Each station has a name. Station names are unique. Route names are unique. The arrival and departure times are represented as hour:minute pairs, e.g. train arives at 5 pm and leaves at 5:10 pm.
@@ -125,5 +167,21 @@ FROM Routes R INNER JOIN (
 
 ```sql
 -- 4.
-CREATE 
+CREATE FUNCTION stationNames (
+	@R INTEGER 
+)
+	RETURNS TABLE 
+AS RETURN
+	SELECT S.name 
+	FROM Stations S 
+	WHERE S.stationID IN(
+		SELECT RS.stationID
+		FROM RouteStations RS
+		GROUP BY RS.stationID
+		HAVING COUNT(routeID > @R)
+	)
+GO
 ```
+
+
+Write the indexes on Routes
