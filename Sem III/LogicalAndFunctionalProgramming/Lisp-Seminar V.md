@@ -1,4 +1,4 @@
-# Seminar IV
+# Seminar V
 ___
 Class: [[LogicalAndFunctionalProgramming]]
 Type: 

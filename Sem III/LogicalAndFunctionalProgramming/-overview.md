@@ -3,4 +3,5 @@
 - [[Prolog-Seminar I]]
 - [[Prolog-Seminar II]]
 - [[Prolog-Seminar III]]
-- [[Lisp-Seminar IV]]
+- [[Lisp-Seminar V]]
+- [[Lisp-Seminar VI]]
