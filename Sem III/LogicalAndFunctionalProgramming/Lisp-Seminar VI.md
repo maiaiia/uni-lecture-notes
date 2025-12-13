@@ -48,15 +48,54 @@ A map function takes a function and a collection of arguments as parameters. It 
 >Triple all the numeric atoms from a list
 >(1 (a (3) 2) b) -> (3 (a (9) 6) b)
 
-```
+```lisp
 ;triple(l)
 ;    emptyset, l is empty
 ;    3 * l, l is number
 ;    l, l is non-numeric atom
 ;    triple(l1) U triple(l2) U ... U triple(ln), otherwise (l = l1..ln)
 
-
+(defun triple (l)
+  (cond 
+    ((null l) nil)
+    ((numberp l) (* 3 l))
+    ((atom l) l)
+    (T (mapcar #'triple l))
+  )
+)
 
 ```
 
 
+>[!Question]
+>Flatten a list using a map function
+>(1 (2 (3 a) 2) 1) -> (1 2 3 a 2 1)
+
+
+```lisp
+;flatten(l)
+;    emptyset, l is an empty list 
+;    l, l is an atom
+;    flatten(l1) U flatten(l2) U ... U flatten(l2), otherwise (l = l1..ln)
+
+(defun flatten (l)
+  (cond
+    ((null l) nil)
+    ((atom l) (list l))
+    (T (mapcan #'flatten l))
+  )
+)
+```
+
+>[!Question]
+>Count all the atoms from a list on the K-th level. Consider that the superficial level is level 1.
+
+```lisp
+;countLevel(L, lvl, current) = 
+;    0, if L is empty
+;    1, if L is atom and current = lvl
+;    0, if L is atom and current != lvl
+;    countLevel(l1, lvl, current+1) + countLevel(l2, lvl, current+1) + ... + countLevel(ln, lvl, current+1), otherwise (L = l1..ln)
+
+
+```
