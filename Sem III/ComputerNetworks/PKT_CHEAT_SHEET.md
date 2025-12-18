@@ -3,12 +3,17 @@
 router rip
 version 2 
 no auto-summary
-network []
+network [network-ip] 
 
 --
 default-information originate -- to advertise the default gateway
 ```
 
+### the `network` command
+
+note that this command doesn't specify the networks that will be advertised; rather, it indicates the interfaces on which RIP should be enabled
+
+additionally, the network command is classful.
 
 ## NAT 
 
