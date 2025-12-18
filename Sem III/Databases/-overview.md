@@ -1,9 +1,12 @@
-
+# Lectures
 - [[Introduction to Relational Databases]]
-- [[Seminar I]]
-- [[src/Sem III/Databases/Seminar III]]
-- [[Seminar IV]]
-- [[Seminar V]]
-- [[Lab 10 - Indexes]]
+- [[DBSeminar I]]
+- [[DBSeminar III]]
+- [[DBSeminar IV]]
+- [[DBSeminar V]]
+- [[DBLab 10]]
 - [[Final Exam Problems]]
-- [[Seminar VI]]
+- [[DBSeminar VI]]
+
+# Seminars
+- [[Relational DB Fundamentals]]
