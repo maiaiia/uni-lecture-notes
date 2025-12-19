@@ -1,12 +1,13 @@
-# Lectures
-- [[Introduction to Relational Databases]]
+# Seminars
 - [[DBSeminar I]]
 - [[DBSeminar III]]
 - [[DBSeminar IV]]
 - [[DBSeminar V]]
-- [[DBLab 10]]
-- [[Final Exam Problems]]
 - [[DBSeminar VI]]
+- [[Final Exam Problems]]
+# Labs
+- [[DBLab 10]]
 
-# Seminars
-- [[Relational DB Fundamentals]]
+# Lectures
+- [[Data Description Models]]
+- [[Databases and Database Management Systems]]
