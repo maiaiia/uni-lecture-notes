@@ -2,6 +2,8 @@
 Class: "[[Databases]]"
 date:
 type: Lecture
+aliases:
+  - DBMS
 ---
 # LECTURE 1 - Databases and Database Management Systems
 
@@ -13,8 +15,8 @@ A **database** contains:
 - various components: views, procedures, functions, roles, users
 
 There is a separation between:
-- **data definition** (kept in the database dictionary)
-- **data management** (insert / delete / update operations) and querying
+- [[DDL]] - **data definition** (kept in the database dictionary)
+- [[DML]] - **data management** (insert / delete / update operations) and querying
 
 A database is managed using a DBMS (database management system)  %%crazy%%
 
@@ -40,5 +42,12 @@ Thanks to  the 3 levels of abstraction, this architecture ensures both *logical*
 	- for instance, files (such as indexes) can be added for optimisation purposes, since user's programs don't check the files (i.e. the physical structure) directly
 
 ## DBMS Functions
+1. **definition** - definition language / dedicated applications that generate DDL commands
+2. **management** - insert, update, delete, query (DML)
+3. **administration** - database access authorisation, usage monitoring, performance monitoring and optimisation
+4. **protection** of the database - *confidentiality* (protection against unauthorised data access), *integrity* (protection against inconsistent changes)
+
+## DBMS Architecture
+![[dbms-architecture]]
 
 

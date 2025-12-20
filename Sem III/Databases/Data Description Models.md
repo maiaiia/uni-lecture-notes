@@ -26,7 +26,7 @@ The data in the collection is called an **instance** of the schema. %%So, if we 
 | Relational Model          | - relation name<br>- columns ((name, type) pairs) |
 | Entity-Relationship Model | - entity sets<br>- relationship sets              |
 
-## The Relational Model
+## [[The Relational Model]]
 
 This is the main concept used to *describe data*. 
 
@@ -61,14 +61,14 @@ Relevant concepts: entities, attributes, relationships
 | **entity set**       | - entities with the same structure<br>- defined as (name, attributes) pairs                                                       | all entries in the table                                        |
 | **attribute**        | has: <br>- a *name*<br>- a *domain* of possible values<br>- a set of *conditions* to check correctness                            | a table's column                                                |
 | **key**              | - a *restriction* defined on an *entity set*<br>- is a *set of attributes* with **distinct values** in the entity set's instances | a column (or set of columns) used to uniquely identify an entry |
-| **relationship**     | - association between 2 or more entities                                                                                          |                                                                 |
+| **relationship**     | - association between 2 or more entities                                                                                          | a table                                                         |
 | **relationship set** | - describes *all relationships*<br>has:<br>- name<br>- entity sets used in the association<br>- descriptive attributes            |                                                                 |
 ### Graphical representation
 
 ![[ER-Diagrams]]
 ![[er-diagram-structure]]
 
-### More on relationships
+### Binary relationships
 
 There are 3 main kinds of **binary relationships** (between two tables T1 and T2):
 
@@ -77,6 +77,7 @@ There are 3 main kinds of **binary relationships** (between two tables T1 and T2
 |   1:1    |  one-to-one  | one entity of T1 can be associated with at most one entity of T2<br>one entity of T2 can be associated with at most one entity of T1 |
 |   1:n    | one-to-many  | one entity of T1 can be associated with many entities of T2<br>one entity of T2 can be associated with at most one entity of T1      |
 |   m:n    | many-to-many | one entity of T1 can be associated with many entities of T2<br>one entity of T2 can be associated with many entities of T1           |
+
 >[!Tip]
 >Note that these relationships are regarded as **restrictions** in the database
 

@@ -11,3 +11,5 @@
 # Lectures
 - [[Data Description Models]]
 - [[Databases and Database Management Systems]]
+- [[The Relational Model]]
+- [[SQL]]
