@@ -8,8 +8,9 @@
 # Labs
 - [[DBLab 10]]
 
+# Cheat Sheets
+- [[SQL]]
 # Lectures
 - [[Data Description Models]]
 - [[Databases and Database Management Systems]]
 - [[The Relational Model]]
-- [[SQL]]

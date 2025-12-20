@@ -46,3 +46,5 @@ A relation can have *multiple keys*: one key is chosen as the **primary key**, w
 These reinforce the fact that the values of some attributes in a relation *can appear* in another relation. The *data types* of the corresponding columns must be *compatible* (although the column names can be different).
 
 Foreign key constraints can be used for [[Data Description Models#Binary relationships|1:n and m:n]] associations among entities. For m:n relationships, an additional table is needed.
+
+
