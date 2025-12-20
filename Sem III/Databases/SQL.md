@@ -63,10 +63,16 @@ DROP TABLE table_name
 ## [[DML]]
 
 ### SELECT 
+The SELECT statement is a non-procedural query that evaluates to a relation (table). Data can be obtained from one or multiple sources, which can have an associated alias.
+
 ```sql
-SELECT [DISTINCT] select_list
-FROM from_list
+SELECT [DISTINCT] [TOP n | TOP percent PERCENT] select_list
+FROM from_list [alias]
 [WHERE qualification]
+[GROUP BY grouping_list]
+[HAVING group_qualification]
+[{UNION [ALL]| INTERSECT | EXCEPT} SELECT_statement]
+[ORDER BY [col1 [{ASC | DESC}]] [, col2 [{ASC | DESC}]]...]
 ```
 
 >[!Info] The Conceptual Evaluation Strategy
@@ -74,6 +80,71 @@ FROM from_list
 >- remove the rows that don't meet the **qualification**
 >- eliminate unwanted columns, i.e. those that don't appear in the **select-list**
 >- if DISTINCT is specified, remove duplicates
+
+| clause | contains                                        |
+| ------ | ----------------------------------------------- |
+| WHERE  | [[#Filter conditions]] and [[#Join conditions]] |
+
+>[!Important] 
+>**Logical Processing of a SELECT Statement** (Transact-SQL)
+>1. FROM
+>2. WHERE
+>3. GROUP BY
+>4. HAVING
+>5. SELECT
+>6. DISTINCT ORDER BY
+>7. TOP
+
+#### Row Aggregation 
+
+The clauses below can be used if the select list of a SELECT statement contains at least one aggregation operator.
+##### the GROUP BY clause
+- optional
+- a group is a collection of rows with identical values for the columns in **grouping-list**
+- every row in the result of the query corresponds to a group
+
+##### the HAVING clause
+- optional
+- the group-qualification has to appear in grouping-list of the GROUP BY clause OR as an argument to an aggregation operator
+
+the having clause can be thought of as a where clause that applies to aggregated rows only
+##### aggregation operators
+
+| operator | description                                                            |
+| -------- | ---------------------------------------------------------------------- |
+| COUNT    | total number of entries                                                |
+| AVG      | average of the values in the specified column for the matching entries |
+| SUM      |                                                                        |
+| MIN      |                                                                        |
+| MAX      |                                                                        |
+
+#### Join conditions
+##### \[INNER] JOIN
+- only include rows that match the join condition in both tables  
+##### LEFT \[OUTER ]JOIN 
+- include all entries from the left table; if there are matches found in the right table, fill in the relevant columns; otherwise, leave them as null
+##### RIGHT \[OUTER] JOIN 
+- same as left outer join but swap the tables
+
+##### FULL \[OUTER] JOIN
+- include all the rows in both tables; if there's a match between entries, fill in all the fields; otherwise, leave unknown data as null
+##### NATURAL JOIN
+
+Comparison with `INNER JOIN`
+
+| Feature                 | Natural Join                                                   | Inner Join                                                     |
+| ----------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
+| Join Condition          | Automatically matches columns with the same name and data type | Requires explicit join condition using ON clause               |
+| Common Columns          | Includes only one copy of each common column                   | Includes both copies, which can lead to duplicate column names |
+| Syntax Simplicity       | Shorter and simpler                                            | More flexible but needs join condition                         |
+| Control Over Join Logic | Less control (relies on column names being the same)           | Full control over how tables are joined                        |
+#### Misc
+```sql
+ORDER BY column_name [ASC | DESC] [, column_2 ...]
+```
+
+
+
 ### INSERT
 ```sql
 INSERT INTO table_name[(column_list)] VALUES (value_list)
@@ -107,26 +178,5 @@ NOT condition
 condition_1 AND condition_2
 condition_1 OR condition_2
 ```
-
-
-## JOIN operators
-### INNER JOIN
-
-### LEFT OUTER JOIN 
-
-### RIGHT OUTER JOIN 
-
-### FULL OUTER JOIN
-
-### NATURAL JOIN
-
-Comparison with `INNER JOIN`
-
-| Feature                 | Natural Join                                                   | Inner Join                                                     |
-| ----------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| Join Condition          | Automatically matches columns with the same name and data type | Requires explicit join condition using ON clause               |
-| Common Columns          | Includes only one copy of each common column                   | Includes both copies, which can lead to duplicate column names |
-| Syntax Simplicity       | Shorter and simpler                                            | More flexible but needs join condition                         |
-| Control Over Join Logic | Less control (relies on column names being the same)           | Full control over how tables are joined                        |
 
 
