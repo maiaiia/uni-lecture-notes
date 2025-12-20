@@ -13,7 +13,7 @@ Data is organised as a set of **relations** (tables). Each relation has an **ins
 > The **arity** (degree) of a relation is the number of column heads. 
 > The **cardinality** of an instance is the number of tuples it contains.
 
-In a relation, the values of an attribute are **atomic** and **scalar**. The records (rows) of the table are **not ordered** and **distinct**.
+In a relation, the values of an attribute are **atomic** (i.e. they cannot be further decomposed) and **scalar**. The records (rows) of the table are **not ordered** and **distinct**.
 
 >[!Important]
 >Although relations are defined as having distinct tuples, [[Databases and Database Management Systems|DBMS]]s allow tables to contain duplicates
