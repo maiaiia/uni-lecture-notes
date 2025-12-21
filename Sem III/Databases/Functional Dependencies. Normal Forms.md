@@ -167,10 +167,17 @@ The relation can be decomposed into the following two: $\text{Grades[Exam, Stude
 4. *transitivity*: if $\alpha \rightarrow \beta$ and $\beta \rightarrow \gamma$, then $\alpha \rightarrow \gamma$
 5. if $\alpha \rightarrow \beta$ and $\gamma$ a subset of $\{A_1,\dots,A_n\}$, then $\alpha \gamma \rightarrow \beta \gamma$, where $\alpha \gamma = \alpha \cup \gamma$
 
-#### fully-functional dependencies
+#### fully-functional dependency
 
 >[!Definition] 
->Let $R[A_1,...,A_n]$ be a relation, and let $\alpha, \beta$ be two subsets of attributes of $R$
+>Let $R[A_1,...,A_n]$ be a relation, and let $\alpha, \beta$ be two subsets of attributes of $R$. Attribute $\beta$ is **fully functionally dependent** on $\alpha$ if"
+>- $\beta$ is functionally dependent on $\alpha$ (i.e. $\alpha \rightarrow \beta$)
+>- $\beta$ is not functionally dependent on any proper subset of $\alpha$, i.e. $\forall \gamma \subset \alpha, \gamma \rightarrow \beta$ is not true
+
+#### transitive dependency
+
+>[!Definition]
+>An attribute $Z$ is **transitively dependent** on an attribute $X$ if $\exists Y$ s.t. $X \rightarrow Y, Y \rightarrow Z, Y\rightarrow X$ does not hold
 ## Normal Forms
 
 ### 1NF
@@ -179,10 +186,27 @@ The relation can be decomposed into the following two: $\text{Grades[Exam, Stude
 >A relation is in the first normal form if it **doesn't have any repeating attributes**.
 ### 2NF
 
+>[!Definition]
+>A relation is in the second normal form if:
+>1. It is in the first normal form and
+>2. every (simple or composite) non-prime attribute is *fully functionally dependent* on every key of the relation
+
+Note that a relation that is in 1NF, but not 2NF, must have a composite key and a functional dependency $\alpha \rightarrow \beta$, where $\alpha$ is a proper subset of the key and $\beta$ is a non-prime attribute. This dependency can be eliminated if $R$ is decomposed into the following 2 relations: $\Pi_{\alpha \cup \beta}(R)$, $\Pi_{A-B}(R)$.
 ### 3NF
+
+>[!Definition]
+>Definition 1:
+>A relation is in 3NF if it is in 2NF and no non-prime attribute is transitively dependent on any key in the relation.
+>
+>Definition 2:
+>A relation $R$ is in 3NF if, for every non-trivial functional dependency $X \rightarrow A$ that holds over $R$:
+>- $X$ is a superkey or
+>- $A$ is a prime attribute
 
 ### BCNF 
 
+>[!Definition]
+>A relation is in the Boyce-Codd normal form if every determinant of a functional dependency is a key (only non-trivial functional dependencies are considered)
 ### 4NF
 
 ### 5NF
