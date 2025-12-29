@@ -112,7 +112,7 @@ Repeating attributes cannot be used in the relational model. Relations that have
 >[!Definition]
 >An attribute $A$ is said to be *prime* if there is a key $K$ and $A \subseteq K$ ($K$ can be a composite key; $A$ itself can be a key). If an attribute isn't included in any key, it is said to be *non-prime*
 
-### Functional dependency
+## Functional dependency
 
 >[!Definition] 
 >Let $R[A_1,...,A_n]$ be a relation and $\alpha, \beta$ two subsets of attributes of $R$. The (simple or composite) attribute $\alpha$ **functionally determines** $\beta$ (notation $\alpha \rightarrow \beta$) $\iff$ every value of $\alpha$ in $R$ is associated with a precise, unique value for $\beta$. If an $\alpha$ value appears in multiple rows, each of these will contain the same value for $\beta$.
@@ -123,7 +123,7 @@ Repeating attributes cannot be used in the relational model. Relations that have
 The functional dependency can be regarded as a property (restriction) that must be satisfied by the database throughout its existence.
 
 If a relation contains a functional dependency, some associations among values will be stored multiple times $\Rightarrow$ data redundancy.
-#### example
+### example
 
 Consider the relation $\text{Exam[StudentName, Course, Grade, FacultyMember]}$
 
@@ -159,22 +159,35 @@ The relation can be decomposed into the following two: $\text{Grades[Exam, Stude
 | Computer Networks | Matei Ana     |
 | Computer Networks | Matei Ana     |
 | Operating Systems | Simion Bogdan |
-#### properties
 
-1. if $K$ is a key, then $K \rightarrow \beta, \forall \beta$ a subset of $K$'s columns
-2. *trivial functional dependency (reflexivity)*: if $\beta \subseteq \alpha$, then $\alpha \rightarrow \beta$ 
-3. if $\alpha \rightarrow \beta$ and $\alpha \subset \gamma$, then $\gamma \rightarrow \beta$
-4. *transitivity*: if $\alpha \rightarrow \beta$ and $\beta \rightarrow \gamma$, then $\alpha \rightarrow \gamma$
-5. if $\alpha \rightarrow \beta$ and $\gamma$ a subset of $\{A_1,\dots,A_n\}$, then $\alpha \gamma \rightarrow \beta \gamma$, where $\alpha \gamma = \alpha \cup \gamma$
+### properties
 
-#### fully-functional dependency
+>[!Definition] Armstrong's Axioms
+>Let $\alpha, \beta, \gamma$ be subsets of attributes of $A$
+>1. **reflexivity**: if $\beta \subseteq \alpha$, then $\alpha \rightarrow \beta$
+>2. **augmentation**: if $\alpha \rightarrow \beta$, then $\alpha \gamma \rightarrow \beta \gamma$, where $\alpha \gamma = \alpha \cup \gamma$
+>3. **transitivity**: if $\alpha \rightarrow \beta$ and $\beta \rightarrow \gamma$, then $\alpha \rightarrow \gamma$
+>   
+>   note that these rules are complete (they compute the closure of a set of functional dependencies) and sound (no erroneous functional dependencies can be derived)
+
+The following rules can be derived from Armstrong's Axioms:
+4. **union**: if $\alpha \rightarrow \beta$ and $\alpha \rightarrow \gamma$, then $\alpha \rightarrow \beta \gamma$
+5. **decomposition**: if $\alpha \rightarrow \beta \gamma$, then $\alpha \rightarrow \beta$ and $\alpha \rightarrow \gamma$
+6. **pseudo-transitivity**: if $\alpha \rightarrow \beta$ and $\beta \gamma \rightarrow \delta$, then $\alpha \gamma \rightarrow \delta$
+7. 
+
+Other properties:
+-  if $K$ is a key, then $K \rightarrow \beta, \forall \beta$ a subset of $K$'s columns
+-  if $\alpha \rightarrow \beta$ and $\alpha \subset \gamma$, then $\gamma \rightarrow \beta$
+
+### fully-functional dependency
 
 >[!Definition] 
 >Let $R[A_1,...,A_n]$ be a relation, and let $\alpha, \beta$ be two subsets of attributes of $R$. Attribute $\beta$ is **fully functionally dependent** on $\alpha$ if"
 >- $\beta$ is functionally dependent on $\alpha$ (i.e. $\alpha \rightarrow \beta$)
 >- $\beta$ is not functionally dependent on any proper subset of $\alpha$, i.e. $\forall \gamma \subset \alpha, \gamma \rightarrow \beta$ is not true
 
-#### transitive dependency
+### transitive dependency
 
 >[!Definition]
 >An attribute $Z$ is **transitively dependent** on an attribute $X$ if $\exists Y$ s.t. $X \rightarrow Y, Y \rightarrow Z, Y\rightarrow X$ does not hold
