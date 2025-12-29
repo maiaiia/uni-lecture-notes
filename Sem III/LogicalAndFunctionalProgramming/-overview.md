@@ -5,3 +5,4 @@
 - [[Prolog-Seminar III]]
 - [[Lisp-Seminar V]]
 - [[Lisp-Seminar VI]]
+- [[Lisp All Labs]]
