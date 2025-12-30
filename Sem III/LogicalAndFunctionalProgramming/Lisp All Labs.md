@@ -256,25 +256,200 @@ type:
 ```
 3.d. Write a function that determines the number of occurrences of a given atom in 
 a non-linear list
+```lisp
+; countOcc (l1..ln e) =
+;   0, n = 0 
+;   1 + countOcc(l2..ln, e), l1 = e
+;   countOcc(l2..ln, e), l1 is an atom 
+;   countOcc(l1, e) + countOcc(l2..ln, e) otherwise 
+
+(defun countOcc (l e)
+  (cond
+    ((null l) 0)
+    (T (+ (countOcc (cdr l) e)
+      (cond
+        ((equal (car l) e) 1)
+        ((atom (car l)) 0)
+        (T (countOcc (car l) e))
+      )
+    ))))
+```
 
 ---
 
 4.a. Write a function to return the sum of two vectors
+```lisp
+(defun vecSum (v s)
+  (cond 
+    ((null v) NIL)
+    (T (cons (+ (car v) (car s)) (vecSum (cdr v) (cdr s))))
+  )
+)
+
+```
 4.b. Write a function that returns all atoms in a given list, maintaining the order (3.b. same order)
+```lisp
+(defun myAppend (l a)
+  (cond
+    ((null l) a)
+    ((null a) l)
+    (T (cons (car l) (myAppend (cdr l) a)))
+  )
+)
+
+; getAtoms (l1..ln) = 
+;   NIL, n = 0
+;   {l1} U getAtomsReverse(l2..ln), l1 is an atom 
+;   getAtoms(l1) U getAtoms(l2..ln), otherwise
+
+(defun getAtoms (l)
+  (cond 
+    ((null l) NIL)
+    ((atom (car l)) (cons (car l) (getAtoms (cdr l))))
+    (T (myAppend (getAtoms (car l)) (getAtoms (cdr l))))
+  )
+)
+```
 4.c. Write a function that inverts continuous sequences of atoms in a given list (e.g. (a b c (d (e f) g h i)) returns (c b a (d (f e) i h g)) )
+```lisp
+(defun myAppend (l a)
+  (cond
+    ((null l) a)
+    ((null a) l)
+    (T (cons (car l) (myAppend (cdr l) a)))
+  )
+)
+
+; reverseCont (l1..ln, acc = ()) = 
+;   acc, n = 0 
+;   reverseCont(l2..ln, {l1, acc}), l1 is an atom 
+;   acc U reverseCont(l1, ()) U reverseCont(l2, ()) otherwise
+
+(defun reverseCont (l &optional (acc ()))
+  (cond 
+    ((null l) acc)
+    ((atom (car l)) (reverseCont (cdr l) (cons (car l) acc)))
+    (T (myAppend acc (cons (reverseCont (car l) ()) (reverseCont (cdr l)()))))
+  )
+)
+```
 4.d.  Write a function that returns the maximum value of the numerical atoms from a list, at the superficial level (i'm assuming the atoms in the main list?)
+```lisp
+; max0 (l1..ln) = 
+;   -INF, n = 0
+;   max0(l2..ln), l1 is not a number
+;   max(l1, max0(l2..ln)) otherwise 
+
+(defun max0 (l)
+  (cond 
+    ((null l) -999)
+    ((numberp (car l)) (max (car l) (max0 (cdr l))))
+    (T (max0 (cdr l)))
+  )
+)
+```
 
 ---
 
 5.a. Write the n-th element of a linear list twice (e.g. (10 20 30 40 50) and n = 3 will return (10 20 30 30 40 50))
+```lisp
+; doubleNth(l1..lk, n) = 
+;   NIL, k = 0 
+;   {l1} U l1..lk, n = 1 
+;   l1 U doubleNth(l2..lk, n - 1) otherwise 
+
+(defun doubleNth (l n)
+  (cond
+    ((null l) NIL)
+    ((= n 1) (cons (car l) l))
+    (T (cons (car l) (doubleNth (cdr l) (- n 1))))
+  )
+)
+```
 5.b. Write a function to return the association (?) of two vectors (e.g. (A B C) x (X Y Z) returns ((A, X) (B, Y) (C Z))
+```lisp
+; associate (v1..vn, s1..sn) = 
+;   null, n = 0 
+;   ((v1, s1)) U associate(v2..vn, s2..sn) otherwise
+
+(defun associate (v s)
+  (cond 
+    ((null v) nil)
+    (T (cons (cons (car v) (list(car s))) (associate (cdr v) (cdr s))))  
+  )
+)
+```
 5.c. Write a function to determine the number of sublists in a given list, on any level (e.g. (1 2 (3 (4 5) (6 7)) 8 (9 10)) will return 5)
+```lisp
+; countSublists (l1..ln)
+;   1, n = 0
+;   countSublists(l2..ln), l1 is an atom 
+;   countSublists(l1) + countSublists(l2..ln) otherwise 
+
+(defun countSublists (l)
+  (cond
+    ((null l) 1)
+    (T (+ (countSublists (cdr l))
+      (cond 
+        ((atom (car l)) 0)
+        (T (countSublists (car l)))
+      )
+    ))
+  )
+)
+```
 5.d. Write a function that returns the number of all numerical atoms in a list at level 0.
+```lisp
+; countNumericalZero (l1..ln)
+;   0, n = 0 
+;   1 + countNumericalZero(l2..ln), l1 is a number
+;   countNumericalZero(l2..ln) otherwise 
+
+(defun countNumericalZero (l)
+  (cond
+    ((null l) 0)
+    (T (+ (countNumericalZero (cdr l))
+      (cond
+        ((numberp (car l)) 1)
+        (T 0)
+      )
+    ))
+  )
+)
+```
 
 ---
 
 6.a. Write a function to test wether a list is linear
+```lisp
+; isLinear(l1..ln)
+;   T, n = 0 
+;   NIL, l1 is not an atom 
+;   isLinear(l2..ln) otherwise 
+
+(defun isLinear (l)
+  (cond 
+    ((null l) T)
+    ((not(atom (car l))) NIL)
+    (T (isLinear (cdr l)))
+  )
+)
+```
 6.b. Write a function to replace the first occurrence of an element E in a given list with another element O
+```lisp
+; replaceFirst (l1..ln, e, o)
+;   NIL, n = 0 
+;   {o} U l2..ln, l1 = e
+;   {l1} U replaceFirst(l2..ln, e, 0) otherwise 
+
+(defun replaceFirst (l e o)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) (cons o (cdr l)))
+    (T (cons (car l) (replaceFirst (cdr l) e o)))
+  )
+)
+```
 6.c. Write a function to replace each sublist of a list with its last atomic element
 6.d. Write a function to merge two sorted lists without keeping double values 
 
