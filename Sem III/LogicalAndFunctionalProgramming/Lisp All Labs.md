@@ -481,20 +481,7 @@ a non-linear list
 ```
 6.d. Write a function to merge two sorted lists without keeping double values 
 ```lisp
-; merge (l1..ln s1..sk) = 
-;   s1..sk, n = 0 
-;   l1..ln, k = 0 
-;   l1 U merge(l2..ln, s1..sk), l1 < s1
-;   s1 U merge(l1..ln, s2..sk) otherwise 
 
-(defun mergeLists(l s) 
-  (cond
-    ((null l) s)
-    ((null s) l)
-    ((< (car l) (car s)) (cons (car l) (mergeLists (cdr l) s)))
-    (T (cons (car s) (mergeLists l (cdr s))))
-  )
-)
 ```
 
 ---
@@ -613,11 +600,68 @@ a non-linear list
 )
 ```
 8.c. Write a function that returns a list of the first elements in each list that has an odd number of elements (both atoms and sublists)
+```lisp
+; getFirstOddLength (l1..ln, cnt, first) = 
+;   first, if n = 0 and cnt is odd 
+;   getFirstOddLength(l2..ln, cnt + 1, newFirst) U 
+;     emptyset, if l1 is an atom 
+;     getFirstOddLength(l1, 0, NIL) otherwise
+; where newFirst is l1 if cnt = 0 and first otherwise
+(defun getFirstOddLength (l &optional (cnt 0) (first NIL))
+  (cond
+    ((null l)
+      (cond
+        ((= (mod cnt 2) 1) (list first))
+        (T ())
+      )
+    )
+    (T 
+      ( let 
+        ((newFirst (cond
+          ((= cnt 0) (car l))
+          (T first)
+        )))
+        ( myAppend 
+          (getFirstOddLength (cdr l) (+ 1 cnt) newFirst)
+          (cond
+            ((atom (car l)) ())
+            (T (getFirstOddLength (car l)))
+          )
+        )
+      )
+    )
+  )
+```
 8.d. Write a function to return the sum of all numerical atoms in a list at the superficial level
+```lisp
+(defun sum0 (l)
+  (cond
+    ((null l) 0)
+    ((numberp (car l)) (+ (car l) (sum0(cdr l))))
+    (T (sum0 (cdr l)))
+  )
+)
+```
 
 ---
 
 9.a. Write a function that merges two sorted linear lists and keeps duplicates
+```lisp
+; merge (l1..ln s1..sk) = 
+;   s1..sk, n = 0 
+;   l1..ln, k = 0 
+;   l1 U merge(l2..ln, s1..sk), l1 < s1
+;   s1 U merge(l1..ln, s2..sk) otherwise 
+
+(defun mergeLists(l s) 
+  (cond
+    ((null l) s)
+    ((null s) l)
+    ((< (car l) (car s)) (cons (car l) (mergeLists (cdr l) s)))
+    (T (cons (car s) (mergeLists l (cdr s))))
+  )
+)
+```
 9.b. Write a function that replaces an element E with all the elements of a list L1 in a given list L
 9.c. Write a function that determines the sum of two numbers in a list representation, and returns the corresponding decimal number, without transforming the representation of the number from list to number
 9.d. Write a function that returns the gcd of all numbers in a linear list
