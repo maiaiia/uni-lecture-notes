@@ -451,19 +451,167 @@ a non-linear list
 )
 ```
 6.c. Write a function to replace each sublist of a list with its last atomic element
+```lisp
+; findLastAtom (l1..ln last)
+;   last, n = 0
+;   findLastAtom(l2..ln, l1), l1 is an atom
+;   findLastAtom(l2..ln, findLastAtom(l1)) otherwise 
+
+; nil is an atom btw
+(defun findLastAtom(l &optional (last NIL))
+  (cond
+    ((null l) last)
+    ((atom (car l)) (findLastAtom (cdr l) (car l)))
+    (T (findLastAtom (cdr l) (findLastAtom (car l) last)))
+  )
+)
+
+; replaceSublists(l1..ln)
+;   NIL, n = 0 
+;   {l1} U replaceSublists(l2..ln), l1 is an atom 
+;   findLastAtom(l1) U replaceSublists(l2..ln) otherwise 
+
+(defun replaceSublists (l)
+  (cond
+    ((null l) NIL)
+    ((atom (car l)) (cons (car l) (replaceSublists (cdr l))))
+    (T (cons (findLastAtom (car l)) (replaceSublists (cdr l))))
+  )
+)
+```
 6.d. Write a function to merge two sorted lists without keeping double values 
+```lisp
+; merge (l1..ln s1..sk) = 
+;   s1..sk, n = 0 
+;   l1..ln, k = 0 
+;   l1 U merge(l2..ln, s1..sk), l1 < s1
+;   s1 U merge(l1..ln, s2..sk) otherwise 
+
+(defun mergeLists(l s) 
+  (cond
+    ((null l) s)
+    ((null s) l)
+    ((< (car l) (car s)) (cons (car l) (mergeLists (cdr l) s)))
+    (T (cons (car s) (mergeLists l (cdr s))))
+  )
+)
+```
 
 ---
 
 7.a. Write a function to eliminate the n-th element of a linear list
+```lisp
+(defun removeNth (l n)
+  (cond
+    ((null l) nil)
+    ((= n 1) (cdr l))
+    (T (cons (car l) (removeNth (cdr l) (- n 1))))
+  )
+)
+```
 7.b. Write a function to determine the successor of a number represented digit by digit as a list, without transforming the representation of the number from list to number.
+```lisp
+; reverseList(l1..ln) = 
+;   nil, n = 0 
+;   reverseList(l2..ln) U l1 otherwise
+(defun reverseList (l &optional (acc ()))
+  (cond 
+    ((null l) acc)
+    (T (reverseList (cdr l) (cons (car l) acc)))
+  )
+)
+
+; successorReversed(l1..ln) = 
+;   1, n = 0
+;   (l1+1)..ln, l1 < 9
+;   0 U successorReversed(l2..ln) otherwise
+(defun successorReversed (l)
+  (cond
+    ((null l) (list 1))
+    ((< (car l) 9) (cons (+ 1 (car l)) (cdr l)))
+    (T (cons 0 (successorReversed (cdr l))))
+  )
+)
+
+; successor (l1..ln) = 
+; reverseList(successorReversed(reverseList(l1..ln)))
+(defun successor (l)
+  (reverseList(successorReversed(reverseList l)))
+)
+```
 7.c. Write a function to return the set of all atoms in a non-linear list (no duplicate values)
+```lisp
+(defun inSet(l e)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) T)
+    (T (inSet (cdr l) e))
+  )
+)
+
+(defun atomSet (l &optional (acc ()))
+  (cond
+    ((null l) acc)
+    ((atom (car l))
+      (cond
+        ((inSet acc (car l)) (atomSet (cdr l) acc))
+        (T (atomSet (cdr l) (cons (car l) acc)))
+      )
+    )
+    (T 
+      (let 
+        ((newAcc (atomSet (car l) acc)))
+        (atomSet (cdr l) newAcc)
+      )
+    )
+  )
+)
+```
 7.d. Write a function to test whether a linear list is a set
+```lisp
+(defun testSet (l)
+  (cond
+    ((null l) T)
+    ((inSet (cdr l) (car l)) NIL)
+    (T (testSet (cdr l)))
+  )
+)
+```
 
 ---
 
 8.a. Write a function to return the difference of two sets
+```lisp
+(defun inSet(l e)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) T)
+    (T (inSet (cdr l) e))
+  )
+)
+
+(defun setDiff(l s )
+  (cond
+    ((null l) NIL)
+    ((inSet s (car l)) (setDiff (cdr l) s))
+    (T (cons (car l) (setDiff (cdr l) s)))
+  )
+)
+```
 8.b. Write a function to reverse a list with all its sublists, on all levels
+```lisp
+; reverseList(l1..ln) = 
+;   nil, n = 0 
+;   reverseList(l2..ln) U l1, l1 atom
+;   reverseList(l2..ln) U reverseList(l1) otherwise
+(defun reverseList (l &optional (acc ()))
+  (cond 
+    ((null l) acc)
+    ((atom (car l)) (reverseList (cdr l) (cons (car l) acc)))
+    (T (reverseList (cdr l) (cons (reverseList (car l) ()) acc)))
+  )
+)
+```
 8.c. Write a function that returns a list of the first elements in each list that has an odd number of elements (both atoms and sublists)
 8.d. Write a function to return the sum of all numerical atoms in a list at the superficial level
 
