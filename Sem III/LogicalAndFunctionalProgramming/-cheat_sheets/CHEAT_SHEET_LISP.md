@@ -6,7 +6,7 @@ type:
 # CHEAT_SHEET_LISP
 
 test if smth is a number: numberp
-
+integer division: floor
 ## Common mistakes
 
 cons needs a list as the second argument! (otherwise, the result will contain a dot that represents a pointer to nothing )

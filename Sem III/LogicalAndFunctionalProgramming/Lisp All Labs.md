@@ -481,7 +481,22 @@ a non-linear list
 ```
 6.d. Write a function to merge two sorted lists without keeping double values 
 ```lisp
-
+; assuming there are no duplicates in l and s
+; megeNoDup (l1..ln, s1..sk) = 
+;   s1..sk, n = 0
+;   l1..ln, k = 0
+;   l1 U mergeNoDup(l2..ln, s2..sk), s1 = l1
+;   l1 U mergeNoDup(l2..ln, s1..sk), l1 < s1
+;   s1 U mergeNoDup(l1..ln, s2..sk) otherwise
+(defun mergeNoDup (l s)
+  (cond
+    ((null l) s)
+    ((null s) l)
+    ((eq (car l) (car s)) (cons (car l) (mergeNoDup (cdr l) (cdr s))))
+    ((< (car l) (car s)) (cons (car l) (mergeNoDup (cdr l) s)))
+    (T (cons (car s) (mergeNoDup l (cdr s))))
+  )
+)
 ```
 
 ---
@@ -663,13 +678,79 @@ a non-linear list
 )
 ```
 9.b. Write a function that replaces an element E with all the elements of a list L1 in a given list L
+```lisp
+(defun myAppend (l1 l2)
+  (cond
+    ((null l1) l2)
+    ((null l2) l1)
+    (T (cons (car l1) (myAppend (cdr l1) l2)))
+  )
+)
+
+(defun repl (l e l2)
+  (cond
+    ((null l) nil)
+    ((eq (car l) e) (myAppend l2 (repl (cdr l) e l2)))
+    (T (cons (car l) (repl (cdr l) e l2)))
+  )
+)
+```
 9.c. Write a function that determines the sum of two numbers in a list representation, and returns the corresponding decimal number, without transforming the representation of the number from list to number
+```lisp
+(defun reverseList (l &optional (acc ()))
+  (cond 
+    ((null l) acc)
+    (T (reverseList (cdr l) (cons (car l) acc)))
+  )
+)
+
+; addReversed (l1..ln, s1..sk, carry)
+;   carry, n = 0 and k = 0 and carry != 0
+;   nil, n = 0 and k = 0 and carry = 0
+;   addReversed(0, s1..sk, carry), n = 0 
+;   addReversed(l1..ln, 0, carry), k = 0
+;   (l1 + s1 + carry) % 10 U addReversed(l2..ln, s2..sk, (l1 + s1 + carry) / 10) otherwise
+
+(defun addReversed (l s &optional (carry 0))
+  (cond
+    ((and (null l) (null s) (not (= carry 0))) (list carry))
+    ((and (null l) (null s) (= carry 0)) NIL)
+    ((null l) (addReversed '(0) s carry))
+    ((null s) (addReversed l '(0) carry))
+    (T (cons (mod (+ carry (car l) (car s)) 10) (addReversed (cdr l) (cdr s) (floor (+ carry (car l) (car s)) 10))))
+  )
+)
+
+(defun addLists (l1 l2)
+  (reverseList (addReversed (reverseList l1) (reverseList l2)))
+)
+```
 9.d. Write a function that returns the gcd of all numbers in a linear list
+```lisp
+; gcd (x y) = 
+;   x, y = 0 
+;   gcd (y, x % y) otherwise
+
+(defun myGcd (x y)
+  (cond
+    ((= y 0) x)
+    (T (myGcd y (mod x y)))
+  )
+)
+
+(defun linearGcd (l)
+  (cond
+    ((null l) 0)
+    ((numericp (car l)) (myGcd (car l) (linearGcd (cdr l))))
+    (T (linearGcd (cdr l))))
+  )
+)
+```
 
 ---
 
-10.a. Write a function that returns the product of all the numerical atoms from a list, at superficial level
-10.b. Write a function that replaces the first occurrence of an element E in a given list with another element O 
+10.a. Write a function that returns the product of all the numerical atoms from a list, at the superficial level *same as 8.d*
+10.b. Write a function that replaces the first occurrence of an element E in a given list with another element O *same as 6b*
 10.c. Write a function that computes the result of an arithmetic expression memorised in preorder on a stack
 10.d. Write a function that produces the list of pairs (atom n), where atom appears n times in a linear list (e.g. (A B A B A C A) returns ((A 3) (B 2) (C 1)))
 
