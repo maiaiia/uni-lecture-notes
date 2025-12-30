@@ -93,16 +93,167 @@ type:
 
 ---
 
-2.a. Write a function to return the cross product of two vectors
+2.a. Write a function to return the product of two vectors
+```lisp
+; dotprod(l1..ln v1..vn) = 
+;   0, n = 0 
+;   l1 * v1 + dotprod(l2..ln, v2..vn) otherwise
+
+(defun dotprod (l v) 
+  (cond 
+    ((null l) 0)
+    (T (+ (* (car l) (car v)) (dotprod (cdr l) (cdr v))))
+  )
+)
+```
 2.b. Write a function to return the depth of a list
+```lisp
+; listDepth(l1..ln curr) = 
+;   curr, n = 0
+;   listDepth(l2..ln, curr), l1 is an atom
+;   max(listDepth(l1, curr +1), listDepth(l2..ln, curr)) otherwise
+
+(defun listDepth(l curr)
+  (cond
+    ((null l) curr)
+    ((atom (car l)) (listDepth (cdr l) curr))
+    (T (max (listDepth (car l) (+ curr 1)) (listDepth (cdr l) curr)))
+  )
+)
+```
 2.c. Write a function to sort a linear list without keeping the double values
+```lisp
+; getMin(l1..ln) = 
+;   l1, n = 1 
+;   min(l1, getMin(l2..ln)) otherwise
+(defun getMin (l)
+  (cond
+    ((null (cdr l)) (car l))
+    (T (min (car l) (getMin (cdr l))))
+  )
+)
+
+; removeValue (l1..ln, e) = 
+;   null, n = 0 
+;   removeValue(l2..ln, e), l1 = e 
+;   l1 U removeValue(l2..ln, e), otherwise
+(defun removeValue (l e)
+  (cond
+    ((null l) NIL)
+    ((= (car l) e) (removeValue (cdr l) e))
+    (T (cons (car l) (removeValue (cdr l) e)))
+  )
+)
+
+; sortNoDup (l1..ln) = 
+;   null, n = 0 
+;   getMin(l1..ln) U removeValue(l1..ln, getMin(l1..ln)) otherwise
+(defun sortNoDup (l)
+  (cond 
+    ((null l) NIL)
+    (T 
+      (let ((m (getMin l)))
+        (cons m (sortNoDup (removeValue l m)))
+      )
+    )
+  )
+)
+```
 2.d. Write a function to return the intersection of two sets
+```lisp
+; find (l1..ln, e) = 
+;   NIL, n = 0 
+;   T, l1 = e 
+;   find (l2..ln, e) otherwise 
+
+(defun findVal(l e)
+  (cond 
+    ((null l) NIL)
+    ((= (car l) e) T)
+    (T (findVal (cdr l) e))
+  )
+)
+
+; setIntersect(l1..ln, s1..sk) = 
+;   NIL, n = 0
+;   {l1} U setIntersect(l2..ln, s1..sk), find(s1..sk, l1)
+;   setIntersect(l2..ln, s1..sk) otherwise 
+(defun setIntersect(l s)
+  (cond 
+    ((null l) NIL)
+    ((findVal s (car l)) (cons (car l) (setIntersect (cdr l) s)))
+    (T (setIntersect (cdr l) s))
+  )
+)
+```
 
 ---
 
 3.a. Write a function that inserts in a linear list a given atom A after the 2nd, 4th, 6th, ... element
+```lisp
+; insertEven (l1..ln e flag)
+;   NIL, n = 0 
+;   {l1, e} U insertEven(l2..ln), flag = 1 
+;   {l1} U insertEven(l2..ln) otherwise 
+
+(defun insertEven (l e &optional (flag 0))
+  (cond 
+    ((null l) NIL)
+    ((= flag 1) (cons (car l) (cons e (insertEven (cdr l) e 0))))
+    (T (cons (car l) (insertEven (cdr l) e 1)))
+  )
+)
+```
 3.b. Write a function that returns all atoms in a given list, in reverse order (e.g. (((A B C) D) E) returns (E D C B A))
+```lisp
+(defun myAppend (l a)
+  (cond
+    ((null l) a)
+    ((null a) l)
+    (T (cons (car l) (myAppend (cdr l) a)))
+  )
+)
+
+; getAtomsReverse (l1..ln) = 
+;   NIL, n = 0
+;   getAtomsReverse(l2..ln) U {l1}, l1 is an atom 
+;   getAtomsReverse(l2..ln) U getAtomsReverse(l1), otherwise
+
+(defun getAtomsReverse (l)
+  (cond 
+    ((null l) NIL)
+    ((atom (car l)) (myAppend (getAtomsReverse (cdr l)) (list (car l))))
+    (T (myAppend (getAtomsReverse (cdr l)) (getAtomsReverse (car l))))
+  
+  )
+)
+```
 3.c. Write a function that returns the greatest common divisor of all numbers in a non-linear list 
+```lisp
+; gcd (x y) = 
+;   x, y = 0 
+;   gcd (y, x % y) otherwise
+
+(defun myGcd (x y)
+  (cond
+    ((= y 0) x)
+    (T (myGcd y (mod x y)))
+  )
+)
+
+; nonLinearGcd(l1..ln) = 
+;   0, n = 0
+;   myGcd(l1, nonLinearGcd(l2..ln)), l1 is a number 
+;   myGcd(nonLinearGcd(l1), nonLinearGcd(l2..ln)) otherwise 
+
+(defun nonLinearGcd (l)
+  (cond
+    ((null l) 0)
+    ((atom (car l)) (myGcd (car l) (nonLinearGcd (cdr l))))
+    (T (myGcd (nonLinearGcd (car l)) (nonLinearGcd (cdr l))))
+  )
+)
+```
 3.d. Write a function that determines the number of occurrences of a given atom in 
 a non-linear list
 
