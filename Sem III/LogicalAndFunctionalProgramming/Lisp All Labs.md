@@ -752,7 +752,24 @@ a non-linear list
 10.a. Write a function that returns the product of all the numerical atoms from a list, at the superficial level *same as 8.d*
 10.b. Write a function that replaces the first occurrence of an element E in a given list with another element O *same as 6b*
 10.c. Write a function that computes the result of an arithmetic expression memorised in preorder on a stack
-10.d. Write a function that produces the list of pairs (atom n), where atom appears n times in a linear list (e.g. (A B A B A C A) returns ((A 3) (B 2) (C 1)))
+10.d. Write a function that produces the list of pairs (atom n), where atom appears n times in a linear list (e.g. (A B A B A C A) returns ((A 4) (B 2) (C 1)))
+```lisp
+(defun addToPairList (pl e)
+  (cond
+    ((null pl) (list(cons e '(1))))
+    ((eq e (caar pl)) (cons (cons e (list (+ 1(car (cdar  pl)))))(cdr pl)))
+    (T (cons (car pl) (addToPairList (cdr pl) e)))
+  )
+)
+
+
+(defun getPairs (l &optional (pairList ()))
+  (cond
+    ((null l) pairList)
+    (T (getPairs (cdr l) (addToPairList pairList (car l))))
+  )
+)
+```
 
 ---
 
