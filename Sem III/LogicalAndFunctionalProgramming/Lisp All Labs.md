@@ -1073,22 +1073,46 @@ a non-linear list
 ```
 ## Lab 5 
 
-1. For a given tree of type (1) return the path from the root node to a certain given node X
-2. Return the list of nodes on the k-th level of a tree of type (1)
-3. Return the number of levels of a tree of type (1)
-4. Convert a tree of type (2) to type (1)
-5. Return the level (depth) of a node in a tree of type (1). The level of the root element is 0.
-6. Return the list of nodes of a tree of type (1) accessed inorder
-7. Return the level of a node X in a tree of type (1). The level of the root element is 0
-8. Return the list of nodes of a tree of type (2) accessed inorder
-9. Convert a tree of type (1) to type (2)
-10. Return the level of a node X in a tree of type (2). the level of the root element is 0.
-11. Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
-12. Determine the list of nodes accessed in preorder in a tree of type (2)
-13. For a given tree of type (2) return the path from the root node to a certain given node X
-14. Determine the list of nodes accessed in postorder in a tree of type (1)
-15. Determine the list of nodes accessed in postorder in a tree of type (2)
-16. Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
+For a given tree of type (1) return the path from the root node to a certain given node X
+```lisp
+; getPath (t1..tn, target, p1..pk, r1..rk)
+;   NIL, n = 0
+;   getPath(t1..tn, target, p2..pk, r2-1..rk), r1 = 0
+;   t1 U c1..ck, t1 = target
+;   getPath(t3..tn, target, p1..pk, r1-1..rk), t2 = 0
+;   getPath(t3..tn, target, t1 U p1..pk, t2 U r1..rk) otherwise
+(defun getPath (tree target path remaining)
+  (cond
+    ((null tree) nil)
+    ((eq (car remaining) 0) (getPath tree target (cdr path) (cons (- (cadr remaining) 1) (cddr remaining))))
+    ((eq (car tree) target) (cons (car tree) path))
+    ((eq (cadr tree) 0) (getPath (cddr tree) target path (cons (- (car remaining) 1) (cdr remaining))))
+    (T (getPath (cddr tree) target (cons (car tree) path) (cons (cadr tree) remaining)))
+  )
+)
+
+(defun pathFromRoot (tree target)
+  (getPath (cddr tree) target (list (car tree)) (list (cadr tree)))
+)
+```
+Return the list of nodes on the k-th level of a tree of type (1)
+```lisp
+
+```
+1. Return the number of levels of a tree of type (1)
+2. Convert a tree of type (2) to type (1)
+3. Return the level (depth) of a node in a tree of type (1). The level of the root element is 0.
+4. Return the list of nodes of a tree of type (1) accessed inorder
+5. Return the level of a node X in a tree of type (1). The level of the root element is 0
+6. Return the list of nodes of a tree of type (2) accessed inorder
+7. Convert a tree of type (1) to type (2)
+8. Return the level of a node X in a tree of type (2). the level of the root element is 0.
+9. Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
+10. Determine the list of nodes accessed in preorder in a tree of type (2)
+11. For a given tree of type (2) return the path from the root node to a certain given node X
+12. Determine the list of nodes accessed in postorder in a tree of type (1)
+13. Determine the list of nodes accessed in postorder in a tree of type (2)
+14. Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
 
 ## Lab 6 - MAP Functions 
 1. Write a function to check if an atom is member of a list (non-linear)
