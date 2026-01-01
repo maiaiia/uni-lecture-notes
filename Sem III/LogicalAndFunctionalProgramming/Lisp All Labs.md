@@ -752,6 +752,12 @@ a non-linear list
 10.a. Write a function that returns the product of all the numerical atoms from a list, at the superficial level *same as 8.d*
 10.b. Write a function that replaces the first occurrence of an element E in a given list with another element O *same as 6b*
 10.c. Write a function that computes the result of an arithmetic expression memorised in preorder on a stack
+(\+ 1 3) ==> 4 (1 + 3)
+(+ * 2 4 3) ==> 11 \[((2 * 4) + 3)
+(+ * 2 4 - 5 * 2 2) ==> 9 ((2 * 4) + (5 - (2 * 2))
+```lisp
+
+```
 10.d. Write a function that produces the list of pairs (atom n), where atom appears n times in a linear list (e.g. (A B A B A C A) returns ((A 4) (B 2) (C 1)))
 ```lisp
 (defun addToPairList (pl e)
