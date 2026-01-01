@@ -1,5 +1,5 @@
 ---
-Class: "[[-cheat_sheets]]"
+Class: "[[LogicalAndFunctionalProgramming]]"
 date: 2025-12-30
 type:
 ---
@@ -18,3 +18,5 @@ you can use letters as atoms inside a list, but, in a situation like this one `(
 don't use '=' --> error if the two values that are compared don't have the same type
 
 NIL IS AN ATOM
+
+use &optional only once

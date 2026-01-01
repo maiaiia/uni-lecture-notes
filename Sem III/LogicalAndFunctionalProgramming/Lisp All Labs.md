@@ -858,36 +858,219 @@ a non-linear list
 )
 ```
 11.c. Remove all occurrences of the maximum numerical element from a non-linear list 
+```lisp
+; getMax (l1..ln, currentMax)
+;   currentMax, n = 0 
+;   getMax(l2..ln, l1), l1 is a number and l1 > currentMax
+;   getMax(l2..ln, currentMax), l1 is a number 
+;   getMax(l2..ln, getMax(l1, currentMax)) otherwise
 
+(defun getMax (l &optional (currentMax (car l)))
+  (cond
+    ((null l) currentMax)
+    ((numberp (car l)) (getMax (cdr l)
+      (cond
+        ((> (car l) currentMax) (car l))
+        (T currentMax)
+      )
+    ))
+    (T (getMax (cdr l) (getMax (car l) currentMax)))
+  )
+)
+
+; removeVal(l1..ln, e) = 
+;   NIL, n = 0 
+;   removeVal(l2..ln, e), e = l1
+;   {l1} U removeVal(l2..ln, e), l1 is a number 
+;   removeVal(l1, e) U removeVal(l2..ln, e) otherwise
+(defun removeVal (l e)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) (removeVal (cdr l) e))
+    ((numberp (car l)) (cons (car l) (removeVal (cdr l) e)))
+    (T (cons (removeVal (car l) e) (removeVal (cdr l) e)))
+  )
+)
+; removeMax(l1..ln)
+;   removeVal(l1..ln, getMax(l1..ln))
+(defun removeMax (l)
+  (removeVal l (getMax l))
+)
+```
 11.d. Write a function that returns the product of numerical even atoms from a list, on any level 
+```lisp
+(defun multiplyEven (l)
+  (cond
+    ((null l) 1)
+    ((numberp (car l)) 
+      (cond
+        ((eq 1 (mod (car l) 2)) (multiplyEven (cdr l)))
+        (T (* (car l) (multiplyEven (cdr l))))
+      )
+    )
+    (T (* (multiplyEven (car l)) (multiplyEven(cdr l))))
+  )
+)
 
+```
 ---
 
 12.a. Write a function that returns the dot product of two vectors 
+```lisp
+(defun dotProd(l v)
+  (cond
+    ((null l) 0)
+    (T (+ (* (car l) (car v)) (dotProd (cdr l) (cdr v))))
+  )
+)
+```
 12.b. Write a function that returns the maximum value of all the numerical atoms in a list, at any level
+```lisp
+; getMax (l1..ln, currentMax)
+;   currentMax, n = 0 
+;   getMax(l2..ln, l1), l1 is a number and l1 > currentMax
+;   getMax(l2..ln, currentMax), l1 is a number 
+;   getMax(l2..ln, getMax(l1, currentMax)) otherwise
+
+(defun getMax (l &optional (currentMax (car l)))
+  (cond
+    ((null l) currentMax)
+    ((numberp (car l)) (getMax (cdr l)
+      (cond
+        ((> (car l) currentMax) (car l))
+        (T currentMax)
+      )
+    ))
+    (T (getMax (cdr l) (getMax (car l) currentMax)))
+  )
+)
+```
 12.c. same as 10.c.
-12.d. Write a function that returns T if a list has an even number of elements on the first level, and NIL otherwise (do it without counting the elements of the list)
+12.d. Write a function that returns T if a list has an even number of elements on the first level, and NIL otherwise (do it without counting the elements of the list; lists count as one element)
+```lisp
+(defun checkEvenLength (l)
+  (cond
+    ((null l) T) 
+    ((null (cdr l)) NIL)
+    (T (checkEvenLength (cddr l)))
+  )
+)
+```
 
 ---
 
 13.a. A linear list and a number N are given. Remove the Nth, 2\*Nth, etc. element
-13.b. Write a function to test if a linear list of integer numbers has a "valley" aspect. A list must have at least 3 elements to fulfil this condition 
-13.c. Write a function that returns the minimum numeric atom from a list, at any level
-13.d. Write a function that removes all occurrences of the maximum element from a list 
+```lisp
+(defun removeNStep (l n &optional (c 1))
+  (cond
+    ((null l) nil)
+    ((= c n) (removeNStep(cdr l) n 1))
+    (T (cons (car l) (removeNStep (cdr l) n (+ 1 c))))
+  )
+)
+
+```
+13.b. Write a function to test if a linear list of integer numbers has a "valley" aspect. A list must have at least 3 elements to fulfil this condition (*same as 11.c*)
+13.c. Write a function that returns the minimum numeric atom from a list, at any level (*same as 12.b*)
+13.d. Write a function that removes all occurrences of the maximum element from a list (*same as 11.c*)
 
 ---
 
 14.a. Write a function that returns the union of two sets
-14.b. Write a function that returns the product of all numerical atoms in a list, at any level
-14.c. Write a function that sorts a linear list, while keeping the double values
+```lisp
+(defun inSet(l e)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) T)
+    (T (inSet (cdr l) e))
+  )
+)
+
+(defun setDiff(l s )
+  (cond
+    ((null l) NIL)
+    ((inSet s (car l)) (setDiff (cdr l) s))
+    (T (cons (car l) (setDiff (cdr l) s)))
+  )
+)
+
+(defun myAppend (a b)
+  (cond
+    ((null a) b)
+    ((null b) a)
+    (T (cons (car a) (myAppend (cdr a) b)))
+  )
+)
+
+(defun setUnion (a b)
+  (myAppend a (setDiff b a))
+)
+```
+14.b. Write a function that returns the product of all numerical atoms in a list, at any level (*nope*)
+14.c. Write a function that sorts a linear list, while keeping the double values 
+```lisp
+(defun reverseList (l &optional (acc '()))
+  (cond
+    ((null l) acc)
+    (T (reverseList (cdr l) (cons (car l) acc)))
+  )
+)
+
+
+(defun sortWithDoubles (l &optional (changesMade NIL) (newList '()))
+  (cond
+    ((null l)
+      (cond
+        (changesMade (sortWithDoubles (reverseList newList)))
+        (T (reverseList newList))
+      )
+    )
+    ((null (cdr l)) (sortWithDoubles NIL changesMade (cons (car l) newList))) 
+    ((<= (car l) (cadr l)) (sortWithDoubles (cdr l) changesMade (cons (car l) newList)))
+    (T (sortWithDoubles (cons (car l) (cddr l)) 1 (cons (cadr l) newList)))
+  )
+
+)
+; worse than just finding the minimum in a list (and counting its number of occurrences in the same function), adding it to the new list, then removing said minimum, but i wanted to try a bubble sort in lisp
+```
 14.d. Write a function that builds a list containing the positions of the minimum numeric element from a given linear list 
+```lisp
+(defun findMinPositions (l &optional (currMin (car l)) (pos 1) (occ '()))
+  (cond
+    ((null l) occ)
+    ((eq (car l) currMin) (findMinPositions (cdr l) currMin (+ 1 pos) (cons pos occ)))
+    ((< (car l) currMin) (findMinPositions (cdr l) (car l) (+ 1 pos) (list pos)))
+    (T (findMinPositions (cdr l) currMin (+ 1 pos) occ))
+  )
+)
+```
 
 ---
 
-15.a. Write a function that inserts an element E on the n-th position of a linear list 
-15.b. Write a function that returns the sum of all numerical atoms in a list, at any level 
-15.c. Write a function that returns the set of all sublists of a given non-linear list
+15.a. Write a function that inserts an element E on the n-th position of a linear list (*5.a. is similar*)
+15.b. Write a function that returns the sum of all numerical atoms in a list, at any level (*done*)
+15.c. Write a function that returns the set of all sublists of a given non-linear list (*1.c.*)
 15.d. Write a function that tests the equality of two sets, without using the set difference
+```lisp
+(defun inSet(l e)
+  (cond
+    ((null l) NIL)
+    ((eq (car l) e) T)
+    (T (inSet (cdr l) e))
+  )
+)
+(defun setIncl (a b) ; test if a is included in b
+  (cond
+    ((null a) T)
+    ((inSet b (car a)) (setIncl (cdr a) b))
+    (T NIL)
+  )
+)
+
+(defun setEq (a b)
+  (and (setIncl a b) (setIncl b a))
+)
+```
 ## Lab 5 
 
 1. For a given tree of type (1) return the path from the root node to a certain given node X
