@@ -753,10 +753,35 @@ a non-linear list
 10.b. Write a function that replaces the first occurrence of an element E in a given list with another element O *same as 6b*
 10.c. Write a function that computes the result of an arithmetic expression memorised in preorder on a stack
 (\+ 1 3) ==> 4 (1 + 3)
-(+ * 2 4 3) ==> 11 \[((2 * 4) + 3)
+(+ * 2 4 3) ==> 11 ((2 * 4) + 3)
 (+ * 2 4 - 5 * 2 2) ==> 9 ((2 * 4) + (5 - (2 * 2))
 ```lisp
+(defun revList (l &optional (acc '()))
+  (cond
+    ((null l) acc)
+    (T (revList (cdr l) (cons (car l) acc)))
+  )
+)
 
+(defun evalPostfix (e &optional (acc '()))
+  (cond
+    ((null e) (car acc))
+    ((numberp (car e)) (evalPostfix (cdr e) (cons (car e) acc)))
+    (T (evalPostfix (cdr e)
+        (cond
+          ((eq (car e) '+) (cons (+ (car acc) (cadr acc)) (cddr acc)))
+          ((eq (car e) '*) (cons (* (car acc) (cadr acc)) (cddr acc)))
+          ((eq (car e) '-) (cons (- (car acc) (cadr acc)) (cddr acc)))
+          (T (cons (floor (car acc) (cadr acc)) (cddr acc)))
+        )
+      )
+    )
+  )
+)
+
+(defun evalPrefix (e)
+  (evalPostfix (revList e))
+)
 ```
 10.d. Write a function that produces the list of pairs (atom n), where atom appears n times in a linear list (e.g. (A B A B A C A) returns ((A 4) (B 2) (C 1)))
 ```lisp
@@ -780,8 +805,60 @@ a non-linear list
 ---
 
 11.a. Determine the lcm of the numerical values in a non-linear list 
+```lisp
+(defun myGcd (a b)
+  (cond
+    ((eq b 0) a)
+    (T (myGcd b (mod a b)))
+  )
+)
+
+(defun myLcm (a b)
+  (floor (* a b) (myGcd a b))
+)
+(print (myLcm 12 18))
+```
 11.b. Write a function to test if a linear list of numbers is a "mountain"
+```lisp
+; isDesc (l1..ln)
+;   NIL, n < 2
+;   l1 > l2, n = 2 
+;   l1 > l2 and isDesc(l2..ln) otherwise
+(defun isDesc (l)
+  (cond
+    ((null (cdr l)) NIL)
+    ((null (cddr l)) (> (car l) (cadr l)))
+    (T (and (> (car l) (cadr l)) (isDesc (cdr l))))
+  )
+)
+
+; isMountain (l1..ln)
+;   NIL, n < 2 
+;   NIL, l1 = l2
+;   isMountain(l2..ln), l1 < l2
+;   isDesc(l2..ln) otherwise    
+(defun isMountain (l)
+  (cond
+    ((null (cdr l)) NIL)
+    ((eq (car l) (cadr l)) NIL)
+    ((< (car l) (cadr l)) (isMountain (cdr l)))
+    (T (isDesc (cdr l)))
+  )
+)
+
+; main (l1..ln)
+;   n > 2 and l1 < l2 and testMountain(l1..ln)
+
+(defun main(l)
+  (cond 
+    ((null (cddr l)) NIL)
+    ((>= (car l) (cadr l)) NIL)
+    (T (isMountain l))
+  )
+)
+```
 11.c. Remove all occurrences of the maximum numerical element from a non-linear list 
+
 11.d. Write a function that returns the product of numerical even atoms from a list, on any level 
 
 ---

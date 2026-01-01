@@ -7,6 +7,8 @@ type:
 
 test if smth is a number: numberp
 integer division: floor
+
+this is allowed: `(defun getMax (l &optional (currentMax (car l)))`
 ## Common mistakes
 
 cons needs a list as the second argument! (otherwise, the result will contain a dot that represents a pointer to nothing )
