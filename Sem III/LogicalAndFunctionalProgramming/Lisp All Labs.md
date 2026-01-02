@@ -1203,10 +1203,82 @@ a non-linear list
 ```
 - Return the level (depth) of a node in a tree of type (1). The level of the root element is 0. (*like getPath but count the current level instead of memorising the path - or just use getPath and then count the number of nodes in the result*)
 - Return the list of nodes of a tree of type (1) accessed inorder
+```lisp
+(defun removeSubtree (r)
+  (cond
+    ((null (cadr r)) nil)
+    (T(cons (- (cadr r) 1) (cddr r)))
+  )
+)
+
+; inorder1(t1..tn, p1..pk, r1..rk, o1..ok)
+; nil, k = 0
+; if r1 = 0
+;   inorder1(t1..tn, p2..pk, removeSubtree(r1..rk), o2..ok), if o1 = 2
+;   p1 U inorder1(t1..tn, p2..pk, removeSubtree(r1..rk), o2..ok) otherwise   
+; p1 U inorder1(t3..tn, t1 U p1..pn, t2 U r1..rk, t2 U o1..ok), if r1 = 1 and o1 = 2 
+; inorder1(t3..tn, t1 U p1..pn, t2 U r1..rk, t2 U o1..ok) otherwise
+
+(defun inorder1(tree path r o)
+  (cond
+    ((null r) nil)
+    ((eq (car r) 0)
+      (cond
+        ((eq (car o) 2) (inorder1 tree (cdr path) (removeSubtree r) (cdr o)))
+        (T (cons (car path) (inorder1 tree (cdr path) (removeSubtree r) (cdr o))))
+      )
+    )
+    ((and (eq (car r) 1) (eq (car o) 2)) (cons (car path) (inorder1 (cddr tree) (cons (car tree) path) (cons (cadr tree) r) (cons (cadr tree) o))))
+    (T (inorder1 (cddr tree) (cons (car tree) path) (cons (cadr tree) r) (cons (cadr tree) o)))
+  )
+)
+
+(defun mainF(tree)
+  (inorder1 (cddr tree) (list (car tree)) (list (cadr tree)) (list (cadr tree)))
+)
+```
 - Return the level of a node X in a tree of type (1). The level of the root element is 0 (*same as 6*)
 - Return the list of nodes of a tree of type (2) accessed inorder
+```lisp
+; inorder2(t1..tn)
+;   null, n = 0 
+;   t1, n = 1 
+;   inorder2(t2) U t1 U inorder2(t3) otherwise
+
+(defun inorder2(tree)
+  (cond
+    ((null (car tree)) NIL)
+    ((null (cdr tree)) (list(car tree))) 
+    (T (myAppend (inorder2 (cadr tree)) (cons (car tree) (inorder2 (caddr tree)))))
+  )
+)
+```
 - Convert a tree of type (1) to type (2)
+```lisp
+
+```
 - Return the level of a node X in a tree of type (2). the level of the root element is 0.
+```lisp
+; getLevel(t1..tn, node, currentLevel)
+;   currentLevel, t1 = node 
+;   NIL, n != 3
+;   lvl, lvl != -1 (where lvl = getLevel(t2, node, currentLevel + 1)
+;   getLevel(t3, node, currentLevel + 1) otherwise
+
+(defun getLevel (tree node &optional (currentLevel 0))
+  (cond
+    ((eq (car tree) node) currentLevel) 
+    ((null (cdr tree)) NIL) ; covers both n = 0 and n = 1
+    (T (let
+      ((lvl (getLevel (cadr tree) node (+ currentLevel 1))))
+      (cond
+        ((null lvl) (getLevel (caddr tree) node (+ currentLevel 1)))
+        (T lvl)
+      )
+    ))
+  )
+)
+```
 - Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
 - Determine the list of nodes accessed in preorder in a tree of type (2)
 - For a given tree of type (2) return the path from the root node to a certain given node X
