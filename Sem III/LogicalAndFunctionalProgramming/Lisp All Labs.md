@@ -1415,21 +1415,57 @@ a non-linear list
 ```
 
 ## Lab 6 - MAP Functions 
-1. Write a function to check if an atom is member of a list (non-linear)
-2. Write a function that returns the sum of numeric atoms in a list, at any level
-3. Define a function to test the membership of a node in an n-tree represented as (root list_of_nodes_subtree1 ... list_of_nodes_subtree_n)
-4. Write a function that returns the product of numeric atoms in a list, at any level
-5. Write a function that computes the sum of even numbers and then decreases the sum of odd numbers, at any level of a list
-6. Write a function that returns the maximum of numeric atoms in a list, at any level
-7. Write a function that substitutes an element E with all elements of a list L1 at all levels of a given list L
-8. Write a function to determine the number of nodes on the level k from a n-tree represented as follows : (root list_nodes_subtree_1 ... list_nodes_subtree_n)
-9. Write a function that removes all occurrences of an atom from any level of a list
-10. Define a function that replaces one node with another one in an n-tree
-11. Write a function to determine the depth of a list
-12. Write a function that substitutes an element through another one at all levels of a given list 
-13. Define a function that returns the depth of an n-tree
-14. Write a function that returns the number of atoms in a list, at any level
-15. Write a function that reverses a list together with all its sublist elements, at any level
-16. Write a function that produces the linear list of all atoms of a given list, from all levels, and written in the same order
+- Write a function to check if an atom is member of a list (non-linear)
+```lisp
+(defun bool-or (&rest args)
+  (cond
+    ((null args) nil)
+    ((car args) t)
+    (t (apply #'bool-or (cdr args)))))
+
+; searchAtom(L, E) = 
+;   T, L = E 
+;   NIL, L is an atom 
+;   searchAtom(l1) or searchAtom(l2) or ... or searchAtom(ln) otherwise (L = l1..ln)
+(defun searchAtom(l e)
+  (cond
+    ((eq l e) T)
+    ((atom l) NIL)
+    (T (apply #'bool-or (mapcar #'(lambda(l) (searchAtom l e)) l)))
+  )
+)
+```
+- Write a function that returns the sum of numeric atoms in a list, at any level
+```lisp
+; super-sum(l) = 
+;   l, l is a number 
+;   0, l is an atom 
+;   super-sum(l1) + super-sum(l2) + ... + super-sum(ln) otherwise (l = l1..ln)
+(defun super-sum(l)
+  (cond
+    ((numberp l) l)
+    ((atom l) 0)
+    (T (apply #'+ (mapcar #'super-sum l)))
+  )
+)
+```
+- Define a function to test the membership of a node in an n-tree represented as (root list_of_nodes_subtree1 ... list_of_nodes_subtree_n)
+```lisp
+```
+-  Write a function that returns the product of numeric atoms in a list, at any level
+```lisp
+```
+- Write a function that computes the sum of even numbers and then decreases the sum of odd numbers, at any level of a list
+-  Write a function that returns the maximum of numeric atoms in a list, at any level
+- Write a function that substitutes an element E with all elements of a list L1 at all levels of a given list L
+- Write a function to determine the number of nodes on the level k from a n-tree represented as follows : (root list_nodes_subtree_1 ... list_nodes_subtree_n)
+- Write a function that removes all occurrences of an atom from any level of a list
+- Define a function that replaces one node with another one in an n-tree
+- Write a function to determine the depth of a list
+- Write a function that substitutes an element through another one at all levels of a given list 
+- Define a function that returns the depth of an n-tree
+- Write a function that returns the number of atoms in a list, at any level
+- Write a function that reverses a list together with all its sublist elements, at any level
+- Write a function that produces the linear list of all atoms of a given list, from all levels, and written in the same order
 
 

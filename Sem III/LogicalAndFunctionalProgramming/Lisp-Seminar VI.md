@@ -38,7 +38,7 @@ Perform the inorder traversal of a type 1 tree.
 A map function takes a function and a collection of arguments as parameters. It then applies the provided function on each element in the collection. Lastly, it aggregates the results in another list.
 ### MapCar 
 
-### MapCat
+### MapCan
 
 ### Exercises
 
