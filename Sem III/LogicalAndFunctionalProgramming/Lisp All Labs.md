@@ -1305,21 +1305,113 @@ a non-linear list
 ```
 - Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
 ```lisp
+
 ```
 - Determine the list of nodes accessed in preorder in a tree of type (2)
 ```lisp
+; preorder(t1..tn) = 
+;   null, n = 0 
+;   t1 U preorder(t2) U preorder(t3) otherwise 
+
+(defun preorder (tree)
+  (cond
+    ((null tree) NIL)
+    (T (cons (car tree) (append (preorder (cadr tree)) (preorder (caddr tree)))))
+  )
+)
+
+(print (preorder '(A (B (D) (E (H) NIL)) (C (F (J) NIL) (G (K) NIL))) ))
 ```
 - For a given tree of type (2) return the path from the root node to a certain given node X
 ```lisp
+(defun rev (l &optional (acc '()))
+  (cond
+    ((null l) acc)
+    (T (rev (cdr l) (cons (car l) acc)))
+  )
+)
+
+; path(t1..tn, target, c1..ci) = 
+;   null, n = 0
+;   ci..c1 U t1, t1 = target
+;   p1..pk, if k > 0, where p1..pk = path(t2, target, c1..ci)
+;   path(t3, target, c1..ci) otherwise 
+
+(defun path(tree target &optional c)
+  (cond
+    ((null tree) nil)
+    ((eq (car tree) target) (rev(cons target c)))
+    (T (let
+      ((p (path (cadr tree) target (cons (car tree) c))))
+      (cond
+        ((null p) (path (caddr tree) target (cons (car tree) c)))
+        (T p)
+      )
+    ))
+  )
+)
 ```
 - Determine the list of nodes accessed in postorder in a tree of type (1)
 ```lisp
+(defun rev (l &optional (acc '()))
+  (cond
+    ((null l) acc)
+    (T (rev (cdr l) (cons (car l) acc)))
+  )
+)
+
+(defun removeSubtree (r)
+  (cond
+    ((null (cdr r)) nil)
+    (T (cons (- (cadr r) 1) (cddr r)))
+  )
+)
+
+(defun postorder(tree rem acc)
+  (cond
+    ((null rem) nil)
+    ((eq (car rem) 0) (cons (car acc) (postorder tree (removeSubtree rem) (cdr acc))))
+    (T (postorder (cddr tree) (cons (cadr tree) rem) (cons (car tree) acc)))
+  )
+)
+
+(defun main (tree)
+  (postorder (cddr tree) (list (cadr tree)) (list (car tree)))
+)
 ```
 - Determine the list of nodes accessed in postorder in a tree of type (2)
 ```lisp
+(defun postorder2 (tree)
+  (cond
+    ((null tree) nil)
+    (T (append(postorder2(cadr tree)) (append (postorder2 (caddr tree)) (list (car tree)))))
+  )
+)
 ```
 -  Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
 ```lisp
+(defun countBalanced (tree)
+  (cond
+    ((null tree) 0)
+    ((null (cdr tree)) 1)
+    (T (let
+      (
+        (lt (countBalanced (cadr tree)))
+        (rt (countBalanced (caddr tree)))
+      )
+      
+      (cond
+        ((or (null lt) (null rt)) NIL)
+        ((and (< (- lt rt) 2) (> (- lt rt) -2)) (+ 1 (max lt rt)))
+        (T NIL)
+      )
+    ))
+  )
+)
+
+(defun isBalanced (tree)
+  (not(null (countBalanced tree)))
+)
 ```
 
 ## Lab 6 - MAP Functions 
