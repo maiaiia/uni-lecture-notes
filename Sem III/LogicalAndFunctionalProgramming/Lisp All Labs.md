@@ -1170,9 +1170,40 @@ a non-linear list
 )
 ```
 - Convert a tree of type (2) to type (1)
-- Return the level (depth) of a node in a tree of type (1). The level of the root element is 0.
+```lisp
+(defun myAppend (l a)
+  (cond
+    ((null l) a)
+    ((null a) l)
+    (T (cons (car l) (myAppend (cdr l) a)))
+  )
+)
+
+; (A (B) (C)) -> (A 2 B 0 C 0)
+
+; convert21 (t1..tn) = 
+;   null, n = 0
+;   (t1 0), n = 1
+;   (t1 1) U convert21(t2), t3 = ()
+;   (t1 1) U convert21(t3), t2 = ()
+;   (t1 2) U convert21(t2) U convert21(t3) otherwise
+(defun convert21 (tree)
+  (cond
+    ((null tree) NIL)
+    ((null (cdr tree)) (cons (car tree) (list 0)))
+    (T (myAppend (cons (car tree) (list
+        (cond 
+          ((or (null (cadr tree)) (null (caddr tree))) 1)
+          (T 2)
+        )
+      )
+    ) (myAppend (convert21 (cadr tree)) (convert21 (caddr tree)))))
+  )
+)
+```
+- Return the level (depth) of a node in a tree of type (1). The level of the root element is 0. (*like getPath but count the current level instead of memorising the path - or just use getPath and then count the number of nodes in the result*)
 - Return the list of nodes of a tree of type (1) accessed inorder
-- Return the level of a node X in a tree of type (1). The level of the root element is 0
+- Return the level of a node X in a tree of type (1). The level of the root element is 0 (*same as 6*)
 - Return the list of nodes of a tree of type (2) accessed inorder
 - Convert a tree of type (1) to type (2)
 - Return the level of a node X in a tree of type (2). the level of the root element is 0.
