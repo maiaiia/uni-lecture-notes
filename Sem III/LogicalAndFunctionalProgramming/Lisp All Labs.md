@@ -1255,7 +1255,31 @@ a non-linear list
 ```
 - Convert a tree of type (1) to type (2)
 ```lisp
+(defun rev (l &optional (acc '()))
+  (cond
+    ((null l) acc)
+    (T (rev (cdr l) (cons (car l) acc)))
+  )
+)
 
+(defun getSubtrees (tree &optional (currentSum 2) (acc ()))
+  (cond
+    ((eq currentSum 1) (cons (rev acc) (list tree)))
+    (T (getSubtrees (cddr tree) (- (+ currentSum (cadr tree)) 1) (cons (cadr tree)(cons (car tree) acc))))
+  )
+)
+
+(defun convert12 (tree)
+  (cond
+    ((null tree) '())
+    ((eq (cadr tree) 0) (append (list (car tree)) (convert12 (cddr tree))))
+    ((eq (cadr tree) 1) (cons (car tree) (cons (convert12 (cddr tree)) '(()))))
+    (T (let
+      ((st (getSubtrees (cddr tree))))
+      (cons (car tree) (cons (convert12(car st)) (list (convert12 (cadr st)))))
+    ))
+  )
+)
 ```
 - Return the level of a node X in a tree of type (2). the level of the root element is 0.
 ```lisp
@@ -1280,11 +1304,23 @@ a non-linear list
 )
 ```
 - Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
+```lisp
+```
 - Determine the list of nodes accessed in preorder in a tree of type (2)
+```lisp
+```
 - For a given tree of type (2) return the path from the root node to a certain given node X
+```lisp
+```
 - Determine the list of nodes accessed in postorder in a tree of type (1)
+```lisp
+```
 - Determine the list of nodes accessed in postorder in a tree of type (2)
+```lisp
+```
 -  Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
+```lisp
+```
 
 ## Lab 6 - MAP Functions 
 1. Write a function to check if an atom is member of a list (non-linear)
