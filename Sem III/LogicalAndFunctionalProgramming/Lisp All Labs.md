@@ -1073,7 +1073,7 @@ a non-linear list
 ```
 ## Lab 5 
 
-For a given tree of type (1) return the path from the root node to a certain given node X
+- For a given tree of type (1) return the path from the root node to a certain given node X
 ```lisp
 ; getPath (t1..tn, target, p1..pk, r1..rk)
 ;   NIL, n = 0
@@ -1095,24 +1095,93 @@ For a given tree of type (1) return the path from the root node to a certain giv
   (getPath (cddr tree) target (list (car tree)) (list (cadr tree)))
 )
 ```
-Return the list of nodes on the k-th level of a tree of type (1)
+- Count the number of nodes on the k-th level of a tree of type (1)
 ```lisp
+; countLvlK(t1t2..tn, k, currentLvl, r1..ri)
+;   0, n = 0 
+;   countLvlK(t1t2..tn, k, currentLvl - 1, r2-1..ri), r1 = 0
+;   countLvlK(t3..tn, k, currentLvl+1, t2Ur1..ri) + (currentLvl == k ? 1 : 0) otherwise
+(defun countLvl (tree k currentLvl remaining)
+  (cond
+    ((null tree) 0)
+    ((eq(car remaining) 0) (countLvl tree k (- currentLvl 1) (cons (- (cadr remaining) 1) (cddr remaining))))
+    (T (+(countLvl (cddr tree) k (+ 1 currentLvl) (cons (cadr tree) remaining))
+      (cond
+        ((eq currentLvl k) 1)
+        (T 0)
+      )
+    ))
+  )
+)
 
+(defun countLvlK (tree k)
+  (cond
+    ((eq k 0) 1)
+    (T (countLvl (cddr tree) k 1 (list (cadr tree))))
+  )
+)
 ```
-1. Return the number of levels of a tree of type (1)
-2. Convert a tree of type (2) to type (1)
-3. Return the level (depth) of a node in a tree of type (1). The level of the root element is 0.
-4. Return the list of nodes of a tree of type (1) accessed inorder
-5. Return the level of a node X in a tree of type (1). The level of the root element is 0
-6. Return the list of nodes of a tree of type (2) accessed inorder
-7. Convert a tree of type (1) to type (2)
-8. Return the level of a node X in a tree of type (2). the level of the root element is 0.
-9. Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
-10. Determine the list of nodes accessed in preorder in a tree of type (2)
-11. For a given tree of type (2) return the path from the root node to a certain given node X
-12. Determine the list of nodes accessed in postorder in a tree of type (1)
-13. Determine the list of nodes accessed in postorder in a tree of type (2)
-14. Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
+- Return the list of nodes on the k-th level of a tree of type (1)
+```lisp
+(defun helperCons (node lst)
+  (cond
+    ((null node) lst)
+    (T (cons node lst))
+  )
+)
+
+(defun getFromLvl (tree k currentLvl remaining)
+  (cond
+    ((null tree) NIL)
+    ((eq(car remaining) 0) (getFromLvl tree k (- currentLvl 1) (cons (- (cadr remaining) 1) (cddr remaining))))
+    (T (helperCons
+      (cond
+        ((eq k currentLvl) (car tree))
+        (T NIL)
+      )
+      (getFromLvl (cddr tree) k (+ 1 currentLvl) (cons (cadr tree) remaining)))
+    )
+  )
+)
+
+(defun getLvlK (tree k)
+  (cond
+    ((eq k 0) (car tree))
+    (T (getFromLvl (cddr tree) k 1 (list (cadr tree))))
+  )
+)
+```
+- Return the number of levels of a tree of type (1)
+```lisp
+(defun getMaxLvl (tree currentLvl maxlvl remaining)
+  (cond
+    ((< maxlvl currentLvl) (getMaxLvl tree currentLvl currentLvl remaining))
+    ((null tree) maxlvl)
+    ((eq(car remaining) 0) (getMaxLvl tree (- currentLvl 1) maxlvl (cons (- (cadr remaining) 1) (cddr remaining))))
+    (T (getMaxLvl (cddr tree) (+ 1 currentLvl) maxlvl (cons (cadr tree) remaining)))
+  )
+)
+
+(defun getLvlCount (tree)
+  (cond
+    ((null tree) 0)
+    (T (+ 1 (getMaxLvl (cddr tree) 0 0 (list (cadr tree)))))
+  )
+)
+```
+- Convert a tree of type (2) to type (1)
+- Return the level (depth) of a node in a tree of type (1). The level of the root element is 0.
+- Return the list of nodes of a tree of type (1) accessed inorder
+- Return the level of a node X in a tree of type (1). The level of the root element is 0
+- Return the list of nodes of a tree of type (2) accessed inorder
+- Convert a tree of type (1) to type (2)
+- Return the level of a node X in a tree of type (2). the level of the root element is 0.
+- Return the level (and corresponding list of nodes) with the maximum number of nodes for a tree of type (2). The level of the root element is 0
+- Determine the list of nodes accessed in preorder in a tree of type (2)
+- For a given tree of type (2) return the path from the root node to a certain given node X
+- Determine the list of nodes accessed in postorder in a tree of type (1)
+- Determine the list of nodes accessed in postorder in a tree of type (2)
+-  Determine if a tree of type (2) is balanced (the difference between the depth of two subtrees is equal to 1)
 
 ## Lab 6 - MAP Functions 
 1. Write a function to check if an atom is member of a list (non-linear)
