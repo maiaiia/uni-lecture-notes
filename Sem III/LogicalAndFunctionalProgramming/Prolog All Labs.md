@@ -857,17 +857,76 @@ repl_het_predecessor([H|T], [P|R]):-
     predecessor(H, P),
     repl_het_predecessor(T, R).
 ```
-## Lab 3
-
-15. For a given n, positive, determine all decompositions of n as a sum of consecutive natural numbers.
+## Lab 3 - Backtracking
+- Write a predicate to generate the list of all subsets with all elements of a given list.
 ```prolog
-inbtw(X, Y, X) :- X < Y+1.
+
+```
+- A set of n points in a plan (represented using its coordinates) are given. Write a predicate to determine all subsets of collinear points.
+```prolog
+
+```
+- Write a predicate to determine all decomposition of n (n given, positive), as sum of consecutive natural numbers. 
+```prolog
+
+```
+- The list a1... an is given. Write a predicate to determine all sublists strictly ascending of this list a. 
+```prolog
+
+```
+- Two integers, n and m are given. Write a predicate to determine all possible sequences of numbers from 1 to n, such that between any two numbers from consecutive positions, the absolute difference to be >= m. 
+```prolog
+
+```
+- Generate the list of all arrangements of K elements of a given list. (Eg: \[2, 3, 4] K=2 => \[\[2,3], \[3,2], \[2,4], \[4,2], \[3,4], \[4,3]] (not necessary in this order)) 
+```prolog
+
+```
+- A player wants to choose the predictions for 4 games. The predictions can be 1, X, 2. Write a predicate to generate all possible variants considering that: last prediction can’t be 2 and no more than two possible predictions X. 
+```prolog
+
+```
+- Generate all strings of n parentheses correctly closed. 
+```prolog
+
+```
+- Generate all permutation of N (N - given) respecting the property: for every 2<=i<=n exists an 1<=j<=i, so |v(i)-v(j)|=1. 
+```prolog
+
+```
+- For a list a1... an with integer and distinct numbers, define a predicate to determine all subsets with sum of elements divisible with n. 
+```prolog
+
+```
+- “Colouring” a map. n countries are given; write a predicate to determine all possibilities of colouring n countries with m colours, such that two adjacent countries not having the same colour. 
+```prolog
+
+```
+- Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. 
+```prolog
+
+```
+- The list a1, ..., an is given and it consists of distinct integers. Write a predicate to determine all subsets with aspect of "mountain" (a set has a "mountain" aspect if the elements increase to a certain point and then decrease). 
+```prolog
+
+```
+- Write a program to generate the list of all subsets of sum S with the elements of a list (S - given). 
+```prolog
+
+```
+- For a given n, positive, determine all decompositions of n as a sum of consecutive natural numbers.
+```prolog
+inbtw(X, Y, X) :- X =< Y.
 inbtw(X, Y, R) :- X < Y, inbtw(X+1, Y, R).
 
 consec_sum(N, N, [N]).
 consec_sum(N, S, [S|R]) :- N > S, N1 is N - S, S1 is S + 1, consec_sum(N1, S1, R).
 
 decomp(N, R):-
-    between(1, N, S),
+    StartCap is div(N, 2),
+    between(1, StartCap, S),
     consec_sum(N, S, R).
+
+find_all_decomp(N, S):-
+    findall(R, decomp(N, R), S).
 ```

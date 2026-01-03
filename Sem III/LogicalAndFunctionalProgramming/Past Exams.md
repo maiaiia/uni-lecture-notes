@@ -5,24 +5,12 @@ type:
 ---
 # Past Exams
 [2025](https://github.com/Oancea-Teodora/UBB-Computer-Science/tree/main/Second%20Year/Semester%201/Logical%20and%20Functional%20Programming/Subjects/2025%20Subjects)
+[full subj](https://github.com/Oancea-Teodora/UBB-Computer-Science/tree/main/Second%20Year/Semester%201/Logical%20and%20Functional%20Programming/Subjects/2025%20Subjects)
+[S1](https://github.com/Oancea-Teodora/UBB-Computer-Science/tree/main/Second%20Year/Semester%201/Logical%20and%20Functional%20Programming/Subjects/PLF%20Subjects/Prea%20multe%20subiecte%20pt%20a%20putea%20fi%20rezolvate)
 
-(L 4) Definiti o functie care, dintr-o lista de atomi, produce o lista de perechi (atom n), unde atom apare in lista initiala de n ori.
-
-(L 25) Un arbore binar se memoreaza (radacina (lista-subarbore-1) (lista-subarbore-2)). Sa se determine lista nodurilor de pe nivelul k din arbore. Nivelul radacinii se considera 0. 
-
-(L 27) Sa se scrie o functie care sterge primul, al 2-lea, al 4-lea, al 8-lea, ... element al unei liste liniare.
-
-(L 29) Se da o lista neliniara. Sa se stearga toti atomii numerici care apar de un numar par de ori in lista. 
-
-
-(P15) Write a predicate to compute the difference of two numbers, each written as a list, without transforming the list into a number.
-
-(P 37) Write a predicate to compute the sum of a number in the list representation (without converting the list into a number) and a certain digit 
-
-## A1. 
 **The Prolog problems** will be solved in SWI Prolog. You will explain the code, give the reasoning, predicates specification including the recursive formula, flow model, meaning of all variables and parameters.
 **The Lisp problems** will be solved in Common Lisp. You will explain the code, give the reasoning, functions specification, meaning of all variables and parameters, the formula for recursion. The MAP problem implies writing a main an dan auxiliary function. This may be solved without using MAP functions (with a penalty).
-
+## A1. 
 ### I
 #### 1. 
 Consider the following function definition in LISP
@@ -54,4 +42,162 @@ Consider the PROLOG predicate `f(list, integer)` with the flow model `(i, o)`.
 f([], 0).
 f([H|T], S) :- f(T, S1), S1 is S-H.
 ```
-What is the 
+What is the result of the evaluation `f([1,2,3,4,5,6,7,8],S)`? Justify the answer.
+
+### II.
+For any given positive natural number N, generate all the sets of prime numbers that add up to N (including N, if applicable). Write the mathematical model, flow model, and the meaning of the variables for each predicate used. 
+(Eg: N = 18 => \[\[2,3,13],\[2,5,11],\[5,13],\[7,11]])
+### III
+An n-ary tree is represented in LISP as (root subtree1 subtree2 ...). Write a function to replace the nodes from the odd levels in the tree with a given value e. The level of the root is considered 0. **Use a MAP function**. Write the mathematical model and the meaning of all the parameters for each function used.
+
+(Eg. for (a (b (g)) (c (d (e)) (f)))) and e = h => (a (h (g)) (h (d (h)) (h))))
+
+## A2
+
+### I
+#### 1. 
+Consider the following function definition in LISP
+```lisp
+(defun f(l)
+  (cond
+    ((null l) 0)
+    ((> (f (car l)) 2) (+ (car l)(f(cdr l))))
+    (T (f (car l)))
+  )
+)
+```
+Rewrite it in order to have only one recursive call `(funcall F (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+#### 2.
+Let L be a numerical list and consider the following PROLOG definition for the predicate `f(list, integer)`, with the flow model (i, o):
+```prolog
+f([], 0).
+f([H|T],S) :- f(T, S1), H < S1, !, S is H + S1.
+f([_|T], S) :- f(T, S1), S is S1 + 2.
+```
+Rewrite the predicate in order to have only one recursive call `f(T, S1)` in all clauses. You mai write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
+
+#### 3.
+The LISP function F is defined by 
+```lisp
+(defun f(x &rest y)
+  (cond
+    ((NULL y) x)
+    (T (APPEND x (MAPCAR #'CAR y)))
+  )
+)
+```
+
+What is the result of evaluating the form `(APPEND (f '(1 2))(f '(3 4) '(5 6) '(7 8)))`? Justify the answer.
+#### 4.
+Consider the PROLOG predicates `p(integer)`, `q(integer)`, `r(integer)` with the flow model `(o)` and the predicate `s`.
+
+```prolog
+p(1).
+q(1).
+r(1).
+p(2).
+q(2).
+r(2).
+s:-!, p(X), q(Y), r(Z), write(X), write(Y), write(Z), nl.
+```
+
+Give the result of the following goal: s. Justify the answer. 
+### II.
+Given a list of integers, generate all the sublists with odd lengths that have elements in strictly ascending order. Write the mathematical model, flow model, and the meaning of all the variables for each predicate used.
+
+(Eg. L = \[2,4,1,6] => output: \[2], \[4], \[1], \[6], \[1,2,4], \[1,2,6], \[1,4,6], \[2,4,6]) (not necessarily in this order)
+### III
+A non-linear list is given. Write a LISP function to return the initial list in which the atoms from the level k from the initial list have been replaced with 0 (the superficial level is considered 1). **Use a MAP function**. Write the mathematical model and the meaning of all parameters for each function used. 
+
+(Eg. for (a (1 (2 b)) (c (d)))) and a) k = 2 => (a (0) (2 b)) (0 (d))) or b) k = 1 => (0 (1 (2 b)) (c (d))) or c) k = 4 => original list.
+
+## B
+
+### I
+#### 1. 
+Consider the following function definition in LISP
+```lisp
+(defun f(l)
+  (cond
+    ((null l) nil)
+    ((listp (car l))(append (f (car l)) (f (cdr l)) (car (f (car l)))))
+    (T (list (car l)))
+  )
+)
+```
+Rewrite it in order to have only one recursive call `(funcall F (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+#### 2.
+Consider the following PROLOG definition for the predicate `f(integer, integer)` with the flow model `(i, o)`
+```prolog
+f(0, 0):-!.
+f(1, Y):- J is I - 1, f(I, V), V > 1, !, K is I - 2, Y is K.
+f(1, Y):-J is I - 1, f(J, V), Y is V + 1.
+```
+Rewrite the predicate in order to have only one recursive call `f(J, V)` in all clauses. You mai write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
+#### 3.
+The LISP function F is defined by 
+```lisp
+(defun f(X &optional Y)
+  (cond
+    ((null Y) (cdr X))
+    (T (cons (car X) Y))
+  )
+)
+```
+
+What is the result of evaluating the form `(APPEND (f '(1 2))(f '(3 4) '(5 6)))`? Justify the answer.
+#### 4.
+Consider the PROLOG predicate `p(integer)`  with the flow model `(i)`.
+
+```prolog
+p(100).
+p(N) :- write(N), N1 is N - 1, p(N1).
+```
+
+Give the result of the following goal: `p(0)`. Justify the answer. 
+### II.
+Chairs must be arranged for a show. There are red chairs and yellow chairs. One row contains 5 chairs. Find all the possible arrangements of chairs on a row, knowing that there can be at most 3 yellow chairs on a row. Write the mathematical model, flow model, and the meaning of all variables for each predicate used. 
+### III
+Write a LISP function to substitute an element e with another element eq at any odd level from a nonlinear list (The superficial level is considered 1). **Use a MAP function**. Write the mathematical model and the meaning of all parameters for each function used.
+
+(Eg. for (1 d (2 d (d))), e = d and e1 = f, the list is (1 f (2 d (f))))
+
+## C 
+### I 
+#### 1
+Consider the following function definition in LISP
+```lisp
+(defun f(n)
+  (cond
+    ((= n 1) 1)
+    ((> (f (- n 1)) 2) (- n 2))
+    ((> (f (- n 1)) 1) (f (- n 1)))
+    (T (- (f (- n 1)) 1))
+  )
+)
+```
+
+Rewrite the definition in order to avoid the repeated call (f(- n 1)). Do NOT redefine the function. Do NOT use SET, SETQ, SETF. Justify your answer.
+#### 2
+Given a numerical linear list, write a SWI-Prolog program that returns (in a list of pairs) all possible partitions of the initial list in two sublists, such that all elements of the sublists are relatively prime numbers (all elements of the first sublist are relatively prime and all elements of the second list are relatively prime). To avoid generating the same partition twice (ex: \[A, B] and \[B, A]), the first sublist will contain at most the same number of elements as the second sublist. For example, for the list \[3, 5, 7, 9], the result will be (not necessarily in this order): \[\[\[5, 3], \[9, 7]], \[\[7, 3], \[9, 5]], \[\[3], \[9, 7, 5]], \[\[9, 5], \[7, 3]], \[\[9, 7], \[5, 3]], \[\[9], \[7, 5, 3]]].
+#### 3
+For a given value N, generate the list of all permutations with elements N, N+1, ..., 2\*N-1 with the property that the absolute value between two consecutive values from the permutation is <=2. Write the mathematical models and flow models for the predicates used.
+#### 4
+Given a nonlinear list, write a Lisp function to replace the numerical values on off levels and greater than a given value k to their natural predecessor. The superficial level is assumed 1. A MAP function shall be used. Example for the list (1 s 4 (3 f (7))) and a) k=0 the result is (0 s 3 (3 f (6))) b) k=8 the result is (1 s 4 (3 f (7)))
+### II
+### III
+
+## MISC 
+
+(L 4) Definiti o functie care, dintr-o lista de atomi, produce o lista de perechi (atom n), unde atom apare in lista initiala de n ori.
+
+(L 25) Un arbore binar se memoreaza (radacina (lista-subarbore-1) (lista-subarbore-2)). Sa se determine lista nodurilor de pe nivelul k din arbore. Nivelul radacinii se considera 0. 
+
+(L 27) Sa se scrie o functie care sterge primul, al 2-lea, al 4-lea, al 8-lea, ... element al unei liste liniare.
+
+(L 29) Se da o lista neliniara. Sa se stearga toti atomii numerici care apar de un numar par de ori in lista. 
+
+
+(P15) Write a predicate to compute the difference of two numbers, each written as a list, without transforming the list into a number.
+
+(P 37) Write a predicate to compute the sum of a number in the list representation (without converting the list into a number) and a certain digit 
