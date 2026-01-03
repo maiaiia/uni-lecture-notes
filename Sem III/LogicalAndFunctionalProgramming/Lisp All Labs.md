@@ -1454,10 +1454,73 @@ a non-linear list
 ```
 -  Write a function that returns the product of numeric atoms in a list, at any level
 ```lisp
+; prod(l) = 
+;   l, l is a number 
+;   1, l is an atom 
+;   prod(l1) * .. * prod(ln) otherwise (l = l1..ln)
+
+(defun prod (l)
+  (cond
+    ((numberp l) l)
+    ((atom l) 1)
+    (T (apply #'* (mapcar #'prod l)))
+  )
+)
 ```
 - Write a function that computes the sum of even numbers and then decreases the sum of odd numbers, at any level of a list
+```lisp
+; addEvenSubOdd(l) = 
+;   l, l is an even number 
+;   -l, l is an odd number
+;   0, l is an atom 
+;   addEvenSubOdd(l1) + .. + addEvenSubOdd(ln) otherwise (l = l1..ln)
+
+(defun addEvenSubOdd (l)
+  (cond
+    ((numberp l)
+      (cond
+        ((eq (mod l 2) 0) l)
+        (T (- 0 l))
+      )
+    )
+    ((atom l) 0)
+    (T (apply #'+ (mapcar #'addEvenSubOdd l)))
+  )
+)
+```
 -  Write a function that returns the maximum of numeric atoms in a list, at any level
+```lisp
+; maxNumeric(l) =
+;   l, l is a number
+;   -oo, l is an atom
+;   max(maxNumeric(l1), maxNumeric(l2), ..., maxNumeric(ln)) otherwise (l = l1..ln)
+
+(defun maxNumeric (l)
+  (cond
+    ((numberp l) l)
+    ((atom l) -9999999)
+    (T (apply #'max (mapcar #'maxNumeric l)))
+  )
+)
+```
 - Write a function that substitutes an element E with all elements of a list L1 at all levels of a given list L
+```lisp
+; ---------- version 1 -------------
+; insert the list (as a list)
+; replaceE(l, e, repl) = 
+;   repl, l = e 
+;   l, l is an atom 
+;   replaceE(l1, e, repl) U .. U replaceE(ln, e, repl) otherwise (l = l1..ln)
+(defun replaceE (l e repl)
+  (cond
+    ((eq l e) repl)
+    ((atom l) l)
+    (T (mapcar #'(lambda (l) (replaceE l e repl)) l))
+  )
+)
+
+; insert the values inside the list ????
+```
 - Write a function to determine the number of nodes on the level k from a n-tree represented as follows : (root list_nodes_subtree_1 ... list_nodes_subtree_n)
 - Write a function that removes all occurrences of an atom from any level of a list
 - Define a function that replaces one node with another one in an n-tree
@@ -1467,5 +1530,17 @@ a non-linear list
 - Write a function that returns the number of atoms in a list, at any level
 - Write a function that reverses a list together with all its sublist elements, at any level
 - Write a function that produces the linear list of all atoms of a given list, from all levels, and written in the same order
+```lisp
+; flatten(l) = null, if l is null
+;            = (l), if l is atom
+;            = flatten(l1) U flatten(l2) U ... U flatten(ln), if l is a list and l = (l1..ln)
+(defun flatten (l)
+ (cond
+  ((null l) nil)
+  ((atom l) (list l))
+  (T (mapcan #'flatten l)) 
+ )
+)
+```
 
 
