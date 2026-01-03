@@ -860,21 +860,47 @@ repl_het_predecessor([H|T], [P|R]):-
 ## Lab 3 - Backtracking
 - Write a predicate to generate the list of all subsets with all elements of a given list.
 ```prolog
+% subsets(l1..ln) = 
+% 	emptyset, n = 0
+% 	l1 U subsets(l2..ln)
+%	subsets(l2..ln)
 
+subsets([], []).
+subsets([H|T], [H|R]) :- subsets(T, R).
+subsets([_|T], R) :- subsets(T, R).
+
+allSubsets(L, S):-
+    findall(R, subsets(L, R), S).
 ```
 - A set of n points in a plan (represented using its coordinates) are given. Write a predicate to determine all subsets of collinear points.
 ```prolog
 
 ```
-- Write a predicate to determine all decomposition of n (n given, positive), as sum of consecutive natural numbers. 
-```prolog
-
-```
 - The list a1... an is given. Write a predicate to determine all sublists strictly ascending of this list a. 
 ```prolog
+% rev (l1..ln) = 
+% 	empty set, n = 0 
+%	rev(l2..ln) U l1 otherwise
+rev([], Acc, Acc).
+rev([H|T], Acc, R) :- rev(T, [H|Acc], R).
+rev(L, R) :- rev(L, [], R).
 
+% asc_subl(l1..ln, c1..ck) = 
+%	c1..ck, n = 0
+%	asc_subl(l2..ln, l1 U c1..ck), l1 > c1
+% 	asc_subl(l2..ln, c1..ck)
+asc_subl([], [E|Acc], R):- rev([E|Acc], R).
+asc_subl([H|T], [], R):- asc_subl(T, [H], R).
+asc_subl([H|T], [F|Acc], R):-
+    H > F,
+    asc_subl(T, [H, F | Acc], R).
+asc_subl([_|T], Acc, R):- asc_subl(T, Acc, R).
+asc_subl(L, R) :- asc_subl(L, [], R).
+
+all_asc(L, S):-
+    findall(R, asc_subl(L, R), S).
 ```
-- Two integers, n and m are given. Write a predicate to determine all possible sequences of numbers from 1 to n, such that between any two numbers from consecutive positions, the absolute difference to be >= m. 
+- Two integers, n and m are given. Write a predicate to determine all possible sequences of numbers from 1 to n, such that between any two numbers from consecutive positions, the absolute difference is., >= m. 
 ```prolog
 
 ```
