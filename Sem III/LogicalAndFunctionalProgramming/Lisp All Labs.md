@@ -1589,8 +1589,15 @@ a non-linear list
   )
 )
 ```
-- Write a function that reverses a list together with all its sublist elements, at any level
+- Write a function that reverses a list together with all its sublist elements, at any level **TO DO**
 ```lisp
+(defun rev(l)
+  (cond
+    ((atom l) (list l))
+    (T (mapcan #'rev (cons (cdr l) (list (car l)))))
+  )
+)
+(print (rev '(1 (2 3 4))))
 ```
 - Write a function that produces the linear list of all atoms of a given list, from all levels, and written in the same order
 ```lisp
