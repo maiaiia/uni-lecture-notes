@@ -1451,6 +1451,21 @@ a non-linear list
 ```
 - Define a function to test the membership of a node in an n-tree represented as (root list_of_nodes_subtree1 ... list_of_nodes_subtree_n)
 ```lisp
+; -- same as 1 --
+(defun boolOr (&rest args)
+  (cond
+    ((null args) nil)
+    ((car args) T)
+    (T (apply #'boolOr (cdr args)))
+  )
+)
+
+(defun findNode (tree node)
+  (cond
+    ((eq tree node) T)
+    ((atom tree) NIL)
+    (T (apply #'boolOr (mapcar (lambda(l) (findNode l node)) tree)))
+  )
 ```
 -  Write a function that returns the product of numeric atoms in a list, at any level
 ```lisp
@@ -1522,13 +1537,61 @@ a non-linear list
 ; insert the values inside the list ????
 ```
 - Write a function to determine the number of nodes on the level k from a n-tree represented as follows : (root list_nodes_subtree_1 ... list_nodes_subtree_n)
+```lisp
+(defun countK (l k &optional (current -1))
+  (cond
+    ((null l) nil)
+    ((and (atom l) (eq current k)) 1)
+    ((atom l) 0)
+    (T (apply #'+ (mapcar (lambda (l) (countK l k (+ current 1))) l)))
+  )
+)
+```
 - Write a function that removes all occurrences of an atom from any level of a list
+```lisp
+; --- just writes nil instead ---
+; idk how to get rid of the nil if that's what i'm supposed to do
+(defun repl (l x)
+  (cond
+    ((eq l x) nil)
+    ((atom l) l)
+    (T (mapcar #'(lambda (l) (repl l x)) l))
+  )
+)
+```
 - Define a function that replaces one node with another one in an n-tree
+```lisp
+(defun repl (l x y)
+  (cond
+    ((eq l x) y)
+    ((atom l) l)
+    (T (mapcar #'(lambda (l) (repl l x y)) l))
+  )
+)
+```
 - Write a function to determine the depth of a list
-- Write a function that substitutes an element through another one at all levels of a given list 
-- Define a function that returns the depth of an n-tree
+```lisp
+(defun findDepth(e &optional (currD -1))
+  (cond
+    ((atom e) currD)
+    (T (apply #'max (mapcar #'(lambda (e) (findDepth e (+ currD 1))) e)))
+  )
+)
+```
+- Write a function that substitutes an element through another one at all levels of a given list (*same function as the one for the n-tree*)
+- Define a function that returns the depth of an n-tree (*same as the general case*)
 - Write a function that returns the number of atoms in a list, at any level
+```lisp
+(defun count-atoms (l)
+  (cond
+    ((atom l) 1)
+    (T (apply #'+ (mapcar #'count-atoms l)))
+  )
+)
+```
 - Write a function that reverses a list together with all its sublist elements, at any level
+```lisp
+```
 - Write a function that produces the linear list of all atoms of a given list, from all levels, and written in the same order
 ```lisp
 ; flatten(l) = null, if l is null
