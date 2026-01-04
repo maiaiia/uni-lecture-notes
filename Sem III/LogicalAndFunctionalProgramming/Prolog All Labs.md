@@ -928,17 +928,55 @@ all_asc(L, S):-
 ```prolog
 
 ```
-- Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. 
+- Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. (*in other words just don't have two adjacent numbers that are equal)*
 ```prolog
+seq(-1).
+seq(0).
+seq(1).
 
+%func(N, Acc, R)
+func(0, Acc, Acc):-!.
+func(N, [H|Acc], R):-
+    not(H = 0),
+    N1 is N - 1,
+    func(N1, [0, H|Acc], R).
+func(N, [H|Acc], R):-
+    not(H = 1),
+    N1 is N -1,
+    func(N1, [1, H|Acc], R).
+func(N, [H|Acc], R):-
+    not(H = -1),
+    N1 is N -1,
+    func(N1, [-1, H|Acc], R).
+
+helper(N, R):-
+    seq(S),
+    N1 is 2 * N,
+	func(N1, [S], R).
+
+getSubstr(N, S):-
+    findall(R, helper(N, R), S).
 ```
 - The list a1, ..., an is given and it consists of distinct integers. Write a predicate to determine all subsets with aspect of "mountain" (a set has a "mountain" aspect if the elements increase to a certain point and then decrease). 
 ```prolog
 
 ```
-- Write a program to generate the list of all subsets of sum S with the elements of a list (S - given). 
+- Write a program to generate the list of all subsets of sum S with the elements of a list (S - given). (assuming strictly positive values)
 ```prolog
+% sums(l1..ln, S, a1..ak) = 
+%	l1 U a1..ak, S = l1 
+%	sums(l2..ln, S - l1, l1 U a1..ak), S > l1
+%	sums(l2..ln, S, a1..ak)
 
+sums(_, 0, Acc, Acc).
+sums([S|_], S, Acc, [S|Acc]).
+sums([H|T], S, Acc, R) :- H < S, S1 is S - H, 
+    sums(T, S1, [H|Acc], R).
+sums([_|T], S, Acc, R) :- sums(T, S, Acc, R).
+sums(L, S, R) :- sums(L, S, [], R).
+
+allSubsetsSumS(L, S, R):-
+    findall(T, sums(L, S, T), R).
 ```
 - For a given n, positive, determine all decompositions of n as a sum of consecutive natural numbers.
 ```prolog
