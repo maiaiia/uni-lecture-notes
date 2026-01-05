@@ -910,11 +910,53 @@ all_asc(L, S):-
 ```
 - A player wants to choose the predictions for 4 games. The predictions can be 1, X, 2. Write a predicate to generate all possible variants considering that: last prediction can’t be 2 and no more than two possible predictions X. 
 ```prolog
+predictionsBkt(4, _, Acc, Acc):-!.
+predictionsBkt(N, AVX, Acc, R):-
+    AVX > 0, 
+    AVX2 is AVX - 1,
+    N1 is N + 1,
+    predictionsBkt(N1, AVX2, ["X" | Acc], R).
+predictionsBkt(N, AVX, Acc, R):-
+    N1 is N + 1,
+    predictionsBkt(N1, AVX, [1|Acc], R).
+predictionsBkt(N, AVX, Acc, R):-
+    N1 is N + 1,
+    predictionsBkt(N1, AVX, [2|Acc], R).
 
+genPredictions(1, R):-
+    predictionsBkt(1, 2, [1], R).
+genPredictions("X", R):-
+    predictionsBkt(1, 1, ["X"], R).
+
+seq(1).
+seq("X").
+
+helper(R):-
+    seq(S),
+    genPredictions(S, R).
+
+allPredictions(S):-
+    findall(R, helper(R), S).
 ```
-- Generate all strings of n parentheses correctly closed. 
+- Generate all strings of n pairs of parentheses correctly closed. 
 ```prolog
+% parentheses(L, R) = 
+% 	empty list, L = 0 and R = 0
+%	'(' + parentheses(L - 1, R), L > 0 
+%	')' + parentheses(L, R - 1), L < R
 
+parentheses(0, 0, []).
+parentheses(L, R, ['(' | Res]):-
+    L > 0,
+    L1 is L - 1,
+    parentheses(L1, R, Res).
+parentheses(L, R, [')' | Res]):-
+    R > L,
+    R1 is R - 1,
+    parentheses(L, R1, Res).
+
+getParentheses(N, S):-
+    findall(R, parentheses(N, N, R), S).
 ```
 - Generate all permutation of N (N - given) respecting the property: for every 2<=i<=n exists an 1<=j<=i, so |v(i)-v(j)|=1. 
 ```prolog
@@ -928,7 +970,7 @@ all_asc(L, S):-
 ```prolog
 
 ```
-- Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. (*in other words just don't have two adjacent numbers that are equal)*
+- Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. (*in other words just don't have two adjacent numbers that are equal*)
 ```prolog
 seq(-1).
 seq(0).
