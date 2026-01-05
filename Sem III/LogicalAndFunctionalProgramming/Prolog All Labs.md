@@ -872,7 +872,7 @@ subsets([_|T], R) :- subsets(T, R).
 allSubsets(L, S):-
     findall(R, subsets(L, R), S).
 ```
-- A set of n points in a plan (represented using its coordinates) are given. Write a predicate to determine all subsets of collinear points.
+- A set of n (distinct) points in a plan (represented using its coordinates) are given. Write a predicate to determine all subsets of collinear points.
 ```prolog
 
 ```
