@@ -874,7 +874,47 @@ allSubsets(L, S):-
 ```
 - A set of n (distinct) points in a plan (represented using its coordinates) are given. Write a predicate to determine all subsets of collinear points.
 ```prolog
+% select_one(l1..ln) = 
+% 	l1, l2..ln, n > 1
+%	select_one(l2..ln)
+%(i, o, o)
+select_one([H1, H2|T], H1, [H2|T]).
+select_one([_|T], X, R):-
+    select_one(T, X, R).
 
+% select_two -> select all pairs of values and return the list after the second element
+% select_two(l1..ln) = 
+%	l1, select_one(l2..ln), n > 2
+% 	select_two(l2..ln)
+%(i, o, o, o)
+select_two([H1, H2, H3|T], H1, X, R):-
+    select_one([H2, H3|T], X, R).
+select_two([_|T], X, Y, R):-
+    select_two(T, X, Y, R).
+
+% check_collinear(x1x2, y1y2, z1z2) = 
+%	(y2 - x2) * (z1 - x1) = (z2 - x2) * (y1 - x1)
+check_collinear([X1, X2], [Y1, Y2], [Z1, Z2]):-
+    D1 is Y2 - X2, D2 is Z1 - X1, D3 is Z2 - X2, D4 is Y1 - X1,
+    P1 is D1 * D2, P2 is D3 * D4,
+    P1 = P2.
+
+% get_collinear(l1..ln, X, Y) = 
+%	l1, if check_collinear(X, Y, l1)
+%	get_collinear(l2..ln), n > 0
+% (i, i, i, o)
+get_collinear([H|_], X, Y, H):-check_collinear(H, X, Y).
+get_collinear([_|T], X, Y, Z):-get_collinear(T, X, Y, Z).
+
+% get_collinear_tuple(l1..ln, X, Y, Z) = 
+%	X, Y, R = select_two(l1..ln), Z = get_collinear(R, X, Y)
+% (i, o)
+get_collinear_tuple(L, [X, Y, Z]):-
+    select_two(L, X, Y, R),
+    get_collinear(R, X, Y, Z).
+
+get_all_collinear_tuples(L, R):-
+    findall(T, get_collinear_tuple(L, T), R).
 ```
 - The list a1... an is given. Write a predicate to determine all sublists strictly ascending of this list a. 
 ```prolog
@@ -900,13 +940,41 @@ asc_subl(L, R) :- asc_subl(L, [], R).
 all_asc(L, S):-
     findall(R, asc_subl(L, R), S).
 ```
-- Two integers, n and m are given. Write a predicate to determine all possible sequences of numbers from 1 to n, such that between any two numbers from consecutive positions, the absolute difference is., >= m. 
-```prolog
-
-```
 - Generate the list of all arrangements of K elements of a given list. (Eg: \[2, 3, 4] K=2 => \[\[2,3], \[3,2], \[2,4], \[4,2], \[3,4], \[4,3]] (not necessary in this order)) 
 ```prolog
+my_append([], R, R).
+my_append([H|T], R, [H|Res]):-my_append(T, R, Res).
 
+rev([], Acc, Acc).
+rev([H|T], Acc, R):-rev(T, [H|Acc], R).
+rev(L, R) :- rev(L, [], R).
+
+%select_one(L, Acc, E, R)
+select_one([H|T], Acc, H, R):- 
+    rev(Acc, Acc2),
+    my_append(Acc2, T, R).
+select_one([H|T], Acc, E, R):-
+    select_one(T, [H|Acc], E, R).
+select_one(L, E, R):- select_one(L, [], E, R).
+
+perm([], Acc, Acc).
+perm(L, Acc, R):-
+    select_one(L, E, S),
+	perm(S, [E|Acc], R).
+perm(L, R) :- perm(L, [], R).
+
+% subset(L, K, Acc, R)
+subset(_, 0, Acc, Acc):-!.
+subset([H|T], K, Acc, R):-
+    K1 is K - 1,
+    subset(T, K1, [H|Acc], R).
+subset([_|T], K, Acc, R):-
+    subset(T, K, Acc, R).
+subset(L, K, R):- subset(L, K, [], R).
+
+arrangements(L, K, R):-
+    subset(L, K, S),
+    perm(S, R).
 ```
 - A player wants to choose the predictions for 4 games. The predictions can be 1, X, 2. Write a predicate to generate all possible variants considering that: last prediction can’t be 2 and no more than two possible predictions X. 
 ```prolog
@@ -958,18 +1026,6 @@ parentheses(L, R, [')' | Res]):-
 getParentheses(N, S):-
     findall(R, parentheses(N, N, R), S).
 ```
-- Generate all permutation of N (N - given) respecting the property: for every 2<=i<=n exists an 1<=j<=i, so |v(i)-v(j)|=1. 
-```prolog
-
-```
-- For a list a1... an with integer and distinct numbers, define a predicate to determine all subsets with sum of elements divisible with n. 
-```prolog
-
-```
-- “Colouring” a map. n countries are given; write a predicate to determine all possibilities of colouring n countries with m colours, such that two adjacent countries not having the same colour. 
-```prolog
-
-```
 - Generate all sub-strings of a length 2\*n+1, formed from values of 0, 1 or -1, so a1 = ..., a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for every 1 <= i <= 2n. (*in other words just don't have two adjacent numbers that are equal*)
 ```prolog
 seq(-1).
@@ -998,10 +1054,6 @@ helper(N, R):-
 
 getSubstr(N, S):-
     findall(R, helper(N, R), S).
-```
-- The list a1, ..., an is given and it consists of distinct integers. Write a predicate to determine all subsets with aspect of "mountain" (a set has a "mountain" aspect if the elements increase to a certain point and then decrease). 
-```prolog
-
 ```
 - Write a program to generate the list of all subsets of sum S with the elements of a list (S - given). (assuming strictly positive values)
 ```prolog
@@ -1035,4 +1087,24 @@ decomp(N, R):-
 
 find_all_decomp(N, S):-
     findall(R, decomp(N, R), S).
+```
+- The list a1, ..., an is given and it consists of distinct integers. Write a predicate to determine all subsets with aspect of "mountain" (a set has a "mountain" aspect if the elements increase to a certain point and then decrease). 
+```prolog
+
+```
+- Generate all permutation of N (N - given) respecting the property: for every 2<=i<=n exists an 1<=j<=i, so |v(i)-v(j)|=1. 
+```prolog
+
+```
+- For a list a1... an with integer and distinct numbers, define a predicate to determine all subsets with sum of elements divisible with n. 
+```prolog
+
+```
+- “Colouring” a map. n countries are given; write a predicate to determine all possibilities of colouring n countries with m colours, such that two adjacent countries not having the same colour. 
+```prolog
+
+```
+- Two integers, n and m are given. Write a predicate to determine all possible sequences of numbers from 1 to n, such that between any two numbers from consecutive positions, the absolute difference is >= m. 
+```prolog
+
 ```
