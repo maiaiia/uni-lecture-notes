@@ -10,6 +10,7 @@
 
 # Cheat Sheets
 - [[SQL]]
+- [[CHEAT_SHEET_LAB_DB]]
 # Lectures
 - [[Data Description Models]]
 - [[Databases and Database Management Systems]]

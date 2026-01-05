@@ -5,7 +5,7 @@ type:
 ---
 # CHEAT_SHEET_LISP
 
-test if smth is a number: numberp
+test if smth is a number / list: numberp / listp
 integer division: floor
 
 this is allowed: `(defun getMax (l &optional (currentMax (car l)))`
@@ -15,8 +15,8 @@ cons needs a list as the second argument! (otherwise, the result will contain a 
 
 you can use letters as atoms inside a list, but, in a situation like this one `(print (replaceFirst '(1 2 3 4 3) 3 'x))`, the apostrophe is needed
 
-don't use '=' --> error if the two values that are compared don't have the same type
+don't use '=' --> error if the two values that are compared don't have the same type; just use eq
 
 NIL IS AN ATOM
 
-use &optional only once
+use &optional only once (everything after this is optional)
