@@ -22,6 +22,20 @@ from patients;
 
 ```sql
 /*
+For each doctor, display their id, full name, and the first and last admission date they attended.
+*/
+
+select d.doctor_id, 
+    concat(d.first_name, ' ', d.last_name) as full_name, 
+    MIN(a.admission_date) as first_admission,
+    max(a.admission_date) AS latest_admission
+FROM doctors d join admissions a on d.doctor_id = a.attending_doctor_id
+group by d.doctor_id
+order by doctor_id
+```
+
+```sql
+/*
 Show all columns for patient_id 542's most recent admission_date.
 */
 
@@ -69,6 +83,18 @@ from patients
 group by(city)
 order by num_patients desc, city asc
 
+```
+
+```sql
+/*
+display the first name, last name and number of duplicate patients based on their first name and last name. 
+*/
+
+select p.first_name, p.last_name, count(*) as num_of_duplicates 
+from patients p 
+group by p.first_name, p.last_name
+having num_of_duplicates > 1
+order by num_of_duplicates desc
 ```
 
 ```sql
@@ -142,6 +168,26 @@ select city
 from patients
 where province_id = 'NS'
 group by city 
+```
+
+```sql
+/*
+Display patient's full name,
+height in the units feet rounded to 1 decimal, 
+weight in the unit pounds rounded to 0 decimals, 
+birth_date,
+gender non abbreviated.
+
+Convert CM to feet by dividing by 30.48.
+Convert KG to pounds by multiplying by 2.205.
+*/
+
+select concat(first_name, ' ', last_name) AS full_name, 
+	round(height / 30.48, 1) as height, 
+    round(weight * 2.205, 0) AS weight,
+    birth_date,
+    (CASE WHEN gender = 'M' then 'MALE' else 'FEMALE' END) AS gender
+from patients
 ```
 
 ```sql
