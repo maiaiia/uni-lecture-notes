@@ -234,3 +234,44 @@ from admissions
 group by has_insurance
 
 ```
+
+```sql
+/*
+Show the provinces that has more patients identified as 'M' than 'F'. Must only show full province_name
+*/
+SELECT pr.province_name
+from province_names pr
+  join(
+    select 
+        province_id, 
+        sum(case when gender = 'M' THEN 1 ELSE -1 END) as delta_gender
+    from patients 
+    group by province_id
+    having delta_gender > 0
+  ) t 
+on t.province_id = pr.province_id
+
+SELECT pr.province_name
+FROM patients AS pa
+  JOIN province_names AS pr ON pa.province_id = pr.province_id
+GROUP BY pr.province_name
+HAVING
+  COUNT( CASE WHEN gender = 'M' THEN 1 END) > COUNT( CASE WHEN gender = 'F' THEN 1 END);
+```
+
+```sql
+/*
+We need a breakdown for the total amount of admissions each doctor has started each year. Show the doctor_id, doctor_full_name, specialty, year, total_admissions for that year.
+*/
+
+select 
+	d.doctor_id, 
+	concat(d.first_name, ' ', d.last_name) as doctor_name,
+    d.specialty,
+    year(a.admission_date) as selected_year,
+    count(*) as total_admissions
+from doctors d 
+	join admissions a on d.doctor_id = a.attending_doctor_id
+group by d.doctor_id, selected_year
+
+```
