@@ -70,7 +70,7 @@ compare(_, X, X).
 ```
 #### 3.
 The LISP function G is defined by `(DEFUN G(L)(LIST (CAR L)(CAR L)))`. In order to rename the function G we execute `(SETQ Q 'G)` followed by `(SETQ P Q)`. What is the result of evaluating the form `(FUNCALL P '(A B C))`? Justify the answer.
-
+`(A A )` TODO - justify
 #### 4.
 Consider the PROLOG predicate `f(list, integer)` with the flow model `(i, o)`.
 ```prolog
@@ -79,14 +79,95 @@ f([H|T], S) :- f(T, S1), S1 is S-H.
 ```
 What is the result of the evaluation `f([1,2,3,4,5,6,7,8],S)`? Justify the answer.
 
+```
+% (poor justification) 
+% Prolog tries to bind unbound variables to whatever works so that predicates evaluate to true
+% however, the is operator needs a bound value on the right hand side
+% so the function will result in an error
+```
 ### II.
 For any given positive natural number N, generate all the sets of prime numbers that add up to N (including N, if applicable). Write the mathematical model, flow model, and the meaning of the variables for each predicate used. 
 (Eg: N = 18 => \[\[2,3,13],\[2,5,11],\[5,13],\[7,11]])
+```prolog
+% rev(l1..ln) = 
+%	[], n = 0 
+%	rev(l2..ln) U l1 otherwise
+% (i,o)
+rev([], Acc, Acc).
+rev([H|T], Acc, R):-rev(T,[H|Acc],R).
+rev(L, R):-rev(L, [], R).
+
+% checkPrime(l1..ln, E) = 
+%	true, n = 0
+%	false, E % l1 = 0 
+%	checkPrime(l2..ln, E) otherwise
+checkPrime([], _).
+checkPrime([H|T], E):-
+    not((E mod H) =:= 0),
+    checkPrime(T,E).
+
+% primes(N, C, a1..ak = []) = 
+%	a1..ak, C > N
+%	primes(N, C + 1, C U a1..ak), checkPrime(a1..ak, C)
+%	primes(N, C+1, a1..ak) otherwise
+% flow model : (i, o) (the accumulator is instantiated via a wrapper)
+primes(N, C, Acc, Acc):- C > N, !.
+primes(N, C, Acc, R):-
+    checkPrime(Acc, C),!,
+    C1 is C + 1,
+    primes(N, C1, [C|Acc], R).
+primes(N, C, Acc, R):-
+    C1 is C + 1,
+    primes(N, C1, Acc,R).
+primes(N, R):-primes(N, 2, [], R).
+
+% primeSum(N, p1..pn, CS, a1..an) =
+%	p1 U a1..an, CS + p1 = N
+%	primeSum(N, p2..pn, CS + p1, p1 U a1..an), CS + p1 < N
+%	primeSum(N, p2..pn, CS, a1..an), CS < N
+% (i, i, o)
+primeSum(N, [P1|_], CS, A, [P1|A]):-
+    CS2 is CS + P1,
+    N is CS2, !.
+primeSum(N, [P1|P2], CS, A, R):-
+    CS2 is CS + P1,
+    CS2 < N,
+    primeSum(N, P2, CS2, [P1 | A], R).
+primeSum(N, [_|P2], CS, A, R):-
+    primeSum(N, P2, CS, A, R).
+primeSum(N, P, R):-primeSum(N, P, 0, [],  R).
+
+getPrimeSum(N, R):-
+    primes(N, PRev),
+    rev(PRev, P),
+    primeSum(N, P, R).
+
+main(N, S):-
+    findall(R, getPrimeSum(N, R), S).
+```
 ### III
 An n-ary tree is represented in LISP as (root subtree1 subtree2 ...). Write a function to replace the nodes from the odd levels in the tree with a given value e. The level of the root is considered 0. **Use a MAP function**. Write the mathematical model and the meaning of all the parameters for each function used.
 
-(Eg. for (a (b (g)) (c (d (e)) (f)))) and e = h => (a (h (g)) (h (d (h)) (h))))
+(Eg. for (a (b (g)) (c (d (e)) (f))) and e = h => (a (h (g)) (h (d (h)) (f)))
 
+```lisp
+; replaceOdd(tree, e, lvl) = 
+;   e, tree is an atom and lvl is odd 
+;   tree, tree is an atom 
+;   replaceOdd(t1, e, lvl+1) U ... U replaceOdd(tn, e, lvl + 1) otherwise (tree = t1..tn)
+; (i,i)
+(defun replaceOdd(tree e &optional (lvl -1))
+  (cond
+    ((atom tree)
+      (cond
+        ((= (mod lvl 2) 1) e)
+        (T tree)
+      )
+    )
+    (T (mapcar (lambda (tree) (replaceOdd tree e (+ lvl 1))) tree))
+  )
+)
+```
 ## A2
 
 ### I
