@@ -17,6 +17,7 @@ ___
 |     \[H\|T]     | Split a list into the first element and the rest of the list (T can be empty)                                                                                                   |
 | `\+` or `not()` | Negate a predicate                                                                                                                                                              |
 |    `findall`    | - Find all the solutions of a predicate (great for backtracking)<br>- e.g. `findall(R, p(3,R), Out)` will find all `R`'s that are solutions of `p(3,R)` and store them in `Out` |
+|       `;`       | OR                                                                                                                                                                              |
 
 The **flow model** of a predicate is used to indicate how said predicate is intended to be called; `i` denotes an input variable and `o` denotes an output.
 

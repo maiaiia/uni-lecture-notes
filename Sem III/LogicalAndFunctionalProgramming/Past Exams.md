@@ -24,6 +24,21 @@ Consider the following function definition in LISP
 ```
 Rewrite it in order to have only one recursive call `(funcall F (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
 
+```lisp
+(defun Fct2 (F L)
+  (cond
+    ((null L) nil)
+    (T 
+      ((lambda (X)
+        (cond
+          (X (cons X (Fct F (cdr l))))
+        )
+      ) (funcall F(car l)))
+    )
+  )
+)
+; TODO - justify
+```
 #### 2.
 Let L be a numerical list and consider the following PROLOG definition for the predicate `f(list, integer)`, with the flow model (i, o):
 ```prolog
@@ -31,8 +46,28 @@ f([], -1).
 f([H|T],S) :- H>0, f(T, S1), S1 < H, !, S is H.
 f([_|T], S) :- f(T, S1), S is S1.
 ```
-Rewrite the predicate in order to have only one recursive call `f(T, S1)` in all clauses. You mai write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
+Rewrite the predicate in order to have only one recursive call `f(T, S1)` in all clauses. You may write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
+```prolog
+% my solution
+f([],-1).
+f([H|T], S):-
+    f(T,S),
+    (H =< 0 ; H =< S),!.
+f([H|_], H).
+```
 
+```prolog
+% another solution 
+f([], -1).
+f([H|T], S):-
+	f(T, S1),
+	compare(H, S1, S).
+	
+compare(H, X, H):-
+	H > 0,
+	H > X, !.
+compare(_, X, X).
+```
 #### 3.
 The LISP function G is defined by `(DEFUN G(L)(LIST (CAR L)(CAR L)))`. In order to rename the function G we execute `(SETQ Q 'G)` followed by `(SETQ P Q)`. What is the result of evaluating the form `(FUNCALL P '(A B C))`? Justify the answer.
 
