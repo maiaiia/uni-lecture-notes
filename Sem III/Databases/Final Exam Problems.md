@@ -196,3 +196,112 @@ RIGHT JOIN R ON t.RID = R.RID
 after the 3rd join, all the records are removed
 table t is empty
 after the right join, we have 6 entries, (NULL, i) for i in range (1,6)
+
+
+## Misc
+### I 
+
+### II 
+
+### III Database Design
+#### 1. Netflix Database
+Create a database for Netflix. The entities of interest to the problem domain are: Accounts, Movies, Actors, Reviews, and Watchlists. Accounts have an email address, join date, and a flag indicating if the account is active. Email addresses must be unique. Actors have a name, nationality, and can play in multiple movies. A movi has a title and duration in minutes. Durations cannot be negative. Accounts can leave a review for a movie they have watched. The system stores the review date, rating (floating point number between 0 and 10) and a text. Watchlists contain the account, the movie, and the date the movie has been watched by the account.
+
+1. Write an SQL script that creates the corresponding relational data model.
+2. Implement a stored procedure that receives an account and a movie and adds the movie to the account's watchlist
+3. Create a view that shows the names of the movies reviewed by at least 2 accounts having more than 3 movies watched
+4. Implement a function that returns the number of movies watched by at least R accounts during a period of time S and E, where R, S and E are function parameters
+
+```sql
+CREATE TABLE Accounts(
+    accId INTEGER PRIMARY KEY IDENTITY(1,1),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    joinDate DATE,
+    active BIT
+)
+CREATE TABLE Actors(
+    actId INTEGER PRIMARY KEY IDENTITY(1,1),
+    actName VARCHAR(100),
+    nationality VARCHAR(100)
+)
+CREATE TABLE Movies(
+    movId INTEGER PRIMARY KEY IDENTITY(1,1),
+    title VARCHAR(100),
+    duration INTEGER CHECK (duration > 0)
+)
+CREATE TABLE Played (
+    actId INTEGER REFERENCES Actors(actId),
+    movId INTEGER REFERENCES MOVIES(movId),
+)
+CREATE TABLE Reviews (
+    accId INTEGER REFERENCES Accounts(accId),
+    movId INTEGER REFERENCES Movies(movId),
+    revDate DATE,
+    rating FLOAT CHECK (0 <= rating AND rating <= 10),
+    revText VARCHAR(1000)
+)
+CREATE TABLE WatchList (
+    accId INTEGER REFERENCES Accounts(accId),
+    movId INTEGER REFERENCES Movies(movId),
+    wDate DATE
+)
+GO
+```
+
+```sql
+CREATE PROC addToWatchlist(@accId INTEGER, @movId INTEGER)
+AS 
+BEGIN
+    DECLARE @currDate DATE = GETDATE()
+    INSERT INTO WatchList(accId, movId, wDate) VALUES 
+    (@accId, @movId, @currDate)
+END 
+GO
+```
+
+```sql
+CREATE VIEW ReviewedByCinephiles AS 
+    SELECT M.title
+    FROM Movies M
+    JOIN Reviews R on M.movId = R.movId
+    WHERE R.accId IN (
+        -- select accounts that have watched more than 3 movies
+        SELECT A.accId
+        FROM Accounts A 
+            JOIN WatchList W ON W.accId = A.accId 
+        GROUP BY A.accId
+        HAVING 3 < COUNT(*)
+    )
+    GROUP BY M.title
+    HAVING COUNT(*) > 1
+GO
+```
+
+```sql
+CREATE OR ALTER FUNCTION UF_countGoodMovies (@R integer, @S date, @e date)
+    RETURNS INTEGER
+AS 
+BEGIN
+    DECLARE @result INT
+    SELECT @result = COUNT(*) 
+    FROM (
+        SELECT W.movId
+        FROM WatchList W
+        WHERE '01-07-2026' <= W.wDate AND W.wDate <= '01-12-2026' --S <= DATE, E <= DATE
+        GROUP BY W.movId
+        HAVING COUNT(*) >= 2 --R
+    ) M
+    RETURN @result
+END
+GO
+
+SELECT dbo.UF_countGoodMovies(2,'01-07-2026', '01-12-2026')
+```
+
+#### 2. Airline Database 
+Create a database to manage airline flight operations. The focus is on passenger by airplanes. The entities of interest to the problem domain are: Airlines, Airports, Flights,  Airplanes, and Pilots. An airline has a name, description, and operates several airplanes. An airplane has a name, belongs to an airline, and can be used on multiple flights. A flight has a departure time (date time), duration, ticket price, departure airport, destination airport, and an associated airplane. An airport has a name and a location. A pilot has a name and can operate multiple flights; for each flight, the pilot leaves a review (text and number of stars).
+
+a) Write an SQL script that creates the corresponding relational data model (2 points)
+b) Implement a stored procedure that receives as parameters a pilot, a flight, a string value, and an integer number (representing the text and number of stars for the review) and adds the corresponding review to the database (1 point)
+c) Create a view that shows the names of the airplanes with the largest number of flights. E.g. if there are 3 airplanes: A1 with 15 flights, A2 with 15 flights, and A3 with 12 flights, then both A1 and A2 must be displayed (2 points)
+d) Implement a function that returns the number of flights from airport X to airport Y, where X and Y are the function's parameters (airport names) (1 point)
