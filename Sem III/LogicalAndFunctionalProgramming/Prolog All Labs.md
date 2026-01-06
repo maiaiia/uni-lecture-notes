@@ -1090,15 +1090,123 @@ find_all_decomp(N, S):-
 ```
 - The list a1, ..., an is given and it consists of distinct integers. Write a predicate to determine all subsets with aspect of "mountain" (a set has a "mountain" aspect if the elements increase to a certain point and then decrease). 
 ```prolog
+% this somehow works and i can't be bothered to make the solution cleaner
 
+rev([], R, R).
+rev([H|T], Acc, R):- rev(T, [H|Acc], R).
+rev(L, R):- rev(L, [], R).
+
+% mountain_subset(l1..ln, m1..mk) = 
+% 	mountain_subset(l2..ln, l1), k = 0
+%	mk..m1 U l1, m1 > l1 and k > 1
+%	mountain_subset(l2..ln, l1 U m1), if k = 1 and l1 > m1
+%	mountain_subset(l2..ln, l1 U m1..mk), l1 > m1 and m1 > m2
+%	mountain_subset(l2..ln, l1 U m1..mk), k > 1 and l1 < m1
+%	mountain_subset(l2..ln, m1..mk)
+% (i, o)
+mountain_subset([H|T], [], R):-
+    mountain_subset(T, [H], R).
+mountain_subset([H|_], [M1, M2|N], R):-
+    H < M1,
+    rev([H, M1, M2|N], R).
+mountain_subset([H|T], [M|[]], R):- % this is so that we know for sure that if we have at least 2 elements, they are in the right order
+    H > M,
+    mountain_subset(T, [H,M], R).
+mountain_subset([H|T], [M1, M2|N], R):-
+    H > M1,
+    M1 > M2,
+    mountain_subset(T, [H, M1, M2|N], R).
+mountain_subset([H|T], [M1, M2|N], R):-
+    H < M1,
+    mountain_subset(T, [H, M1, M2|N], R).
+mountain_subset([_|T], M, R):-
+    mountain_subset(T, M, R).
+mountain_subset(L, R):- mountain_subset(L, [], R).
 ```
 - Generate all permutation of N (N - given) respecting the property: for every 2<=i<=n exists an 1<=j<=i, so |v(i)-v(j)|=1. 
 ```prolog
+rev([], R, R).
+rev([H|T], Acc, R):- rev(T, [H|Acc], R).
+rev(L, R):- rev(L, [], R).
 
+append([], L, L).
+append([H|T], L, [H|R]) :- append(T, L, R).
+
+seq(N, C, C):-C =< N.
+seq(N, C, R):-
+    C < N,
+    C1 is C + 1,
+    seq(N, C1, R).
+seq(N, R) :- seq(N, 1, R).
+
+iter([H|T], Acc, H, Rem):-append(Acc, T, Rem).
+iter([H|T], Acc, R, Rem):-iter(T,[H|Acc], R,Rem).
+iter(L, R, Rem):-iter(L, [], R, Rem).
+
+not_added([], _).
+not_added([H|T], E):- not(H = E), not_added(T, E).
+
+add_candidate(N, C, CL, PL, [C|CL]):-
+    C =< N,
+    0 < C,
+    not_added(CL, C),
+    not_added(PL, C), !.
+add_candidate(_, _, CL, _, CL).
+
+create_perm(N, _, L, Len, R):- N = Len, !, rev(L, R).
+create_perm(N, CL, L, Len, R):-
+    iter(CL, C, Rem),
+    Cm1 is C - 1,
+    Cp1 is C + 1,
+    add_candidate(N, Cm1, Rem, L, CL1),
+    add_candidate(N, Cp1, CL1, L, CL2),
+    Len1 is Len + 1, 
+    create_perm(N, CL2, [C|L], Len1, R).
+create_perm(N, [E], R):-
+    E1 is E + 1,
+    E2 is E - 1,
+    add_candidate(N, E1, [], [E], CL1),
+    add_candidate(N, E2, CL1, [E], CL2),
+	create_perm(N, CL2, [E], 1, R).
+
+permutations(N, R):-
+    seq(N, E),
+    create_perm(N, [E], R).
+
+main(N, S):-
+    findall(R, permutations(N, R), S).
 ```
 - For a list a1... an with integer and distinct numbers, define a predicate to determine all subsets with sum of elements divisible with n. 
 ```prolog
+rev([], R, R).
+rev([H|T], Acc, R):- rev(T, [H|Acc], R).
+rev(L, R):- rev(L, [], R).
 
+aux([], 0).
+aux([_|T], R1 + 1):-
+    aux(T, R1).
+countElements(L, R):-
+    aux(L, R1),
+    R is R1. % force evaluation while keeping aux tail recursive
+
+
+% subsetSumN(N, l1..lk, a1..ai, CS) = 
+%	ai..a1 U l1, if CS + l1 % N = 0 
+%	subsetSumN(N, l2..lk, l1Ua1..ai, CS + l1), k > 0
+%	subsetSumN(N, l2..lk, a1..ai, CS), k > 0
+% (i, o)
+subsetSumN(N, [H|_], Acc, CS, R):-
+    CS2 is CS + H, 
+    (CS2 mod N) =:= 0,
+    rev([H|Acc], R).
+subsetSumN(N, [H|T], Acc, CS, R):-
+    CS2 is CS + H,
+    subsetSumN(N, T, [H|Acc], CS2, R).
+subsetSumN(N, [_|T], Acc, CS, R):-
+    subsetSumN(N, T, Acc, CS, R).
+subsetSumN(L, R):- %wrapper
+    countElements(L, N),
+    subsetSumN(N, L, [], 0, R).
 ```
 - “Colouring” a map. n countries are given; write a predicate to determine all possibilities of colouring n countries with m colours, such that two adjacent countries not having the same colour. 
 ```prolog
