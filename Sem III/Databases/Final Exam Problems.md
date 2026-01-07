@@ -298,7 +298,137 @@ GO
 SELECT dbo.UF_countGoodMovies(2,'01-07-2026', '01-12-2026')
 ```
 
-#### 2. Airline Database 
+#### 2. Tourist Database
+Create a database to manage the museum tours for the tourists that visit various exhibitions.
+- The entities of interest to the problem domain are: *Museum*, *Exhibition*, *Tour*, and *Tourist*
+- Each exhibition has a name, a description, and belongs to a museum 
+- Each tour has a name, a date, a name for the tour guide, a ticket price, and belongs to a museum 
+- A museum has a name, an opening year, a city in which it is, and its country 
+- A tourist is characterised by name, surname, gender, and age 
+- Due to every tour and every tourist involved, the system stores the number of bought tickets, and the rating provided after the visit (for each tourist)
+
+1. Write an SQL script that creates the corresponding relational data model 
+2. Implement a stored procedure that receives a tour, a tourist, a number of bought tickets, a rating provided after the visit, and adds the tourist to the tour. If it already exists, the number of tickets and the rating are updated
+3. Create a view that shows the names of the exhibitions from the *National Museum of Art and Science*
+4. Implement a function that lists the name of the tourists that have booked more than **m** tours, where m>=1 is a function parameter
+
+```sql
+CREATE TABLE Museum(
+    mid INTEGER PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(100),
+    openingYear INTEGER CHECK (openingYear > 1400),
+    city VARCHAR(100),
+    country VARCHAR(100)
+)
+CREATE TABLE Exhibition(
+    eid INTEGER PRIMARY KEY IDENTITY(1,1),
+    mid INTEGER REFERENCES Museum(mid),
+    name VARCHAR(200),
+    description VARCHAR(1000)
+)
+CREATE TABLE Tour(
+    tourId INTEGER PRIMARY KEY IDENTITY(1,1),
+    mid INTEGER REFERENCES Museum(mid),
+    tdate DATETIME,
+    guide VARCHAR(100),
+    price INTEGER
+)
+CREATE TABLE Tourist(
+    tid INTEGER PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(100),
+    surname VARCHAR(100),
+    gender VARCHAR,
+    age INTEGER
+)
+CREATE TABLE Visit(
+    tid INTEGER REFERENCES Tourist(tid),
+    tourId INTEGER REFERENCES Tour(tourId),
+    ticketCount INTEGER,
+    rating INTEGER CHECK(0< rating AND rating <= 5)
+)
+
+
+INSERT INTO Museum([name], openingYear, city, country) VALUES 
+('National Museum of Art and Science', 1825, 'London', 'United Kingdom'),
+('National Museum of Culture', 1920, 'Iasi', 'Romania'),
+('Museum of Modern Art', 1990, 'Vienna', 'Austria');
+
+INSERT INTO Exhibition(mid, [name], [description]) VALUES 
+(1, 'Groundbreaking Discoveries of the 18th Century', 'what the name says'),
+(1, 'Science as an Art', 'why one cannot exist without the other'),
+(1, 'The Disappearance of the ''Jack-of-All-Trades''', 'a history on how we started viewing arts and science as completely incompatible fields and why that''s bad for us'),
+(2, 'The History of Traditional Romanian Attire', ''),
+(3, 'Favorite Modern Artists of 2025', '');
+
+INSERT INTO Tour(mid, tdate, guide, price) VALUES
+(1, '2025-11-23 12:00:00', 'Marie', 12),
+(1, '2025-11-24 9:00:00', 'Jonathan', 12),
+(1, '2025-11-24 10:00:00', 'Jane', 16),
+(2, '2025-11-24 11:00:00', 'Ana', 4),
+(2, '2025-11-24 9:00:00', 'Andrei', 4),
+(3, '2025-11-24 10:00:00', 'Kate', 20),
+(3, '2025-11-24 11:00:00', 'Kate', 20),
+(3, '2025-11-24 12:00:00', 'Kate', 20);
+
+INSERT INTO Tourist(name, surname, gender, age) VALUES
+('Steve', 'E', 'M', 18),
+('Matt', 'G', 'M', 20),
+('Lydia', 'W', 'F', 52),
+('Susan', 'D', 'F', 55),
+('Skyler', 'W', 'F', 34),
+('Daisy', 'S', 'F', 14);
+
+INSERT INTO Visit(tid, tourId, ticketCount, rating) VALUES
+(1, 1, 10, 4),
+(1,2,10,5),
+(1,3,2,2),
+(2,8,20,4),
+(2,7,10,3),
+(3,6,1,5),
+(3,5,1,3);
+GO
+
+CREATE OR ALTER PROC addVisit(
+    @tid INTEGER,
+    @tourId INTEGER,
+    @ticketCount INTEGER,
+    @rating INTEGER
+) AS 
+BEGIN   
+    DECLARE @exists INTEGER = (SELECT COUNT(*) FROM Visit WHERE tid = @tid AND tourId = @tourId);
+    IF @exists = 0 
+        INSERT INTO Visit(tid, tourId, ticketCount, rating) VALUES 
+        (@tid, @tourId, @ticketCount, @rating);
+    ELSE
+        UPDATE Visit
+        SET rating = @rating, ticketCount = ticketCount + @ticketCount
+        WHERE tid = @tid and tourId = @tourId;
+END 
+GO
+
+CREATE VIEW getNMoASExhibitions AS 
+    SELECT E.[name]
+    FROM Exhibition E 
+        JOIN Museum M ON M.mid = E.mid
+    WHERE M.name = 'National Museum of Art and Science'
+GO
+
+
+CREATE FUNCTION UF_getActiveTourists (
+    @m INTEGER
+) RETURNS TABLE 
+AS 
+    RETURN 
+    SELECT CONCAT(name, ' ', surname) tourist_name
+    FROM Tourist T
+        JOIN Visit V ON T.tid = V.tid
+    GROUP BY T.tid, T.name, T.surname
+    HAVING COUNT(*) > @m
+GO
+
+SELECT * FROM dbo.UF_getActiveTourists(2)
+```
+#### 3. Airline Database 
 Create a database to manage airline flight operations. The focus is on passenger by airplanes. The entities of interest to the problem domain are: Airlines, Airports, Flights,  Airplanes, and Pilots. An airline has a name, description, and operates several airplanes. An airplane has a name, belongs to an airline, and can be used on multiple flights. A flight has a departure time (date time), duration, ticket price, departure airport, destination airport, and an associated airplane. An airport has a name and a location. A pilot has a name and can operate multiple flights; for each flight, the pilot leaves a review (text and number of stars).
 
 a) Write an SQL script that creates the corresponding relational data model (2 points)
