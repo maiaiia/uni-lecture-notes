@@ -182,7 +182,7 @@ Consider the following function definition in LISP
   )
 )
 ```
-Rewrite it in order to have only one recursive call `(funcall F (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+Rewrite it in order to have only one recursive call `(f (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
 #### 2.
 Let L be a numerical list and consider the following PROLOG definition for the predicate `f(list, integer)`, with the flow model (i, o):
 ```prolog
