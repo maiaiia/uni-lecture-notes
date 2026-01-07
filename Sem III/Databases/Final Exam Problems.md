@@ -198,7 +198,7 @@ table t is empty
 after the right join, we have 6 entries, (NULL, i) for i in range (1,6)
 
 
-## Misc
+# Lab
 ### I 
 
 ### II 
