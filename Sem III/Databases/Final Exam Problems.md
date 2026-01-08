@@ -201,9 +201,7 @@ after the right join, we have 6 entries, (NULL, i) for i in range (1,6)
 # Lab
 ### I 
 
-### II 
-
-### III Database Design
+### II Database Design
 #### 1. Netflix Database
 Create a database for Netflix. The entities of interest to the problem domain are: Accounts, Movies, Actors, Reviews, and Watchlists. Accounts have an email address, join date, and a flag indicating if the account is active. Email addresses must be unique. Actors have a name, nationality, and can play in multiple movies. A movi has a title and duration in minutes. Durations cannot be negative. Accounts can leave a review for a movie they have watched. The system stores the review date, rating (floating point number between 0 and 10) and a text. Watchlists contain the account, the movie, and the date the movie has been watched by the account.
 
@@ -549,8 +547,160 @@ GO
 SELECT * FROM dbo.UF_listCoffeeEnthusiasts()
 
 ```
-#### 4. Airline Database 
-Create a database to manage airline flight operations. The focus is on passenger by airplanes. The entities of interest to the problem domain are: Airlines, Airports, Flights,  Airplanes, and Pilots. An airline has a name, description, and operates several airplanes. An airplane has a name, belongs to an airline, and can be used on multiple flights. A flight has a departure time (date time), duration, ticket price, departure airport, destination airport, and an associated airplane. An airport has a name and a location. A pilot has a name and can operate multiple flights; for each flight, the pilot leaves a review (text and number of stars).
+#### 4. Fairy Tales Database
+Create a database to manage the fairy tale books from different libraries.
+
+- ﻿﻿The entities of interest to the problem domain are: Books, Fairy Tales, Libraries and Cities.
+- ﻿﻿Each fairy tale has a title, an author name, the written year, a number of pages, and belongs to a book.
+- ﻿﻿A book is characterised by title, publisher and year.
+- ﻿﻿A library has name, date year and it is in a city. Each city has name, county and country.
+- ﻿﻿For the books stored in the libraries, the systems keep the number of copies and the register date.
+
+1. Write an SQL script that creates the corresponding relational data model.
+2. ﻿﻿Implement a stored procedure that receives a book, a library, a number of copies, a register date, and adds the book to the library. If an entry for the provided book and library already exists, the number of copies and the register date are updated.
+3. book to tia view that shows the tiles rite aline books that ear be found in the book called *Eternal Fairy Tales*
+4. ﻿﻿﻿Create a function that lists the name of the books that can be found in al the libraries from Cluj-Napoca.
+
+```sql
+CREATE TABLE Books(
+    bid INTEGER PRIMARY KEY IDENTITY(1,1),
+    title VARCHAR(200),
+    publisher VARCHAR(200),
+    yr INTEGER
+)
+CREATE TABLE FairyTales(
+    fid INTEGER PRIMARY KEY IDENTITY(1,1),
+    bid INTEGER REFERENCES Books(bid),
+    title VARCHAR(200),
+    author VARCHAR(200),
+    yr INTEGER,
+    pageCount INTEGER
+)
+CREATE TABLE Cities (
+    cid INTEGER PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(100),
+    country VARCHAR(100),
+    county VARCHAR(150)
+)
+CREATE TABLE Libraries (
+    lid INTEGER PRIMARY KEY IDENTITY(1,1),
+    cid INTEGER REFERENCES Cities(cid),
+    name VARCHAR(100),
+    yr INTEGER
+)
+CREATE TABLE Copies (
+    bid INTEGER REFERENCES Books(bid),
+    lid INTEGER REFERENCES Libraries(lid),
+    copies INTEGER CHECK (copies >= 0),
+    dateReg DATE
+
+    CONSTRAINT CopyPK PRIMARY KEY(bid, lid)
+)
+INSERT INTO Books(title, publisher, yr) VALUES 
+('Eternal Fairy Tales', 'p1', 2012),
+('The Most Enchanting Fairy Tales', 'p2', 2006),
+('Spooky Fairy Tales', 'p1', 2020);
+
+INSERT INTO FairyTales(bid, title, author, yr, pageCount) VALUES 
+(1, 'Enchanting Tale', 'author1', 1990, 50),
+(1, 'Tale As Old As Time', 'author2', 1800, 100),
+(2, 'Zana Zorilor', 'popor', 1820, 20),
+(3, 'Fairies in the Scandinavian Forest', 'unknown', 1600, 10),
+(1, 'The Elder Fairy', 'unknown', 1730, 20);
+
+INSERT INTO Cities(name, country, county) VALUES
+('Cluj-Napoca', 'Romania', 'Cluj'),
+('Botosani', 'Romania', 'Botosani'),
+('Iasi', 'Romania', 'Iasi');
+
+INSERT INTO Libraries(cid, name, yr) VALUES 
+(1, 'BCU', 1870),
+(1, 'Filiala BCU', 2003),
+(1, 'Biblioteca Centrala', 2000),
+(2, 'Biblioteca Judeteana', 1960),
+(3, 'Biblioteca Palatul Culturii', 2010);
+GO
+
+CREATE PROC AddBooksToLibrary(
+    @bid INTEGER,
+    @lid INTEGER,
+    @copies INTEGER,
+    @regDate DATE
+) AS 
+BEGIN
+    DECLARE @exists INT;
+    SELECT @exists = COUNT(*)
+        FROM Copies
+        WHERE bid = @bid AND lid = @lid;
+    IF @exists = 0 
+        INSERT INTO Copies(bid, lid, copies, dateReg) VALUES 
+        (@bid, @lid, @copies, @regDate)
+    ELSE 
+        UPDATE Copies
+        SET copies = copies + @copies, dateReg = @regDate
+END
+GO
+EXEC AddBooksToLibrary 1, 4, 20, '2020-01-01'
+GO
+CREATE VIEW TalesInEternalFairyTales AS 
+    SELECT F.title
+    FROM FairyTales F 
+        JOIN Books B ON F.bid = B.bid
+    WHERE B.title LIKE 'Eternal Fairy Tales'
+GO 
+
+CREATE OR ALTER FUNCTION UF_getBooksInCluj ()
+    RETURNS @ret TABLE(
+        title VARCHAR(100)
+    )
+AS
+BEGIN
+    DECLARE @librariesInCJ INT;
+    SELECT @librariesInCJ = COUNT(*)
+        FROM Libraries L
+        JOIN Cities C ON C.cid = L.cid
+        WHERE C.name = 'Cluj-Napoca'
+
+    INSERT INTO @ret 
+        SELECT B.title
+        FROM Books B
+            JOIN Copies C ON B.bid = C.bid 
+            JOIN Libraries L ON C.lid = L.lid
+            JOIN Cities Ct on Ct.cid = L.cid
+        WHERE Ct.name LIKE 'Cluj-Napoca'
+        GROUP BY B.title
+        HAVING COUNT(*) = @librariesInCJ
+    RETURN
+END
+GO
+
+SELECT * FROM dbo.UF_getBooksInCluj()
+
+SELECT * FROM Copies
+
+EXEC AddBooksToLibrary 3, 5, 10, '2020-06-10'
+```
+#### 5. Taxes Database 
+Create a database to manage services offered by a Tax management company. The database will store data about all the intermediaries involved. The entities of interest to the problem domain are: *TaxCompany*, *Clients*, *Assets* and *SRLs*(companies opened by the Tax company for their clients).
+- A tax company has a name, number of clients and number of opened SRLs (each client has a number of companies(SRLs) opened in his name).
+- A tax company can have multiple clients, a client can work only with one tax company. 
+- A client has an ID, identification number and the amount of money sent to the tax company(money at his disposal). Furthermore, a client can have multiple assets and multiple SRLs opened. 
+- Assets have a name, number of assets for each client and a location (the location of the SRL to which the assets were added). 
+- SRLs have a name, an activity and a location (place where the company is established).
+
+1. ﻿﻿﻿Write a SQL script that creates the corresponding relational data model.
+2. ﻿﻿﻿Implement a stored procedure that receives a client and returns the number of assets owned and the number of SRLs opened in his name.
+3. ﻿﻿﻿Create a view that shows client's identification number and amount of money owned, also the name and activity of all the SRLs opened in his name.
+4. ﻿﻿﻿Implement a function that lists the identification numbers of the clients and the location of all the SRLs opened in his name and in addition the number of assets for each SRL.
+
+
+#### 6. Airline Database 
+Create a database to manage airline flight operations. The focus is on passenger by airplanes. The entities of interest to the problem domain are: *Airlines*, *Airports*, *Flights*,  *Airplanes*, and *Pilots*. 
+- An airline has a name, description, and operates several airplanes. 
+- An airplane has a name, belongs to an airline, and can be used on multiple flights. 
+- A flight has a departure time (date time), duration, ticket price, departure airport, destination airport, and an associated airplane. 
+- An airport has a name and a location. 
+- A pilot has a name and can operate multiple flights; for each flight, the pilot leaves a review (text and number of stars).
 
 a) Write an SQL script that creates the corresponding relational data model (2 points)
 b) Implement a stored procedure that receives as parameters a pilot, a flight, a string value, and an integer number (representing the text and number of stars for the review) and adds the corresponding review to the database (1 point)
