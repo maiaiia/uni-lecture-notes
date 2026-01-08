@@ -183,6 +183,22 @@ Consider the following function definition in LISP
 )
 ```
 Rewrite it in order to have only one recursive call `(f (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+
+```lisp
+(defun f2(l)
+  (cond
+    ((null l) 0)
+    (T 
+      ((lambda (X)
+        (cond
+          ((> X 2) (+ (car l) X))
+          (T X)
+        )
+      ) (f (car l)))
+    )
+  )
+)
+```
 #### 2.
 Let L be a numerical list and consider the following PROLOG definition for the predicate `f(list, integer)`, with the flow model (i, o):
 ```prolog
@@ -192,6 +208,15 @@ f([_|T], S) :- f(T, S1), S is S1 + 2.
 ```
 Rewrite the predicate in order to have only one recursive call `f(T, S1)` in all clauses. You mai write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
 
+```prolog
+f([], 0).
+f([H|T], S) :- f(T, S1), chooseS(H, S1, S).
+
+chooseS(H, S1, S):-
+	H < S1, !,
+	S is H + S1.
+chooseS(H, S1, S):-S is S1 + 2.
+```
 #### 3.
 The LISP function F is defined by 
 ```lisp
@@ -204,6 +229,17 @@ The LISP function F is defined by
 ```
 
 What is the result of evaluating the form `(APPEND (f '(1 2))(f '(3 4) '(5 6) '(7 8)))`? Justify the answer.
+
+```
+first, APPEND's arguments are evaluated:
+- F '(1 2) returns '(1 2), since Y is empty 
+- &rest indicates that all remaining arguments are collected into a list denoted by y 
+- thus, the second call of f will look like this: f '(3 4) '((5 6) (7 8))
+- MAPCAR #'CAR y will collect the first element from each sublist into a list (i.e. results are packed using list)
+- thus, when append is called within f, we have x = (3 4) and y = (5 7). The function returns the list (3 4 5 7)
+
+We can conclude that the result of evaluating the form is (1 2 3 4 5 7)
+```
 #### 4.
 Consider the PROLOG predicates `p(integer)`, `q(integer)`, `r(integer)` with the flow model `(o)` and the predicate `s`.
 
@@ -218,6 +254,12 @@ s:-!, p(X), q(Y), r(Z), write(X), write(Y), write(Z), nl.
 ```
 
 Give the result of the following goal: s. Justify the answer. 
+
+```
+the cut (!) operator is the first goal in the body of s, preventing backtracking to find alternative solutions, so we can conclude that s is deterministic. X, Y and Z are unbounded variables and they will take on the first value such that the predicates p, q and r are evaluated as true (so they all store 1). 
+
+The result of the provided goal is 111.
+```
 ### II.
 Given a list of integers, generate all the sublists with odd lengths that have elements in strictly ascending order. Write the mathematical model, flow model, and the meaning of all the variables for each predicate used.
 
