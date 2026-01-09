@@ -231,14 +231,11 @@ The LISP function F is defined by
 What is the result of evaluating the form `(APPEND (f '(1 2))(f '(3 4) '(5 6) '(7 8)))`? Justify the answer.
 
 ```
-first, APPEND's arguments are evaluated:
-- F '(1 2) returns '(1 2), since Y is empty 
-- &rest indicates that all remaining arguments are collected into a list denoted by y 
-- thus, the second call of f will look like this: f '(3 4) '((5 6) (7 8))
-- MAPCAR #'CAR y will collect the first element from each sublist into a list (i.e. results are packed using list)
-- thus, when append is called within f, we have x = (3 4) and y = (5 7). The function returns the list (3 4 5 7)
-
-We can conclude that the result of evaluating the form is (1 2 3 4 5 7)
+; f '(1 2) returns '(1 2), since y is implicitly null 
+; f '(3 4) '(5 6) '(7 8)
+;     x is '(3 4), y is '((5 6) (7 8)) (since &rest indicates that the remaining arguments are packed in a list)
+;    thus, mapcall calls car on (5 6) and (7 8) and concatenates the results using LIST -> (5 7). this is appended to '(3 4) --> (3 4 5 7)
+; so, the result is (1 2 3 4 5 7)
 ```
 #### 4.
 Consider the PROLOG predicates `p(integer)`, `q(integer)`, `r(integer)` with the flow model `(o)` and the predicate `s`.
