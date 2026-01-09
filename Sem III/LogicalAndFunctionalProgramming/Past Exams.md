@@ -283,7 +283,7 @@ Consider the following function definition in LISP
   )
 )
 ```
-Rewrite it in order to have only one recursive call `(funcall F (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+Rewrite it in order to have only one recursive call `(f (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
 #### 2.
 Consider the following PROLOG definition for the predicate `f(integer, integer)` with the flow model `(i, o)`
 ```prolog
@@ -354,12 +354,70 @@ Rewrite the definition in order to avoid the repeated call (f(- n 1)). Do NOT re
 ```
 #### 2
 Given a numerical linear list, write a SWI-Prolog program that returns (in a list of pairs) all possible partitions of the initial list in two sublists, such that all elements of the sublists are relatively prime numbers (all elements of the first sublist are relatively prime and all elements of the second list are relatively prime). To avoid generating the same partition twice (ex: \[A, B] and \[B, A]), the first sublist will contain at most the same number of elements as the second sublist. For example, for the list \[3, 5, 7, 9], the result will be (not necessarily in this order): \[\[\[5, 3], \[9, 7]], \[\[7, 3], \[9, 5]], \[\[3], \[9, 7, 5]], \[\[9, 5], \[7, 3]], \[\[9, 7], \[5, 3]], \[\[9], \[7, 5, 3]]].
+
 #### 3
-For a given value N, generate the list of all permutations with elements N, N+1, ..., 2\*N-1 with the property that the absolute value between two consecutive values from the permutation is <=2. Write the mathematical models and flow models for the predicates used.
+For a given value N, generate the list of all permutations with elements N, N+1, ..., 2\*N-1 with the property that the absolute difference between two consecutive values from the permutation is <=2. Write the mathematical models and flow models for the predicates used.
+```prolog
+validE(N, E):-
+    N =< E,
+    N1 is N * 2 - 1,
+    E =< N1.
+diff(2).
+diff(1).
+diff(-1).
+diff(-2).
+% -2, -1, +1, +2
+
+seq(N, C, C):-
+    C =< N.
+seq(N, C, R):-
+    C1 is C + 1,
+    C1 =< N,
+    seq(N, C1, R).
+seq(N, R):-
+    N1 is N * 2 - 1,
+    seq(N1, N, R).
+
+inList([H|_], H):-!.
+inList([_|T], E):-inList(T,E).
+
+% genPerm (N, L, Acc, R)
+genPerm(N, N, Acc, Acc).
+genPerm(N, L, [H|T], R):-
+    diff(D),
+    C is H + D,
+    validE(N,C),
+    not(inList(T, C)),
+    L1 is L + 1,
+    genPerm(N, L1, [C,H|T], R).
+genPerm(N, R):-
+    seq(N, F),
+    genPerm(N, 1, [F], R).
+    
+main(N,S):-
+    findall(R, genPerm(N, R), S).
+    
+```
 #### 4
 Given a nonlinear list, write a Lisp function to replace the numerical values on odd levels and greater than a given value k to their natural predecessor. The superficial level is assumed 1. A MAP function shall be used. Example for the list (1 s 4 (3 f (7))) and a) k=0 the result is (0 s 3 (3 f (6))) b) k=8 the result is (1 s 4 (3 f (7)))
-### II
-### III
+
+```lisp
+; replPred(l, k, level) = 
+;   emptyList, l is empty 
+;   l - 1, l is a number and level is 1 
+;   l, l is an atom
+;   replPred(l1, k, 1 - level) U ... U replPred(ln, k, 1 - level) otherwise (l = l1..ln)
+;(level is actually a flag that flips between 0 and 1, indicating if we're on an even or an odd level)
+
+(defun replPred(l k &optional (level 0)) 
+  (cond
+    ((null l) nil)
+    ((and (and (numberp l) (= level 1)) (< l k) ) (- l 1))
+    ((atom l) l)
+    (T (mapcar (lambda (l) (replPred l k (- 1 level)))l))
+  )
+)
+```
 
 ## MISC 
 
