@@ -336,12 +336,28 @@ Consider the following function definition in LISP
 ```
 
 Rewrite the definition in order to avoid the repeated call (f(- n 1)). Do NOT redefine the function. Do NOT use SET, SETQ, SETF. Justify your answer.
+
+```lisp
+(defun f2(n)
+  (cond
+    ((= n 1) 1)
+    (T ((lambda (v)
+      (cond
+        ((> v 2) (- n 2))
+        ((> v 1) (f (- n 1)))
+        (T (- v 1))
+      )
+    ) (f (- n 1)))
+    )
+  )
+)
+```
 #### 2
 Given a numerical linear list, write a SWI-Prolog program that returns (in a list of pairs) all possible partitions of the initial list in two sublists, such that all elements of the sublists are relatively prime numbers (all elements of the first sublist are relatively prime and all elements of the second list are relatively prime). To avoid generating the same partition twice (ex: \[A, B] and \[B, A]), the first sublist will contain at most the same number of elements as the second sublist. For example, for the list \[3, 5, 7, 9], the result will be (not necessarily in this order): \[\[\[5, 3], \[9, 7]], \[\[7, 3], \[9, 5]], \[\[3], \[9, 7, 5]], \[\[9, 5], \[7, 3]], \[\[9, 7], \[5, 3]], \[\[9], \[7, 5, 3]]].
 #### 3
 For a given value N, generate the list of all permutations with elements N, N+1, ..., 2\*N-1 with the property that the absolute value between two consecutive values from the permutation is <=2. Write the mathematical models and flow models for the predicates used.
 #### 4
-Given a nonlinear list, write a Lisp function to replace the numerical values on off levels and greater than a given value k to their natural predecessor. The superficial level is assumed 1. A MAP function shall be used. Example for the list (1 s 4 (3 f (7))) and a) k=0 the result is (0 s 3 (3 f (6))) b) k=8 the result is (1 s 4 (3 f (7)))
+Given a nonlinear list, write a Lisp function to replace the numerical values on odd levels and greater than a given value k to their natural predecessor. The superficial level is assumed 1. A MAP function shall be used. Example for the list (1 s 4 (3 f (7))) and a) k=0 the result is (0 s 3 (3 f (6))) b) k=8 the result is (1 s 4 (3 f (7)))
 ### II
 ### III
 

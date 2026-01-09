@@ -6,11 +6,12 @@
 - [[Past Exams]]
 
 ## Seminars
-- [[Prolog-Seminar I]]
-- [[Prolog-Seminar II]]
-- [[Prolog-Seminar III]]
-- [[Lisp-Seminar V]]
-- [[Lisp-Seminar VI]]
+- [[Prolog-Seminar1]]
+- [[Prolog-Seminar2]]
+- [[Prolog-Seminar3]]
+- [[Lisp-Seminar5]]
+- [[Lisp-Seminar6]]
+- [[Lisp-Seminar7]]
 
 ## Misc
 - [[Theory For the Exam]]
