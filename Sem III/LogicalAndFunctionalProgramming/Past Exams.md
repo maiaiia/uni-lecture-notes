@@ -505,7 +505,54 @@ Given a nonlinear list, write a Lisp function to replace the numerical values on
 (P 37) Write a predicate to compute the sum of a number in the list representation (without converting the list into a number) and a certain digit 
 
 ### Lisp 
+Given a nonlinear list containing both numerical and non-numerical atoms, write a LISP program that computes the greatest common divisor of odd numbers on even levels of the list. The superficial level is considered to be 1. For example, for the list (A B 12 (9 D (A F (75 B) D (45 F) 1) 15) C 9), the result will be 3. We assume there is at least one odd number at each even level of the list. You are not allowed to use the predefined Lisp function gcd.
+```lisp
+(defun myGcd (x y)
+  (cond
+    ((= y 0) x)
+    (T (myGcd y (mod x y)))
+  )
+)
 
+(defun gcdList (l)
+  (cond
+    ((null l) 0)
+    (T (myGcd (car l) (gcdList (cdr l))))
+  )
+)
+
+(defun extractOddNumbersEvenLevel (l &optional (lvl 0))
+  (cond
+    ((null l) nil)
+    ((and (and (numberp l) (= (mod lvl 2) 0)) (= (mod l 2) 1)) (list l))
+    ((atom l) nil)
+    (T (mapcan (lambda (x) (extractOddNumbersEvenLevel x (+ lvl 1))) l))
+  )
+)
+(defun gcdOddLevel (l)
+  (gcdList (extractOddNumbersEvenLevel l))
+)
+
+(print (gcdOddLevel '(A B 12 (9 D (A F (75 B) D (45 F) 1) 15) C 9)))
+```
+
+Given a nonlinear list, write a Lisp function to return the list with all non-numerical atoms on even levels removed. The superficial level is assumed 1. A MAP function shall be used.
+Example for the list (a (1 (2 b)) (c (d))) the result is (a (1 (2 b)) ((d)))
+```lisp
+; non-numerical atoms on even levels removed 
+(defun remv(l &optional (lvl 0))
+  (cond
+    ((null l) nil)
+    ((numberp l) (list l))
+    ((and (atom l) (= (mod lvl 2) 0)) nil)
+    ((atom l) (list l))
+    (T (list (mapcan (lambda (l) (remv l (+ lvl 1))) l)))
+  )
+)
+(defun removeNonNumericalEvenLevel(l)
+  (car (remv l))
+)
+```
 ### Prolog
 Write a PROLOG program that generates the list of arrangements of k elements from a list of integer numbers, having the given product P. Write the mathematical models and flow models for the predicates used. For example, for the list \[2, 5, 3, 4, 10], k=2 and P=20 ⇒\[\[2,10],\[10,2],\[5,4],\[4,5]] (not necessarily in this order).
 ```prolog
@@ -528,4 +575,67 @@ arrangements(L, K, P, CP, [E|R]):-
     arrangements(Rem, K1, P, CP1, R).
 arrangements(L, K, P, R):-
     arrangements(L, K, P, 1, R).
+```
+
+Write a PROLOG program that generates the list of permutations of the set 1..N, having the property that the absolute value of the difference between 2 consecutive values from the permutation is >=2. Write the mathematical models and flow models for the predicates used. For
+example, for N=4 ⇒ \[\[3,1,4,2], \[2,4,1,3]] (not necessarily in this order).
+```prolog
+candidate([H|T], H, T).
+candidate([H|T], E, [H|R]):-
+    candidate(T, E, R).
+
+seq(0, []):-!.
+seq(N, [N|R]):-
+    N1 is N - 1,
+    seq(N1, R).
+
+ok(X, Y):-
+    X - Y >= 2, !.
+ok(X, Y):-
+    Y - X >= 2, !.
+
+% validPerm(L, Acc, R)
+validPerm([], Acc, Acc).
+validPerm(L, [H|T], R):-
+    candidate(L, E, Rm),
+    ok(E, H),
+    validPerm(Rm, [E, H| T], R).
+validPerm(N, R):-
+    seq(N, L),
+    candidate(L, E, Rm), 
+    validPerm(Rm, [E], R).
+```
+
+B. Given a nonlinear list composed of numbers greater or equal to 2, write a SWI-PROLOG program
+that replaces each nonprime number with the sum of its own proper divisors. Repeat the process until
+the list contains only prime numbers. For example, for the list \[10, 20, 30, 40] the result will be \[7, 7, 41, 7] (the initial list becomes first \[7, 21, 41, 49], then \[7, 10, 41, 7] and finally \[7, 7, 41, 7]).
+Return only the final list.
+```prolog
+properDivSum(X, X, 0):-!.
+properDivSum(X, C, R):-
+    X mod C =:= 0, !,
+    C1 is C + 1,
+    properDivSum(X, C1, R1),
+    R is R1 + C.
+properDivSum(X, C, R):-
+    C1 is C + 1, 
+    properDivSum(X, C1, R).
+properDivSum(X, R):-
+    properDivSum(X, 2, R).
+   
+replaceWithPDS([], [], 0).
+replaceWithPDS([H|T], [S|R], Replaced):-
+    properDivSum(H, S),
+    S > 0, !,
+    replaceWithPDS(T, R, Repl2),
+    Replaced is Repl2 + 1.
+replaceWithPDS([H|T], [H|R], Replaced):-
+    replaceWithPDS(T, R, Replaced).
+
+processList(L, R):-
+    replaceWithPDS(L, Rep, CntR), 
+    write(Rep),
+    CntR > 0, !,
+    processList(Rep, R).
+processList(L, L).
 ```
