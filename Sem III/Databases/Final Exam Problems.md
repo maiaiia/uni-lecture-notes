@@ -706,3 +706,5 @@ a) Write an SQL script that creates the corresponding relational data model (2 p
 b) Implement a stored procedure that receives as parameters a pilot, a flight, a string value, and an integer number (representing the text and number of stars for the review) and adds the corresponding review to the database (1 point)
 c) Create a view that shows the names of the airplanes with the largest number of flights. E.g. if there are 3 airplanes: A1 with 15 flights, A2 with 15 flights, and A3 with 12 flights, then both A1 and A2 must be displayed (2 points)
 d) Implement a function that returns the number of flights from airport X to airport Y, where X and Y are the function's parameters (airport names) (1 point)
+
+

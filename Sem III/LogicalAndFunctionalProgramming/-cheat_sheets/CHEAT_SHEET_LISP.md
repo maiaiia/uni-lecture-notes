@@ -20,3 +20,7 @@ don't use '=' --> error if the two values that are compared don't have the same 
 NIL IS AN ATOM
 
 use &optional only once (everything after this is optional)
+
+
+every (equivalent of and macro)
+some (equivalent of or macro)
