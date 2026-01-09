@@ -284,14 +284,38 @@ Consider the following function definition in LISP
 )
 ```
 Rewrite it in order to have only one recursive call `(f (car L))`. Do not create global variables. Do not write a new sub-algorithm to achieve the same thing. Justify the answer.
+```lisp
+(defun f(l)
+  (cond
+    ((null l) nil)
+    (T ( (lambda (v) 
+      (cond
+        ((listp (car l)) (append v (f (cdr l)) (car v)))
+        (T (list (car l)))
+      )
+    ) (f (car l))))
+  )
+)
+
+```
 #### 2.
 Consider the following PROLOG definition for the predicate `f(integer, integer)` with the flow model `(i, o)`
 ```prolog
 f(0, 0):-!.
-f(1, Y):- J is I - 1, f(I, V), V > 1, !, K is I - 2, Y is K.
-f(1, Y):-J is I - 1, f(J, V), Y is V + 1.
+f(I, Y):- J is I - 1, f(J, V), V > 1, !, K is I - 2, Y is K.
+f(I, Y):-J is I - 1, f(J, V), Y is V + 1.
 ```
 Rewrite the predicate in order to have only one recursive call `f(J, V)` in all clauses. You mai write auxiliary predicates. You may not write a new sub-algorithm to achieve the same thing. Justify the answer.
+```prolog
+f(0, 0):-!.
+f(I, Y):- J is I - 1, f(J, V), aux(V, I, Y).
+
+aux(V, I, Y):-
+    V > 1, !, 
+    Y is I - 2.
+aux(V, _, Y):-
+    Y is V + 1.
+```
 #### 3.
 The LISP function F is defined by 
 ```lisp
@@ -304,6 +328,20 @@ The LISP function F is defined by
 ```
 
 What is the result of evaluating the form `(APPEND (f '(1 2))(f '(3 4) '(5 6)))`? Justify the answer.
+
+```lisp
+(defun f(X &optional Y)
+  (cond
+    ((null Y) (cdr X))
+    (T (cons (car X) Y))
+  )
+)
+(print (APPEND (f '(1 2))(f '(3 4) '(5 6))))
+
+; f '(1 2) --> (2)
+; f '(3 4) '(5 6) --> X is '(3 4), Y is '(5 6) --> (3 5 6)
+; result of append is (2 3 5 6)
+```
 #### 4.
 Consider the PROLOG predicate `p(integer)`  with the flow model `(i)`.
 
@@ -313,13 +351,49 @@ p(N) :- write(N), N1 is N - 1, p(N1).
 ```
 
 Give the result of the following goal: `p(0)`. Justify the answer. 
+
+As long as p is not 100, the predicate won't evaluate to true. since we start from 0 and decrease N, it will never reach 100. thus, the goal results in an infinite loop (0-1-2-3... is displayed)
 ### II.
 Chairs must be arranged for a show. There are red chairs and yellow chairs. One row contains 5 chairs. Find all the possible arrangements of chairs on a row, knowing that there can be at most 3 yellow chairs on a row. Write the mathematical model, flow model, and the meaning of all variables for each predicate used. 
+
+```prolog
+% setChairs(N, YC) = 
+%	[], if N = 0 
+%	'y' U setChairs(N - 1, YC + 1), N > 0, YC < 3
+%	'r' U setChairs(N - 1, YC), N > 0
+setChairs(0, _, []).
+setChairs(N, YC, ['y'|R]):-
+    N > 0, YC < 3,
+    N1 is N - 1, YC1 is YC + 1,
+    setChairs(N1, YC1, R).
+setChairs(N, YC, ['r'|R]):-
+    N > 0,
+    N1 is N - 1,
+    setChairs(N1, YC, R).
+setChairs(R):-
+    setChairs(5, 0, R).
+
+main(S):-
+    findall(R, setChairs(R), S).
+```
 ### III
-Write a LISP function to substitute an element e with another element eq at any odd level from a nonlinear list (The superficial level is considered 1). **Use a MAP function**. Write the mathematical model and the meaning of all parameters for each function used.
+Write a LISP function to substitute an element e with another element e1 at any odd level from a nonlinear list (The superficial level is considered 1). **Use a MAP function**. Write the mathematical model and the meaning of all parameters for each function used.
 
 (Eg. for (1 d (2 d (d))), e = d and e1 = f, the list is (1 f (2 d (f))))
+```lisp
+; subsOdd(l, e, e1, oddl) = 
+;   e1, l = e and oddl = 1 
+;   e, l is an atom 
+;   subsOdd(l1, e, e1, 1 - oddl) U subsOdd(l2, e, e1, 1 - oddl) U ... U subsOdd(ln, e, e1, 1 - odd) otherwise (l = l1..ln)
 
+(defun subsOdd(l e e1 &optional (oddl 0))
+  (cond
+    ((and (equal l e) (equal oddl 1)) e1)
+    ((atom l) l)
+    (T (mapcar #'(lambda (l) (subsOdd l e e1 (- 1 oddl))) l))
+  )
+)
+```
 ## C 
 ### I 
 #### 1
