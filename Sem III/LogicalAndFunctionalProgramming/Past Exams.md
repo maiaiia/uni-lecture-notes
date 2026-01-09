@@ -553,6 +553,28 @@ Example for the list (a (1 (2 b)) (c (d))) the result is (a (1 (2 b)) ((d)))
   (car (remv l))
 )
 ```
+
+An n-ary tree is represented in Lisp as ( node subtree1 subtree2 ...).. Write a function to return the list of nodes on even levels, in increasing level order (0, 2, …). The root level is assumed zero. A MAP function shall be used.
+```lisp
+(defun nodesK (l k &optional (cl 0))
+  (cond
+    ((null l) nil)
+    ((= k cl) (list (car l)))
+    (T (mapcan (lambda (l) (nodesK l k (+ cl 1)))(cdr l)))
+  )
+)
+(defun levelTraversalEven (l &optional (k 0))
+  (cond
+    ((null l) nil)
+    (T ((lambda (v)
+      (cond
+        ((null v) nil)
+        (T (append v (levelTraversalEven l (+ k 2))))
+      )
+    ) (nodesK l k)))
+  )
+)
+```
 ### Prolog
 Write a PROLOG program that generates the list of arrangements of k elements from a list of integer numbers, having the given product P. Write the mathematical models and flow models for the predicates used. For example, for the list \[2, 5, 3, 4, 10], k=2 and P=20 ⇒\[\[2,10],\[10,2],\[5,4],\[4,5]] (not necessarily in this order).
 ```prolog
@@ -638,4 +660,41 @@ processList(L, R):-
     CntR > 0, !,
     processList(Rep, R).
 processList(L, L).
+```
+
+Given a linear list containing positive numbers, write a SWI-Prolog program that returns (as a list of pairs) all possible partitions of the initial list in two sublists, such that the sum of the digits of the elements from the two sublists is the same (we assume there is at least one such partition of the initial
+list).
+```prolog
+digitSum(0, 0):-!.
+digitSum(N, R):-
+    D is N mod 10,
+    N1 is N div 10,
+    digitSum(N1, R1),
+    R is R1 + D.
+
+digitSumList([], 0):-!.
+digitSumList([H|T], R):-
+    digitSum(H, S1),
+    digitSumList(T, S2),
+    R is S1 + S2.
+    
+partition([], DS, DS, LAcc, RAcc, [LAcc, RAcc]):-!.
+partition([H|T], DS, DS, LAcc, RAcc, R):-
+    partition(T, DS, DS, LAcc, [H|RAcc], R).
+partition([H|T], DS, CS, LAcc, RAcc, R):-
+    digitSum(H, E),
+    CS1 is CS + E,
+    CS1 =< DS,
+    partition(T, DS, CS1, [H|LAcc], RAcc, R).
+partition([H|T], DS, CS, LAcc, RAcc, R):-
+    CS < DS,
+    partition(T, DS, CS, LAcc, [H|RAcc], R).
+partition(L, R):-
+    digitSumList(L, DSDouble),
+    DSDouble mod 2 =:= 0, 
+    DS is DSDouble div 2,
+    partition(L, DS, 0, [], [], R).
+
+main(L, S):-
+    findall(R, partition(L, R), S).
 ```
