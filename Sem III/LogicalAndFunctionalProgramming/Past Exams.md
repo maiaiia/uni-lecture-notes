@@ -490,8 +490,7 @@ Given a nonlinear list, write a Lisp function to replace the numerical values on
 )
 ```
 
-## MISC 
-
+## MISC
 (L 4) Definiti o functie care, dintr-o lista de atomi, produce o lista de perechi (atom n), unde atom apare in lista initiala de n ori.
 
 (L 25) Un arbore binar se memoreaza (radacina (lista-subarbore-1) (lista-subarbore-2)). Sa se determine lista nodurilor de pe nivelul k din arbore. Nivelul radacinii se considera 0. 
@@ -504,3 +503,29 @@ Given a nonlinear list, write a Lisp function to replace the numerical values on
 (P15) Write a predicate to compute the difference of two numbers, each written as a list, without transforming the list into a number.
 
 (P 37) Write a predicate to compute the sum of a number in the list representation (without converting the list into a number) and a certain digit 
+
+### Lisp 
+
+### Prolog
+Write a PROLOG program that generates the list of arrangements of k elements from a list of integer numbers, having the given product P. Write the mathematical models and flow models for the predicates used. For example, for the list \[2, 5, 3, 4, 10], k=2 and P=20 ⇒\[\[2,10],\[10,2],\[5,4],\[4,5]] (not necessarily in this order).
+```prolog
+candidate([H|T], H, T).
+candidate([H|T], E, [H|R]):-
+    candidate(T, E, R).
+
+% arrangements(L, K, P, CP) = 
+%	[], K = 0 and P = CP 
+%	E U arrangements(R, K - 1, P, CP * E), if K > 0 and P % CP * E = 0 
+% where (E, R) = candidate(L)
+
+arrangements(_, 0, P, P, []):-!.
+arrangements(L, K, P, CP, [E|R]):-
+    K > 0, 
+    candidate(L, E, Rem),
+    CP1 is CP * E,
+    P mod CP1 =:= 0,
+    K1 is K - 1,
+    arrangements(Rem, K1, P, CP1, R).
+arrangements(L, K, P, R):-
+    arrangements(L, K, P, 1, R).
+```
