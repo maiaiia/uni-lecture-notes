@@ -491,6 +491,33 @@ Given a nonlinear list, write a Lisp function to replace the numerical values on
 ```
 
 ## MISC
+```prolog
+cand([H|T], H, T).
+cand([H|T], E, [H|R]):-
+    cand(T, E, R).
+
+perm([], []):-!.
+perm(L, [E|R]):-
+    cand(L, E, Li),
+    perm(Li, R).
+
+arr(_, 0, []):-!.
+arr(L, K, [E|R]):-
+    cand(L, E, Li),
+    K1 is K - 1, 
+    arr(Li, K1, R).
+
+candR([H|T], H, T).
+candR([_|T], E, R):-
+    candR(T, E, R).
+
+comb(_, 0, []):-!.
+comb(L, K, [E|R]):-
+    candR(L, E, Li),
+    K1 is K - 1,
+    comb(Li, K1, R).
+```
+
 (L 4) Definiti o functie care, dintr-o lista de atomi, produce o lista de perechi (atom n), unde atom apare in lista initiala de n ori.
 
 (L 25) Un arbore binar se memoreaza (radacina (lista-subarbore-1) (lista-subarbore-2)). Sa se determine lista nodurilor de pe nivelul k din arbore. Nivelul radacinii se considera 0. 
