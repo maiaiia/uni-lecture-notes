@@ -3,7 +3,7 @@ Class: "[[Databases]]"
 date: 2025-12-10
 type: Lecture
 ---
-# Final Exam Problems
+# Lab Exam Problems
 
 The final exam will consist of 2 parts: 
 1. Multiple Choice (one or multiple correct answers)

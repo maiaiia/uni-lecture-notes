@@ -1,7 +1,7 @@
 # Cheat Sheets
 - [[SQL]]
 - [[CHEAT_SHEET_LAB_DB]]
-- [[Final Exam Problems]]
+- [[Lab Exam Problems]]
 # Seminars
 - [[DBSeminar1]]
 - [[DBSeminar2]]
@@ -10,6 +10,7 @@
 - [[DBSeminar5]]
 - [[DBSeminar6]]
 # Labs
+- [[DBLab Database]]
 - [[DBLab 10]]
 # Lectures
 - [[Data Description Models]]
