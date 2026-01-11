@@ -31,6 +31,10 @@ TCP sockets are initialised with AF_INET and SOCK_STREAM
 UDP sockets are initialised with AF_INET and SOCK_DGRAM
 
 - TCP and UDP are not the only types of sockets
+
+## TCP vs UDP
+TCP header: 20 bytes 
+UDP header: 8 bytes 
 ## Misc
 hubs don't understand mac addresses 
 2 computers can never have the same IP address
@@ -46,6 +50,10 @@ ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da
 the default gateway must be in the same network as the computer (obviously)
 MAC address - 48 bits
 default route: 0.0.0.0 0.0.0.0
+
+the checksum is computed on the source and destination hosts and on each router
+
+when the congestion window is below the threshold, it grows EXPONENTIALLY
 ## Topics to add
 - public and private IP addresses 
 - IPv4 header 
@@ -56,7 +64,7 @@ default route: 0.0.0.0 0.0.0.0
 - bus, ring, star (network topologies)
 - ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da. research that
 - ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
-
+- duplicate acknowledgement => ??
 ## TIPS 
 
 vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
