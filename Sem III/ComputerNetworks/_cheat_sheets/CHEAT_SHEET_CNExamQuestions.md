@@ -124,8 +124,76 @@ type:
 
 >[!Question]- What is the broadcast address for 132.45.99.0/19?
 
->[!Question]- You have an interface on a router with 
+>[!Question]- You have an interface on a router with the IP address of 192.168.192.10/29. Including the router's interface, how many hosts can have IP addresses on the LAN attached to the router interface?
+
+>[!Question]- T/F 87.35.15.7 can be a broadcast address 
+
+>[!Question] T/F The network address can be calculated using the broadcast address and the netmask
+
+>[!Question] Which of the following is a private IP address?
+>a. 12.0.0.2
+>b. 168.172.19.40
+>c. 172.15.14.36
+>d. 192.168.24.43
+
+>[!Question]- The maximum number of hosts for a class C network is ...
+
+>[!Question] How do you find the network address if you have the network mask and one random IP address in the network?
+Select one or more:
+>a. You OR the netmask and the random IP
+>b. You AND the netmask and the negated random IP
+> c. You ADD the netmask and the random IP
+> d. You AND the netmask and the random IP
+
+>[!Question] Which of the following is the correct host range for the subnet in which we can find the IP address 192.168.168.188/255.255.255.192
+>Select one or more
+> a. 192.168.168.128-190
+> ﻿﻿b. 192.168.168.128-192
+> ﻿﻿c. 192.168.168.129-190
+> d. 192.168.168.129-191
+
+>[!Question] Which IP address is reserved for software loop-back?
+> a. 255.255.255.255
+> b. 127.x.y.z
+> c. 224.x.y.z
+> d. 0.0.0.0
+
+>[!Question]- The netmask /30 corresponds to \[...]
+>255.255.255.252
+
+>[!Question] T/F address 192.168.1.0 can be assigned to a computer 
 ### OSI Model and TCP/IP stuff
+
+>[!Question] What is a datagram?
+>a. A structure used to get data from the user in order to synchronise the server 
+>b. Millions of bytes configured in a big cluster which can be easily transferred 
+>c. Information that can harm your computer if you're not careful with it 
+>d. A basic transfer unit used in packet-switched networks, providing a connectionless communication service
+
+>[!Question] In TCP, bytes not read from the stream:
+>a. Are lost - but their count is reported as an error to the user 
+>b. Stay available for the next read 
+>c. A stream does not contain bytes  
+>d. Are lost
+
+>[!Question] A switch can transport 
+> a. IP packets
+> b. TCP packets
+> c. UDP packets
+
+>[!Question]- T/F HTTP is a Transport layer protocol
+>FALSE
+
+>[!Question]- What does ARP stand for?
+>Address Resolution Protocol
+
+>[!Question]
+> Which protocol(s) are used in the transport of PING packets (technically ICMP but whatever)
+> a. UDP
+> b. IP 
+> c. TCP 
+> d. ARP 
+> e. ICMP
 
 >[!Question]- T/F HTTP is not located in the Transport Layer
 
