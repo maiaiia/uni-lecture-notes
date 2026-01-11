@@ -7,6 +7,10 @@ type:
 
 ## Subnetting
 
+>[!Question] Write the network mask of the minimum sized network that contains both 80.81.82.83 and 80.83.84.85
+>>[!Check]
+>>255.252.0.0
+
 >[!Question]- T/F A network with the netmask 255.255.255.0 has 2^8 = 256 ips
 
 >[!Question]- T/F A network with the netmask 255.255.255.255 can have a maximum of 256 hosts
@@ -100,6 +104,15 @@ type:
 > c. 1.0.0.1 
 > d. 225.46.130.1
 
+>[!Question] Write as \[network address]/\[xx] - in the most compact and ordered way - the address space 62.255.254.224 - 63.64.0.31
+>>[!Check]-
+>>62.255.254.224/27
+>>62.255.255.0/8
+>>63.0.0.0/10
+>>63.64.0.0/27
+>>
+
+
 >[!Question] 255.192.0.0 is a valid netmask for the network
 >Select one or more:
 >a. 192.193.1.0
@@ -162,7 +175,15 @@ Select one or more:
 >255.255.255.252
 
 >[!Question] T/F address 192.168.1.0 can be assigned to a computer 
-### OSI Model and TCP/IP stuff
+
+>[!Question] What is  the closest number to the largest routing table in the case of classful IP Addressing?
+>a. 2^16
+>b. 2^7 + 2^14 + 2^21
+>c. 2^32
+>d. 2^8 + 2^16
+>>[!Check]-
+>>b
+## OSI Model and TCP/IP stuff
 
 >[!Question] What is a datagram?
 >a. A structure used to get data from the user in order to synchronise the server 
@@ -209,6 +230,9 @@ Select one or more:
 > b. When a transmitted packet is received by every machine on the network but processed by only one of them 
 > c. When a transmitted packet is received and processed by every machine on the network 
 > d. When a transmitted packet is received by every machine on the network but processed by none of them
+>
+>>[!Check]-
+>>c
 
 >[!Question] Which of the following is a correct MAC address?
 > a. 12-34-56-78-90-AB-CD
@@ -219,12 +243,14 @@ Select one or more:
 >[!Question]- T/F A hub understands a MAC Address 
 >FALSE
 
->[!Question] Which of the following is not a characteristic of the IP protocol?
+>[!Question] Which of the following is NOT a characteristic of the IP protocol?
 >Select one or more:
 > a. It is a connection-oriented protocol
 > b. It affects packet routing 
 > c. It defines the Internet addressing system 
 > d. It is considered an unreliable protocol
+>>[!Check]-
+>>a
 
 >[!Question] TCP and UDP are part of 
 > a. Internet Layer 
@@ -237,6 +263,8 @@ Select one or more:
 > b. They do not provide hosts with information about network problems 
 > c. ICMP is encapsulated within UDP datagrams 
 > d. They guarantee datagram delivery
+>>[!Check]
+>>a
 
 >[!Question] TCP Header contains the following entries:
 > a. Source Port, Destination Port, Sequence Number, Acknowledgement Number, Flags, Data Offset, Checksum, Urgent Pointer
@@ -279,3 +307,19 @@ Select one or more:
 >a. Determining the IP address when the DNS server is known
 >b. Determining the IP address when the MAC address is known 
 >c. Determining the MAC address when the IP address is known 
+
+>[!Question] A TCP connection is terminated through
+>a. a 4-way handshake
+>b. a 3-way handshake
+>c. a 2-way handshake
+>d. none of the answers are correct 
+>>[!Check]-
+>>a
+
+>[!Question] Which is the correct expression for the length of UDP datagram payload?
+>a. UDP length + UDP header length
+>b. UDP length - UDP header length
+>c. IP length + IP header length 
+>d. IP length - IP header length - UDP header length
+>>[!Check]-
+>>d

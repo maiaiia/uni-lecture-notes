@@ -10,9 +10,9 @@ RFC 1918 specifies the following IPv4 address ranges as private:
 
 | PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER |
 | -------- | ----------- | ---------------- | ----------- |
-| HTTP     | Application | TCP              |             |
-| HTTPS    | Application |                  |             |
-| ICMP     |             |                  |             |
+| HTTP     | Application | TCP              | 80          |
+| HTTPS    | Application | TCP              | 443         |
+| ICMP     | Network     | -                | -           |
 | ARP      |             |                  |             |
 | FTP      | Application |                  |             |
 | TCP      | Transport   | -                |             |
@@ -26,6 +26,7 @@ connect() can be used by TCP CLIENTS. it CANNOT be used by UDP clients
 recvfrom() receives data from UDP clients
 listen() is for servers, not clients
 bind() can be used by both TCP and UDP clients
+connect() is NOT required in any TCP server
 
 TCP sockets are initialised with AF_INET and SOCK_STREAM
 UDP sockets are initialised with AF_INET and SOCK_DGRAM
@@ -57,7 +58,9 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 ## Topics to add
 - public and private IP addresses 
 - IPv4 header 
-- TCP header 
+- TCP  
+	- header
+	- 3 and 4 way handshake
 - UDP header
 - what is a datagram? what is a stream?
 - traceroute
@@ -68,3 +71,7 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 ## TIPS 
 
 vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
+
+when asked which ip addresses are assignable to a computer, be mindful of the following:
+- the private ip ranges 
+- the multicast range (224.0.0.0 - 239.255.255.255)
