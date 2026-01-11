@@ -8,7 +8,7 @@ type:
 ## Subnetting
 
 >[!Question] Write the network mask of the minimum sized network that contains both 80.81.82.83 and 80.83.84.85
->>[!Check]
+>>[!Check]-
 >>255.252.0.0
 
 >[!Question]- T/F A network with the netmask 255.255.255.0 has 2^8 = 256 ips
