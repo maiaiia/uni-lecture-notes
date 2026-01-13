@@ -81,6 +81,11 @@ Checks if the **observed value** ($TS_0$) of the statistical test is inside the 
 - \[H, P, CI, STATS] = **vartest**($X, \sigma^2_0$)
 	- $X$ - sample vector
 	- $\sigma_0^2$ - the initial assumption on variance
+	- STATS 
+		- .fstat
+			- the observed value of the stat.test = TS0
+		- .df1 (degrees of freedom 1): the length of the first sample set
+		- .df2 (degrees of freedom 2): the length of the second sample set
 
 ## Exercises
 
