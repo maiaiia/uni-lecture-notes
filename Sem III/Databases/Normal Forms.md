@@ -35,7 +35,7 @@ Note that a relation that is in 1NF, but not 2NF, must have a composite key and 
 
 >[!Definition]
 >Definition 1:
->A relation is in 3NF if it is in 2NF and no [[Functional Dependencies#Prime attributes|non-prime attribute]] is transitively dependent on any key in the relation.
+>A relation is in 3NF if it is in 2NF and no [[Functional Dependencies#Prime attributes|non-prime attribute]] is [[Functional Dependencies#Transitive Dependency|transitively dependent]] on any key in the relation.
 >
 >Definition 2:
 >A relation $R$ is in 3NF if, for every non-trivial [[Functional Dependencies#Functional Dependencies#Simple Functional Dependency|functional dependency]] $X \rightarrow A$ that holds over $R$:
