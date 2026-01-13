@@ -1,3 +1,8 @@
+---
+Class: "[[ComputerNetworks]]"
+date:
+type: CheatSheet
+---
 ## Subnetting 
 loopback addresses are NOT private
 an IP class must begin with a multiple of the class' size

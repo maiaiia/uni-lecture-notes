@@ -1,3 +1,10 @@
+---
+Class: "[[Databases]]"
+date: 2026-01-13
+type: CheatSheet
+---
+# DB_PRACTICE_QUESTIONS
+
 ```sql
 /*
 Show the total amount of male patients and the total amount of female patients in the patients table.  

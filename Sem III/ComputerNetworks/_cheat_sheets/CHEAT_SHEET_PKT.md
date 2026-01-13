@@ -1,3 +1,8 @@
+---
+Class: "[[ComputerNetworks]]"
+date:
+type: CheatSheet
+---
 ## RIP
 ```
 router rip

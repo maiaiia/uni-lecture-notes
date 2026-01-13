@@ -1,6 +1,5 @@
 # Cheat Sheets
 - [[SQL]]
-- [[CHEAT_SHEET_LAB_DB]]
 - [[Lab Exam Problems]]
 # Seminars
 - [[DBSeminar1]]
@@ -16,4 +15,6 @@
 - [[Data Description Models]]
 - [[Databases and Database Management Systems]]
 - [[The Relational Model]]
-- [[Functional Dependencies. Normal Forms]]
+- [[Relational Algebra]]
+- [[Functional Dependencies]]
+- [[Normal Forms]]

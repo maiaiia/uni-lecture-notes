@@ -3,71 +3,9 @@ Class: "[[Databases]]"
 date:
 type: Lecture
 ---
-# Functional Dependencies. Normal Forms
-
-Ideally, database design should be carried out in such a manner that subsequent queries and operations are performed as smoothly as possible, i.e.
-- no additional tests are required when changing data
-- operations can be performed through SQL statements alone
-
-These conditions can be easily met when relations satisfy certain conditions (i.e. they are in a certain **normal form**).
-
-![[normal_forms]]
-One of the main issues that normal forms tackle is **data redundancy**. 
-
->[!Important]
->If a relation is not in normal form X, it can be decomposed into multiple relations that are in normal form X.
+# Functional Dependencies
 
 ## Relevant Concepts
-### Projection operator. Natural join
-The projection operator is used to decompose a relation. It has an awful definition, but think of it as simply selecting a subset of columns from a table (cause that's what it basically is).
-
-$$\Pi_\alpha(R) = \{r[\alpha]|r\in R\},$$ where 
-- $R[A_1,A_2,\dots,A_n]$ is a relation
-- $\alpha$ is a subset of attributes from $R$
-- $r$ is the new relation (i think?)
-
-
->[!Definition]
->The **natural join** of two relations $R[\alpha, \beta]$ and $S[\beta, \gamma]$, where $\alpha \cap \gamma = \emptyset$ is the relation $$R * S[\alpha, \beta, \gamma] = \{\Pi_\alpha(r), \Pi_\beta(r), \Pi_\gamma(s) | r \in R, s \in S, \Pi_\beta(r) = \Pi_\beta(s)\}$$
-
-In other words, create a new entry for every match on $\beta$ with the corresponding values in the $\alpha$ and $\gamma$ rows. Or just a cross product between $R$ and $S$, but $\beta$ is included only once.
-
-A relation can be decomposed into multiple new relations $R_\overline{1,m}$ . The decomposition is *good* if $R = R_1 * R_2 * \dots * R_m$, i.e. no data is added / lost through decomposition / composition.
-
-#### example - BAD decomposition
-
-Let the original relation be
-
-| LearningContracts | Student | FacultyMember | Course |
-| ----------------- | ------- | ------------- | ------ |
-| r1                | s1      | f1            | c1     |
-| r2                | s2      | f2            | c2     |
-| r3                | s1      | f2            | c3     |
-and two new relations $SF\text{[Student, FacultyMember]}$, $FC[\text{FacultyMember, Course}]$.
-
-Using the $\Pi$ and $*$ operators, the following values are obtained for the two projections and their natural join 
-
-| $SF$ | Student | FacultyMember |
-| ---- | ------- | ------------- |
-| r1   | s1      | f1            |
-| r2   | s2      | f2            |
-| r3   | s1      | f2            |
-
-| $FC$ | FacultyMember | Course |
-| ---- | ------------- | ------ |
-| r1   | f1            | c1     |
-| r2   | f2            | c2     |
-| r3   | f2            | c3     |
-
-| $SF * FC$ | Student | FacultyMember | Course |
-| --------- | ------- | ------------- | ------ |
-| r1        | s1      | f1            | c1     |
-| r2        | s2      | f2            | c2     |
-| ?         | s2      | f2            | c3     |
-| ?         | s1      | f2            | c2     |
-| r3        | s1      | f2            | c3     |
-
-The decomposition is not good, since the $SF * FC$ relation contains extra records
 ### Repeating attributes
 
 Attributes can either be *simple* or *composite* (a set of attributes - at least two - within a relation). 
@@ -112,7 +50,7 @@ Repeating attributes cannot be used in the relational model. Relations that have
 >[!Definition]
 >An attribute $A$ is said to be *prime* if there is a key $K$ and $A \subseteq K$ ($K$ can be a composite key; $A$ itself can be a key). If an attribute isn't included in any key, it is said to be *non-prime*
 
-## Functional dependency
+## Simple Functional Dependency
 
 >[!Definition] 
 >Let $R[A_1,...,A_n]$ be a relation and $\alpha, \beta$ two subsets of attributes of $R$. The (simple or composite) attribute $\alpha$ **functionally determines** $\beta$ (notation $\alpha \rightarrow \beta$) $\iff$ every value of $\alpha$ in $R$ is associated with a precise, unique value for $\beta$. If an $\alpha$ value appears in multiple rows, each of these will contain the same value for $\beta$.
@@ -180,46 +118,43 @@ Other properties:
 -  if $K$ is a key, then $K \rightarrow \beta, \forall \beta$ a subset of $K$'s columns
 -  if $\alpha \rightarrow \beta$ and $\alpha \subset \gamma$, then $\gamma \rightarrow \beta$
 
-### fully-functional dependency
+## Fully-Functional Dependency
 
 >[!Definition] 
 >Let $R[A_1,...,A_n]$ be a relation, and let $\alpha, \beta$ be two subsets of attributes of $R$. Attribute $\beta$ is **fully functionally dependent** on $\alpha$ if"
 >- $\beta$ is functionally dependent on $\alpha$ (i.e. $\alpha \rightarrow \beta$)
 >- $\beta$ is not functionally dependent on any proper subset of $\alpha$, i.e. $\forall \gamma \subset \alpha, \gamma \rightarrow \beta$ is not true
 
-### transitive dependency
+## Transitive Dependency
 
 >[!Definition]
 >An attribute $Z$ is **transitively dependent** on an attribute $X$ if $\exists Y$ s.t. $X \rightarrow Y, Y \rightarrow Z, Y\rightarrow X$ does not hold
-## Normal Forms
 
-### 1NF
-
->[!Definition]
->A relation is in the first normal form if it **doesn't have any repeating attributes**.
-### 2NF
+## Multi-Valued Dependency
 
 >[!Definition]
->A relation is in the second normal form if:
->1. It is in the first normal form and
->2. every (simple or composite) non-prime attribute is *fully functionally dependent* on every key of the relation
+> Let $R[A]$ be a relation, with the set of attributes $A = \alpha \cup \beta \cup \gamma$. The **multi-valued dependency** $\alpha \rightrightarrows \beta$ (read $\alpha$ *multi-determines* $\beta$) is said to hold over $R$ if each value $u$ of $\alpha$ is associated with a set of values $v$ for $\beta$: $\beta(u) = \{v_1,v_2,\dots,v_n\}$, and this association holds regardless of the values of $\gamma$.
+> 
 
-Note that a relation that is in 1NF, but not 2NF, must have a composite key and a functional dependency $\alpha \rightarrow \beta$, where $\alpha$ is a proper subset of the key and $\beta$ is a non-prime attribute. This dependency can be eliminated if $R$ is decomposed into the following 2 relations: $\Pi_{\alpha \cup \beta}(R)$, $\Pi_{A-B}(R)$.
-### 3NF
+In mathematical terms, $\forall w \in \Pi_\gamma(\sigma_{\alpha = u}(R)), \exists r_1\dots r_n$ such that $\Pi_\alpha(r_i) = u, \Pi_\beta(r_i) = v_i, \Pi_\gamma(r_i) = w$    
 
+Or like in a way that is actually easy to understand:
+If $\alpha \rightrightarrows \beta$ and the following rows exist:
+
+| $\alpha$ | $\beta$ | $\gamma$ |
+| -------- | ------- | -------- |
+| u1       | v1      | w1       |
+| u1       | v2      | w2       |
+then the following rows must exist as well:
+
+| $\alpha$ | $\beta$ | $\gamma$ |
+| -------- | ------- | -------- |
+| u1       | v1      | w2       |
+| u1       | v2      | w1       |
+
+>[!Property]
+>Let $R[A]$ be a relation, $A = \alpha \cup \beta \cup \gamma$. If $\alpha \rightrightarrows \beta$, then $\alpha \rightrightarrows \gamma$.
+
+## Join Dependency
 >[!Definition]
->Definition 1:
->A relation is in 3NF if it is in 2NF and no non-prime attribute is transitively dependent on any key in the relation.
->
->Definition 2:
->A relation $R$ is in 3NF if, for every non-trivial functional dependency $X \rightarrow A$ that holds over $R$:
->- $X$ is a superkey or
->- $A$ is a prime attribute
-
-### BCNF 
-
->[!Definition]
->A relation is in the Boyce-Codd normal form if every determinant of a functional dependency is a key (only non-trivial functional dependencies are considered)
-### 4NF
-
-### 5NF
+>Let $R[A]$ be a relation and $R_i[\alpha_i], i \in \overline{1,m}$ the projections of $R$ on $\alpha_i$. $R$ satisfies the **join dependency** $* \{\alpha_1, \alpha_2, \dots, \alpha_m\}$ if $R = R_1 * R_2 * \dots * R_m$

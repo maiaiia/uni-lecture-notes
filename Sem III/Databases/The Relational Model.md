@@ -40,7 +40,7 @@ A relation can have *multiple keys*: one key is chosen as the **primary key**, w
 
 >[!Definition]
 >A **superkey** is a set of fields that *contains the key* (e.g. a primary key + an additional column)
-
+^superkeydb
 ### Foreign Key constraints
 
 These reinforce the fact that the values of some attributes in a relation *can appear* in another relation. The *data types* of the corresponding columns must be *compatible* (although the column names can be different).
