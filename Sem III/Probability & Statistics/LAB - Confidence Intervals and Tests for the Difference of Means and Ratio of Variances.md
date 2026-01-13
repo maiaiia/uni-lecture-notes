@@ -56,3 +56,102 @@ part B
 $H_0: \sigma_A^2 \leq \sigma_B^2$
 $H_1: \sigma_A^2 > \sigma_B^2$
 
+```matlab
+A = [85, 92, 97, 65, 75, 96];
+B = [81, 79, 76, 84, 83, 77, 78, 82];
+
+[H, P, CI, STATS] = vartest2(A, B, 'Alpha', 0.05, 'Tail','both')
+
+
+fprintf("======= TEST 1 =======\n")
+if H == 1
+    fprintf("We reject the original hypothesis.\nThe variances are different.\n")
+else
+    fprintf("We do not reject H0.\nThe variances are equal.\n")
+end
+
+% but how can we do hypothesis testing if our software doesn't do it 
+% automatically? (like MATLAB does via H)
+
+fprintf("======= TEST 2 =======\n")
+if 0.05 >= P % alpha >= P
+    fprintf("We reject the original hypothesis.\nThe variances are different.\n")
+else
+    fprintf("We do not reject H0.\nThe variances are equal.\n")
+end
+
+fprintf("======= TEST 3 =======\n")
+t1 = finv(0.05/2, STATS.df1, STATS.df2);
+t2 = finv(1 - (0.05/2), STATS.df1, STATS.df2); %find the quartiles 
+
+% the rejection region is (-inf, t1) U (t2, inf)
+% check if STATS.fstat is in that region. if it is, we reject the
+% hypothesis
+
+if STATS.fstat <= t1 | STATS.fstat >= t2 
+    fprintf("We reject the original hypothesis.\nThe variances are different.\n")
+else
+    fprintf("We do not reject H0.\nThe variances are equal.\n")
+end
+
+% we can return to the first hypothesis, 
+% now that we know that the variances are not equal
+fprintf("======= TEST 1 =======\n")
+[H, P, CI, STATS2] = ttest2(A, B, 'alpha', 0.05, 'tail', 'right', 'vartype', 'unequal');
+if H == 1 
+	fprintf("We reject H0.\nPlayer A's claim is correct.\n")
+else
+    fprintf("We do not reject H0.\nPlayer A's claim is wrong.\n")
+end
+
+fprintf("======= TEST 2 =======\n")
+if 0.05 >= P
+	fprintf("We reject H0.\nPlayer A's claim is correct.\n")
+else
+    fprintf("We do not reject H0.\nPlayer A's claim is wrong.\n")
+end
+
+t_alpha = tinv(1 - 0.05, STATS2.df);
+
+fprintf("======= TEST 3 =======\n")
+if STATS2.tstat >= t_alpha
+	fprintf("We reject H0.\nPlayer A's claim is correct.\n")
+else
+    fprintf("We do not reject H0.\nPlayer A's claim is wrong.\n")
+end
+
+fprintf("\n********** PART B **********\n")
+[H, P, CI, STATS] = vartest2(A, B, 'alpha', 0.05, 'Tail', 'right');
+fprintf("======= TEST 1 =======\n")
+if H == 1 
+	fprintf("We reject H0.\nPlayer B's claim is correct.\n")
+else
+    fprintf("We do not reject H0.\nPlayer B's claim is wrong.\n")
+end
+
+fprintf("======= TEST 2 =======\n")
+if 0.05 >= P 
+	fprintf("We reject H0.\nPlayer B's claim is correct.\n")
+else
+    fprintf("We do not reject H0.\nPlayer B's claim is wrong.\n")
+end
+
+fprintf("======= TEST 3 =======\n")
+t1 = finv(0.05/2, STATS.df1, STATS.df2);
+t2 = finv(1 - (0.05/2), STATS.df1, STATS.df2); 
+
+if STATS.fstat <= t1 | STATS.fstat >= t2 
+    fprintf("We reject the original hypothesis.\nThe variances are different.\n")
+else
+    fprintf("We do not reject H0.\nThe variances are equal.\n")
+end
+
+% CI from ttest2 and vartype is unequal
+
+[H, P, CI, STATS] = ttest2(A, B, 'alpha', 0.1, 'tail', 'both', 'vartype', 'unequal');
+
+fprintf("CI: [%f, %f]\n", CI(1), CI(2))
+
+[H, P, CI, STATS] = vartest2(A, B, 'alpha', 0.08, 'tail', 'both');
+fprintf("CI: [%f, %f]\n", sqrt(CI(1)), sqrt(CI(2)))
+```
