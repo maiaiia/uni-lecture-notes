@@ -73,6 +73,7 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 - ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da. research that
 - ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
 - duplicate acknowledgement => ??
+- datatypes size (double 8 bytes, float, bla bla )
 ## TIPS 
 
 vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
