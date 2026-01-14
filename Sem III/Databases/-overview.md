@@ -18,3 +18,4 @@
 - [[Relational Algebra]]
 - [[Functional Dependencies]]
 - [[Normal Forms]]
+- [[The Physical Structure of Databases]]
