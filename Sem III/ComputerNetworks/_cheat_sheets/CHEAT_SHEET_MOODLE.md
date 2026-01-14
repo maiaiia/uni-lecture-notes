@@ -72,8 +72,16 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 - bus, ring, star (network topologies)
 - ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da. research that
 - ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
-- duplicate acknowledgement => ??
+- TCP duplicate acknowledgement => ??
 - datatypes size (double 8 bytes, float, bla bla )
+- FTP (uses control and data channel; it's NOT encrypted)
+- all about network boards
+  
+109/383. The listen() call is not mandatory in any TCP client.  (c:0/w: 0)
+a) true
+b) false
+>> a
+CORRECT!??
 ## TIPS 
 
 vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
