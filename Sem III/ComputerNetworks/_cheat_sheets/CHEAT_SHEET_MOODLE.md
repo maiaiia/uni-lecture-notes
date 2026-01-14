@@ -27,6 +27,16 @@ RFC 1918 specifies the following IPv4 address ranges as private:
 | SSH      | Application |                  |             |
 | IP       |             |                  |             |
 ## Socket Programming
+| Call                | TCP Client | TCP Server | UDP Client | UDP Server |
+| ------------------- | :--------: | :--------: | :--------: | :--------: |
+| `socket`            |     M      |     M      |     M      |     M      |
+| `bind`              |     O      |     M      |     O      |     M      |
+| `listen`            |     X      |     M      |     X      |     X      |
+| `connect`           |     M      |     X      |     O      |     O      |
+| `accept`            |     X      |     M      |     X      |     X      |
+| `send/recv`         |     O      |     O      |     X      |     X      |
+| `sendto / recvfrom` |     X      |     X      |     O      |     O      |
+
 connect() can be used by TCP CLIENTS. it CANNOT be used by UDP clients
 recvfrom() receives data from UDP clients
 listen() is for servers, not clients

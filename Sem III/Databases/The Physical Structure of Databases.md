@@ -193,3 +193,7 @@ Heap files can be implemented in multiple ways: *linked lists*, *directory of pa
 - the DBMS stores the address of the first page (header page) of each file (a table holding pairs of the form \<heap_file_name, page1_address\>)
 - 2 lists are used: one with pages with free space and one with full pages
 
+the drawback to the linked list is that most of the pages will be in the list of pages with free space. thus, when adding a record, multiple pages will have to be checked until one is found that has enough free space 
+
+#### directory of pages
+
