@@ -8,6 +8,7 @@
 - [[DBSeminar4]]
 - [[DBSeminar5]]
 - [[DBSeminar6]]
+- [[DBSeminar7]]
 # Labs
 - [[DBLab Database]]
 - [[DBLab 10]]
