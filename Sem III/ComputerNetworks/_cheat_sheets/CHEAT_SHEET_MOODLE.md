@@ -7,17 +7,20 @@ type: CheatSheet
 loopback addresses are NOT private
 an IP class must begin with a multiple of the class' size
 
-RFC 1918 specifies the following IPv4 address ranges as private:
-- `10.0.0.0/8` $\rightarrow$ Class A
-- `172.16.0.0/12` (`172.16.0.0` - `172.31.255.255`) $\rightarrow$ Class B
-- `192.168.0.0/16` $\rightarrow$ Class C
-
 Address Classes:
 - A: `1.0.0.0 - 126.255.255.255`
 - B: `128.0.0.0 - 191.255.255.255`
 - C: `192.0.0.0 - 223.255.255.255`
 - D: `224.0.0.0 - 239.255.255.255` - MULTICAST
 - E: `240.0.0.0 - 255.255.255.255`
+
+RFC 1918 specifies the following IPv4 address ranges as private:
+- `10.0.0.0/8` $\rightarrow$ Class A
+- `172.16.0.0/12` (`172.16.0.0` - `172.31.255.255`) $\rightarrow$ Class B
+- `192.168.0.0/16` $\rightarrow$ Class C
+
+Loopback addresses: `127.x.x.x`
+When you want to check the OSI stack, ping `127.0.0.1`
 
 ### IPv4 Header
 Version, Internet Header Length, DSCP, ECN, Total Length, Identification, Flags (ZF, DF, MF), Offset, Time To Live, Protocol, Checksum, Source IP, Destination IP (, Options - not mentioned in the course)
@@ -47,7 +50,9 @@ Port Ranges:
 - well-known: 1024 - 49151
 - private: 49152 - 65535
 
-WHOIS
+### FTP
+- uses control and data channel (hence the two ports)
+- it's NOT encrypted
 ## TCP vs UDP
 
 >[!TODO]
@@ -58,10 +63,8 @@ WHOIS
 >- UDP header
 >- what is a datagram? what is a stream?
 
-TCP header: 20 bytes 
-UDP header: 8 bytes 
-
 UDP writes packets of bytes
+### Comparison
 
 | Characteristic | TCP Header                                                                                                                         | UDP Header                                                                               |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -85,9 +88,9 @@ UDP writes packets of bytes
 
 - TCP and UDP are not the only types of sockets
 
-|              | char | int | float | double |
-| ------------ | ---- | --- | ----- | ------ |
-| Size (bytes) |      |     |       |        |
+|              | char | short | int | float | long long | double |
+| ------------ | ---- | ----- | --- | ----- | --------- | ------ |
+| Size (bytes) | 1    | 2     | 4   | 4     | 8         | 8      |
 
 ## Traceroute
 
@@ -99,10 +102,11 @@ UDP writes packets of bytes
 >[!TODO]
 
 ## Network Topologies 
->[!TODO] 
->Bus. Ring. Star
-
-
+![[CHEAT_SHEET_MOODLE 2026-01-15 16.47.19.excalidraw]]
+![[star_topology]]
+![[ring-topology]]
+![[bus-topology]]
+![[CHEAT_SHEET_MOODLE 2026-01-15 16.48.17.excalidraw]]
 ## Misc
 hubs don't understand mac addresses 
 2 computers can never have the same IP address
@@ -123,8 +127,6 @@ the checksum is computed on the source and destination hosts and on each router
 when the congestion window is below the threshold, it grows EXPONENTIALLY
 ## Topics to add
 
-- datatypes size (double 8 bytes, float, bla bla )
-- FTP (uses control and data channel; it's NOT encrypted)
 - bandwidth versus throughput
   
 ## TIPS 
