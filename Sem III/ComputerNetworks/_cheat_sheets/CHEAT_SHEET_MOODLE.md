@@ -37,12 +37,6 @@ RFC 1918 specifies the following IPv4 address ranges as private:
 | `send/recv`         |     O      |     O      |     X      |     X      |
 | `sendto / recvfrom` |     X      |     X      |     O      |     O      |
 
-connect() can be used by TCP CLIENTS. it CANNOT be used by UDP clients
-recvfrom() receives data from UDP clients
-listen() is for servers, not clients
-bind() can be used by both TCP and UDP clients
-connect() is NOT required in any TCP server
-
 TCP sockets are initialised with AF_INET and SOCK_STREAM
 UDP sockets are initialised with AF_INET and SOCK_DGRAM
 
@@ -87,11 +81,6 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 - FTP (uses control and data channel; it's NOT encrypted)
 - all about network boards
   
-109/383. The listen() call is not mandatory in any TCP client.  (c:0/w: 0)
-a) true
-b) false
->> a
-CORRECT!??
 ## TIPS 
 
 vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
