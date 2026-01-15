@@ -27,6 +27,26 @@ Version, Internet Header Length, DSCP, ECN, Total Length, Identification, Flags 
 
 SIZE: 20 bytes (without Options. Can be at most 40 bytes )
 
+## OSI Model
+
+| Layer        | PDU     | Tasks                                                                                                                                   |
+| ------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Application  |         |                                                                                                                                         |
+| Presentation |         | syntax and semantics of data                                                                                                            |
+| Session      |         | allows for establishing sessions (dialog control, token management, synchronisation)                                                    |
+| Transport    | segment | accept data from upper layers and split it into packets, ensure that packets arrive correctly to the other end<br>true end-to-end layer |
+| Network      | packet  | controls the operation of a subnet, routing, congestion control, fragmentation and inter-network problems                               |
+| Data-Link    | frame   | traffic regulation, error correction, access to the medium in broadcast shared communication lines                                      |
+| Physical     | bit     | sending raw bits over a communication channel                                                                                           |
+
+### Principles of the OSI model
+1. A layer should be created where a different abstraction is needed.
+2. Each layer should perform a well-defined function.
+3. The function of each layer should be chosen with an eye toward defining internationally standardised protocols.
+4. The layer boundaries should be chosen to minimise the information flow across the interfaces.
+5. The number of layers should be large enough that distinct functions need not be thrown together in the same layer out of necessity and small enough that the architecture does not become unwieldy.
+
+### TCP/
 ## Protocols
 
 | PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER  |
@@ -63,15 +83,32 @@ Port Ranges:
 >- UDP header
 >- what is a datagram? what is a stream?
 
-UDP writes packets of bytes
+### TCP 
+Uses *streams of packets*. A stream is 
+
+### UDP
+
+UDP writes packets of bytes.
+
+Data size must fit into transmission unit (datagram)
 ### Comparison
 
-| Characteristic | TCP Header                                                                                                                         | UDP Header                                                                               |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| size           | 20 bytes                                                                                                                           | 8 bytes                                                                                  |
-| fields         | - source and dest port<br>- sequence number<br>- acknowledgement number<br>- fin, syn, ack flags<br>- window size<br>(and more...) | - source and destination port<br>- length<br>- checksum<br>(these are the only 4 fields) |
+| Characteristic          | TCP                                                                                                                                                                | UDP                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| header size             | 20 bytes                                                                                                                                                           | 8 bytes                                                                                  |
+| header fields           | - source and dest port<br>- sequence number<br>- acknowledgement number<br>- fin, syn, ack flags<br>- window size<br>(and more...)                                 | - source and destination port<br>- length<br>- checksum<br>(these are the only 4 fields) |
+| writes..                | *stream* of bytes                                                                                                                                                  | *packets* of bytes                                                                       |
+| reads..                 | from the stream                                                                                                                                                    | from ONE packet                                                                          |
+| bytes that are not read | stay available for the next read                                                                                                                                   | are LOST                                                                                 |
+| flow                    | no overflow; traffic controlled by the OS                                                                                                                          | one party can overflow the other                                                         |
+| fragmentation           | if the size of the packet is greater than the MTU (maximum transmission unit), the packet will be fragmented into multiple packets (given that DF bit is set to 0) | no fragmentation; data size must fit into transmission unit (datagram, < 64kb)           |
+
 
 ## Socket Programming
+
+>[!Definition] Definition (from the lecture)
+>A **socket** is a *host-local, application-created, OS-controlled* interface (a "door") into which an application process can both send and receive messages to / from another application process
+
 | Call                | TCP Client | TCP Server | UDP Client | UDP Server |
 | ------------------- | :--------: | :--------: | :--------: | :--------: |
 | `socket`            |     M      |     M      |     M      |     M      |
@@ -125,9 +162,13 @@ default route: 0.0.0.0 0.0.0.0
 the checksum is computed on the source and destination hosts and on each router
 
 when the congestion window is below the threshold, it grows EXPONENTIALLY
+
+network order is big endian
+
 ## Topics to add
 
 - bandwidth versus throughput
+- SELECT 
   
 ## TIPS 
 
