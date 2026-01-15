@@ -40,11 +40,25 @@ Alternatives 2 and 3:
 - there may be multiple indexes of this type on a collection of records
 - these entries are independent of the file organisation
 
-## Clustered and Unclustered Indexes
+## Clustered & Unclustered Indexes
 
 > [!Definition]
 >  A **clustered index** is an index where the order of the data records is close to / the same as the order of the data entries.
 >  
 >  An **unclustered index** is an index that is not clustered. 
 
+In practice, clustered indexes use alternative 1 for data entries, and unclustered indexes use 2 and 3. A collection of records may have at most one clustered index and several unclustered indexes.
+
+## Primary & Secondary Indexes
+
+>[!Definition]
+>A **primary** index is an index whose search key includes the primary key.
+>
+>A **secondary index** is an index that is not primary.
+>
+>A **unique index** is an index whose search key contains a candidate key.
+
+By definition, the only indexes that may contain duplicates (data entries with the same search key value) are secondary indexes.
+
+## ISAM - Indexed Sequential Access Method
 

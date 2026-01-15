@@ -45,6 +45,8 @@ UDP sockets are initialised with AF_INET and SOCK_DGRAM
 ## TCP vs UDP
 TCP header: 20 bytes 
 UDP header: 8 bytes 
+
+UDP writes packets of bytes
 ## Misc
 hubs don't understand mac addresses 
 2 computers can never have the same IP address
@@ -80,6 +82,7 @@ when the congestion window is below the threshold, it grows EXPONENTIALLY
 - datatypes size (double 8 bytes, float, bla bla )
 - FTP (uses control and data channel; it's NOT encrypted)
 - all about network boards
+- bandwidth versus throughput
   
 ## TIPS 
 
