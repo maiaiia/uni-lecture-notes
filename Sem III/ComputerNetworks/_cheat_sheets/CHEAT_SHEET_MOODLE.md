@@ -11,21 +11,63 @@ RFC 1918 specifies the following IPv4 address ranges as private:
 - `10.0.0.0/8` $\rightarrow$ Class A
 - `172.16.0.0/12` (`172.16.0.0` - `172.31.255.255`) $\rightarrow$ Class B
 - `192.168.0.0/16` $\rightarrow$ Class C
+
+Address Classes:
+- A: `1.0.0.0 - 126.255.255.255`
+- B: `128.0.0.0 - 191.255.255.255`
+- C: `192.0.0.0 - 223.255.255.255`
+- D: `224.0.0.0 - 239.255.255.255` - MULTICAST
+- E: `240.0.0.0 - 255.255.255.255`
+
+### IPv4 Header
+Version, Internet Header Length, DSCP, ECN, Total Length, Identification, Flags (ZF, DF, MF), Offset, Time To Live, Protocol, Checksum, Source IP, Destination IP (, Options - not mentioned in the course)
+
+SIZE: 20 bytes (without Options. Can be at most 40 bytes )
+
 ## Protocols
 
-| PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER |
-| -------- | ----------- | ---------------- | ----------- |
-| HTTP     | Application | TCP              | 80          |
-| HTTPS    | Application | TCP              | 443         |
-| ICMP     | Network     | -                | -           |
-| ARP      |             |                  |             |
-| FTP      | Application |                  |             |
-| TCP      | Transport   | -                |             |
-| UDP      | Transport   | -                |             |
-| SMTP     | Application | TCP              |             |
-| DNS      |             | UDP              | 53          |
-| SSH      | Application |                  |             |
-| IP       |             |                  |             |
+| PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER  |
+| -------- | ----------- | ---------------- | ------------ |
+| FTP      | Application | TCP              | 20 / 21      |
+| SSH      | Application | TCP              | 22           |
+| TELNET   | Application | TCP              | 23           |
+| SMTP     | Application | TCP              | 25, 465, 587 |
+| DNS      | Application | Mostly UDP       | 53           |
+| DHCP     | Application | UDP              | 67 / 68      |
+| HTTP     | Application | TCP              | 80           |
+| POP3     | Application | TCP              | 110          |
+| HTTPS    | Application | TCP              | 443          |
+| TCP      | Transport   | -                | -            |
+| UDP      | Transport   | -                | -            |
+| IP       | Network     | -                | -            |
+| ICMP     | Network     | -                | -            |
+| ARP      | Data-Link   | -                | -            |
+Port Ranges:
+- registered: 0 - 1023
+- well-known: 1024 - 49151
+- private: 49152 - 65535
+
+WHOIS
+## TCP vs UDP
+
+>[!TODO]
+>- TCP  
+>	- header
+>	- 3 and 4 way handshake
+>	- duplicate acknowledgement
+>- UDP header
+>- what is a datagram? what is a stream?
+
+TCP header: 20 bytes 
+UDP header: 8 bytes 
+
+UDP writes packets of bytes
+
+| Characteristic | TCP Header                                                                                                                         | UDP Header                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| size           | 20 bytes                                                                                                                           | 8 bytes                                                                                  |
+| fields         | - source and dest port<br>- sequence number<br>- acknowledgement number<br>- fin, syn, ack flags<br>- window size<br>(and more...) | - source and destination port<br>- length<br>- checksum<br>(these are the only 4 fields) |
+
 ## Socket Programming
 | Call                | TCP Client | TCP Server | UDP Client | UDP Server |
 | ------------------- | :--------: | :--------: | :--------: | :--------: |
@@ -37,16 +79,30 @@ RFC 1918 specifies the following IPv4 address ranges as private:
 | `send/recv`         |     O      |     O      |     X      |     X      |
 | `sendto / recvfrom` |     X      |     X      |     O      |     O      |
 
-TCP sockets are initialised with AF_INET and SOCK_STREAM
-UDP sockets are initialised with AF_INET and SOCK_DGRAM
+>[!Info]
+> TCP sockets are initialised with AF_INET and SOCK_STREAM
+> UDP sockets are initialised with AF_INET and SOCK_DGRAM
 
 - TCP and UDP are not the only types of sockets
 
-## TCP vs UDP
-TCP header: 20 bytes 
-UDP header: 8 bytes 
+|              | char | int | float | double |
+| ------------ | ---- | --- | ----- | ------ |
+| Size (bytes) |      |     |       |        |
 
-UDP writes packets of bytes
+## Traceroute
+
+>[!TODO]
+>
+- ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
+
+## Network Boards
+>[!TODO]
+
+## Network Topologies 
+>[!TODO] 
+>Bus. Ring. Star
+
+
 ## Misc
 hubs don't understand mac addresses 
 2 computers can never have the same IP address
@@ -54,7 +110,6 @@ telefoanele mobile nu se pot conecta la Internet fara placa de retea
 CLI stands for command line interface 
 TCP is sometimes faster than UDP
 a hub is less performant than a switch
-There's no such thing as a broadcast MAC address
 a web server can host multiple websites
 un calculator poate avea mai multe placi de retea
 o placa de retea poate avea mai multe adrese IP 
@@ -67,21 +122,9 @@ the checksum is computed on the source and destination hosts and on each router
 
 when the congestion window is below the threshold, it grows EXPONENTIALLY
 ## Topics to add
-- public and private IP addresses 
-- IPv4 header 
-- TCP  
-	- header
-	- 3 and 4 way handshake
-- UDP header
-- what is a datagram? what is a stream?
-- traceroute
-- bus, ring, star (network topologies)
-- ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da. research that
-- ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
-- TCP duplicate acknowledgement => ??
+
 - datatypes size (double 8 bytes, float, bla bla )
 - FTP (uses control and data channel; it's NOT encrypted)
-- all about network boards
 - bandwidth versus throughput
   
 ## TIPS 
