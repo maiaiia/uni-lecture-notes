@@ -104,7 +104,7 @@ Since the time required for DB operations is insignificant compared to the time 
 - higher cost per GB
 - limited write cycles
 
-## DSM - Disk Space Manager
+## Disk Space Manager
 A [[Memory#1. Paging|page]] is one unit of data, having the size of a disk block. A r/w operation of a page is considered as one i/o operation.
 
 Upper layers in the DBMS can treat the data as a collection of pages.
@@ -174,8 +174,9 @@ The **WAL Protocol** - first write log records describing page changes, then wri
 
 Higher level layers in the DBMS treat *pages as collections of records* (or files of records). A file or records may contain one or more pages.
 Every record has an identifier (rid). Given the rid of a record, one can identify the page that contains it.
-
-### Heap files 
+### File formats
+Some examples of file formats are: **heap files**, **sorted files**, **hashed files**
+#### heap files 
 - the simplest file structure
 - records are not ordered
 - supported operations:
@@ -187,13 +188,47 @@ Every record has an identifier (rid). Given the rid of a record, one can identif
 	- scan all records
 
 Heap files can be implemented in multiple ways: *linked lists*, *directory of pages*
-
-#### linked list 
+##### linked list 
 - a DLL of pages is used
 - the DBMS stores the address of the first page (header page) of each file (a table holding pairs of the form \<heap_file_name, page1_address\>)
 - 2 lists are used: one with pages with free space and one with full pages
 
 the drawback to the linked list is that most of the pages will be in the list of pages with free space. thus, when adding a record, multiple pages will have to be checked until one is found that has enough free space 
 
-#### directory of pages
+##### directory of pages
+DBMS stores the location of the header page for each heap file . 
 
+A *directory* is a collection of pages (can be a linked list, for instance). 
+Each directory entry identifies a page in the file. 
+
+The directory entry size is much smaller than the size of that file.
+
+Free space management:
+- each directory entry has a bit that indicates whether the corresponding page has free space
+- there's also a counter for the available space on the corresponding page, thus making the search of pages more efficient
+
+#### Sorted files 
+Suitable when data must be sorted, when doing range selections 
+
+#### Hashed files 
+Files that are hashed on some fields (records are stored according to a hash function); good for equality selections.
+
+### Record formats 
+Examples: **fixed-length records**, **variable-length records**
+
+#### fixed-length records
+- each field has a fixed length
+- the number of fields is also fixed
+- fields are stored consecutively
+- a field's address is thus easy to compute: record address + length of preceding fields
+
+#### variable-length records
+- fields have variable length (obv)
+- two versions:
+	- fields are stored consecutively, *separated by delimiters*; finding a field requires a record scan
+	- some space at the beginning of the record is reserved for an *array of field offsets*; there is some array overhead, but it comes with the advantage of having direct access to every field
+
+### Page Formats
+A page is a collection of slots; each slot may contain one record.
+The rid (record id) is a \<page id, slot number\> pair. 
+## [[Indexes]]
