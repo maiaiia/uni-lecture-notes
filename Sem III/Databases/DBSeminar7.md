@@ -109,7 +109,12 @@ In order to reduce fragmentation:
 - cl.idx table
 	- frag between 5-30% --> reorganise the index (ALTER INDEX REORGANIZE - rearranges leaf pages)
 	- frag > 30% --> drop the clustered index and create it again (all the records are redistributed and stored again) OR use ALTER INDEX REBUILD (the effect is the same)
-- 
+
+it's also possible to specify the fill factor when creating an index 
+```sql
+CREATE ... INDEX ...
+	WITH(FILLFACTOR = 70)
+```
 ### Internal Fragmentation
 
 Refers to the unused space between pages
@@ -137,3 +142,43 @@ Task: count the number of reads, extent switches, disk space, avg_fragmentation 
 | 2       | 6     | 4               | 42kb       | >50%       | 33%                   |
 
 ![[DBSeminar7 2026-01-15 11.02.06.excalidraw]]
+
+## T_SQL - Control of Flow Language 
+- BEGIN...END
+- RETURN
+	- besides functions, it may also be used in 
+		- stored procedures - must return an integer 
+			- 0 -> stored proc was executed correctly
+			- non-0 -> errors
+		- statement blocks 
+		- batches (two go statements)
+- WHILE
+- IF...ELSE
+- BREAK
+- CONTINUE
+- TRY...CATCH
+```sql
+BEGIN TRY
+...
+...
+END TRY 
+BEGIN CATCH 
+...
+END CATCH
+```
+- THROW 
+	- similar to RAISERROR 
+```sql
+THROW 51000, 'No spy found', 1 -- severity is always 16; user-defined err lvl > 50000 (before 50000 - already defined)
+RAISERROR('No spy found', 15, 20) -- severity may be specified
+
+--recap severities:
+-- < 11 - warning 
+-- >= 11 - error 
+-- >= 16 - auto registered in logs 
+-- 20-25 - fatal --> db connection closed 
+```
+- WAITFOR
+	- can be used with DELAY or TIME
+- GOTO label
+	- move execution to a specific point in the program denoted by a label
