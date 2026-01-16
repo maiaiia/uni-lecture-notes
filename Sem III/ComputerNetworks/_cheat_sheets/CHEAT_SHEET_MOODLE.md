@@ -29,15 +29,15 @@ SIZE: 20 bytes (without Options. Can be at most 40 bytes )
 
 ## OSI Model
 
-| Layer        | PDU     | Tasks                                                                                                                                   |
-| ------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Application  |         |                                                                                                                                         |
-| Presentation |         | syntax and semantics of data                                                                                                            |
-| Session      |         | allows for establishing sessions (dialog control, token management, synchronisation)                                                    |
-| Transport    | segment | accept data from upper layers and split it into packets, ensure that packets arrive correctly to the other end<br>true end-to-end layer |
-| Network      | packet  | controls the operation of a subnet, routing, congestion control, fragmentation and inter-network problems                               |
-| Data-Link    | frame   | traffic regulation, error correction, access to the medium in broadcast shared communication lines                                      |
-| Physical     | bit     | sending raw bits over a communication channel                                                                                           |
+| Layer        | PDU     | Tasks                                                                                                                                                                                        |
+| ------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Application  |         | defines:<br>- the types of messages exchanged<br>- the syntax of the various message types<br>- the semantics of the fields<br>- rules for determining when and how a process sends messages |
+| Presentation |         | syntax and semantics of data                                                                                                                                                                 |
+| Session      |         | allows for establishing sessions (dialog control, token management, synchronisation)                                                                                                         |
+| Transport    | segment | accept data from upper layers and split it into packets, ensure that packets arrive correctly to the other end<br>true end-to-end layer                                                      |
+| Network      | packet  | controls the operation of a subnet, routing, congestion control, fragmentation and inter-network problems                                                                                    |
+| Data-Link    | frame   | traffic regulation, error correction, access to the medium in broadcast shared communication lines                                                                                           |
+| Physical     | bit     | sending raw bits over a communication channel                                                                                                                                                |
 
 ### Principles of the OSI model
 1. A layer should be created where a different abstraction is needed.
@@ -73,6 +73,10 @@ Port Ranges:
 - well-known: 1024 - 49151
 - private: 49152 - 65535
 
+### DNS (Domain Name System) - UDP 53
+- Uses a tree-like structure to translate domain names (human readable) to their corresponding IP address
+- Host Name + Domain Name = Fully Qualified Domain Name (FQDN)
+- 
 ### FTP
 - uses control and data channel (hence the two ports)
 - it's NOT encrypted
@@ -117,10 +121,12 @@ Data size must fit into transmission unit (datagram)
 | `socket`            |     M      |     M      |     M      |     M      |
 | `bind`              |     O      |     M      |     O      |     M      |
 | `listen`            |     X      |     M      |     X      |     X      |
-| `connect`           |     M      |     X      |     O      |     O      |
+| `connect`           |     M      |     X      |     O      |     X      |
 | `accept`            |     X      |     M      |     X      |     X      |
 | `send/recv`         |     O      |     O      |     X      |     X      |
 | `sendto / recvfrom` |     X      |     X      |     O      |     O      |
+>[!Warning] 
+>Check if connect can be used in udp clients
 
 >[!Info]
 > TCP sockets are initialised with AF_INET and SOCK_STREAM
