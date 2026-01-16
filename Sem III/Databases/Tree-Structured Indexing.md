@@ -58,7 +58,7 @@ A B-tree is a generalisation of 2-3 trees.
 >
 
 >[!Tip]
->Although operations on B-trees technically have the same complexity as operations on binary trees (logarithmic), they are preferred over the latter because of how cache memory works (we can choose m in such a way that the size of a node is close to the size of a segment in the cache memory, thus minimising the number of I/O operations)
+>Although operations on B-trees technically have the same complexity as operations on binary trees (logarithmic), they are preferred over the latter because of how cache memory works (we can choose m in such a way that the size of a node is close to the size of a block in the cache memory, thus minimising the number of I/O operations)
 ### Operations
 #### searching
 Quite trivial, similar to binary search trees. 
@@ -100,3 +100,8 @@ Search for the key.
 
 ## B+ Trees
 
+Built on top of B-Trees, B+ trees have the following properties:
+1. The leaves contain all the keys 
+2. The leaves form a doubly linked list
+
+Leaf level is a dense index, other levels are sparse indexes

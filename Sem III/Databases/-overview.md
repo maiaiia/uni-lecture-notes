@@ -22,3 +22,4 @@
 - [[The Physical Structure of Databases]]
 - [[Indexes]]
 - [[Tree-Structured Indexing]]
+- [[Hash-Based Indexing]]
