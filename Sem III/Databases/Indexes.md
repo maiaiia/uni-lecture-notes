@@ -60,4 +60,4 @@ In practice, clustered indexes use alternative 1 for data entries, and uncluster
 
 By definition, the only indexes that may contain duplicates (data entries with the same search key value) are secondary indexes.
 
-## [[src/Sem III/Databases/Trees|Trees]]
+## [[Tree-Structured Indexing]]
