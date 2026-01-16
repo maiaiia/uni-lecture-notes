@@ -62,3 +62,42 @@ By definition, the only indexes that may contain duplicates (data entries with t
 
 ## ISAM - Indexed Sequential Access Method
 
+ISAM is a static file organisation technique, good for *equality and range searches.* It performs best when the data size / distribution are relatively static.
+
+This is a *static* file organisation technique, i.e.
+- once the separator levels have been constructed, they never change
+- number and position of leaf pages is fixed 
+- insertions and deletions affect leaf pages only
+
+The structure of the pages is tree-like, composed of 3 sections:
+- non-leaf pages 
+- primary leaf pages 
+- overflow pages
+
+Non-leaf pages contain a series of pointers and keys, which are used to traverse the tree according to the looked up key (range).
+Leaf pages contain the actual entries (the number of entries in a leaf page is equal to the number of pointers in a non-leaf page - 1).
+Overflow pages have the same structure as leaf pages. They are added when insertions occur after the creation of the ISAM tree.
+
+![[isam-db]]
+
+
+Operations:
+- insertion
+	- find the corresponding leaf page, add the entry
+	- if there is no space on the page, add an overflow page 
+- deletion
+	- find the leaf page that contains the entry, remove the entry
+	- if an overflow page is emptied, remove it
+
+>[!Check] Benefits
+> Leaf pages are sorted sequentially in a file when the structure is created in order to support range searches (very fast!)
+
+>[!Warning] Issue
+>Long overflow chains can develop. These chains are usually not sorted (in order to optimise inserts)
+
+## 2-3 Trees
+
+every node has either 2 or 3 children and either one or 2 keys (n keys in a node => n + 1 children)
+
+
+ 
