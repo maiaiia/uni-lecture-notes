@@ -62,6 +62,6 @@ ___
 
 >[!Traversals]-
 >![[19IterativeTraversals.pdf]]
-### [[Trees#^09a4c6|BF / Level Order]]  
+### [[src/Sem II/DataStructures&Algorithms/Trees#^09a4c6|BF / Level Order]]  
 - just like Preorder, but here it doesn't matter whether the left or right child is visited first
 

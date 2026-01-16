@@ -18,7 +18,7 @@
 	- [[Hash Tables]]
 	- [[BinaryHeap]]
 	- [[Binomial Heap]]
-	- [[Trees]]
+	- [[src/Sem II/DataStructures&Algorithms/Trees]]
 		- [[Binary Trees]]
 		- [[Binary Search Tree]]
 		- [[AVL Trees]]
