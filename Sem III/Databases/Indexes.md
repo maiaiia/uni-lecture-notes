@@ -97,7 +97,22 @@ Operations:
 
 ## 2-3 Trees
 
-every node has either 2 or 3 children and either one or 2 keys (n keys in a node => n + 1 children)
+- every node has either one or 2 keys 
+- every non-terminal node has either 2 or 3 children (n keys in a node => n + 1 children)
+- all leaf nodes are on the same level
 
+>[!Tip]
+>Although operations on 2-3 trees technically have the same complexity as operations on binary trees, they are preferred over the latter because 
+
+## B- Trees
+A B- tree is a generalisation of 2-3 trees.
+
+>[!Definition] B- tree of order $m$
+>1. if the root is not a terminal node, it has at least 2 subtrees
+>2. all terminal nodes are on the same level
+>3. every non-terminal node has at most $m$ subtrees
+>4. a node with $p$ subtrees has $p-1$ ordered value keys (asc) $K_1<K_2<\dots<K_{p-1}$
+>5. every non-terminal node has at least $\cfrac{m}{2}$ subtrees
+>
 
  
