@@ -46,7 +46,10 @@ SIZE: 20 bytes (without Options. Can be at most 40 bytes )
 4. The layer boundaries should be chosen to minimise the information flow across the interfaces.
 5. The number of layers should be large enough that distinct functions need not be thrown together in the same layer out of necessity and small enough that the architecture does not become unwieldy.
 
-### TCP/
+### TCP/IP Model
+
+Layers: Application (OSI's Application, Presentation, Session), Transport, Internet (OSI's Network), Host to Network (OSI's Data-Link and Physical)
+
 ## Protocols
 
 | PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER  |
