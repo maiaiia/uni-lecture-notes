@@ -120,6 +120,9 @@ Port Ranges:
 	- the *request* is in ASCII text (human readable) and can be a GET, POST, HEAD (HTTP/1.0), PUT or DELETE (HTTP/1.1)
 	- the *response* contains a status line (protocol, status code, status phrase), the header lines and the data 
 
+>[!Info]
+>The Authorisation process in HTTP is *stateless*. The client must present authorisation in *each* request. The authorisation is a header line.
+
 | Request | Meaning                                                      |
 | ------- | ------------------------------------------------------------ |
 | GET     | input is uploaded in URL field of request line               |
@@ -135,6 +138,7 @@ Port Ranges:
 | 400      | Bad Request                |
 | 404      | Not Found                  |
 | 505      | HTTP Version Not Supported |
+
 ## TCP vs UDP
 
 >[!TODO]
