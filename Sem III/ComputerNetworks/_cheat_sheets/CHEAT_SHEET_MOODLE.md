@@ -52,23 +52,24 @@ Layers: Application (OSI's Application, Presentation, Session), Transport, Inter
 
 ## Protocols
 
-| PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER                                      |
-| -------- | ----------- | ---------------- | ------------------------------------------------ |
-| FTP      | Application | TCP              | 20 / 21                                          |
-| SSH      | Application | TCP              | 22                                               |
-| TELNET   | Application | TCP              | 23                                               |
-| SMTP     | Application | TCP              | 25, 465, 587                                     |
-| DNS      | Application | Mostly UDP       | 53                                               |
-| DHCP     | Application | UDP              | 67 / 68                                          |
-| HTTP     | Application | TCP              | 80                                               |
-| POP3     | Application | TCP              | 110                                              |
-| HTTPS    | Application | TCP              | 443                                              |
-| IMAP     | Application | TCP              | 143 (unencrypted)<br>993 (secure over ssl / tls) |
-| TCP      | Transport   | -                | -                                                |
-| UDP      | Transport   | -                | -                                                |
-| IP       | Network     | -                | -                                                |
-| ICMP     | Network     | -                | -                                                |
-| ARP      | Data-Link   | -                | -                                                |
+| PROTOCOL | LAYER                         | Layer 4 Protocol | PORT NUMBER                                      |
+| -------- | ----------------------------- | ---------------- | ------------------------------------------------ |
+| FTP      | Application                   | TCP              | 20 / 21                                          |
+| SSH      | Application                   | TCP              | 22                                               |
+| TELNET   | Application                   | TCP              | 23                                               |
+| SMTP     | Application                   | TCP              | 25, 465, 587                                     |
+| DNS      | Application                   | Mostly UDP       | 53                                               |
+| DHCP     | Application                   | UDP              | 67 / 68                                          |
+| HTTP     | Application                   | TCP              | 80                                               |
+| POP3     | Application                   | TCP              | 110                                              |
+| HTTPS    | Application                   | TCP              | 443                                              |
+| IMAP     | Application                   | TCP              | 143 (unencrypted)<br>993 (secure over ssl / tls) |
+| TCP      | Transport                     | -                | -                                                |
+| UDP      | Transport                     | -                | -                                                |
+| IP       | Network                       | -                | -                                                |
+| ICMP     | Network                       | -                | -                                                |
+| ARP      | Data-Link                     | -                | -                                                |
+| NAT      | Network / <br>Transport (PAT) | -                | -                                                |
 Port Ranges:
 - registered: 0 - 1023
 - well-known: 1024 - 49151
@@ -147,6 +148,18 @@ Port Ranges:
 | 400      | Bad Request                |
 | 404      | Not Found                  |
 | 505      | HTTP Version Not Supported |
+### NAT (but actually PAT)
+Translates addresses. Main purpose is to conserve the address space, but it's more like a way to patch things up until we make the switch to IPv6.
+
+The most common PAT configuration is:
+- translate all IPs to a single IP (usually the router's external interface)
+- use port numbers to distinguish between devices 
+
+Advantages:
+- no need to be allocated a range of addresses from the ISP: just one IP address used for all devices
+- can change addresses of devices in the local network without notifying the outside world
+- can change ISP without changing the addresses of the devices in the local network 
+- devices inside a local network are not explicitly addressable, visible by the outside world (a security plus)
 
 ## Socket Programming
 
@@ -177,7 +190,12 @@ Port Ranges:
 |              | char | short | int | float | long long | double |
 | ------------ | ---- | ----- | --- | ----- | --------- | ------ |
 | Size (bytes) | 1    | 2     | 4   | 4     | 8         | 8      |
+### ICMP
+Used to check connectivity between devices.
+- error reporting: unreachable host, network, port, protocol
 
+Uses 2 messages: ICMP echo request and reply 
+ICMP messages are carried in IP datagrams
 ### TCP vs UDP
 
 >[!TODO]
@@ -202,9 +220,60 @@ Uses *streams of packets* to transfer *bytes* of information.
 >[!Important]
 >TCP...
 >- is *reliable* (lost data is re-sent)
->- provides *in-order transfer of bytes* (messages use sequence numbers to ensure this)
->- 
+>- provides *ordered transfer of bytes* (messages use sequence numbers to ensure this)
+>- provides *retransmission of lost packets*
+>- data transfer is *error-free*
+>- provides *flow-control* (using a sliding window)
+>- provides *congestion control*
 
+In TCP, data is a contiguous stream split into *segments*. Each segment is carried into one (or multiple) IP segments. Each segment needs an acknowledgement from the receiver. Send / Receive operations act *on the stream*; they are not paired from each other.
+
+>[!Info] Forward-Acknowledgment
+> The ACK field indicates the next byte (sequence) number the receiver expects to receive
+
+TCP Connections are initialised via a **3-way handshake**:
+- $\rightarrow$ SYN
+- $\leftarrow$ SYN, ACK
+- $\rightarrow$ ACK
+
+TCP Connections are terminated via a **4-way handshake**:
+- $\rightarrow$ FIN 
+- $\leftarrow$ ACK 
+- $\leftarrow$ FIN 
+- $\rightarrow$ ACK
+
+
+>[!Info] Sliding-Window
+>Limits the rate a sender transfers data to guarantee reliable delivery. The receiver continually hints the sender how much data can be received. When the receiving host's buffer fills, the next acknowledgment contains a 0 in the window size, to stop transfer and allow the data in the buffer to be processed. This indicates an upper bound for the transfer rate of the sender.
+
+#### congestion management
+>[!Important]
+>The TCP header also contains a **congestion window**, which is different to the sliding window. It is not negotiated, it is assumed. It starts out with *one segment*.
+
+When the sender perceives a loss event (*timeout* or *3 duplicate acks*), it **reduces the Congestion Window**.
+
+When a connection begins, the rate at which data is sent is exponentially increased until the first loss event.
+>[!Important]
+>After 3 duplicate acknowledgements, the congestion window is cut in half and then grows linearly.
+>
+>After a timeout event, the the congestion window is set to its initial value, starts growing exponentially to a threshold, then keeps growing linearly.
+
+There are 3 mechanisms used to deal with congestion:
+- AIMD (additive increase, multiplicative decrease)
+- slow start
+- conservative after timeout events
+
+>[!Summary]
+>- When the Congestion Window is below the Threshold, the sender is in *slow-start* phase, and the window grows exponentially.
+>- When the Congestion Window is above the Threshold, the sender is in *congestion-avoidance* phase, and the window grows linearly
+>  
+>  When a *triple duplicate ACK* occurs, 
+>  - Threshold = CongestionWindow / 2
+>  - CongestionWindow = Threshold 
+>
+>When a *timeout* occurs,
+>- Threshold = CongestionWindow / 2 
+>- CongestionWindow = 1MSS
 #### socket programming with TCP
 1. Client must contact server 
 	- server process must first be running
@@ -222,7 +291,9 @@ UDP writes *packets of bytes* (i.e. **datagrams**). Data size must fit into tran
 >[!Definition]
 >UDP...
 >- provides *unreliable* transfer between client and server
->- best-effort
+>- datagrams are *not ordered*
+>- it's *lightweight*
+>- provides *no congestion control*
 
 
 ### Comparison
@@ -238,10 +309,13 @@ UDP writes *packets of bytes* (i.e. **datagrams**). Data size must fit into tran
 | fragmentation           | if the size of the packet is greater than the MTU (maximum transmission unit), the packet will be fragmented into multiple packets (given that DF bit is set to 0) | no fragmentation; data size must fit into transmission unit (datagram, < 64kb)           |
 | receipt order           | same as the order in which the packets were sent                                                                                                                   | may differ from the original order of the datagrams                                      |
 
-## Traceroute
+## Traceroute 
 
->[!TODO]
->
+Used for network diagnostic (debugging).
+Traceroute uses IP TTL to trace packet paths (by setting it to 1, then 2, then 3 and so on).
+It uses both ICMP and UDP
+
+
 - ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
 
 ## Network Boards
@@ -259,20 +333,19 @@ hubs don't understand mac addresses
 telefoanele mobile nu se pot conecta la Internet fara placa de retea 
 CLI stands for command line interface 
 TCP is sometimes faster than UDP
-a hub is less performant than a switch
 a web server can host multiple websites
 un calculator poate avea mai multe placi de retea
 o placa de retea poate avea mai multe adrese IP 
 ADRESA MAC POATE FI SCHIMBATA?!??!?! aparent da
 the default gateway must be in the same network as the computer (obviously)
-MAC address - 48 bits
-default route: 0.0.0.0 0.0.0.0
 
 the checksum is computed on the source and destination hosts and on each router
 
 when the congestion window is below the threshold, it grows EXPONENTIALLY
 
 network order is big endian
+
+flow control concerns what a device can handle, congestion concerns a network can handle
 
 ## Topics to add
 
