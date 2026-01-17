@@ -1,6 +1,8 @@
 # Cheat Sheets
 - [[SQL]]
 - [[Lab Exam Problems]]
+- [[DB_PRACTICE_QUESTIONS]]
+- [[DB_WRITTEN_CHEAT_SHEET]]
 # Seminars
 - [[DBSeminar1]]
 - [[DBSeminar2]]
