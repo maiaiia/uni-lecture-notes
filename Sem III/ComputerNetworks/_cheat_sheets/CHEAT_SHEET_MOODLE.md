@@ -52,22 +52,23 @@ Layers: Application (OSI's Application, Presentation, Session), Transport, Inter
 
 ## Protocols
 
-| PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER  |
-| -------- | ----------- | ---------------- | ------------ |
-| FTP      | Application | TCP              | 20 / 21      |
-| SSH      | Application | TCP              | 22           |
-| TELNET   | Application | TCP              | 23           |
-| SMTP     | Application | TCP              | 25, 465, 587 |
-| DNS      | Application | Mostly UDP       | 53           |
-| DHCP     | Application | UDP              | 67 / 68      |
-| HTTP     | Application | TCP              | 80           |
-| POP3     | Application | TCP              | 110          |
-| HTTPS    | Application | TCP              | 443          |
-| TCP      | Transport   | -                | -            |
-| UDP      | Transport   | -                | -            |
-| IP       | Network     | -                | -            |
-| ICMP     | Network     | -                | -            |
-| ARP      | Data-Link   | -                | -            |
+| PROTOCOL | LAYER       | Layer 4 Protocol | PORT NUMBER                                      |
+| -------- | ----------- | ---------------- | ------------------------------------------------ |
+| FTP      | Application | TCP              | 20 / 21                                          |
+| SSH      | Application | TCP              | 22                                               |
+| TELNET   | Application | TCP              | 23                                               |
+| SMTP     | Application | TCP              | 25, 465, 587                                     |
+| DNS      | Application | Mostly UDP       | 53                                               |
+| DHCP     | Application | UDP              | 67 / 68                                          |
+| HTTP     | Application | TCP              | 80                                               |
+| POP3     | Application | TCP              | 110                                              |
+| HTTPS    | Application | TCP              | 443                                              |
+| IMAP     | Application | TCP              | 143 (unencrypted)<br>993 (secure over ssl / tls) |
+| TCP      | Transport   | -                | -                                                |
+| UDP      | Transport   | -                | -                                                |
+| IP       | Network     | -                | -                                                |
+| ICMP     | Network     | -                | -                                                |
+| ARP      | Data-Link   | -                | -                                                |
 Port Ranges:
 - registered: 0 - 1023
 - well-known: 1024 - 49151
@@ -77,9 +78,63 @@ Port Ranges:
 - Uses a tree-like structure to translate domain names (human readable) to their corresponding IP address
 - Host Name + Domain Name = Fully Qualified Domain Name (FQDN)
 - 
-### FTP
-- uses control and data channel (hence the two ports)
+### FTP (File Transfer Protocol) - TCP 20/21
+- text protocol which allows exchanging files between two machines
+- uses two communication channels (hence the two ports):
+	- control channel (port 21):
+		- used by the client to obtain authorisation
+	- data channel (port 20): 
+		- used by the server to transfer a file
+- has two modes:
+	- active
+	- passive
 - it's NOT encrypted
+- works with different machine architectures
+
+>[!TODO]
+>understand passive connections
+### SMTP (Simple Mail Transfer Protocol) - TCP 25
+- text protocol that allows for offline message exchanging
+- while SMTP does the exchanging part, POP3 and IMAP perform mail reading
+
+### HTTP (Hypertext Transfer Protocol) - TCP 80
+- Allows exchange of HTML and Web data
+- *stateless* (server maintains no information about past client requests)
+>[!Info]
+>- HTTP/1.0 is *non-persistent*: at most one object is sent over a TCP connection
+>- HTTP/1.1 is *persistent*: multiple objects can be sent over a single TCP connection between client and server.
+
+- **RTT** is a network client hint which provides the approximate round trip time on the application layer
+- for non-persistent HTTP, the total response time is 2RTT + transmit time
+	- one RTT to initiate TCP connection
+	- one RTT for HTTP request and first few bytes of HTTP response to return
+	- transmit time: file transmission time
+- for persistent HTTP, the server leaves the connection open after sending a response, thus reducing the total response time to RTT + transmit time for each referenced object
+
+>[!Info]
+>Persistent servers can also work with or without pipelining. 
+>- without pipelining, the client issues a new request only when the previous response has been received $\Rightarrow$ one RTT for *each referenced object*
+>- with pipelining, a client sends requests as soon as it encounters a referenced object $\Rightarrow$ as little as one RTT for *all referenced objects*
+
+- HTTP uses 2 types of messages: *request* and *response*
+	- the *request* is in ASCII text (human readable) and can be a GET, POST, HEAD (HTTP/1.0), PUT or DELETE (HTTP/1.1)
+	- the *response* contains a status line (protocol, status code, status phrase), the header lines and the data 
+
+| Request | Meaning                                                      |
+| ------- | ------------------------------------------------------------ |
+| GET     | input is uploaded in URL field of request line               |
+| POST    | input is uploaded in a form input in the web page            |
+| HEAD    | asks the server to leave requested object out of response    |
+| PUT     | uploads a file in entity body to path specified in URL field |
+| DELETE  | deletes the file specified in the URL field                  |
+
+| Response | Meaning                    |
+| -------- | -------------------------- |
+| 200      | OK                         |
+| 301      | Moved Permanently          |
+| 400      | Bad Request                |
+| 404      | Not Found                  |
+| 505      | HTTP Version Not Supported |
 ## TCP vs UDP
 
 >[!TODO]
