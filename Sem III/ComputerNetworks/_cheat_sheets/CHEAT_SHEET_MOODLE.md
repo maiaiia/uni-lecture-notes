@@ -25,7 +25,7 @@ When you want to check the OSI stack, ping `127.0.0.1`
 ### IPv4 Header
 Version, Internet Header Length, DSCP, ECN, Total Length, Identification, Flags (ZF, DF, MF), Offset, Time To Live, Protocol, Checksum, Source IP, Destination IP (, Options - not mentioned in the course)
 
-SIZE: 20 bytes (without Options. Can be at most 40 bytes )
+SIZE: **20 bytes** (without Options. Can be at most 40 bytes )
 
 ## OSI Model
 
@@ -77,7 +77,8 @@ Port Ranges:
 ### DNS (Domain Name System) - UDP 53
 - Uses a tree-like structure to translate domain names (human readable) to their corresponding IP address
 - Host Name + Domain Name = Fully Qualified Domain Name (FQDN)
-- 
+- uses *query* and *reply* messages, both with the *same message format*
+- uses caching 
 ### FTP (File Transfer Protocol) - TCP 20/21
 - text protocol which allows exchanging files between two machines
 - uses two communication channels (hence the two ports):
@@ -95,8 +96,16 @@ Port Ranges:
 >understand passive connections
 ### SMTP (Simple Mail Transfer Protocol) - TCP 25
 - text protocol that allows for offline message exchanging
-- while SMTP does the exchanging part, POP3 and IMAP perform mail reading
+- three phases of transfer:
+	- handshaking (greeting)
+	- transfer of messages 
+	- closure
+- a message queue is used
+- user 1 -> user agent 1 -> mail server 1 -> mail server 2 -> user agent 2 -> user2
 
+### POP3 (Post Office Protocol). IMAP (Internet Mail Access Protocol).
+- while SMTP does the exchanging part, POP3 and IMAP perform mail reading (retrieval from server)
+- IMAP is more complex than POP
 ### HTTP (Hypertext Transfer Protocol) - TCP 80
 - Allows exchange of HTML and Web data
 - *stateless* (server maintains no information about past client requests)
@@ -139,41 +148,13 @@ Port Ranges:
 | 404      | Not Found                  |
 | 505      | HTTP Version Not Supported |
 
-## TCP vs UDP
-
->[!TODO]
->- TCP  
->	- header
->	- 3 and 4 way handshake
->	- duplicate acknowledgement
->- UDP header
->- what is a datagram? what is a stream?
-
-### TCP 
-Uses *streams of packets*. A stream is 
-
-### UDP
-
-UDP writes packets of bytes.
-
-Data size must fit into transmission unit (datagram)
-### Comparison
-
-| Characteristic          | TCP                                                                                                                                                                | UDP                                                                                      |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| header size             | 20 bytes                                                                                                                                                           | 8 bytes                                                                                  |
-| header fields           | - source and dest port<br>- sequence number<br>- acknowledgement number<br>- fin, syn, ack flags<br>- window size<br>(and more...)                                 | - source and destination port<br>- length<br>- checksum<br>(these are the only 4 fields) |
-| writes..                | *stream* of bytes                                                                                                                                                  | *packets* of bytes                                                                       |
-| reads..                 | from the stream                                                                                                                                                    | from ONE packet                                                                          |
-| bytes that are not read | stay available for the next read                                                                                                                                   | are LOST                                                                                 |
-| flow                    | no overflow; traffic controlled by the OS                                                                                                                          | one party can overflow the other                                                         |
-| fragmentation           | if the size of the packet is greater than the MTU (maximum transmission unit), the packet will be fragmented into multiple packets (given that DF bit is set to 0) | no fragmentation; data size must fit into transmission unit (datagram, < 64kb)           |
-
-
 ## Socket Programming
 
 >[!Definition] Definition (from the lecture)
->A **socket** is a *host-local, application-created, OS-controlled* interface (a "door") into which an application process can both send and receive messages to / from another application process
+>A **socket** is a *host-local, application-created, OS-controlled* interface (a "door") into which an application process can both send and receive messages to / from another application process.
+>
+>Definition 2:
+>A socket is a door between an application process and an end-to-end transport protocol
 
 | Call                | TCP Client | TCP Server | UDP Client | UDP Server |
 | ------------------- | :--------: | :--------: | :--------: | :--------: |
@@ -191,11 +172,71 @@ Data size must fit into transmission unit (datagram)
 > TCP sockets are initialised with AF_INET and SOCK_STREAM
 > UDP sockets are initialised with AF_INET and SOCK_DGRAM
 
-- TCP and UDP are not the only types of sockets
+- TCP and UDP are NOT the only types of sockets
 
 |              | char | short | int | float | long long | double |
 | ------------ | ---- | ----- | --- | ----- | --------- | ------ |
 | Size (bytes) | 1    | 2     | 4   | 4     | 8         | 8      |
+
+### TCP vs UDP
+
+>[!TODO]
+>- TCP  
+>	- header
+>	- 3 and 4 way handshake
+>	- duplicate acknowledgement
+>- UDP header
+>- what is a datagram? what is a stream?
+
+>[!Definition]
+>A **stream** is a sequence of characters that flow into or out of a process.
+>
+>An **input stream** is attached to some input source for the process, e.g. keyboard or socket.
+>An **output stream** is attached to an output source, e.g. monitor or socket.
+
+>[!Definition]
+>A **datagram** is a self-contained packet of information.
+### TCP 
+Uses *streams of packets* to transfer *bytes* of information.
+
+>[!Important]
+>TCP...
+>- is *reliable* (lost data is re-sent)
+>- provides *in-order transfer of bytes* (messages use sequence numbers to ensure this)
+>- 
+
+#### socket programming with TCP
+1. Client must contact server 
+	- server process must first be running
+	- server must have created a socket (door) that welcomes the client's contact (rendez-vous socket)
+2. Client contacts server by:
+	1. creating a client-local TCP socket
+	2. specifying the IP address and port number of the server process 
+	3. when the client creates the socket, the client TCP establishes the connection with the server TCP
+	4. when contacted by the client, the TCP server creates a new socket used for communicating strictly with that specific client 
+
+### UDP
+
+UDP writes *packets of bytes* (i.e. **datagrams**). Data size must fit into transmission unit.
+
+>[!Definition]
+>UDP...
+>- provides *unreliable* transfer between client and server
+>- best-effort
+
+
+### Comparison
+
+| Characteristic          | TCP                                                                                                                                                                | UDP                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| header size             | 20 bytes                                                                                                                                                           | 8 bytes                                                                                  |
+| header fields           | - source and dest port<br>- sequence number<br>- acknowledgement number<br>- fin, syn, ack flags<br>- window size<br>(and more...)                                 | - source and destination port<br>- length<br>- checksum<br>(these are the only 4 fields) |
+| writes..                | *stream* of packets                                                                                                                                                | *packets* of bytes (datagrams)                                                           |
+| reads..                 | from the stream                                                                                                                                                    | from ONE packet                                                                          |
+| bytes that are not read | stay available for the next read                                                                                                                                   | are LOST                                                                                 |
+| flow                    | no overflow; traffic controlled by the OS                                                                                                                          | one party can overflow the other                                                         |
+| fragmentation           | if the size of the packet is greater than the MTU (maximum transmission unit), the packet will be fragmented into multiple packets (given that DF bit is set to 0) | no fragmentation; data size must fit into transmission unit (datagram, < 64kb)           |
+| receipt order           | same as the order in which the packets were sent                                                                                                                   | may differ from the original order of the datagrams                                      |
 
 ## Traceroute
 
