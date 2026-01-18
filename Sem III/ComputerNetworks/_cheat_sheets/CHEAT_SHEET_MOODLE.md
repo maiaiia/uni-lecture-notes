@@ -178,8 +178,7 @@ Advantages:
 | `accept`            |     X      |     M      |     X      |     X      |
 | `send/recv`         |     O      |     O      |     X      |     X      |
 | `sendto / recvfrom` |     X      |     X      |     O      |     O      |
->[!Warning] 
->Check if connect can be used in udp clients
+
 
 >[!Info]
 > TCP sockets are initialised with AF_INET and SOCK_STREAM
@@ -329,7 +328,6 @@ It uses both ICMP and UDP
 ![[CHEAT_SHEET_MOODLE 2026-01-15 16.48.17.excalidraw]]
 ## Misc
 hubs don't understand mac addresses 
-2 computers can never have the same IP address
 telefoanele mobile nu se pot conecta la Internet fara placa de retea 
 CLI stands for command line interface 
 TCP is sometimes faster than UDP
