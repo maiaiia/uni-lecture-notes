@@ -342,6 +342,8 @@ network order is big endian
 
 flow control concerns what a device can handle, congestion concerns a network can handle
 
+networks can be classified on the types of transmission as packet switching and circuit switching
+
 ## Topics to add
 
 - bandwidth versus throughput
