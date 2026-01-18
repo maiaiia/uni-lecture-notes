@@ -312,10 +312,7 @@ UDP writes *packets of bytes* (i.e. **datagrams**). Data size must fit into tran
 
 Used for network diagnostic (debugging).
 Traceroute uses IP TTL to trace packet paths (by setting it to 1, then 2, then 3 and so on).
-It uses both ICMP and UDP
-
-
-- ti se da o retea cu routere si subretele si trebuie sa alegi ordinea ip-urilor vizitate daca executi comanda track ip route
+It uses both ICMP and UDP.
 
 ## Network Boards
 >[!TODO]
