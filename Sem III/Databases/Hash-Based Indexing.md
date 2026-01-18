@@ -11,7 +11,7 @@ Hash-based Indexing is ideal for *equality* selections.
 
 ## Static Hashing 
 The buckets range from $0$ to $n-1$. Each bucket has a *primary page* and possibly some extra *overflow pages*.
-(looks like the average hash table. no load factor; the number of buckets is static - hence the name).
+(looks like the most basic version of a [[Hash Tables|hash table]]. no load factor; the number of buckets is static - hence the name).
 
 >[!Warning] Issue 
 >The overflow chains can get quite long.
@@ -53,3 +53,11 @@ There are 2 possible situations when it comes to insertion:
 Simply compute the hash of the key and take the last $gd$ bits to identify the directory element. Then, search the corresponding bucket
 
 #### deletion
+Search for the entry and remove it.
+- if the bucket is empty:
+	- merge the bucket with its split image and decrement the local depth
+	- if every directory element points to the same bucket as its split image
+		- halve the directory
+		- decrement the global depth
+
+

@@ -25,3 +25,4 @@
 - [[Indexes]]
 - [[Tree-Structured Indexing]]
 - [[Hash-Based Indexing]]
+- [[Query Optimisation in Relational Databases]]

@@ -42,9 +42,9 @@ Operations:
 
 ## 2-3 Trees
 
-- every node has either one or 2 keys 
+- similar to an [[AVL Trees |AVL tree]], but every node has either one or 2 keys 
 - every non-terminal node has either 2 or 3 children (n keys in a node => n + 1 children)
-- all leaf nodes are on the same level
+- all leaf nodes are on the same level (perfectly balanced)
 
 ## B-Trees
 A B-tree is a generalisation of 2-3 trees.
