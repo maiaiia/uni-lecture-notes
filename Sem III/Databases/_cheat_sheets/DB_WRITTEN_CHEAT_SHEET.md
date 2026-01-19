@@ -13,3 +13,6 @@ WHERE
 GROUP BY
 HAVING
 
+## Misc
+- UNION gets rid of duplicates. UNION ALL doesn't
+- 

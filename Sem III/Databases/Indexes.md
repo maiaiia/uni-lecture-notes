@@ -6,7 +6,7 @@ type: Lecture
 # Indexes
 
 ## Introduction
-Indexes are auxiliary data structures that speed up operations which can't be efficiently carried out given the files' organisation. They enable the retrieval of the rids of records that meet a selection condition.
+Indexes are auxiliary data structures stored on the disk, associated with a table or a view. They speed up operations which can't be efficiently carried out given the files' organisation. They enable the retrieval of the ids of records that meet a selection condition.
 
 Indexes have an associated **search key**, which is a set of one or more attributes of the indexed file (different from the key that identifies records). An index speeds up queries with equality / range selection conditions on the search key.
 
@@ -40,16 +40,40 @@ Alternatives 2 and 3:
 - there may be multiple indexes of this type on a collection of records
 - these entries are independent of the file organisation
 
-## Clustered & Unclustered Indexes
+## Index Characteristics
+
+Indexes can have the following characteristics:
+- clustered / non-clustered
+- unique / non-unique
+	- A unique index guarantees that the search key contains no duplicate values. Uniqueness is useful information for the query optimiser. 
+- search key can be either a single column or multi-column
+- the columns can either be key or non-key 
+- the order of the columns in the index can ascending on descending (if clustered)
+- non-clustered indexes can either be full-table or filtered
+
+### Clustered & Unclustered Indexes
 
 > [!Definition]
 >  A **clustered index** is an index where the order of the data records is close to / the same as the order of the data entries.
 >  
 >  An **unclustered index** is an index that is not clustered. 
 
-In practice, clustered indexes use alternative 1 for data entries, and unclustered indexes use 2 and 3. A collection of records may have at most one clustered index and several unclustered indexes.
+In practice, *clustered indexes use alternative 1 for data entries*, and *unclustered indexes use 2 and 3*.
+A collection of records may have at most one clustered index and several (999) unclustered indexes.
+#### clustered indexes
+Data pages in a clustered index always include *all the columns* in the table/
+Clustered indexes are organised as [[Tree-Structured Indexing#B+ Trees|B+ Trees]].
 
-## Primary & Secondary Indexes
+When creating a primary key on a table, if a clustered index is not defined and a non-clustered index is not specified, a *unique clustered index* is created on the fields of the primary key.
+
+### Key / Non-Key Index Columns
+Key columns are those included in the search key, whereas non-key columns are specified afterwards in the INCLUDE clause, when creating a non-clustered index %%obviously; clustered indexes already include all columns%%
+```sql
+CREATE INDEX Index_Name 
+	ON Schema_Name.Table_Name(Column) -- key index column
+	INCLUDE (ColumnA, ColumnB, ColumnC) -- non-key index coul
+```
+### Primary & Secondary Indexes
 
 >[!Definition]
 >A **primary** index is an index whose search key includes the primary key.
