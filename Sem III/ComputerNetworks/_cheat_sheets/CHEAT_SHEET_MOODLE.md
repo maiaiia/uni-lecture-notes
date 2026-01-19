@@ -345,14 +345,5 @@ flow control concerns what a device can handle, congestion concerns a network ca
 networks can be classified on the types of transmission as packet switching and circuit switching
 
 ## Topics to add
-
-- bandwidth versus throughput
 - SELECT 
   
-## TIPS 
-
-vezi sa nu gresesti la chestii de genul "pot exista calculatoare cu adresa 192.168.1.0". doar pt ca vezi 0 la final, nu inseamna ca aia-i adresa de retea (daca masca e /8 de ex)
-
-when asked which ip addresses are assignable to a computer, be mindful of the following:
-- the private ip ranges 
-- the multicast range (224.0.0.0 - 239.255.255.255)
