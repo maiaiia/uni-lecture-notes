@@ -36,7 +36,7 @@ SIZE: **20 bytes** (without Options. Can be at most 40 bytes )
 | Session      |         | allows for establishing sessions (dialog control, token management, synchronisation)                                                                                                         |
 | Transport    | segment | accept data from upper layers and split it into packets, ensure that packets arrive correctly to the other end<br>true end-to-end layer                                                      |
 | Network      | packet  | controls the operation of a subnet, routing, congestion control, fragmentation and inter-network problems                                                                                    |
-| Data-Link    | frame   | traffic regulation, error correction, access to the medium in broadcast shared communication lines                                                                                           |
+| Data-Link    | frame   | traffic regulation, flow control, error correction, access to the medium in broadcast shared communication lines                                                                             |
 | Physical     | bit     | sending raw bits over a communication channel                                                                                                                                                |
 
 ### Principles of the OSI model
@@ -174,7 +174,7 @@ Advantages:
 | `socket`            |     M      |     M      |     M      |     M      |
 | `bind`              |     O      |     M      |     O      |     M      |
 | `listen`            |     X      |     M      |     X      |     X      |
-| `connect`           |     M      |     X      |     O      |     X      |
+| `connect`           |     M      |     X      |     X      |     X      |
 | `accept`            |     X      |     M      |     X      |     X      |
 | `send/recv`         |     O      |     O      |     X      |     X      |
 | `sendto / recvfrom` |     X      |     X      |     O      |     O      |
