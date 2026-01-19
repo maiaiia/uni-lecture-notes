@@ -48,7 +48,9 @@ Repeating attributes cannot be used in the relational model. Relations that have
 ### Prime attributes
 
 >[!Definition]
->An attribute $A$ is said to be *prime* if there is a key $K$ and $A \subseteq K$ ($K$ can be a composite key; $A$ itself can be a key). If an attribute isn't included in any key, it is said to be *non-prime*
+>An attribute $A$ is said to be *prime* if there is a key $K$ and $A \subseteq K$ ($K$ can be a composite key; $A$ itself can be a key). 
+>
+>If an attribute isn't included in any key, it is said to be *non-prime*
 
 ## Simple Functional Dependency
 

@@ -92,8 +92,9 @@ FROM from_list [alias]
 >3. GROUP BY
 >4. HAVING
 >5. SELECT
->6. DISTINCT ORDER BY
->7. TOP
+>6. DISTINCT 
+>7. ORDER BY
+>8. TOP
 
 #### Row Aggregation 
 

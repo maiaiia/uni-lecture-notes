@@ -39,8 +39,8 @@ Note that a relation that is in 1NF, but not 2NF, must have a composite key and 
 >
 >Definition 2:
 >A relation $R$ is in 3NF if, for every non-trivial [[Functional Dependencies#Functional Dependencies#Simple Functional Dependency|functional dependency]] $X \rightarrow A$ that holds over $R$:
->- $X$ is a [[The Relational Model#^superkeydb|superkey]] or
->- $A$ is a prime attribute
+>- $X$ is a [[The Relational Model#^superkeydb|superkey]] %%(the key is included in X)%% or
+>- $A$ is a prime attribute %%A is included in the key%%
 
 ### BCNF 
 
