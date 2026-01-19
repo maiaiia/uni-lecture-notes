@@ -43,11 +43,12 @@ If we have a one-to-many relationship, deleting an entry from the 'parent' (one)
 
 ### clustered tables
 - at most one clustered index per table                                          
-- the order in which the data rows are stored on the disk is given by the clustered index                                                 
+- the order in which the data rows are stored on the disk is given by the clustered index     
+
 - key columns should be:
 	- as unique as possible
 	- a small datatype (sorting is more efficient)
-	  - shouldn't be frequently updated 
+	- shouldn't be frequently updated 
 - has access to the full records from the table                
 - table with a PK + the table doesn't already have a cl. idx + no mention of the nonclustered kword $\Rightarrow$ clustered index on PK columns
 - B+ tree structure

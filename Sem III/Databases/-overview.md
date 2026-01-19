@@ -3,17 +3,6 @@
 - [[Lab Exam Problems]]
 - [[DB_PRACTICE_QUESTIONS]]
 - [[DB_WRITTEN_CHEAT_SHEET]]
-# Seminars
-- [[DBSeminar1]]
-- [[DBSeminar2]]
-- [[DBSeminar3]]
-- [[DBSeminar4]]
-- [[DBSeminar5]]
-- [[DBSeminar6]]
-- [[DBSeminar7]]
-# Labs
-- [[DBLab Database]]
-- [[DBLab 10]]
 # Lectures
 - [[Data Description Models]]
 - [[Databases and Database Management Systems]]
@@ -26,3 +15,14 @@
 - [[Tree-Structured Indexing]]
 - [[Hash-Based Indexing]]
 - [[Query Optimisation in Relational Databases]]
+# Seminars
+- [[DBSeminar1]]
+- [[DBSeminar2]]
+- [[DBSeminar3]]
+- [[DBSeminar4]]
+- [[DBSeminar5]]
+- [[DBSeminar6]]
+- [[DBSeminar7]]
+# Labs
+- [[DBLab Database]]
+- [[DBLab 10]]

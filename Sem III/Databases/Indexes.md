@@ -56,7 +56,7 @@ Indexes can have the following characteristics:
 > [!Definition]
 >  A **clustered index** is an index where the order of the data records is close to / the same as the order of the data entries.
 >  
->  An **unclustered index** is an index that is not clustered. 
+>  An **unclustered index** is an index structure that is not clustered. It's 
 
 In practice, *clustered indexes use alternative 1 for data entries*, and *unclustered indexes use 2 and 3*.
 A collection of records may have at most one clustered index and several (999) unclustered indexes.
@@ -71,8 +71,19 @@ Key columns are those included in the search key, whereas non-key columns are sp
 ```sql
 CREATE INDEX Index_Name 
 	ON Schema_Name.Table_Name(Column) -- key index column
-	INCLUDE (ColumnA, ColumnB, ColumnC) -- non-key index coul
+	INCLUDE (ColumnA, ColumnB, ColumnC) -- non-key index columns
 ```
+
+Including non-key index columns helps in creating **covering indexes**
+
+>[!Definition]
+>A **covering index** is an index that contains all the columns that are necessary in a query
+
+### Filtered Indexes 
+This is an optimisation upon non-clustered indexes. Queries can be used in order to select only some entries from a certain subset of data. This helps with:
+- better query performance
+- maintenance cost
+- storage cost
 ### Primary & Secondary Indexes
 
 >[!Definition]
@@ -83,7 +94,35 @@ CREATE INDEX Index_Name
 >A **unique index** is an index whose search key contains a candidate key.
 
 By definition, the only indexes that may contain duplicates (data entries with the same search key value) are secondary indexes.
+## Implementations
+### [[Tree-Structured Indexing]]
 
-## [[Tree-Structured Indexing]]
+### [[Hash-Based Indexing]]
 
-## [[Hash-Based Indexing]]
+## Algorithms 
+### Table scan
+- many operators require a full scan of the entire table
+- sloooow
+### Index Scan 
+- used when evaluating $\sigma_C(R)$, where condition $C$ is of the form:
+	- $A < v, A \leq v, A > v, A \geq v$, $A$ IS NULL, $A$ IS NOT NULL (index built for a key A)
+	- all the previous and $A = v$ (index built on a non-key field A)
+- to get the records from the relation, some blocks can be read multiple times
+### Index Seek 
+- when searching for a key value $K_0$ using a condition of the form $K = K_0$
+- it's used when examining an index (stored as a B-tree, B+ tree) created:
+	- via a key constraint 
+	- with the CREATE INDEX statement 
+
+>[!Tip]
+>Note that $K$ can be either a simple or a composite key
+
+### Key Lookup 
+- Similar to a clustered index seek (*seek with lookup*), but Key Lookup may specify an additional PRE-FETCH argument instructing the execution engine to pre-fetch more keys in the clustered index
+- these are expensive (used when a small percentage of the table fits the Where clause)
+- a key lookup occurs when data is found in a non-clustered index, but additional data is needed from the clustered index to satisfy the query and therefore a lookup occurs.
+
+>[!Warning]
+>Key lookups are expensive because they require an additional operation to find the data and may also require additional I/O.
+
+Key lookups can be handled using *covering indexes* or by using the INCLUDE clause in the create index statement.

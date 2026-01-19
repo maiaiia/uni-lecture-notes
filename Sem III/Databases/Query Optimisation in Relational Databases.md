@@ -15,25 +15,6 @@ Once it receives an SQL statement, the SQL server will
 
 This lecture is concerned with steps 3 and 4 (and maybe 5); step 2 was covered here: [[Relational Algebra]].
 
-## Algorithms 
-### Table scan
-- many operators require a full scan of the entire table
-- sloooow
-
-### Index Seek 
-- when searching for a key value $K_0$ using a condition of the form $K = K-0$
-- it's used when examining an index (stored as a B-tree, B+ tree) created:
-	- via a key constraint 
-	- with the CREATE INDEX statement 
-
->[!Tip]
->Note that $K$ can be either a simple or a composite key
-
-### Index Scan 
-- used when evaluating $\sigma_C(R)$, where condition $C$ is of the form:
-	- $A < v, A \leq v, A > v, A \geq v$, $A$ IS NULL, $A$ IS NOT NULL (index built for a key A)
-	- all the previous and $A = v$ (index built on a non-key field A)
-- to get the records from the relation, some blocks can be read multiple times
 ## Internal Form Optimisation
 
 Rules:
