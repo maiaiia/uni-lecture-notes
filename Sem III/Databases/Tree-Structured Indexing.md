@@ -54,7 +54,7 @@ A B-tree is a generalisation of 2-3 trees.
 >2. all terminal nodes are on the same level (the tree is perfectly balanced)
 >3. every non-terminal node has at most $m$ subtrees
 >4. a node with $p$ subtrees has $p-1$ ordered value keys (asc) $K_1<K_2<\dots<K_{p-1}$
->5. every non-terminal, non-root node has at least $\cfrac{m}{2}$ subtrees
+>5. every non-terminal, non-root node has at least $\cfrac{m}{2}$ subtrees (round up)
 >
 
 >[!Tip]
