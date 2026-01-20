@@ -12,7 +12,7 @@ Indexes have an associated **search key**, which is a set of one or more attribu
 
 Indexes also contain **entries**, which are records in the index, thus enabling the retrieval of records with a given search key value.
 
-Some organisation techniques (access methods) are:
+Some [[#Organisation Techniques]] (access methods) are:
 - B+ trees 
 - hash-based structures
 
@@ -94,7 +94,7 @@ This is an optimisation upon non-clustered indexes. Queries can be used in order
 >A **unique index** is an index whose search key contains a candidate key.
 
 By definition, the only indexes that may contain duplicates (data entries with the same search key value) are secondary indexes.
-## Implementations
+## Organisation Techniques
 ### [[Tree-Structured Indexing]]
 
 ### [[Hash-Based Indexing]]
