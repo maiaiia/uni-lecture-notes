@@ -10,6 +10,7 @@
 - [[Relational Algebra]]
 - [[Functional Dependencies]]
 - [[Normal Forms]]
+- [[Memory. Magnetic Disks]]
 - [[The Physical Structure of Databases]]
 - [[Indexes]]
 - [[Tree-Structured Indexing]]
