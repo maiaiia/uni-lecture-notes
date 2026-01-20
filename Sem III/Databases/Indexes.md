@@ -118,6 +118,8 @@ By definition, the only indexes that may contain duplicates (data entries with t
 >Note that $K$ can be either a simple or a composite key
 
 ### Key Lookup 
+A key lookup occurs when data is found in a non-clustered index, but additional data is needed from the clustered index to satisfy the query and therefore a lookup occurs
+
 - Similar to a clustered index seek (*seek with lookup*), but Key Lookup may specify an additional PRE-FETCH argument instructing the execution engine to pre-fetch more keys in the clustered index
 - these are expensive (used when a small percentage of the table fits the Where clause)
 - a key lookup occurs when data is found in a non-clustered index, but additional data is needed from the clustered index to satisfy the query and therefore a lookup occurs.
