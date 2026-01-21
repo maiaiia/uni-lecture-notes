@@ -66,3 +66,4 @@ Note that a relation that is in 1NF, but not 2NF, must have a composite key and 
 >- implied by the candidate4 keys of $R$ if each $\alpha_i$ is a superkey in $R$
 
 
+In simpler terms, a relation is in 5NF if it cannot be decomposed into smaller relations without loss of information, unless the decomposition is implied by candidate keys alone.
