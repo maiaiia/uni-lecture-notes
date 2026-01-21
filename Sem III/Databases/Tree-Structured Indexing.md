@@ -104,4 +104,5 @@ Built on top of B-Trees, B+ trees have the following properties:
 1. The leaves contain all the keys 
 2. The leaves form a doubly linked list
 
-Leaf level is a dense index, other levels are sparse indexes
+Leaf level is a dense index, other levels are sparse indexes.
+the top levels of the b+ tree can be kept in the BP 
