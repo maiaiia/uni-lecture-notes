@@ -8,8 +8,46 @@ type:
 ## Java Serialisation. Streams 
 Serialisation allows converting the state of an object into a byte stream, which can be saved into a file on the local disk or sent over the network to any other machine. The reversal of this process is called deserialisation.
 
-## Wildcards
+## Generics. Wildcards
+### Generics
+- similar (syntax-wise) to C++ templates, but there are some key differences
+	- Java does NOT generate a new class for each parameterised type
+	- the constraints can be imposed on the type variables of the parameterised types
 
+>[!Tip]
+>- Static methods cannot use the type variables of the class
+>- A generic method can be defined in a non-generic class
+
+- *autoboxing*: 
+	- type variables can be instantiated with reference types only
+	- primitive types: int, byte, char, float, double,... are not allowed 
+	- autoboxing is a mechanism that performs automatic conversion of the value of a primitive type to an object instance of a corresponding reference type when an object is expected, and vice-versa when a primitive value is expected
+
+| Primitive | Reference Type |
+| --------- | -------------- |
+| int       | Integer        |
+| boolean   | Boolean        |
+| byte      | Byte           |
+| short     | Short          |
+| long      | Long           |
+| float     | Float          |
+| double    | Double         |
+| char      | Character      |
+
+>[!Tip]
+>Type variables can have constraints (namely *bounds*) using `extends`
+
+### Wildcards
+
+- use `?` to denote any type (or unknown type)
+- when we use `?`, 
+	- the elements can be considered to be of type `Object`
+	- the instance elements cannot be read from or written to.
+- we can specify bounds for `?` 
+	- **upper bound** (using `extends`): `? extends C`
+		- we can *read* elements of the type given by the upper bound
+	- **lower bound** (using `super`): `? super C` 
+		- we can *write* elements of the type (or of subclasses of the type) given by the lower bound
 
 ## Java Concurrency
 
@@ -23,9 +61,12 @@ Serialisation allows converting the state of an object into a byte stream, which
 ### CountDownLatch
 
 ## Exceptions
+- 3 types of exceptions: 
+	- *Errors* (external to the application)
+	- *Checked Exceptions* (subject to try-catch)
+	- *Runtime Exceptions*
 
->[!TODO]
->checked / unchecked
+Checked Exceptions must either be caught in the body of the method or be added its signature and the signatures of all superclasses
 
 ## OOP Recap
 
@@ -68,8 +109,8 @@ Serialisation allows converting the state of an object into a byte stream, which
 | can have constructors                          | no constructors                                                                                                                          |
 | may contain no abstract methods                | may contain no methods at all                                                                                                            |
 | no instance objects                            | no instance objects                                                                                                                      |
-- *downcasting*: force an object to be 
-
+- *downcasting*: converting a superclass reference back to a subclass reference
+	- use `instanceof` operator to do this safely
 ```java
 Class Base{...}
 Class SubBase extends Base{...}
@@ -80,8 +121,14 @@ objB = objSB1; //correct
 objSB2 = objB; //compiler rejects it
 objSB2 = (SubBase) objB; //OK -- compiler does not verify if this is correct and it trusts the programmer
 ```
+
+
 ## Misc
 - access modifiers: *public*, *protected*, *private*
+	- *public*: access from everywhere
+	- *protected*: access from the same package and from subclasses 
+	- *private*: access from the same class only
+	- no modifier: access from the same package only
 -  *static* fields: 
 	- shared by all class instances
 	- they are allocated only once in memory
