@@ -51,8 +51,20 @@ Serialisation allows converting the state of an object into a byte stream, which
 
 ## Java Concurrency
 
+synchronised methods / statements guarantee mutual exclusion
+- synchronized(obj) {} --> synchronized statement with `obj` as lock
+- synchronized ...m(){} --> synchronized method with `this` as lock
+
 >[!TODO]
 >sync / async
+
+### Monitor
+mutex --> monitor
+A monitor is a collection of code (called a *critical section*) associated with an object (called a *lock*). 
+
+>[!Tip] 
+>Java allows any object to be the lock of a monitor
+
 
 ### Semaphore
 
