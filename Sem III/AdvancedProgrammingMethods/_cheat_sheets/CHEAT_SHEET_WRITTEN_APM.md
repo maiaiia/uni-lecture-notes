@@ -8,6 +8,70 @@ type:
 ## Java Serialisation. Streams 
 Serialisation allows converting the state of an object into a byte stream, which can be saved into a file on the local disk or sent over the network to any other machine. The reversal of this process is called deserialisation.
 
+### Filtering
+- **filter(Predicate)** - takes a predicate and returns all elements that match it
+- **distinct** - returns a stream with unique elements
+- **limit(n)** - returns a stream with at most n elements
+- **skip(n)** - returns a stream with the first n elements discarded
+
+### Mapping 
+- **map(Predicate)** 
+- **mapToInt** - also an option (usually called with `Integer::parseInt`)
+
+### Collecting
+- **collect(Collector)** 
+	- Collector consists of 4 different operations: 
+		- a *supplier*
+		- an *accumulator*
+		- a *combiner*
+		- a *finisher*
+
+```java
+List<Person> filtered = persons.stream()
+						.filter(p->p.name.startsWith("P"))
+						.collect(Collectors.toList());
+						
+Double averageAge = persons.stream()
+					.collect(Collectors.averagingInt(p -> p.age));
+					
+String phrase = persons.stream()
+				.filter(p -> p.age >= 18)
+				.map(p -> p.name)
+				.collect(Collectors.joining(" and ", "In Germany ", " are of legal age."));
+				
+// prefix:     In Germany
+// delimiter:  and
+// suffix:     are of legal age
+
+
+Map<Integer, String> map = persons.stream()
+		.collect(Collectors.toMap(
+		p -> p.age,
+		p -> p.name,
+		(name1, name2) -> name1 + ";" + name2 //merge function in case keys are not unique --> optional!!
+	));
+
+```
+
+### Terminal operations
+- **min(Comparator)**
+- **max(Comparator)**
+
+```java
+String shortest = items.stream()
+					   .min(Comparator.comparing(item -> item.length()))
+					   .get();
+```
+
+### Misc
+- **count** - returns the number of elements in the stream
+- **reduce()** - reduce the elements of a stream to a single value
+	- version 1
+		- takes a `BinaryOperator` as parameter
+		- returns an `Optional`
+	- version 2
+		- takes 2 parameters: an initial value for the accumulated value, and then the Binary Operator
+
 ## Generics. Wildcards
 ### Generics
 - similar (syntax-wise) to C++ templates, but there are some key differences
