@@ -1,8 +1,19 @@
 # Tasks 
-## Booking 
 
+## Chat
 ## Payments 
-- platforma va fi intermediar 
-- problema: securitate tranzactii
-	- idei: API safety
-## Orders 
+- the platform will act as an intermediary for the transaction
+
+- integrate different ways of payment
+	- card
+	- cash
+	- troc
+
+## Infrastructura de Mailuri
+- confirma comanda
+- reminder ca urmeaza sa inceapa perioada de chirie
+- 
+
+
+# Nume
+- nerd wallet, wallet pROtect, CVV, I(<3)BAN, 16 digits, 3 digits, 
