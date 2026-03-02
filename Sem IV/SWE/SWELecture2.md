@@ -28,3 +28,6 @@ Basically split everything into small tasks. the smaller the task the better (ma
 Some tasks fit a time blocking format better.
 Whatever can be off your brain and live somewhere on paper or written in a time block should not occupy time and energy
 
+## UML
+don't use aggregation??? idk why but imre doesn't like it
+sometimes use multiplicities when it makes sense?
