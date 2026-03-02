@@ -1,3 +1,3 @@
 ## Lectures
 
-- [[SWELecture2]]
+- [[src/Sem IV/SWE/SWELecture2]]
