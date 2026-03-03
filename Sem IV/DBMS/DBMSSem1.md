@@ -78,7 +78,43 @@ try {
 	sqlCommand.Connection = sqlConnection;
 	SqlDataReader sqlReaderSpies = sqlCommand.ExecuteReader();
 	
-	while (sqlReaderSpies.Read)
+	while (sqlReaderSpies.Read()) {
+		Console.WriteLine(readerSpies["realName"]);
+	}
+	if (readerSpies != null) {
+		readerSpies.Close();
+	}
+	
+	sqlCommand.CommandText = "SELECT COUNT(*) FROM Spies";
+	Console.WriteLine(sqlCommand.ExecuteScalar());
+	
+	sqlCommand.CommandText = "INSERT INTO Spies(id, realName, codeName, age, height, weight) VALUES (5, 'Ana Maria', 'Red Bandit', 26, 1.75, 65)";
+	//sqlCommand.ExecuteNonQuery();
+	
+	DataSet dataSet = new DataSet();
+	SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Spies", sqlConnection);
+	sqlDataAdapter.Fill(dataSet, "Spies"); //table name may be different but that can be confusing 
+	DataTable tableSpies = dataSet.Tables["Spies"];
+	foreach(DataRow row in tableSpies.Rows) {
+		Console.WriteLine(row["codeName"]);
+	}
+	
+	sqlDataAdapter.DeleteCommand = new SqlCommand("DELETE FROM Spies WHERE id = @id", sqlConnection);
+	sqlDataAdapter.DeleteCommand.Parameters.Add("@id", SqlDbType.Int, 5, "id");
+	tableSpies.Rows[4].Delete();
+	sqlDataAdapter.Update(dataSet, "Spies");
+	
+	DataRow newSpies = tableSpies.NewRow();
+	newSpies[0] = 6;
+	newSpies[1] = "Ion Tudor";
+	newSpies[2] = "Agent IT";
+	newSpies[3] = 67;
+	newSpies[4] = 1.78;
+	newSpies[5] = 70;
+	
+	SqlCommandBuilder sqlCommandBuilder = new SqlCommandBuilder(sqlDataAdapter);
+	tableSpies.Rows.Add(newSpies);
+	sqlDataAdapter.Update(dataSet, "Spies");
 	
 } catch (SqlException e) {
 	Console.WriteLine(e.Message)
