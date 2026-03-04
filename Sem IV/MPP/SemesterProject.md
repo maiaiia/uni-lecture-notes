@@ -10,10 +10,13 @@ Idei:
 - outfit picker
 - debatelord.org (https://www.kialo.com/time-zones-exist-because-of-the-difference-in-the-illumination-of-different-regions-due-to-the-spherical-shape-of-the-7216.6?path=7216.0~7216.1_7216.1001_7216.113_7216.6)
 - fitness tracker (search by muscle group)
+- workout planner
 - habit tracker with a social media aspect
 - flashcard sharing platform
 - strava
 - cv pt taica miu cu bonsai
+- book store, library management
+- carpooling system
 
 Figma GUI
 
