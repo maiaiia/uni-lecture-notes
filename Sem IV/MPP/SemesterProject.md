@@ -44,7 +44,7 @@ Figma GUI
 - (needs a social platform but it kinda doesn't make sense to add it - like chat and stuff)
 
 ## FatherBonsai
-- RO + EN language support (store user language preference in their profile)
+- RO + EN language support (store user language preference in their profile - i18n)
 - has users
 - each user has a page with their plants (the latest posted image of the plant is the cover)
 - opening a plant's page will display data about it
@@ -52,10 +52,15 @@ Figma GUI
 	- chestii de ingrasamant and stuff
 	- watch the plant's evolution (scroll down old pictures)
 	- additional notes
-- there is also a social aspect to it - friends get notified on a user's achievements (e.g. Dan's Bonsai just hit 2 months! - picture)
-- separately, there is an article section - info about how to take care of your bonsai. this is where i'll translate a book for my dad. This is bonsai-specific, everything else applies for any kind of plant. Maybe I could make this look like a roadmap (like seed-to-bonsai. It will be tree-like at some point, because there are different issues one can tackle)
+- there is also a social aspect to it - friends get notified on a user's achievements (e.g. Dan's Bonsai just hit 2 months! - picture). You can choose when to share an achievement and whether to add some more info about it. People can react to achievements, comment and more. 
+- separately, there is an article section - info about how to take care of your bonsai. this is where i'll translate a book for my dad. This is bonsai-specific, everything else applies for any kind of plant. Maybe I could make this look like a roadmap (like seed-to-bonsai. It will be tree-like at some point, because there are different issues one can tackle). Actually it could have roadmaps instead. Choose your plant type and see a roadmap of to grow it.
+- the last section is a forum. add an issue, flag it, and discuss with others on how to fix it. users may choose to close discussion threads once they have received enough information. discussion threads get automatically closed after a week of inactivity, but are still available to view.
+- i am thinking of maybe joining the social and forum pages into one. you can have a menu to toggle if you want to see achievements or only issues or both (but then maybe it'd be hard to search for a specific issue).
 - the app generates a daily checklist of what you need to do for your plants per user (water, disinsect, whatever else). you can also do stuff outside the checklist and log it -- (for instance, if you water a plant a day earlier, it will push back the next watering day by interval days)
-- if you want to stop tracking a plant (it died or whatever), you can either Delete it (and all)
+- if you want to stop tracking a plant (it died or whatever), you can either Delete it (and all its history of pics and stuff OR archive it - so that it is not included in the watering schedule and stuff)
+- of course, watering schedule plus other care taking stuff can be edited. 
+- if you miss a watering day or smth it will be included in the next day's checklist and highlighted with yellow for one day late and red for more. 
+- plant care analytics
 
 
 
