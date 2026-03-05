@@ -15,5 +15,8 @@
 - 
 
 
-# Nume
-- nerd wallet, wallet pROtect, CVV, I(<3)BAN, 16 digits, 3 digits, 
+# (Behavioural based Programming) Structure
+
+**As a** \[...] **i want to** \[...] **so that** \[...]
+
+A feature is not split technically. It is always split conceptually, and then it gets technical. The feature shouldn't get into technical details
