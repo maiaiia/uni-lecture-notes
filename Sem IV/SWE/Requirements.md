@@ -20,3 +20,11 @@
 **As a** \[...] **i want to** \[...] **so that** \[...]
 
 A feature is not split technically. It is always split conceptually, and then it gets technical. The feature shouldn't get into technical details
+
+# Use case diagrams
+the user's perspective on what the application looks like
+
+MVVM - model view viewmodel (viewmodel is an intermediary)
+very important for the app to follow this model 
+
+Don't need to write all properties
