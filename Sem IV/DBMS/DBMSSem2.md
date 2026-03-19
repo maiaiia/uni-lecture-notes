@@ -56,7 +56,12 @@ private void btn1_Click(object sender, EventArgs e){
 	SpiesBinding.DataMember = "Spies";
 	
 	TasksBinding.DataSource = SpiesBinding;
-	TasksBinding.DataMember = "Tasks";
+	TasksBinding.DataMember = "FK_Spies_Tasks";
+	
+	DGBspies.DataSource = SpiesBinding;
+	DGBtasks.DataSource = TasksBinding;
+	
+	textBox_TaskDescription.DataBindings.Add("Text", TasksBinding, "taskDesc");
 }
 ```
 
