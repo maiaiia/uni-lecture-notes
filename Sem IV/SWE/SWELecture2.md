@@ -6,7 +6,7 @@ type:
 # Lecture2
 
 ## Project Life Cycle 
-Model 1: waterfall scrum
+### Model 1: waterfall scrum
 Requirements $\rightarrow$ Analysis $\rightarrow$ Design $\rightarrow$ Implementation $\rightarrow$ Testing $\rightarrow$ Maintenance
 ![[waterfall-scrum]]
 
@@ -16,7 +16,7 @@ What happens is in real life is you don't plan for outcomes, you plan for change
 
 Issue: Client involvement is very limited
 
-Model 2: agile scrum
+### Model 2: agile scrum
 - Individuals and interactions over processes and tools
 
 Planning is done incrementally every 2 weeks
@@ -26,8 +26,7 @@ Issue: client needs to be very involved
 ## Tasks
 Basically split everything into small tasks. the smaller the task the better (maybe try to stick to 10-20 min long tasks)
 Some tasks fit a time blocking format better.
-Whatever can be off your brain and live somewhere on paper or written in a time block should not occupy time and energy
-
+Whatever can be off your brain and live somewhere on paper or written in a time block is better off there
 ## UML
 don't use aggregation??? idk why but imre doesn't like it
 sometimes use multiplicities when it makes sense?

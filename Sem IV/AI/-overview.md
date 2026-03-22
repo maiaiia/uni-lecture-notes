@@ -1,1 +1,4 @@
 ## Lectures
+- [[IntroToML]]
+- [[DecisionTrees]]
+- [[NeuralNetworks]]

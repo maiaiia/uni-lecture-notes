@@ -43,7 +43,7 @@ Figma GUI
 - discover page for decks - visualise the most popular decks during a specific week. Search decks
 - (needs a social platform but it kinda doesn't make sense to add it - like chat and stuff)
 
-## FatherBonsai
+## The Grove
 - RO + EN language support (store user language preference in their profile - i18n)
 - has users
 - each user has a page with their plants (the latest posted image of the plant is the cover)
