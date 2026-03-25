@@ -16,7 +16,7 @@ Each layer is made of multiple **nodes**. The transition between 2 adjacent laye
 
 ## Perceptron
 >[!Definition]
-> The perceptron is the *first model of a neuron*. It was originally designed to take a number of binary inputs and produce one binary outputs.
+> The perceptron is the *first model of a neuron*. It was originally designed to take a number of binary inputs and produce one binary output.
 > 
 
 A perceptron has: 
@@ -48,7 +48,7 @@ Perceptron's rule $\rightarrow$ perceptron's algorithm
 
 where $\eta$ is the **learning rate**
 ## Artificial Neural Networks
-This section will cover *feed forward* neural networks. They are the simplest type of ANNs. Information moves in one direction (i.e. forward) only.
+This section will cover *feed forward* neural networks only. They are the simplest type of ANNs. Information moves in one direction (i.e. forward) only.
 
 - **nodes** 
 	- have *inputs* and *outputs*
