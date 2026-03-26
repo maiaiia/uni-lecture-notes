@@ -5,16 +5,8 @@ type:
 ---
 # FrontendTechComparison
 
-My app is quire small in scope. i'll have to use this semester ajax + php, angular, jsp, asp.net for a different course.
-
-| Framework       | Learning curve* | Setup Ease* | Community & Support | Component reusability | Fits Project Scope | Will I enjoy using it? | MAC portability | Will learning this make my life easier? |
-| --------------- | --------------- | ----------- | ------------------- | --------------------- | ------------------ | ---------------------- | --------------- | --------------------------------------- |
-| Vue.js          | 5               | 5           | 4                   | 5                     |                    |                        |                 |                                         |
-| Svelte          | 5               | 5           | 2                   | 4                     |                    |                        |                 |                                         |
-| React           | 3               | 3           | 5                   | 5                     |                    |                        |                 |                                         |
-| Bootstrap       | 5               | 5           | 5                   | 3                     |                    |                        |                 |                                         |
-| Angular         | 1               | 2           | 4                   | 5                     |                    |                        |                 |                                         |
-| Material Design | 4               | 4           | 3                   | 3                     |                    |                        |                 |                                         |
+My app is quite small in scope
+this semester i'll have to use angular for wp (so learning how to work w it here might make my life easier later on).
 
 Stack Overflow questions for each framework -- could also be an indicator that react is a pain to use
 ![](https://private-user-images.githubusercontent.com/643434/380726702-a99b1ff2-80b6-4f39-8ab5-21da2f5a4e9d.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzQyNTY2MjgsIm5iZiI6MTc3NDI1NjMyOCwicGF0aCI6Ii82NDM0MzQvMzgwNzI2NzAyLWE5OWIxZmYyLTgwYjYtNGYzOS04YWI1LTIxZGEyZjVhNGU5ZC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMzIzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDMyM1QwODU4NDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04YmJhMWI0Yjc0YmI1ZDFhOWYyNzkyNmE0MjhkNWI5ZTdlM2MzMDliMjhmZTNkY2ViNmViNmYwMmU5NWYzNzQ5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.A2A9cPmSq2Kq8PjKHHEX03w9oL-YguVa5maku_TjAyM)
@@ -33,8 +25,6 @@ Complex setup
 
 easy to learn and use, allows reusability for components, has virtual dom, increased productivity and maintenance, huge code base and community, by far the most popular framework
 
-Tf is JSX syntax
-
 ## Angular
 TypeScript -based (i don't like typescript)
 open source (cute)
@@ -44,7 +34,7 @@ dependency injection
 fast development (!!!)
 scalable
 code reusability
-Advanced features -- steep learning curve 
+Advanced features -- **steep learning curve** 
 too complex for small simple application 
 
 directives allow developers to play around with the DOM and create rich content using HTML, dependency injectors allow the developers to decouple interdependent components of code and **reuse** them, big community
@@ -64,9 +54,9 @@ much of the documentation is in chinese -- language barrier?, still in its growi
 limited ecosystem, lack of official support, lack of backward compatibility with updates, not very stable
 
 ## Svelte
-very trendy, easy to use, has compiler and puts all the codes as one compiled step rather than posting inthe browser, which makes updating the DOM and synching easy, uses current javascript libraries, seo-optimized, lightweight and responsive, minimal coding with feature-focused architecture, good for small projects that limited people handle, ideal for beginners due to simple syntax
+very trendy (??), easy to use, has compiler and puts all the codes as one compiled step rather than posting inthe browser, which makes updating the DOM and synching easy, uses current javascript libraries, lightweight and responsive, minimal coding with feature-focused architecture, good for small projects that limited people handle, ideal for beginners due to simple syntax
 
-lack of technical support and tutorials, small and limited ecosystem, limited tooling and less popular amongst developers, bad for complexprojects, because of small community, challenging to deal with bugs
+lack of technical support and tutorials, small and limited ecosystem, limited tooling and less popular amongst developers, bad for complex projects, small community --> challenging to deal with bugs
 ## Bootstrap
 Twitter's CSS framework (no ty)
 
