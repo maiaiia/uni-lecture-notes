@@ -3,7 +3,7 @@ Class: "[[DBMS]]"
 date: 2026-03-17
 type: Seminar
 ---
-# DBMSSem2
+# Seminar 2
 
 ## ADO.NET Data Binding
 ![[DBMSSem2 2026-03-17 14.31.25.excalidraw]]
