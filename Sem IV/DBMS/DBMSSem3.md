@@ -106,7 +106,8 @@ Can the concurrency problem below be replicated under the given isolation level?
 ## Deadlocks
 - SQL Server - deadlock detection (wait for graph)
 - SET LOCK_TIMEOUT 
-- SET DEADLOCK_PRIORITY_LOW / NORMAL / HIGH
+- SET DEADLOCK_PRIORITY LOW / NORMAL / HIGH  (or an integer between 1 to 10)
+	- a higher priority increases the chances that a transaction will be prioritised over another (i.e. the one with the highest priority will be executed successfully and the other transaction will be rolled back)
 
 the sql server will choose a deadlock victim which will be rolled back (so that the other one may be executed successfully)
 
@@ -150,5 +151,50 @@ BEGIN TRAN
 	SET codeName = ' NO NO NO '
 	WHERE id = 8 
 	WAITFOR DELAY '00:00:10'
+COMMIT TRAN
+
+-- the solution for unrepeatable reads is setting the transaction isolation level to repeatable read
+```
+
+### Phantom reads
+```sql
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN 
+	SELECT * FROM Spies 
+	WHERE age > 20
+	WAITFOR DELAY '00:00:10'
+	SELECT * FROM Spies 
+	WHERE age > 20	
+COMMIT TRAN
+
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN 
+	INSERT INTO Spies(id, realName, codeName, age, height, weight)
+	VALUES ('10', 'Violeta', 'ViciousVio', 22, 1.65, 55)
+	WAITFOR DELAY '00:00:10'
+COMMIT TRAN
+-- the solution for phantom reads is setting the transaction isolation level to serializable
+```
+
+### Deadlocks
+```sql
+BEGIN TRAN 
+	UPDATE Spies 
+		SET age = age + 1 
+		WHERE age = 21
+	WAITFOR DELAY '00:00:10'
+	UPDATE Missions 
+		SET description = 'Lorem ipsum no more'
+		WHERE mid = 100
+COMMIT TRAN
+
+BEGIN TRAN 
+	UPDATE Missions 
+		SET description = 'super secret'
+		WHERE mid = 200
+	WAITFOR DELAY '00:00:10'
+	UPDATE Spies 
+		SET age = age + 1 
+		WHERE age = 22
 COMMIT TRAN
 ```
