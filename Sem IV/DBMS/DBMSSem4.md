@@ -119,8 +119,66 @@ SET ALLOW_SNAPSHOT_ISOLATION ON;
 SET TRANSACTION ISOLATION LEVEL SNAPSHOT; 
 
 BEGIN TRAN 
-WAITFOR DELAY '00:00:10'
+	WAITFOR DELAY '00:00:10'
+	UPDATE TABLE Spies SET realName = 'newRealName'
+	WHERE id = 1
+COMMIT TRAN
 
 --script 2
+ALTER DATABASE sem_2025_2026 
+SET ALLOW_SNAPSHOT_ISOLATION ON;
+
+SET TRANSACTION ISOLATION LEVEL SNAPSHOT; 
+
+BEGIN TRAN 
+	UPDATE TABLE Spies SET realName = 'differentName'
+	WHERE id = 1
+	WAITFOR DELAY '00:00:10'
+COMMIT TRAN
+
+-- if we execute both scripts at the same time, an update conflict error is shown
+```
+
+## Pivots
+```sql
+-- pivot 
+SELECT * FROM Grades;
+-- original columns are gid, student, course, grade 
+-- we want to get student, WEB, DBMS
+-- via a pivot 
+-- (i.e. get the maximum grade that each student got for these 2 subjects)
+
+SELECT student, WEB, DBMSs
+FROM (
+	SELECT student, course, grade 
+	FROM Grades
+) AS PivotData
+PIVOT (MAX(grade) FOR course IN (WEB, DBMSs)) AS PivotTable
+
+```
+
+```sql
+--unpivot 
+SELECT * FROM Attendances 
+-- aid student WEB DBMS AI => student course noAt
+
+SELECT student, course, noAtt
+FROM (
+	SELECT Student, WEB, DBMSs, AI
+	FROM Attendances
+) AS UnpivotData 
+UNPIVOT(noAtt for course in (WEB, DBMS, AI)) AS UnpivotTable
+
+```
+
+```sql
+UPDATE Grades 
+SET grade = 10 
+OUTPUT inserted.gid, inserted.student, inserted.course, deleted.grade, inserted.grade, getdate(), suser_sname()
+INTO GradesChanges
+WHERE id = 6
+
+
+SELECT * FROM GradesChanges --previously created log table
 
 ```
