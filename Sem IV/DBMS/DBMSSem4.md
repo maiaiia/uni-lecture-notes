@@ -106,7 +106,7 @@ read uncommitted is pessimistic
 | Dirty Reads                           | Y                | N                           | N                       | N               | N          | N            |
 | Unrepeatable Reads                    | Y                | Y                           | Y                       | N               | N          | N            |
 | Phantom Reads                         | Y                | Y                           | Y                       | Y               | Y          | N            |
-| Update Conflicts                      | N                | N                           | N                       | N               | N          | N            |
+| Update Conflicts                      | N                | N                           | N                       | N               | Y          | N            |
 | Concurrency Model                     | pessimistic      | pessimistic                 | optimistic              | pessimistic     | optimistic | pessimistic  |
 
 
