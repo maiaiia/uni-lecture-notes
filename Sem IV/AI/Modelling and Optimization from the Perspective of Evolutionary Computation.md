@@ -109,7 +109,7 @@ Common methods:
 - tournament selection 
 - elitist replacement 
 
-## Multiobjective Optimisation 
+## Multi-objective Optimisation 
 >[!Definition]
 > A **multiobjective problem** optimises several criteria at once:
 > $$\text{minimise }f(X) = (f_1(X), f_2(X),\dots, f_k(X)), X \in \Omega$$
@@ -117,16 +117,33 @@ Common methods:
 >[!Warning] Usually, objectives conflict.
 >The goal is no longer a singular best solution. The goal is a set of trade-off solutions.
 
-Evolutionary algorithms are a good fit for multiobjective problems, since they naturally maintain a population of alternatives.
+Evolutionary algorithms are a good fit for multi-objective problems, since they naturally maintain a population of alternatives.
 - A population can approximate many trade-offs in one run 
 - Selection can use dominance instead of scalar fitness
 - Diversity mechanisms can distribute solutions along the front 
 - Archiving can preserve non-dominated solutions discovered over time 
+### Pareto stuff?
 
+>[!Definition] Pareto Dominance
+>For a minimisation, solution $a$ dominates solution $b$ if: $$\forall i: f_i(a) \leq f_i(b) \text{ and } \exists j : f_j(a) < f_j(b)$$
+>i.e. $a$ is not worse in any objective and strictly better in at least one objective.
+>A solution is **non-dominated** if no other known solution dominates it.
+
+>[!Definition] Pareto Set. Pareto Front
+>- The **Pareto set** is the set of non-dominated solution in a decision space.
+>- The **Pareto front** is their image in the objective space: $$PF=\{f(x):x\in\Omega,\nexists y \in \Omega \text{ such that y dominates x}$$
+
+### Convergence vs diversity in multi-objective search 
+Evolutionary multi-objective optimisation tries to approximate both convergence to the true front and diversity along the front.
+
+| Convergence                                     | Diversity                                    |
+| ----------------------------------------------- | -------------------------------------------- |
+| move toward the true Pareto front               | covert the front broadly                     |
+| prefer non-dominated / less dominated solutions | avoid clustering in one region               |
+| improve objective values                        | preserve extreme and intermediate trade-offs |
+>[!Tip]
+>A front with excellent convergence but poor spread is still a weak approximation
 ### Standard evolutionary multi-objective algorithms
-
->[!Definition] Pareto front
-> The **Pareto front**, aka the Pareto frontier or Pareto curve, is a *set of optimal solutions* in multi-objective optimisation where no solution can be improved in one objective without worsening another. It represents trade-offs between conflicting objectives, helping to identify the best possible choices based on different criteria.
 
 Multi-objective algorithms have the following *common goals*:
 - approximating the Pareto front
@@ -203,8 +220,86 @@ If the archive is too large:
 >[!Tip]
 >SPEA2 separates evolutionary search from elite preservation more explicitly than NSGA-II
 
+
+### MOEA/D: Multi-objective Evolutionary Algorithm Based on Decomposition
+
+>[!Summary]
+>Transform one multi-objective problem into many scalar subproblems
+
+Each subproblem has a specific *weight factor* $\lambda^i$ and optimises one scalar aggregation, for example the weighted sum: $g(x \vert \lambda^i) = \sum_{m=1}^M \lambda_m^i f_m(x)$.
+A common alternative is the Chebyshev function: $g(x \vert \lambda^i, z^*) = max_m\lambda_m^i\vert f_m(x) - z_m^*\vert$. 
+
+>[!Definition] Neighbourhood
+>Vectors of similar weights define neighbouring subproblems; mating and replacement are often local.
+
+### Comparison
+| Aspect              | NSGA-I                                  | SPEA2                              | MOEA/D                                                 |
+| ------------------- | --------------------------------------- | ---------------------------------- | ------------------------------------------------------ |
+| Main selection idea | Pareto rank + crowding distance         | Strength fitness + archive density | Scalar subproblems with weight vectors                 |
+| Elitism             | Parent-offspring union                  | Explicit external archive          | Best solutions for sub-problems                        |
+| Diversity Control   | Crowding distance                       | Density and archive truncation     | Weight-vector distribution                             |
+| Best suited for     | General multi-objective GA baseline     | Strong archive-based Pareto search | Structured fronts and decomposition-friendly problems  |
+| Main weakness       | Crowding can degrade in many objectives | Archive management can be costly   | Performance depends on decomposition of weight vectors |
+
+
+## Multi-modal Optimisation
+
+>[!Definition]
+>A **multi-modal** problem has *multiple local or global optima*.
+
+Though the aim in single-objective optimisation may be to find the global optimum and in multi-modal optimisation it may be to identify several good optima, in real applications, alternative optima may represent useful design choices.
+
+Evolutionary populations are suitable because they can maintain multiple subpopulations around different basins.
+
+### Niching
+>[!Definition]
+>**Niching** methods encourage the population to occupy several promising regions
+
+| Notion          | Meaning                                                      |
+| --------------- | ------------------------------------------------------------ |
+| Fitness sharing | reduce fitness in crowded niches                             |
+| Crowding        | offspring compete with similar individuals                   |
+| Speciation      | divide the population into groups                            |
+| Clearing        | keep a few winners per niche and suppress nearby competitors |
+| Island models   | evolve subpopulations with limited migration                 |
+## Spreading the Population
+
+>[!Definition]
+>**Population spreading** is used to *prevent genetic collapse* and *improve coverage*.
+
+| search type      | aim                                            |
+| ---------------- | ---------------------------------------------- |
+| single-objective | avoid premature convergence                    |
+| multi-objective  | approximate the whole Pareto front             |
+| multi-modal      | preserve multiple optima                       |
+| dynamic problems | retain adaptability when the landscape changes |
+
+| mechanism                          | main effect                            | extra                                                                                        |
+| ---------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| random / stratified initialization | broad initial coverage                 |                                                                                              |
+| mutation adaptation                | controlled exploration                 |                                                                                              |
+| crowding distance                  | spread along Pareto fronts             | does not require a user-defined niche radius, but it can struggle in many-objective settings |
+| fitness sharing                    | penalize dense regions                 |                                                                                              |
+| niching / speciation               | preserve distinct basins               |                                                                                              |
+| archive management                 | retain diverse elite solutions         |                                                                                              |
+| island model migration             | balance isolation and information flow |                                                                                              |
+| restart strategies                 | recover from stangation                |                                                                                              |
+### fitness-sharing
+$$F_i' = \cfrac{F_i}{\sum_{j=1}^n sh(d(i,j))}$$
+A common sharing function is: $$sh(d)=\begin{cases}1-\big(\cfrac{d}{\sigma_{share}}\big)^\alpha, & d < \sigma_{share}\\0, & d \geq \sigma_{share} \end{cases}$$
+### island models
+- each island evolves mostly independently
+- migration shares useful genetic material
+- topology, frequency, and migrant section control the exploration-exploitation balance
+
+
+### diversity measures
+Useful diversity indicators include:
+- average pairwi
+
 # Questions:
+Evolutionary multi-objective optimisation tries to approximate both convergence to the true front and diversity along the front.?
 nsga-II: 4 - wdym last front does not fit? 
 spea2: wtf is density, wdym separates evolutionary search from elite preservation more explicitly?
-
-
+moea/d: Vectors of similar weights define neighbouring subproblems; mating and replacement are often local.???
+i don't understand niching at all 
