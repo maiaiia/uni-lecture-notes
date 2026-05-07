@@ -200,7 +200,11 @@ If the archive is too large:
 - preserve boundary and well spaced solutions
 - maintain a compact approximation of the front
 
+>[!Tip]
+>SPEA2 separates evolutionary search from elite preservation more explicitly than NSGA-II
+
 # Questions:
 nsga-II: 4 - wdym last front does not fit? 
-spea2: wtf is density
+spea2: wtf is density, wdym separates evolutionary search from elite preservation more explicitly?
+
 
