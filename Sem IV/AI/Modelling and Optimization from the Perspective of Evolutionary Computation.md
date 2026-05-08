@@ -311,6 +311,17 @@ Useful diversity indicators include:
 
 Evolutionary meaning: better coverage of the search space; support for multi-modal and multi-objective search; a simple alternative to fitness sharing or crowding
 
+## Conclusions
+
+| Problem Structure    | Main Goal                      | Suitable EC idea              |
+| -------------------- | ------------------------------ | ----------------------------- |
+| Single objective     | best solution                  | GA, ES, DE, local hybrid      |
+| Constrained          | feasible high-quality solution | repair, penalties, decoders   |
+| Multi-objective      | trade-off set                  | NSGA-II, SPEA2, MOEA/D        |
+| Multi-modal          | several optima                 | niching, sharing, clearing    |
+| Dynamic              | adapt over time                | memory, diversity, immigrants |
+| Expensive evaluation | reduce evaluations             | surrogate-assisted EA         |
+
 # Questions:
 Evolutionary multi-objective optimisation tries to approximate both convergence to the true front and diversity along the front.?
 nsga-II: 4 - wdym last front does not fit? 
