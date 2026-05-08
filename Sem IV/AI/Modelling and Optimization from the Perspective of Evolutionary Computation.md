@@ -295,7 +295,21 @@ A common sharing function is: $$sh(d)=\begin{cases}1-\big(\cfrac{d}{\sigma_{shar
 
 ### diversity measures
 Useful diversity indicators include:
-- average pairwi
+- average pairwise distance in the decision space
+- average pairwise distance in the objective space
+- entropy of genes or alleles 
+- number of occupied niches
+- spreading or spacing along a Pareto front
+- hypervolume contribution distribution
+
+### grid-based dispersion
+- the search space (or objective space) is divided into a grid of cells
+- each individual is assigned to one cell according to its position 
+- the number of individuals per cell estimates the *local density*
+- *crowded cells* are penalised, while *sparsely occupied cells* are encouraged
+- the goal is to maintain *population diversity* and avoid premature convergence 
+
+Evolutionary meaning: better coverage of the search space; support for multi-modal and multi-objective search; a simple alternative to fitness sharing or crowding
 
 # Questions:
 Evolutionary multi-objective optimisation tries to approximate both convergence to the true front and diversity along the front.?
