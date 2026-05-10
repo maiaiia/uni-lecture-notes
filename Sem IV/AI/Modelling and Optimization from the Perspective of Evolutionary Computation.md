@@ -233,7 +233,7 @@ A common alternative is the Chebyshev function: $g(x \vert \lambda^i, z^*) = max
 >Vectors of similar weights define neighbouring subproblems; mating and replacement are often local.
 
 ### Comparison
-| Aspect              | NSGA-I                                  | SPEA2                              | MOEA/D                                                 |
+| Aspect              | NSGA-II                                 | SPEA2                              | MOEA/D                                                 |
 | ------------------- | --------------------------------------- | ---------------------------------- | ------------------------------------------------------ |
 | Main selection idea | Pareto rank + crowding distance         | Strength fitness + archive density | Scalar subproblems with weight vectors                 |
 | Elitism             | Parent-offspring union                  | Explicit external archive          | Best solutions for sub-problems                        |
