@@ -50,11 +50,56 @@ The log ensures atomicity and durability
 >[!Definition] Schedule
 >A **schedule** is a list of operations (Read / Write / Commit / Abort) within a set of transactions, with the property that the order of the operations in each individual transaction is preserved.
 
+Note that the only operations relevant to a schedule are those that involve some sort of direct interaction with the database / the disk.
+
+>[!Definition] Transaction Scheduling
+>**Scheduling** is the process of determining the order in which transactions are executed. When multiple transactions run concurrently, scheduling ensures that operations are executed in a way that prevents conflicts or overlaps between them
+### Schedule types
 Schedules can be either serial or non-serial.
 
 | Type       | Description                                               |
 | ---------- | --------------------------------------------------------- |
 | Serial     | the actions of different transactions are not interleaved |
 | Non-Serial | the actions of different transactions are interleaved     |
-![[scheduling-transactions]]
+The following is a non-serial (interleaved) schedule:
+
+| T1             | T2          | Schedule   |
+| -------------- | ----------- | ---------- |
+| read(V)        |             | read(V)    |
+| read(sum)      |             | read(sum)  |
+|                | read(V)     | read(V)    |
+|                | V := V + 50 |            |
+|                | write(V)    | write(V)   |
+|                | commit      | commit     |
+| read(V)        |             | read(V)    |
+| sum := sum + V |             |            |
+| write(sum)     |             | write(sum) |
+| commit         |             | commit     |
+
+## Serializability
+
+>[!Definition]
+>Let $C$ be the set of transactions and $Sch(C)$ the set of schedules for $C$.
+>A schedule $S \in Sch(C)$ is *serializable* $\iff$ the effect of $S$ on any consistent database instance is identical to the effect of some serial schedule $S_0 \in Sch(C)$.
+
+Serialisability is a *correctness criterion* for an interleaved schedule.
+>[!Info]- Proof
+>Consider the serial schedule $(T_1, T_2, \dots, T_n), T_i \in C$. Assume the database instance is in a correct state prior to executing $T_i$. Each transaction must follow the ACID properties, i.e. it must preserve the consistency of the database. Thus, the database is in a correct state after $T_n$ completes execution $\Rightarrow$ if a serializable schedule is executed on a correct database instance, it produces a correct database instance (since it is equivalent to some serial schedule).
+### Conflict serializability
+
+>[!Definition] Conflict relations
+>Let $C$ be the set of transactions, $Sch(C)$ the set of schedules for $C$ and $Op(C)$ the set of operations of the transactions in $C$. Let $S \in Sch(C)$. 
+>The **conflict relation** of $S$ is defined as: $$
+\begin{aligned}
+\text{conflict}(S) = \{ (op_1, op_2) \mid op_1, op_2 \in Op(C), op_1 \text{ before } op_2 \text{ in } S, \\ 
+\text{and } op_1, op_2 \text{ are in conflict} \}
+\end{aligned}
+$$
+
+>[!Definition] Conflict equivalence
+> Two schedules $S_1$ and $S_2$ are **conflict equivalent** ($S_1 \equiv_c S_2$) $\iff$ conflict($S_1$) = conflict($S_2$), i.e.
+> - $S_1$ and $S_2$ contain the same operations of the same transactions and 
+> - every pair of conflicting operations is ordered in the same manner in $S_1$ and $S_2$.
+
+
 
