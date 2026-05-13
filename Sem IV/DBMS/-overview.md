@@ -11,3 +11,4 @@
 - [[Transactions]]
 - [[Serializability]]
 - [[Lock-Based Concurrency Control]]
+- [[Crash Recovery]]
