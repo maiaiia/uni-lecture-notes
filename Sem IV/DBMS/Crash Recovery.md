@@ -58,6 +58,42 @@ The system restart after a crash consists of *three phases*:
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **analysis** | determine:<br>- active transactions at the time of the crash<br>- *dirty pages*, i.e. pages in the BP whose changes have not been written to disk |
 | **redo**     | reapply all changes (starting from a certain record in the log), i.e. bring the DB to the state it was in when the crash occurred                 |
-| **undo**     | uno changes of uncommitted transactions                                                                                                           |
+| **undo**     | undo changes of uncommitted transactions                                                                                                          |
+### WAL (Write-Ahead Logging): The Log
+- keeps a history of actions executed by the DBMS
+- it's a file of records
+- it's stored in a *stable storage* (at least 2 copies of the log are kept on different disks, to ensure the durability of the log)
+- records are added to the end of the log (queue-like structure?)
 
-### WAL
+| Component                 | Meaning                                                                                                           |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| log tail                  | - the most recent fragment of the log<br>- kept in main memory and periodically forced to stable storage          |
+| log sequence number (LSN) | - unique id for every log record<br>- monotonically increasing                                                    |
+| page LSN                  | every page P in the DB contains the *pageLSN*: the LSN of the most recent record in the log describing a change P |
+
+The following are the log record's fields:
+
+| Field   | Meaning                             |
+| ------- | ----------------------------------- |
+| prevLSN | linking a transaction's log records |
+| transID | id of the corresponding transaction |
+| type    |                                     |
+A log record is written for each of the following actions:
+
+| Action      | What actually happens                                                                                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| update page | - add an *update typ*e log record ULR to the log tail, with $LSN_{ULR}$<br>- $pageLSN(P)$ is set to $LSN_{ULR}$                                                                       |
+| commit      | - add a *commit type* log record CoLR to the log<br>- force log tail to stable storage (including CoLR)<br>- complete subsequent actions (remove current tran from transaction table) |
+| abort       | - add an *abort type* log record to the log<br>- initiate Undo for the transaction                                                                                                    |
+| end         | - transaction $T$ commits / aborts - complete required actions<br>- add an *end type* log record to the log                                                                           |
+| undo update | - i.e. when the change described in an update log record is undone<br>- write a *compensation log record* (CLR)                                                                       |
+>[!Info]
+>An *update log record* has the following additional fields
+>- pageID (of the changed page)
+>- length (length of the change, in bytes)
+>- offset 
+>- before-image (value before the change)
+>- after-image (value after the change)
+>  
+>  It can be used to undo / redo the change
+
