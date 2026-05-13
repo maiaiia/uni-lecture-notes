@@ -1,4 +1,3 @@
 
-- [[SemesterProject]]
 - [[FrontendTechComparison]]
 - [[BackendFramework]]
