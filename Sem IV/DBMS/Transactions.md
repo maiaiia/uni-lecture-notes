@@ -87,6 +87,12 @@ Serialisability is a *correctness criterion* for an interleaved schedule.
 >Consider the serial schedule $(T_1, T_2, \dots, T_n), T_i \in C$. Assume the database instance is in a correct state prior to executing $T_i$. Each transaction must follow the ACID properties, i.e. it must preserve the consistency of the database. Thus, the database is in a correct state after $T_n$ completes execution $\Rightarrow$ if a serializable schedule is executed on a correct database instance, it produces a correct database instance (since it is equivalent to some serial schedule).
 ### Conflict serializability
 
+>[!Definition] Conflicts
+>Two operations are in conflict if they meet *all three* of these criteria:
+>1. They belong to *different transactions*
+>2. They access the *same data item*
+>3. At least one of them is a *Write* operation 
+
 >[!Definition] Conflict relations
 >Let $C$ be the set of transactions, $Sch(C)$ the set of schedules for $C$ and $Op(C)$ the set of operations of the transactions in $C$. Let $S \in Sch(C)$. 
 >The **conflict relation** of $S$ is defined as: $$
@@ -101,5 +107,26 @@ $$
 > - $S_1$ and $S_2$ contain the same operations of the same transactions and 
 > - every pair of conflicting operations is ordered in the same manner in $S_1$ and $S_2$.
 
+>[!Definition] Conflict serializability
+>A schedule $S$ is **conflict serializable** $\iff \exists$ a serial schedule $S_0 \in Sch(C)$ s.t. $S \equiv_c S_0$, i.e. $S$ is conflict equivalent to some serial schedule
+
+Natural language equivalents cause damn:
+If two consecutive operations in a schedule *do not* conflict, their order can be swapped without changing the final state of the database. 
+
+*Conflict serializability* means that by repeatedly swapping non-conflicting adjacent operations, *an interleaved schedule can be transformed into a serial one*.
+
+The easiest way to check if a schedule is conflict serializable is using a *precedence graph*.
+
+>[!Definition]
+> The precedence (serializability) graph of $S$ contains:
+> - one node for every committed transaction in $S$
+> - an arc from $T_i$ to $T_j$ if an action in $T_i$ precedes and conflicts with one of the actions in $T_j$
+
+>[!Theorem]
+>A schedule $S \in Sch(C)$ is conflict serializable $\iff$ its precedence graph is *acyclic*
+
+Notes:
+- Every conflict serializable schedule is serializable (in the absence of inserts / deletes, when items can only be updated)
+- there are serializable schedules that are not conflict serializable
 
 
