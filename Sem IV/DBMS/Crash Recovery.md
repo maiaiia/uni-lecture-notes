@@ -87,13 +87,20 @@ A log record is written for each of the following actions:
 | abort       | - add an *abort type* log record to the log<br>- initiate Undo for the transaction                                                                                                    |
 | end         | - transaction $T$ commits / aborts - complete required actions<br>- add an *end type* log record to the log                                                                           |
 | undo update | - i.e. when the change described in an update log record is undone<br>- write a *compensation log record* (CLR)                                                                       |
->[!Info]
->An *update log record* has the following additional fields
->- pageID (of the changed page)
->- length (length of the change, in bytes)
->- offset 
->- before-image (value before the change)
->- after-image (value after the change)
->  
->  It can be used to undo / redo the change
+
+#### update log record
+An *update log record* has the following additional fields
+- pageID (of the changed page)
+- length (length of the change, in bytes)
+- offset 
+- before-image (value before the change)
+- after-image (value after the change)
+It can be used to undo / redo the change
+
+#### compensation log record
+
+Let $U$ be an update log record describing an update of transaction $T$. Let $C$ be the compensation log record for $U$, i.e. $C$ describes the action taken to undo the changes described by $U$.
+- $C$ has a field named *undoNextLSN*
+	- the LSN of the next log record to be undone for $T$
+	- set to the value of prevLSN in $U$
 
