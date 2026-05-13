@@ -43,3 +43,21 @@ Stable storage:
 - information is never lost
 - techniques that approximate stable storage (e.g. store information on multiple disks, in several locations)
 
+## ARIES
+>[!Definition] Algorithms for Recovery and Isolation Exploiting Semantics
+>**ARIES** is a recovery algorithm that uses the *steal* and *no-force* approaches. It is based on the [[The Physical Structure of Databases#WAL]] (Write-Ahead Logging) protocol.
+>
+
+>[!Info] WAL
+>- a change to an object is first recorded in a log record LR
+>- LR must be written to stable storage *before* the change is written to disk
+
+The system restart after a crash consists of *three phases*:
+
+| Phase        | Actions                                                                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **analysis** | determine:<br>- active transactions at the time of the crash<br>- *dirty pages*, i.e. pages in the BP whose changes have not been written to disk |
+| **redo**     | reapply all changes (starting from a certain record in the log), i.e. bring the DB to the state it was in when the crash occurred                 |
+| **undo**     | uno changes of uncommitted transactions                                                                                                           |
+
+### WAL
