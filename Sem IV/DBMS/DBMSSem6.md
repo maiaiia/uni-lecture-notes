@@ -91,8 +91,10 @@ CREATE TABLE Comments (
 -- bla bla bla inserting stuff 
 ```
 
-- Create a Master/Detail Form that allows one to display the posts for a given user, to carry out CRUD operations on the posts of a given user. The form should have a DataGridView named dgvUsers to display the users, a DataGridView named dgvPosts to display the posts of the selected user, and a button for ssavind added / deleted / modified posts. You must use the following classes: DataSet, SqlDataAdapter, BindingSource.
-
+- Create a Master/Detail Form that allows one to display the posts for a given user, to carry out CRUD operations on the posts of a given user. The form should have a DataGridView named dgvUsers to display the users, a DataGridView named dgvPosts to display the posts of the selected user, and a button for saving added / deleted / modified posts. You must use the following classes: DataSet, SqlDataAdapter, BindingSource.
+```cs
+nope
+```
 - Create a scenario that reproduces the non-repeatable read concurrency issue on this database. Explain why the non-repeatable read occurs, and describe a solution to prevent this concurrency issue. Don't use stored procedures.
 
-Non-repeatable reads are concurrency 
+Non-repeatable reads are concurrency issues that occur when a transaction modifies (and commits said changes) some data in between 2 reads of the same data within a different transaction. 
