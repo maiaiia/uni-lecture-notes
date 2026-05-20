@@ -104,3 +104,43 @@ Let $U$ be an update log record describing an update of transaction $T$. Let $C$
 	- the LSN of the next log record to be undone for $T$
 	- set to the value of prevLSN in $U$
 
+### Checkpointing 
+>[!Definition]
+>**Checkpointing** is a mechanism used to reduce the amount of work performed by the system when it comes back up afters a crash.
+
+In [[#ARIES]], checkpointing is periodically done in *3 steps*:
+1. Write a *begin_checkpoint* record (indicating when the checkpoint starts); $LSN_{BCK}$ - $LSN$ of begin_checkpoint record
+2. Write an *end_checkpoint* record (which includes the current Transaction Table and Dirty Page Table)
+3. Write a *master* record to a known place on stable storage (which includes $LSN_{BCK}$)
+
+Upon a restart after a crash, the system looks for the most recent checkpoint.
+
+>[!Tip]
+>Normal execution begins with a checkpoint with an empty Transaction Table and an empty Dirty Page Table
+
+### Aries phases overview
+![[crash-recovery-overview]]
+
+| Phase    | Description                                                                                                                                                                                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Analysis | - reconstructs state at the most recent checkpoint<br>- scans the log forward from the most recent checkpoint<br>- identifies *active transactions* to be undone, potentially *dirty pages* and the *starting point* for the Redo pass                             |
+| Recovery | - repeats history (reapplies changes to dirty pages)<br>- all updates are reapplied (regardless of whether the corresponding transaction committed or not)<br>- starting point is determined in the Analysis pass<br>- scans the log forward until the last record |
+| Undo     | - the effects of transactions that were active at the time of the crash are undone<br>- such changes are undone in the opposite order (i.e. the log is scanned backward)                                                                                           |
+
+#### Analysis
+1. investigate the most recent *begin_checkpoint* log record
+	1. get the next *end_checkpoint* log record EC
+2. set Dirty Page Table to the copy of the Dirty Page Table in EC
+3. set Transaction Table to the copy of the Transaction Table in EC
+4. scan the log forward from the most recent checkpoint:
+	1. transactions:
+		1. encounter *end log record* for transaction T $\Rightarrow$ remove T from Transaction Table
+		2. encounter *other log records* for this transaction T:
+			1. add T to Transaction Table if not already there
+			2. set T.lastLSN to LR.LSN
+			3. if LR is a commit type log record $\Rightarrow$ set T's status to C; otherwise, set status to U (to be undone)
+	2. pages:
+		1. encounter *redoable log record* for page P
+			1. if P is no tin the Dirty Page Table:
+				1. add P to Dirty Page Table
+				2. set P.recLSN to LR.LSN
