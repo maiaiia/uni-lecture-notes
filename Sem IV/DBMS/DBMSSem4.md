@@ -3,7 +3,7 @@ Class: "[[DBMS]]"
 date: 2026-04-21
 type: Seminar
 ---
-# Multiversioning
+# Multi-Versioning
 
 - sp_lock
 - sys.din_tran_locks
