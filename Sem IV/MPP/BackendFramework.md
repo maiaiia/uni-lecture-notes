@@ -18,3 +18,4 @@ docker-compose --env-file backend/.env up
 
 docker start the-grove-db-1
 docker exec -it the-grove-db-1 psql -U maia
+docker-compose exec grove-backend python backend/src/scripts/test_email.py --env-file backend/.env up
