@@ -15,3 +15,6 @@ type:
 | **Ruby on Rails** | Ruby       | 7/10           | 9/10        | 8/10              | 7/10         | 6/10        | 9/10          | 9/10      | **8.1/10**    |
 | **NestJS**        | TypeScript | 5/10           | 6/10        | 8/10              | 8/10         | 7/10        | 8/10          | 8/10      | **7.1/10**    |
 docker-compose --env-file backend/.env up
+
+docker start the-grove-db-1
+docker exec -it the-grove-db-1 psql -U maia
