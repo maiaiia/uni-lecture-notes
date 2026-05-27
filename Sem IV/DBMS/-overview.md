@@ -14,3 +14,4 @@
 - [[Lock-Based Concurrency Control]]
 - [[Crash Recovery]]
 - [[Evaluating Relational Operators. Query Optimization]]
+- [[PracticalCheatSheet]]
