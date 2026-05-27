@@ -182,3 +182,9 @@ WHERE id = 6
 SELECT * FROM GradesChanges --previously created log table
 
 ```
+
+
+
+## Misc
+1. `READ COMMITTED SNAPSHOT` uses a new snapshot after each statement. That means that less row versions are being kept alive. (The statement you quoted from the docs is slightly misleading because it suggest that this is always true - it is only true in case of long-running `SNAPSHOT` transactions.) Snapshot row versions are created on writes. The reads do not influence what gets put into tempdb. Writers cannot possibly foresee what reads will be carried out in the future. Readers only influence only what can be purged.
+2. When a `SNAPSHOT` transaction `T1` writes to a row that was modified by another transaction `T2` in the time between `T1` started and `T1` attempted the write, the statement fails with an update conflict error. This is an optimistic concurrency model. With `READ COMMITTED` `SNAPSHOT` `T1` would wait for `T2` to release the X-lock on the row and continue normally.
