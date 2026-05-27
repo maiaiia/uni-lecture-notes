@@ -21,4 +21,35 @@ type: CheatSheet
 | Deadlock            | a cycle of transactions waiting for one another to release a locked resource. prevents normal execution from continuing                        | establish an order in which resources are locked and stick with it                                                                            |
 | Lost Update         | may only occur under SNAPSHOT isolation level.                                                                                                 | don't use snapshot? :)) <br>serializable isolation level really is the only way to keep snapshot's isolation level and avoid update conflicts |
 
+Dirty Read
+
+| T1       | T2                 |
+| -------- | ------------------ |
+| R(x)     |                    |
+| W(new X) |                    |
+|          | R(new X)           |
+| ROLLBACK |                    |
+|          | use new X (dirty!) |
+|          | COMMIT             |
+Unrepeatable Read
+
+| T1     | T2       |
+| ------ | -------- |
+| R(x)   |          |
+|        | R(X)     |
+|        | W(new X) |
+|        | COMMIT   |
+| R(X)   |          |
+| COMMIT |          |
+Phantom Read
+
+| T1                                                | T2                               |
+| ------------------------------------------------- | -------------------------------- |
+| SELECT COUNT(\*) <br>FROM table<br>WHERE val > 10 |                                  |
+|                                                   | INSERT INTO table<br>(val = 100) |
+|                                                   | COMMIT                           |
+| SELECT COUNT(\*) <br>FROM table<br>WHERE val > 10 |                                  |
+| COMMIT                                            |                                  |
+
 Read Committed Snapshot works at command-level.
+
