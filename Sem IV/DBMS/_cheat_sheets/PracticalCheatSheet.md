@@ -19,7 +19,7 @@ type: CheatSheet
 | Unrepeatable Read   | a transaction reads the same data twice and gets different values because another transaction modified it (and committed) in-between reads     | isolation level > read committed (snapshot)                                                                                                   |
 | Phantom Read        | a transaction executes the same SELECT query twice and get different value sets because another transaction inserted / deleted rows in-between | isolation level > repeatable read                                                                                                             |
 | Deadlock            | a cycle of transactions waiting for one another to release a locked resource. prevents normal execution from continuing                        | establish an order in which resources are locked and stick with it                                                                            |
-| Lost Update         | may only occur under SNAPSHOT isolation level.                                                                                                 | don't use snapshot? :)) <br>serializable isolation level really is the only way to keep snapshot's isolation level and avoid update conflicts |
+| Lost update         | may only occur under SNAPSHOT isolation level.                                                                                                 | don't use snapshot? :)) <br>serializable isolation level really is the only way to keep snapshot's isolation level and avoid update conflicts |
 
 Dirty Read
 
@@ -50,6 +50,38 @@ Phantom Read
 |                                                   | COMMIT                           |
 | SELECT COUNT(\*) <br>FROM table<br>WHERE val > 10 |                                  |
 | COMMIT                                            |                                  |
+
+Deadlock
+
+| T1      | T2      |
+| ------- | ------- |
+| lock(X) |         |
+|         | lock(y) |
+| lock(y) |         |
+|         | lock(x) |
+
+Update Conflict
+Phantom Read
+
+| T1     | T2                         |
+| ------ | -------------------------- |
+| R(x)   |                            |
+|        | R(x)                       |
+| W(x)   |                            |
+| Commit |                            |
+|        | W(x)                       |
+|        | commit (conflict detected) |
+
+Phantom Read
+
+| T1     | T2     |
+| ------ | ------ |
+| R(X)   |        |
+|        | R(X)   |
+|        | W(X)   |
+| W(X)   |        |
+| COMMIT |        |
+|        | COMMIT |
 
 Read Committed Snapshot works at command-level.
 
