@@ -15,3 +15,4 @@
 - [[Crash Recovery]]
 - [[Evaluating Relational Operators. Query Optimization]]
 - [[PracticalCheatSheet]]
+- [[Costs]]
