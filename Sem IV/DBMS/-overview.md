@@ -6,7 +6,6 @@
 - [[DBMSSem4|Multi-versioning]]
 - [[DBMSSem5|Performance Timing in SQL Server ]]
 - [[DBMSSem6|Lab Exam Sample Subject]]
-
 ## Lectures
 - [[Concurrency Issues]]
 - [[Transactions]]
@@ -14,5 +13,6 @@
 - [[Lock-Based Concurrency Control]]
 - [[Crash Recovery]]
 - [[Evaluating Relational Operators. Query Optimization]]
+## Cheat Sheets
 - [[PracticalCheatSheet]]
 - [[Costs]]

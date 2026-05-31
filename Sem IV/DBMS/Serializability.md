@@ -65,7 +65,7 @@ Notes:
 ## View Serializability
 
 >[!Definition] View equivalence
-> Let $T_1, T_2 \in C$, $S_1, S_2 \in Sch(C)$. $S_1$ and $S_2$ are **view equivalent** ($S_1 \equiv_v S_2$), $\iff$:
+> Let $T_i, T_j \in C$, $S_1, S_2 \in Sch(C)$. $S_1$ and $S_2$ are **view equivalent** ($S_1 \equiv_v S_2$), $\iff$:
 > - if $T_i$ reads the initial value of $V$ in $S_1$, then $T_i$ also reads the initial value of $V$ in $S_2$
 > - if $T_i$ reads the value of $V$ written by $T_j$ in $S_1$, then $T_i$ also reads the value of $V$ written by $T_j$ in $S_2$
 > - if $T_i$ writes the final value of $V$ in $S_1$, then $T_i$ also writes the final value of $V$ in $S_2$
