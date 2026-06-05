@@ -100,12 +100,13 @@ The consequence part determines how a rule contributes to the output
 >[!Tip]
 >The main difference between Mamdani, Sugeno, and Tsukamoto inference is the representation of the **rule consequent**
 
-| Model     | Description                                                                                                       | Consequent representation                 | Consequent representation explained                                         |
-| --------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------- |
-| Mamdani   | the output variable belongs to a fuzzy set                                                                        | Fuzzy set: $z$ is $C$                     | produces fuzzy output regions that require aggregation and defuzzification  |
-| Sugeno    | the output variable is a crisp function of the inputs                                                             | Crisp function: $z=f(x,y)$                | produces crisp rule outputs that are usually combined by weighted averaging |
-| Tsukamoto | the output variable belongs to a fuzzy set with a monotone membership function, producing a crisp value per  rule | Monotone fuzzy set: $z$ is $C_{monotone}$ | produces crisp rule outputs that are usually combined by weighted averaging |
-(^^^ don't understand this)
+| --                                      | Mamdani                                                                    | Sugeno                                                                      | Tsukamoto                                                                   |
+| --------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Rule output**                         | fuzzy region                                                               | crisp value                                                                 | crisp value                                                                 |
+| **Consequence**                         | fuzzy set $z$ is $C$                                                       | crisp function $z=f(x,y)$                                                   | monotone fuzzy set<br>$z$ is $C_{monotone}$                                 |
+| **Aggregation**                         | union of fuzzy regions                                                     | weighted average medium                                                     | weighted average medium                                                     |
+
+In other words, Sugeno and Tsukamoto were invented specifically to avoid Mamdani's biggest headache: Defuzzification
 ### Mamdani model
 >[!Definition]
 >In a Mamdani rule, the consequence is a fuzzy set: $$\text{if } x \text{ is } A \text{ and } y \text{ is } B\text{ then } z \text{ is } C$$
@@ -120,6 +121,9 @@ The firing strength of the premise is applied to the membership function of the 
 
 ![[clipping-versus-scaling]]
 
+Aggregation: $\mu_{agg}(z)=\max_i\mu_i(z)$ 
+![[mamdani-aggregation]]
+
 ### Sugeno model
 >[!Definition]
 >In a Sugeno rule, the consequence is a crisp function of the inputs: $$\text{if } x \text{ is } A \text{ and } y \text{ is } B\text{ then } z = f(x,y)$$
@@ -132,3 +136,29 @@ The final output is commonly computed as a weighted average of rule outputs:
 >[!Definition]
 >If $\alpha_i$ is the firing strength of rule $i$ and $z_i=f_i(x,y)$ is its crisp consequence, the output is often $$z^*=\cfrac{\sum_{i=1}^m \alpha_i z_i}{\sum_{i=1}^m \alpha_i}$$
 
+### Tsukamoto model
+>[!Definition]
+>In the Tsukamoto model, each rule consequence is represented by a fuzzy set with a monotone membership function
+>- The firing strength is matched to the monotone consequent function
+>- Each rule produces a crisp value
+>- The final result is obtained as a weighted average of these crisp values
+
+Tsukamoto is kinda like a middle ground between Mamdani and Sugeno, in the sense that it *looks* like Mamdani (uses fuzzy sets in the Then part), but it forces that fuzzy set to be **strictly monotonic** (.e. the membership curve only goes strictly up or strictly down, like a straight ramp or a smooth S-curve)
+
+## Aggregation of Rule Outputs
+>[!Definition] 
+>Aggregation combines the outputs of all activated rules
+
+## Defuzzification
+>[!Definition]
+>Defuzzification transforms an aggregated fuzzy result into a crisp value
+
+Main methods:
+- centre / centroid of area (COA)
+- bisector of area (BOA)
+- mean of maximum (MOM)
+- smallest of maximum (SOM)
+- largest of maximum (LOM)
+
+Examples:
+- Mamdani COA: $\cfrac{\sum_{i=1}^n x_i\mu}{}$
