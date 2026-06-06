@@ -54,4 +54,38 @@ Models are diagnosed by comparing
 - $E_{ref}$ - baseline
 
 ### Baseline 
-The baseline error is a sanity check benchmark - 
+The baseline error is a sanity check benchmark which answers the question: *How well would a completely naive model do?*. So clearly if the model can't beat the baseline, it's useless.
+
+| Problem Type    | Baseline                                                         |
+| --------------- | ---------------------------------------------------------------- |
+| classification  | majority class classifier (always predict the most common label) |
+| regression      | always predict the mean of the training labels                   |
+### Interpreting Training and Validation Errors 
+
+| Case                              | Interpretation                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| $E_t \approx E_v \approx E_{ref}$ | good generalization, no clear overfitting, limited room for improvement                                                              |
+| $E_v >> E_t$                      | overfitting; use smaller model, regularization, or more data                                                                         |
+| $E_t \approx E_v >> E_{ref}$      | underfitting; model too simple or optimisation not working well                                                                      |
+| $E_t >> E_v$                      | possible violation of the i.i.d (independent and identically distributed) assumption, unlucky train-validation split or dataset bias |
+## Regularisation 
+
+>[!Definition]
+>Consider an ERM-based ML method with:
+>- hypothesis space $\mathcal{H}$
+>- training set $\mathcal{D}$
+>
+> An **indicator of performance** is the ratio $\cfrac{d_{eff}(\mathcal{H})}{\vert D \vert}$, where $d_{eff}(\mathcal{H})$ measures the effective model complexity.
+
+>[!Tip]
+>Larger ratios increase the risk of overfitting.
+>**Regularisation** aims to *reduce this ratio*.
+
+There are *three approaches* to regularisation:
+- **increase** $\vert \mathcal{D} \vert$: collect more data or use data augumentation
+- **penalise complexity**: add a regularisation term to the ERM objective
+- **shrink the hypothesis space**: impose constraints on model parameters
+
+These approaches are closely related and often equivalent 
+
+
