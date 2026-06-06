@@ -16,6 +16,62 @@ A data point is denoted by $z$ and is represented by $$z = (x,y)$$ where
 
 A prediction is generally imperfect. Its error is qualified using a *loss function* $L((x,y),h)$
 
+## Designing a ML - TPE Framework
+There are three design axes: Task, Performance, Experience
+
+| Task                                                                                         | Performance                                                     | Experience                                                     |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------- |
+| What needs to be learned. Requires defining an *objective function* and its *representation* | How you measure success. Evaluated via a metric (e.g. accuracy) | The data the system learns from. Select an experience database |
+### Objective Function
+
+>[!Definition] 
+>An **objective function** is what must be learned
+
+ Representations:
+ - Table
+ - Symbolic rules
+ - Numeric functions
+ - Probabilistic functions 
+
+>[!Info] Trade-off
+>More expressive representations are harder to learn. Less expressive ones are easier but may not capture the problem.
+
+### The Learning Algorithm
+- **Selection Criteria**
+	- chosen based on training data
+	- goal: find a hypothesis that both matches training data and generalises to unseen data
+	- main principle: minimise a cost / loss function (error minimisation)
+- **Evaluation**
+	- two approaches:
+		- *experimental*: compare methods via cross-validation. collect accuracy, training time, testing time. Apply statistical analysis to differences
+		- *theoretic*: computational complexity, ability to fit training data, sample complexity (minimum data needed to learn)
+
+>[!Tip]
+>In order to compare algorithms, confidence intervals can be used
+
+### Training Database 
+
+There are 2 types of experience:
+- **direct**: labeled (input, output) pairs (e.g. board position annotated as correct / incorrect move)
+- **indirect**: useful feedback, not direct i/o pairs. (e.g.: sequence of moves + final game score). The algorithm must infer stuff  
+
+Data sources are:
+- randomly generated examples (positive and negative)
+- positive examples collected by the learner
+- real-world examples
+
+Key characteristics of good data:
+- independence (if not, collective learning is needed)
+- training and test data must follow the same distribution (if not, you need transfer learning / inductive transfer)
+
+Attribute types:
+- **quantitative**: continuous, discrete, range
+- **qualitative**: nominal, ordinal
+- **structured**: hierarchical trees
+
+Data can be standardised (z-score normalisation)
+- removes scale effects when attributes have different units
+- transforms raw values to z-scores
 ## Empirical Risk Minimisation (ERM) or Minimising the Average Loss
 Machine learning aims to minimise the average loss. In practice this is known as Empirical Risk minimisation / Minimising the average loss.
 
@@ -33,6 +89,7 @@ Both views often lead to the same optimisation problem. However, the *interpreta
 - Given a fixed training set, the *average loss* objective can be defined: $$\min_{h\in\mathcal{H}} \cfrac{1}{m}\sum_{r=1}^m L((x^{(r)},y^{(r)}),h)$$
 ### Empirical Risk Minimisation 
 If the distribution of the data points is unknown, replace the expectation by the *empirical average* 
+
 
 ## Training
 >[!Definition]
@@ -88,4 +145,51 @@ There are *three approaches* to regularisation:
 
 These approaches are closely related and often equivalent 
 
+## Machine Learning Taxonomy
 
+### By goal
+
+| Prediction                                                    | Classification                                                                    | Regression                                                                      | Planning                                          |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Predict output for new input using a previously learned model | Assign an object to one or more known or unknown categories based on its features | Estimate the shape of a function (uni- or multi- variable) from a learned model | Generate a sequence of optimal actions for a task |
+
+### By learning experience
+#### supervised learning
+- data is labeled
+- training data = pairs (attribute_data, output)
+- output is either a class (classification) or a real number (regression)
+- process: 
+	1. Training - learn a model from labeled data
+	2. Testing - apply to new, unseen data
+- by dataset size, there are 3 main evaluation strategies:
+	1. Large dataset: disjoint train / test split (usually 80/20)
+	2. Small dataset: k-fold cross-validation (split into h equal subsets)
+	3. Very small dataset: leave-one-out cross-validation
+
+>[!Warning] 
+>The main difficulty is **overfitting** (i.e. when there is excellent training performance, but poor test perfomance)
+
+#### unsupervised learning (clustering)
+- data is not labeled
+- the goal is to detect hidden structure in data
+- the output is a grouping of data into k classes, where k may be predefined or unknown. data within a class must be similar
+
+**Similarity / distance measures**
+- euclidean distance: $\sqrt{\sum{(p_j-q_j)^2}}$
+- manhattan distance: $\sum|p_j-q_j|$
+- inner product: $\sum p_j q_j$
+- cosine: don't wanna write this one
+- hamming distance: number of differences between p and q
+- levenshtein distance: the minimum nummber of transformations necessary to change p in q
+- mahalanobis distance: distance between a point p and a distribution Q
+
+>[!Important]
+>Rule: either choose to *minimise distance* (dissimilarity) or *maximise similarity* (never mix the two)
+
+The quality of clusters can be evaluated in 2 manners:
+- internal criteria: high intra-cluster similarity, low inter-cluster similarity
+- external criteria: compare agains known benchmarks. uses precision, recall, F1; rarely possible in practice
+
+#### active learning
+- the algorithm can request additional information during training to improve itself
+- differs from passive learning by adding a 
