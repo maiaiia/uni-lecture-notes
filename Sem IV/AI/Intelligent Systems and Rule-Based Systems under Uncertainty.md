@@ -155,10 +155,12 @@ Tsukamoto is kinda like a middle ground between Mamdani and Sugeno, in the sense
 
 Main methods:
 - centre / centroid of area (COA)
-- bisector of area (BOA)
+- bisector of area (BOA): returns the point that splits the fuzzy mass into two equal parts
 - mean of maximum (MOM)
 - smallest of maximum (SOM)
 - largest of maximum (LOM)
 
 Examples:
-- Mamdani COA: $\cfrac{\sum_{i=1}^n x_i\mu}{}$
+- Mamdani COA: $\cfrac{\sum_{i=1}^n x_i\mu_A(x_i)}{\sum_{i=1}^n\mu_A(x_i)}$
+- Sugeno / Tsukamoto COA: $z^*=\cfrac{\sum_{i=1}^m \alpha_iz_i}{\sum_{i=1}^m\alpha_i}$
+- BOA: $\int_\alpha^z\mu_A(x)dx=\int_z^\beta\mu_A(x)dx$, where $\alpha, \beta$ are the lower and uppor bounds of the support of the aggregated fuzzy set
