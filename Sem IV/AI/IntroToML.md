@@ -192,4 +192,8 @@ The quality of clusters can be evaluated in 2 manners:
 
 #### active learning
 - the algorithm can request additional information during training to improve itself
-- differs from passive learning by adding a 
+- differs from passive learning by adding a query-response loop (the learner queries the world, receives a response, then updates)
+
+#### reinforcement learning
+- learn a behaviour (sequence of actions) that maximises long-term reward
+- no labeled outputs - the agent interacts with an environment, takes actions, and receives rewards or penalties
