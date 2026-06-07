@@ -44,5 +44,16 @@ Stop conditions (a node becomes a leaf when):
 - no examples remain - label leaf with majority class of parent
 - no attributes remain - label leaf with majority class of current node
 
+>[!Important]
+>**Overfitting** occurs when a tree memorises noise in the training that, which results in poor test performance. In order to fix this, *prune* the tree to remove branches that reflect noise. Use cross-validation.
 
+**Pre-pruning**: stop growing during construction; declare a node a leaf (majority class) before fully splitting it. Requires a threshold criterion
+
+**Post-pruning**: build the full tree first, then remove branches that cause overfitting. Each collapsed node is turned into the majority class of its subtree. Reduces test error.
+## Information gain
+
+Impurity measure: 0 (minimum, if all examples belong to the same class) - 1 (maximum, if all examples are uniformly distributed over classes)
+
+>[!Definition] 
+>The **information gain** of an attribute denotes *how the elimination of attribute a reduces the dataset's entropy*.
 

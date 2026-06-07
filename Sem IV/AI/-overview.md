@@ -1,8 +1,8 @@
 ## Lectures
 - [[IntroToML]]
 - [[DecisionTrees]]
-- [[NeuralNetworks]]
 - [[Artificial Neural Networks]]
+- [[NeuralNetworks]]
 - [[Convolutional Neural Networks]]
 - [[Evolutionary Algorithms]]
 - [[Modelling and Optimization from the Perspective of Evolutionary Computation]]
