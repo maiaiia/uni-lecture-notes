@@ -14,5 +14,5 @@
 - [[Crash Recovery]]
 - [[Evaluating Relational Operators. Query Optimization]]
 ## Cheat Sheets
-- [[PracticalCheatSheet]]
-- [[Costs]]
+- [[CHEAT_SHEET_Practical_DBMS]]
+- [[CHEAT_SHEET_Costs_DBMS]]

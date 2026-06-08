@@ -7,3 +7,4 @@
 - [[Evolutionary Algorithms]]
 - [[Modelling and Optimization from the Perspective of Evolutionary Computation]]
 - [[Intelligent Systems and Rule-Based Systems under Uncertainty]]
+- [[CHEAT_SHEET_Everything_Math_AI]]

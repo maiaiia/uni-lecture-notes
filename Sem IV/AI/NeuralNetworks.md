@@ -47,3 +47,7 @@ Perceptron's rule $\rightarrow$ perceptron's algorithm
 ![[perceptron-learning.png]]
 
 where $\eta$ is the **learning rate**
+
+## [[Artificial Neural Networks]]
+
+## [[Convolutional Neural Networks]]
