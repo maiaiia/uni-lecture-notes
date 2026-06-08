@@ -113,10 +113,10 @@ Models are diagnosed by comparing
 ### Baseline 
 The baseline error is a sanity check benchmark which answers the question: *How well would a completely naive model do?*. So clearly if the model can't beat the baseline, it's useless.
 
-| Problem Type    | Baseline                                                         |
-| --------------- | ---------------------------------------------------------------- |
-| classification  | majority class classifier (always predict the most common label) |
-| regression      | always predict the mean of the training labels                   |
+| Problem Type   | Baseline                                                         |
+| -------------- | ---------------------------------------------------------------- |
+| classification | majority class classifier (always predict the most common label) |
+| regression     | always predict the mean of the training labels                   |
 ### Interpreting Training and Validation Errors 
 
 | Case                              | Interpretation                                                                                                                       |
