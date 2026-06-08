@@ -87,7 +87,9 @@ Example for a $3 \times 3$ kernel:
 >[!Definition]
 >A **bias** is a single scalar added to every output value that kernel produces. The bias shifts the activations before they hit the ReLU. It's learned during training, just like the kernel weights.
 
+### The activation function: why it is necessary
 
+Just like with regular NNs, activation functions are used to *introduce non-linearity* (as a convolution is a linear operation). This allows the network to learn complex patterns, hierarchical features, and non-linear decision boundaries.
 
 ## Sparse Connectivity & Parameter Sharing
 
@@ -113,10 +115,46 @@ So, for a grayscale image, a kernel needs to have the shape $K_h \times K_w \tim
 
 As stated before, one filter produces one output feature map. Using many filters produces many *output channels*. This is useful for detecting multiple features (e.g. a kernel for vertical edges, another for horizontal edges, another for corners).
 
-## Misc
-- depth dimension: the number of color channels (1 for b&w -- brightness; 3 for color -- rgb)
-- filter (kernel) 
-	- a "feature detector" that "slides over the image like a magnifying glass". it "sits" over a "chunk" of an image and does 1-to-1 multiplication
-	- uses the *dot product*, because, in math, the dot product measures similarity. if the pixels in the image match the pattern of weights in the filter, the resulting number will be very large
-- rule: filter must have the same depth as the input it's looking at
-- activation map: produced as the filter convolves across the entire image, producing a new number for every single position it stops at
+## Translation Equivariance
+
+Convolutional layers are **translation equivariant**: if the input shifts, the feature map also shifts. The detected features move with the object
+
+## Pooling
+
+After convolutions, a **pooling** layer is typically applied to reduce the spatial size of the feature maps. There are 2 main types of pooling:
+- **Max pooling**: divide the feature map into small windows. In each window, only keep the maximum value.
+- **Average pooling**: same idea, but take the average instead.
+
+Pooling is used to reduce computation, making representation more compact and introducing some [[#Translation Equivariance]] (if a feature moves slightly, the max value in that window might stay the same, so the pooled output doesn't change). In other words, this means that the network cares about *whether* a feature is present, not exactly *where* it is.
+
+>[!Info]
+>Pooling is not mandatory and is actually often skipped by modern architectures and replaced by **strided convolutions**. A conv layer with stride 2 can both extract features *and* halve the spatial size in one step. The difference here is that pooling is fixed (no learned weights), while strided convolution is learned.
+## Training 
+Training a CNN goes essentially the same way as training any NN:
+- compute the loss
+- use the chain rule to compute how the loss changes with respect to every parameter
+- back propagate to update the parameters using gradient descent
+
+>[!Important]
+>Gradients are propagated backward through the layers
+
+
+**Gradient with respect to the filter**:
+- the gradient for each kernel weight is computed as a sliding operation between the input and the upstream gradient (another cross-correlation-like operation)
+
+**Gradient with respect to the input**:
+- when you compute how the loss flows back *into* the input, you convolve the upstream gradient with the filter
+
+>[!Tip]
+>For max pooling over an $N \times N$ region, during backpropagation the gradient is passed only to teh input element that achieved the maximum value in the forward pass
+
+
+## Batches
+>[!Definition]
+>In deep learning, a **batch** is a small group of training examples processed together
+
+A common shape in PyTorch is: (batch size, sequence length, input size).
+For CNNs, the input is typically a 4D tensor: (batch size, channels, height, width)
+
+ 
+
