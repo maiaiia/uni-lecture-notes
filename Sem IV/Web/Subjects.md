@@ -37,9 +37,9 @@ The application should track the last 3 orders from this user. If the user tries
 
 ## Hotels 
 Write a web application in PHP for a hotel dynamic price calculation app. The application should use the following 3 tables:
-	1. Users: id (int), username(string), password(int)
-1. HotelRoom: id (int), roomNumber(string), capacity (int), basePrice (int)
-2. Reservation: id (int), userId (int), roomId checkInDate(date), checkOutDate (date), numberOfGuests (int), totalPrice(int)
+1. Users: id (int), username(string), password(int)
+2. HotelRoom: id (int), roomNumber(string), capacity (int), basePrice (int)
+3. Reservation: id (int), userId (int), roomId checkInDate(date), checkOutDate (date), numberOfGuests (int), totalPrice(int)
 
 The user should authenticate prior to using the application. After authentication, the user should be able to reserve rooms. When reserving, the room price depends on how many reservations already exist for that date range. The following pricing logic is used:
 - If <= 50% rooms are already booked: basePrice
