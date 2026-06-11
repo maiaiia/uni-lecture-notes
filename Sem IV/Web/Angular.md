@@ -6,5 +6,5 @@ type:
 # Angular
 
 
-
+init: ng new
 run: ng serve
