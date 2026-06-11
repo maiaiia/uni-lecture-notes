@@ -6,7 +6,9 @@
 | Hotels (PHP)                          |        |
 | Task Management (JSP)                 |        |
 | Hotels (JSP)                          |        |
+| Hotels (ASP.NET)                      |        |
 | Flights-Hotels-Reservations (ASP.NET) |        |
+| SWE Project                           |        |
 
 ## Orders 
 Write a web application in php that uses the following 4 tables:
@@ -41,7 +43,7 @@ Write a web application in PHP for a hotel dynamic price calculation app. The ap
 
 The user should authenticate prior to using the application. After authentication, the user should be able to reserve rooms. When reserving, the room price depends on how many reservations already exist for that date range. The following pricing logic is used:
 - If <= 50% rooms are already booked: basePrice
-- If > 50% but <= 80%: basePrice + 20%
+- If > 50% but <= 80% rooms are already booked: basePrice + 20%
 - If > 80%: basePrice + 50%
 
 The user should be able to view the list of rooms that are free / available in a specific time period (given by 2 dates). The user can then reserve one of those rooms. The application should also display the total number of guests that are staying in the hotel in a specific date (i.e. they have reservations and the reservation period includes that day).
