@@ -1,14 +1,13 @@
 # Subjects
 
-| Subj                                  | Status |
-| ------------------------------------- | ------ |
-| Orders (PHP)                          |        |
-| Hotels (PHP)                          |        |
-| Task Management (JSP)                 |        |
-| Hotels (JSP)                          |        |
-| Hotels (ASP.NET)                      |        |
-| Flights-Hotels-Reservations (ASP.NET) |        |
-| SWE Project                           |        |
+| Project                     | PHP | JSP | ASP.NET | Node.js |
+| --------------------------- | --- | --- | ------- | ------- |
+| Orders                      |     |     |         |         |
+| Hotels                      |     |     |         |         |
+| Task Management             |     |     |         |         |
+| Flights-Hotels-Reservations |     |     |         |         |
+| SWE Project                 |     |     |         |         |
+
 
 ## Orders 
 Write a web application in php that uses the following 4 tables:
