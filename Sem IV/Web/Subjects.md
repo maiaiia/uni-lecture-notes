@@ -1,12 +1,13 @@
 # Subjects
 
-| Project                     | PHP | JSP | ASP.NET | Node.js |
-| --------------------------- | --- | --- | ------- | ------- |
-| Orders                      |     |     |         |         |
-| Hotels                      |     |     |         |         |
-| Task Management             |     |     | X       | X       |
-| Flights-Hotels-Reservations |     |     |         |         |
-| SWE Project                 |     |     |         |         |
+| Project                     | PHP | SpringBoot | ASP.NET | Node.js |
+| --------------------------- | :-: | :--------: | :-----: | :-----: |
+| Task Management             |     |     X      |    X    |    X    |
+| Gym                         |     |            |         |         |
+| Orders                      |     |            |         |         |
+| Hotels                      |     |            |         |         |
+| Flights-Hotels-Reservations |     |            |         |         |
+| SWE Project                 |     |            |         |         |
 
 
 ## Orders 
@@ -33,6 +34,45 @@ ONLY When the user confirms the order:
 	c) the final total (without discount applied) is displayed
 
 The application should track the last 3 orders from this user. If the user tries to add (in the current order) a product whoce category already exists in all of the last 3 orders, the system should warn the user that they are not diversifying their product choices)
+
+## Gym
+Write a web application for a gym class booking system. The application should use the following 4 tables:
+1. Users: id (int), username(string), membershipType(string: Basic / Premium)
+2. Class: id(int), className(string), instructorName(string), classDate(date), maxCapacity(int); the intensity level of each class is encoded as a suffix (e.g. "Yoga-Low")
+3. Booking: id(int), userId(int), classId(int), bookedAt(datetime), cancelled(bit)
+4. WaitList: id(int), userId(int), classId(int), addedAt(datetime)
+
+The user should authenticate prior to using the application by specifying their username; we assume it exists in the User table.
+
+The application should display upcoming gym classes (classDate >= today). For each class, teh number of remaining spots must be shown, computed in the backend as maxCapacity - the count of active (non-cancelled) bookings
+
+Booking Rules:
+1. A "Basic" member may not book a class with intensity "High". If they try, display: "High intensity classes are available for Premium members only"
+2. If no spots are available, the user is automatically added to the WaitList instead of being booked. Display: "You've been added to the waitlist for \<ClassName>"
+3. A user cannot book (or be waitlisted for) the same class twice
+
+Cancellation and Waitlist Promotion:
+When a user cancels an active booking (sets cancelled = 1), the application must:
+1. Check in the backend whether the WaitList for that class has any entries (ordered by addedAt)
+2. If so, take the first user from the WaitList, remove their entry, and create a new Booking for them
+3. Display: "\<Username> has been automatically moved from the waitlist to a confirmed booking"
+
+Weekly Intensity Balance Check:
+When a user successfully books a class, the application must inspect all of that user's active bookings, extracting the intensity from each className suffix. If the user now has 3 or more bookings and all of them share the same intensity level, display: "All your bookings this week are \<Intensity> intensity. Consider balancing your workout routine!".
+The application should also display the logged-in user's booking history (active and cancelled), including class name, date, time, and status
+
+
+| Task                                                                 | Mark |
+| -------------------------------------------------------------------- | ---- |
+| configure web environment, create DB, authentication                 | 1    |
+| display upcoming classes with remaining spot count                   | 1    |
+| book a class (with membership / intensity check and duplicate check) | 1.5  |
+| waitlist logic when class is full                                    | 1    |
+| cancellation + automatic waitlist promotion                          | 2    |
+| weekly intensity balance check                                       | 1.5  |
+| display user booking history                                         | 1    |
+| default                                                              | 1    |
+## T
 
 ## Hotels 
 Write a web application in PHP for a hotel dynamic price calculation app. The application should use the following 3 tables:

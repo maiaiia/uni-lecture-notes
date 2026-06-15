@@ -12,3 +12,19 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 server.servlet.session.timeout=30m
 ```
+
+
+## CheatSheet
+|ASP.NET|Spring Boot|
+|---|---|
+|`[ApiController]`|`@RestController`|
+|`[Route("path")]`|`@RequestMapping("/path")`|
+|`[HttpGet]`|`@GetMapping`|
+|`[HttpPost]`|`@PostMapping`|
+|`[FromQuery]`|`@RequestParam`|
+|`[FromBody]`|`@RequestBody`|
+|`HttpContext.Session.GetInt32("key")`|`(Integer) session.getAttribute("key")`|
+|`HttpContext.Session.SetInt32("key", val)`|`session.setAttribute("key", val)`|
+|`return Ok(...)`|`return ResponseEntity.ok(...)`|
+|`return Unauthorized(...)`|`return ResponseEntity.status(401).body(...)`|
+|`new DAL()`|`@Autowired DAL dal`|
