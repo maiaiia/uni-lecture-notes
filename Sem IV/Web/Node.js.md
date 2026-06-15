@@ -8,5 +8,5 @@ type:
 
 npm init
 npm install express
-npm install nodemon
+npm install -g nodemon
 nodemon index.js
