@@ -4,3 +4,5 @@ mysql -u root
 
 show databases
 describe \[table]
+
+check constraint: 
