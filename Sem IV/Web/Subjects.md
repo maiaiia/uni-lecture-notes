@@ -44,7 +44,7 @@ Write a web application for a gym class booking system. The application should u
 
 The user should authenticate prior to using the application by specifying their username; we assume it exists in the User table.
 
-The application should display upcoming gym classes (classDate >= today). For each class, teh number of remaining spots must be shown, computed in the backend as maxCapacity - the count of active (non-cancelled) bookings
+The application should display upcoming gym classes (classDate >= today). For each class, the number of remaining spots must be shown, computed in the backend as maxCapacity - the count of active (non-cancelled) bookings
 
 Booking Rules:
 1. A "Basic" member may not book a class with intensity "High". If they try, display: "High intensity classes are available for Premium members only"
