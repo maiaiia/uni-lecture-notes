@@ -4,7 +4,7 @@
 | --------------------------- | --- | --- | ------- | ------- |
 | Orders                      |     |     |         |         |
 | Hotels                      |     |     |         |         |
-| Task Management             |     |     |         |         |
+| Task Management             |     |     | X       |         |
 | Flights-Hotels-Reservations |     |     |         |         |
 | SWE Project                 |     |     |         |         |
 
