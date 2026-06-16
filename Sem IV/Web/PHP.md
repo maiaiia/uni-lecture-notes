@@ -37,4 +37,9 @@ exit;
 ```
 
 
+
+make symlink: 
+ln -s /path/to/your/backend /Applications/XAMPP/xamppfiles/htdocs/backend
+
 php -S localhost:8000 index.php
+
