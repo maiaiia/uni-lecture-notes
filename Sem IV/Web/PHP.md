@@ -35,3 +35,6 @@ session_destroy();
 header("Location: index.php");
 exit;
 ```
+
+
+php -S localhost:8000 index.php

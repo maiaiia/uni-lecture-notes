@@ -2,7 +2,7 @@
 
 | Project                     | PHP | SpringBoot | ASP.NET | Node.js |
 | --------------------------- | :-: | :--------: | :-----: | :-----: |
-| Task Management             |     |     X      |    X    |    X    |
+| Task Management             |  X  |     X      |    X    |    X    |
 | Gym                         |     |            |         |         |
 | Orders                      |     |            |         |         |
 | Hotels                      |     |            |         |         |
