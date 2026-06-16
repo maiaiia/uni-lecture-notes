@@ -5,7 +5,7 @@
 | Task Management             |  X  |     X      |    X    |       X        |
 | Gym                         |     |            |         | ish, got bored |
 | Orders                      |     |            |         |                |
-| Hotels                      |     |            |         |                |
+| Hotels                      | X   |            |         |                |
 | Flights-Hotels-Reservations |     |            |         |                |
 | SWE Project                 |     |            |         |                |
 
