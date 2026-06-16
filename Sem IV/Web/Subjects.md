@@ -1,13 +1,13 @@
 # Subjects
 
-| Project                     | PHP | SpringBoot | ASP.NET | Node.js |
-| --------------------------- | :-: | :--------: | :-----: | :-----: |
-| Task Management             |  X  |     X      |    X    |    X    |
-| Gym                         |     |            |         |         |
-| Orders                      |     |            |         |         |
-| Hotels                      |     |            |         |         |
-| Flights-Hotels-Reservations |     |            |         |         |
-| SWE Project                 |     |            |         |         |
+| Project                     | PHP | SpringBoot | ASP.NET |    Node.js     |
+| --------------------------- | :-: | :--------: | :-----: | :------------: |
+| Task Management             |  X  |     X      |    X    |       X        |
+| Gym                         |     |            |         | ish, got bored |
+| Orders                      |     |            |         |                |
+| Hotels                      |     |            |         |                |
+| Flights-Hotels-Reservations |     |            |         |                |
+| SWE Project                 |     |            |         |                |
 
 
 ## Orders 
@@ -72,11 +72,10 @@ The application should also display the logged-in user's booking history (active
 | weekly intensity balance check                                       | 1.5  |
 | display user booking history                                         | 1    |
 | default                                                              | 1    |
-## T
 
 ## Hotels 
 Write a web application in PHP for a hotel dynamic price calculation app. The application should use the following 3 tables:
-1. Users: id (int), username(string), password(int)
+1. Users: id (int), username(string)
 2. HotelRoom: id (int), roomNumber(string), capacity (int), basePrice (int)
 3. Reservation: id (int), userId (int), roomId checkInDate(date), checkOutDate (date), numberOfGuests (int), totalPrice(int)
 
@@ -101,7 +100,7 @@ Grading scale:
 | display all reservations for the user, with actual prices                    | 1   |
 | prevent overlapping bookings                                                 | 1.5 |
 | default                                                                      | 1   |
-## Task Management
+## X Task Management
 Write a web application in JSP for task management. The application should use the following 3 tables:
 - User: id (int), username (string)
 - Task: id (int), title (string), status (enum: todo, in_progress, done), assignedTo (int), lastUpdated (datetime)
