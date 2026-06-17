@@ -1,13 +1,13 @@
 # Subjects
 
-| Project                     | PHP | SpringBoot | ASP.NET |    Node.js     |
-| --------------------------- | :-: | :--------: | :-----: | :------------: |
-| Task Management             |  X  |     X      |    X    |       X        |
-| Gym                         |     |            |         | ish, got bored |
-| Orders                      |     |            |         |                |
-| Hotels                      |  X  |     X      |         |                |
-| Flights-Hotels-Reservations |     |            |         |                |
-| SWE Project                 |     |            |         |                |
+| Project                     | PHP | SpringBoot | ASP.NET | Node.js |
+| --------------------------- | :-: | :--------: | :-----: | :-----: |
+| Task Management             |  X  |     X      |    X    |    X    |
+| Gym                         |     |            |         |    X    |
+| Orders                      |     |            |         |         |
+| Hotels                      |  X  |     X      |         |         |
+| Flights-Hotels-Reservations |     |            |         |         |
+| SWE Project                 |     |            |         |         |
 
 
 ## Orders 
