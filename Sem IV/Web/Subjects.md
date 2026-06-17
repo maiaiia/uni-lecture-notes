@@ -18,7 +18,7 @@ Write a web application in php that uses the following 4 tables:
  table Order: id(int), userId(int),totalPrice(decimal)
  table OrderItem: id(int), orderId(int), productId(int)
 
-The user should specify his name prior to using the application (no authentification or other checks are required, you should assume that the user exists in the User tbale) After logging in, the user can begin building an order by selecting products. The selected products are added to a new order (they are saved in the database only when the user confirms the order)
+The user should specify his name prior to using the application (no authentication or other checks are required, you should assume that the user exists in the User tbale) After logging in, the user can begin building an order by selecting products. The selected products are added to a new order (they are saved in the database only when the user confirms the order)
 
 Discount Logic:
 Before confirming the order, the total price is computed based n the following dynamic discount rules:
