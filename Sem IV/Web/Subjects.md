@@ -187,3 +187,44 @@ The application assists the user in order to book reservations to a concert. In 
 When the user starts using the application, he / she should specify their **name**, choose a **specific date** and a **destination city** and should then click on a *Begin Reservation* button. After this, the user is shown 2 menu items: *Flights* and *Hotels*. If the user chooses the *Flight* menu item, the application will show the user all the flights that are scheduled on that specific date, go to that specific destination city and have available seats (i.e. the *availableSeats* field is > 0). The user can reserve one seat on a flight: the *availableSeats* field will be decremented and a new record will be added to the Reservations table. They can then reserve another seat on the same flight or on a different flight from the same date and with the same destination. At any time, the user can choose the *Hotel* menu item where they can book a room to a hotel from a city which has available rooms in that specific date; the hotel reservation is done in a similar manner as the flight reservation: the user sees a list of these hotels: the *availableRooms* field of that hotel is decremented and a new record is added to the Reservation table (person = the name of the user, type = *Hotel*, idReservedResource = hotelID)
 
 In all web pages of the application the menu items *Flights* and *Hotels* should be visible and there should also be a *Cancel All Reservations* button. If the user clicks this button, all the reservations (flight or hotel) that the user has done from the beginning of this session are cancelled (the corresponding records are deleted from the table and the available Seats/Rooms fields are updated accordingly). You cannot assume that all records in the Reservations table for the current user belong to the current session. Nor can you assume that the user always reserves one seat flight and one hotel room in an HTTP session.
+
+## Gen
+**Write a web application in PHP that uses the following 4 tables:**
+
+- `User`: id (int), username (string), accountType (string: _"Student" / "Pro"_)
+- `Course`: id (int), courseName (string), instructorId (int), maxStudents (int), startDate (date) _(the difficulty level is encoded as a suffix in the course name, e.g., "Python-Advanced", "Design-Beginner" → difficulty is "Advanced" / "Beginner")_
+- `Enrollment`: id (int), userId (int), courseId (int), enrolledAt (datetime), dropped (bit)
+- `Review`: id (int), userId (int), courseId (int), rating (int: 1–5), reviewText (string)
+
+**Authentication:** The user specifies their username prior to using the application. No password required; assume the user exists in the `User` table.
+
+**Core Features:**
+
+The application displays all upcoming courses (startDate >= today). For each course, the number of remaining spots must be computed in the backend as `maxStudents - count of active (non-dropped) enrollments`. The average rating for each course (from the `Review` table) must also be displayed.
+
+**Enrollment Rules:**
+
+1. A _"Student"_ account may not enroll in _"Advanced"_ difficulty courses. If they try, display: _"Advanced courses are available for Pro members only."_
+2. If no spots remain, display: _"This course is currently full. Enrollment is not possible."_ _(no waitlist for this subject)_
+3. A user cannot enroll in the same course twice.
+
+**Drop Logic:** A user may drop an active enrollment (sets `dropped = 1`). After dropping, if the user had previously submitted a review for that course, it must be automatically deleted. Display: _"Your enrollment has been dropped and your review was removed."_
+
+**Review System:** A user may submit a review (rating 1–5 + text) for a course they are **actively enrolled in** (not dropped). A user may only have one review per course (submitting again overwrites the existing one).
+
+**Difficulty Balance Warning:** When a user successfully enrolls in a course, inspect all of their active (non-dropped) enrollments and extract the difficulty suffix from each course name. If the user has **3 or more** active enrollments and they **all share the same difficulty level**, display: _"All your current courses are <Difficulty> level. Consider mixing difficulty levels!"_
+
+**Enrollment History:** Display the logged-in user's full enrollment history (active and dropped), including course name, start date, enrollment date, and current status.
+
+**Time: 2 hours**
+
+**Grading scale:**
+
+- 1 point by default (oficiu)
+- Configure web environment, create DB, authentication: 1p
+- Display courses with computed spots and average rating: 1p
+- Enrollment rules (account type check, duplicate check): 1p
+- Drop logic with automatic review deletion: 1.5p
+- Review system (one per course, overwrite): 1p
+- Difficulty balance warning (suffix extracted in code): 1.5p
+- Enrollment history display: 0.5p _(max 6p if using non-assigned technology)_
