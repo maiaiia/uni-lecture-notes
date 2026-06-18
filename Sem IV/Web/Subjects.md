@@ -205,14 +205,14 @@ The application displays all upcoming courses (startDate >= today). For each cou
 **Enrollment Rules:**
 
 1. A _"Student"_ account may not enroll in _"Advanced"_ difficulty courses. If they try, display: _"Advanced courses are available for Pro members only."_
-2. If no spots remain, display: _"This course is currently full. Enrollment is not possible."_ _(no waitlist for this subject)_
+2. If no spots remain, display: _"This course is currently full. Enrollment is not possible."
 3. A user cannot enroll in the same course twice.
 
 **Drop Logic:** A user may drop an active enrollment (sets `dropped = 1`). After dropping, if the user had previously submitted a review for that course, it must be automatically deleted. Display: _"Your enrollment has been dropped and your review was removed."_
 
 **Review System:** A user may submit a review (rating 1–5 + text) for a course they are **actively enrolled in** (not dropped). A user may only have one review per course (submitting again overwrites the existing one).
 
-**Difficulty Balance Warning:** When a user successfully enrolls in a course, inspect all of their active (non-dropped) enrollments and extract the difficulty suffix from each course name. If the user has **3 or more** active enrollments and they **all share the same difficulty level**, display: _"All your current courses are <Difficulty> level. Consider mixing difficulty levels!"_
+**Difficulty Balance Warning:** When a user successfully enrolls in a course, inspect all of their active (non-dropped) enrollments and extract the difficulty suffix from each course name. If the user has **3 or more** active enrollments and they **all share the same difficulty level**, display: _"All your current courses are \<Difficulty\> level. Consider mixing difficulty levels!"
 
 **Enrollment History:** Display the logged-in user's full enrollment history (active and dropped), including course name, start date, enrollment date, and current status.
 
@@ -227,4 +227,37 @@ The application displays all upcoming courses (startDate >= today). For each cou
 - Drop logic with automatic review deletion: 1.5p
 - Review system (one per course, overwrite): 1p
 - Difficulty balance warning (suffix extracted in code): 1.5p
-- Enrollment history display: 0.5p _(max 6p if using non-assigned technology)_
+- Enrollment history display: 0.5p _(max 6p if using non-assigned technology)
+
+## IDK
+Write a web application in Java for an adaptive language learning platform.
+
+The application should use the following 3 tables:
+- **Table User:** `id` (int), `username` (string), `nativeLanguage` (string)
+- **Table Exercise:** `id` (int), `title` (string), `correctAnswer` (string), `difficulty` (int), `topic` (string) (difficulty is 1, 2, 3 as in easy, medium, hard)
+- **Table Result:** `id` (int), `userId` (int), `exerciseId` (int), `givenAnswer` (string), `correct` (int), `attemptedAt` (datetime)
+
+The user should authenticate prior to using the application by specifying their username (we assume the username exists in the User table, no checks are required).
+
+### Learner Profile
+
+When the user logs in, the application must fetch their complete result history from the Result table and compute, for each topic, a score between 0 and 100 reflecting their historical accuracy on that topic. This per-topic score map is sent to the client as part of the login response and stored on the client side for the duration of the working session.
+
+The user can start submitting answers to exercises. After each submitted answer, the client or server updates the score map locally:
+- **Correct:** $\text{new\_score} = \text{old\_score} + 10$
+- **Incorrect:** $\text{new\_score} = \text{old\_score} - (\text{old\_score} \times 0.8)$
+- Scores are strictly between 0 and 100.
+    
+When the user requests the next exercise, the current score map is sent to the server. The server identifies the topic with the lowest score, then selects an unseen exercise (not present in the Result Table) from that topic whose difficulty matches the user's level:
+
+- Score < 40: difficulty 1
+- Score 40–69: difficulty 2
+- Score $\ge$ 70: difficulty 3
+    
+If no unseen exercise exists for that topic, the server moves to the topic with the next lowest score. The user submits their answer; the server checks it, saves a Result record, and returns whether it was correct. The client then updates the score map and requests the next exercise.
+
+After each answer, the client checks the updated score map. If any topic has just crossed 80 for the first time this session, display a one-time banner: _"You've mastered \<topic>!"_ Once shown, the badge must not reappear for that topic even if the score later drops and recovers (in the current session).
+
+The summary page displays all topics ranked by current score (lowest first) using the live score map—no database query is made. Topics below 40 are highlighted red, 40–69 amber, 70 and above green.
+
+The user can also view a log of all their past attempts (from the result table), showing the exercise prompt, their answer, whether it was correct, and the date.
