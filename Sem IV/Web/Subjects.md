@@ -245,7 +245,7 @@ When the user logs in, the application must fetch their complete result history 
 
 The user can start submitting answers to exercises. After each submitted answer, the client or server updates the score map locally:
 - **Correct:** $\text{new\_score} = \text{old\_score} + 10$
-- **Incorrect:** $\text{new\_score} = \text{old\_score} - (\text{old\_score} \times 0.8)$
+- **Incorrect:** $\text{new\_score} = \text{old\_score} - (\text{old\_score} \times 0.2)$
 - Scores are strictly between 0 and 100.
     
 When the user requests the next exercise, the current score map is sent to the server. The server identifies the topic with the lowest score, then selects an unseen exercise (not present in the Result Table) from that topic whose difficulty matches the user's level:
