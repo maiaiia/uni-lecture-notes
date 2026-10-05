@@ -10,6 +10,7 @@ type:
 Requirements $\rightarrow$ Analysis $\rightarrow$ Design $\rightarrow$ Implementation $\rightarrow$ Testing $\rightarrow$ Maintenance
 ![[waterfall-scrum]]
 
+
 It's really important to have as clear of a (perception) on the requirements at the beginning as possible, in order to be able to design a good architecture, make test writing easier, etc.
 
 What happens is in real life is you don't plan for outcomes, you plan for changes. New plans appear, clients change their minds
