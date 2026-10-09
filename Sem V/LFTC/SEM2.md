@@ -185,7 +185,11 @@ ST:
 | 2   | sorted table       | O(log N)       | O(N)           |
 | 3   | binary search tree | O(log N)       | O(log N)       |
 | 4   | hash table         | O(1) amortized | O(1) amortized |
-
+### Sorted table
+- insertion
+	- keep a sorted list
+	- perform binary search to find the right position
+	- and shift everything by 1
 ### BST
 left < node < right
 search: start from the root
@@ -236,8 +240,77 @@ END
 | 3      | temp   | 4    | -     |
 | 4      | swap   | -    | -     |
 
-### Sorted table
-- insertion
-	- keep a sorted list
-	- perform binary search to find the right position
-	- and shift everything by 1
+### Hash Table
+#### 1.
+
+Let the hash function be: $$h(s)=(\sum(ASCII))\% \text{dim}$$
+use *open addressing*: if $h(s)$ is occupied then keep trying to the right
+and *chaining*: each position has a corresponding linked list
+
+insertion order: a, ab, k, ba
+
+| symbol | hash         |
+| ------ | ------------ |
+| a      | 97 \% 10 = 7 |
+| ab     | 5            |
+| k      | 7            |
+| ba     | 5            |
+
+1. Open addressing:
+
+| 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|     |     |     |     |     | ab  | ba  | a   | k   |     |
+
+2. chaining
+
+| slot | list    |
+| ---- | ------- |
+| 0    |         |
+| 1    |         |
+| 2    |         |
+| 3    |         |
+| 4    |         |
+| 5    | ab - ba |
+| 6    |         |
+| 7    | a - k   |
+| 8    |         |
+| 9    |         |
+#### 2.
+```
+BEGIN
+	READ(result)
+	READ(a)
+	READ(temp)
+	swap:=a
+	result:=temp
+	WRITE(swap)
+	WRITE(result)
+	WRITE(temp)
+END
+```
+
+dim = 7
+
+| symbol | hash              |
+| ------ | ----------------- |
+| result | (114+...+116)%7=6 |
+| a      | 97 \% 7 = 6       |
+| temp   | 4                 |
+| swap   | 2                 |
+
+
+| 0   | 1   | 2    | 3   | 4    | 5   | 6      |
+| --- | --- | ---- | --- | ---- | --- | ------ |
+| a   |     | swap |     | temp |     | result |
+
+
+| slot | list       |
+| ---- | ---------- |
+| 0    |            |
+| 1    |            |
+| 2    | swap       |
+| 3    |            |
+| 4    | temp       |
+| 5    |            |
+| 6    | result - a |
