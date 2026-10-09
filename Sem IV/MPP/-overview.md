@@ -1,3 +1,0 @@
-
-- [[FrontendTechComparison]]
-- [[BackendFramework]]
